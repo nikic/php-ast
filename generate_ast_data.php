@@ -63,7 +63,7 @@ foreach ($data as $zend_name => $name) {
     $kinds[] = "\t$zend_name,";
     $strs[] = "\t\tcase $zend_name: return \"$name\";";
     $consts[] = "\tREGISTER_NS_LONG_CONSTANT(\"ast\", \"$name\", $zend_name,"
-        . " CONST_CS | CONST_PERSISTENT );";
+        . " CONST_CS | CONST_PERSISTENT);";
 }
 
 $code = str_replace('{COUNT}', count($data), $code);
