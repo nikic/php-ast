@@ -1,0 +1,9 @@
+// $Id$
+// vim:ft=javascript
+
+ARG_ENABLE("ast", "enable ast support", "no");
+
+if (PHP_AST != "no") {
+	EXTENSION("ast", "ast.c ast_data.c");
+}
+
