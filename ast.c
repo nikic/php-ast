@@ -19,6 +19,19 @@
 #define ast_declare_property_long(ce, name, lval) \
 	zend_declare_property_long((ce), name, sizeof(name) - 1, lval, ZEND_ACC_PUBLIC TSRMLS_CC)
 
+#define AST_CACHE_SLOT_KIND     &AST_G(cache_slots)[2 * 0]
+#define AST_CACHE_SLOT_FLAGS    &AST_G(cache_slots)[2 * 1]
+#define AST_CACHE_SLOT_LINENO   &AST_G(cache_slots)[2 * 2]
+#define AST_CACHE_SLOT_CHILDREN &AST_G(cache_slots)[2 * 3]
+
+static inline void ast_update_property(zval *object, zend_string *name, zval *value, void **cache_slot TSRMLS_DC) {
+	zval name_zv;
+	ZVAL_STR(&name_zv, name);
+
+	Z_TRY_DELREF_P(value);
+	Z_OBJ_HT_P(object)->write_property(object, &name_zv, value, cache_slot TSRMLS_CC);
+}
+
 ZEND_DECLARE_MODULE_GLOBALS(ast)
 
 static zend_class_entry *ast_node_ce;
@@ -54,19 +67,19 @@ static zend_ast *get_ast(zend_string *code TSRMLS_DC) {
 	return CG(ast);
 }
 
-static zend_bool ast_kind_uses_attr(zend_ast_kind kind) {
+static inline zend_bool ast_kind_uses_attr(zend_ast_kind kind) {
 	return kind == ZEND_AST_PARAM || kind == ZEND_AST_TYPE || kind == ZEND_AST_TRAIT_ALIAS
 		|| kind == ZEND_AST_UNARY_OP || kind == ZEND_AST_BINARY_OP || kind == ZEND_AST_ASSIGN_OP
 		|| kind == ZEND_AST_CAST || kind == ZEND_AST_MAGIC_CONST || kind == ZEND_AST_ARRAY_ELEM
 		|| kind == ZEND_AST_INCLUDE_OR_EVAL || kind == ZEND_AST_USE || kind == ZEND_AST_PROP_DECL;
 }
 
-static zend_bool ast_kind_is_decl(zend_ast_kind kind) {
+static inline zend_bool ast_kind_is_decl(zend_ast_kind kind) {
 	return kind == ZEND_AST_FUNC_DECL || kind == ZEND_AST_CLOSURE
 		|| kind == ZEND_AST_METHOD || kind == ZEND_AST_CLASS;
 }
 
-static zend_bool ast_is_name(zend_ast *ast, zend_ast *parent, uint32_t i) {
+static inline zend_bool ast_is_name(zend_ast *ast, zend_ast *parent, uint32_t i) {
 	if (!ast || ast->kind != ZEND_AST_ZVAL || Z_TYPE_P(zend_ast_get_zval(ast)) != IS_STRING) {
 		return 0;
 	}
@@ -91,7 +104,7 @@ static zend_bool ast_is_name(zend_ast *ast, zend_ast *parent, uint32_t i) {
 	return 0;
 }
 
-static zend_ast **ast_get_children(zend_ast *ast, uint32_t *count) {
+static inline zend_ast **ast_get_children(zend_ast *ast, uint32_t *count) {
 	if (ast_kind_is_decl(ast->kind)) {
 		zend_ast_decl *decl = (zend_ast_decl *) ast;
 		*count = 3;
@@ -106,30 +119,22 @@ static zend_ast **ast_get_children(zend_ast *ast, uint32_t *count) {
 	}
 }
 
-static inline void ast_update_property(zval *object, zend_string *name, zval *value TSRMLS_DC) {
-	zval name_zv;
-	ZVAL_STR(&name_zv, name);
-
-	Z_TRY_DELREF_P(value);
-	Z_OBJ_HT_P(object)->write_property(object, &name_zv, value, NULL TSRMLS_CC);
-}
-
 static void ast_name_to_zval(zval *zv, zend_ast *ast TSRMLS_DC) {
 	zval tmp_zv, tmp_zv2;
 
 	object_init_ex(zv, ast_node_ce);
 
 	ZVAL_LONG(&tmp_zv, AST_NAME);
-	ast_update_property(zv, AST_G(str_kind), &tmp_zv TSRMLS_CC);
+	ast_update_property(zv, AST_G(str_kind), &tmp_zv, AST_CACHE_SLOT_KIND TSRMLS_CC);
 
 	ZVAL_LONG(&tmp_zv, ast->attr);
-	ast_update_property(zv, AST_G(str_flags), &tmp_zv TSRMLS_CC);
+	ast_update_property(zv, AST_G(str_flags), &tmp_zv, AST_CACHE_SLOT_FLAGS TSRMLS_CC);
 
 	ZVAL_LONG(&tmp_zv, zend_ast_get_lineno(ast));
-	ast_update_property(zv, AST_G(str_lineno), &tmp_zv TSRMLS_CC);
+	ast_update_property(zv, AST_G(str_lineno), &tmp_zv, AST_CACHE_SLOT_LINENO TSRMLS_CC);
 
 	array_init(&tmp_zv);
-	ast_update_property(zv, AST_G(str_children), &tmp_zv TSRMLS_CC);
+	ast_update_property(zv, AST_G(str_children), &tmp_zv, AST_CACHE_SLOT_CHILDREN TSRMLS_CC);
 
 	ZVAL_COPY(&tmp_zv2, zend_ast_get_zval(ast));
 	zend_hash_next_index_insert(Z_ARRVAL(tmp_zv), &tmp_zv2);
@@ -151,31 +156,31 @@ static void ast_to_zval(zval *zv, zend_ast *ast TSRMLS_DC) {
 	object_init_ex(zv, ast_node_ce);
 
 	ZVAL_LONG(&tmp_zv, ast->kind);
-	ast_update_property(zv, AST_G(str_kind), &tmp_zv TSRMLS_CC);
+	ast_update_property(zv, AST_G(str_kind), &tmp_zv, AST_CACHE_SLOT_KIND TSRMLS_CC);
 
 	if (ast_kind_uses_attr(ast->kind)) {
 		ZVAL_LONG(&tmp_zv, ast->attr);
-		ast_update_property(zv, AST_G(str_flags), &tmp_zv TSRMLS_CC);
+		ast_update_property(zv, AST_G(str_flags), &tmp_zv, AST_CACHE_SLOT_FLAGS TSRMLS_CC);
 	}
 
 	ZVAL_LONG(&tmp_zv, zend_ast_get_lineno(ast));
-	ast_update_property(zv, AST_G(str_lineno), &tmp_zv TSRMLS_CC);
+	ast_update_property(zv, AST_G(str_lineno), &tmp_zv, AST_CACHE_SLOT_LINENO TSRMLS_CC);
 
 	if (ast_kind_is_decl(ast->kind)) {
 		zend_ast_decl *decl = (zend_ast_decl *) ast;
 
 		ZVAL_LONG(&tmp_zv, decl->flags);
-		ast_update_property(zv, AST_G(str_flags), &tmp_zv TSRMLS_CC);
+		ast_update_property(zv, AST_G(str_flags), &tmp_zv, AST_CACHE_SLOT_FLAGS TSRMLS_CC);
 
 		ZVAL_LONG(&tmp_zv, decl->end_lineno);
-		ast_update_property(zv, AST_G(str_endLineno), &tmp_zv TSRMLS_CC);
+		ast_update_property(zv, AST_G(str_endLineno), &tmp_zv, NULL TSRMLS_CC);
 
 		if (decl->doc_comment) {
 			ZVAL_STR(&tmp_zv, zend_string_copy(decl->doc_comment));
 		} else {
 			ZVAL_NULL(&tmp_zv);
 		}
-		ast_update_property(zv, AST_G(str_docComment), &tmp_zv TSRMLS_CC);
+		ast_update_property(zv, AST_G(str_docComment), &tmp_zv, NULL TSRMLS_CC);
 	} else if (ast->kind == ZEND_AST_PROP_DECL) {
 		zend_ast_list *props = zend_ast_get_list(ast);
 		zend_ast *last_prop = props->child[props->children - 1];
@@ -185,12 +190,12 @@ static void ast_to_zval(zval *zv, zend_ast *ast TSRMLS_DC) {
 			props->children -= 1;
 
 			ZVAL_STR(&tmp_zv, zend_ast_get_str(last_prop));
-			ast_update_property(zv, AST_G(str_docComment), &tmp_zv TSRMLS_CC);
+			ast_update_property(zv, AST_G(str_docComment), &tmp_zv, NULL TSRMLS_CC);
 		}
 	}
 
 	array_init(&tmp_zv);
-	ast_update_property(zv, AST_G(str_children), &tmp_zv TSRMLS_CC);
+	ast_update_property(zv, AST_G(str_children), &tmp_zv, AST_CACHE_SLOT_CHILDREN TSRMLS_CC);
 
 	{
 		uint32_t i, count;
@@ -266,6 +271,8 @@ PHP_RINIT_FUNCTION(ast) {
 	AST_G(str_children) = zend_new_interned_string(AST_G(str_children) TSRMLS_CC);
 	AST_G(str_docComment) = zend_new_interned_string(AST_G(str_docComment) TSRMLS_CC);
 	AST_G(str_endLineno) = zend_new_interned_string(AST_G(str_endLineno) TSRMLS_CC);
+
+	memset(AST_G(cache_slots), 0, sizeof(void *) * AST_NUM_CACHE_SLOTS);
 
 	return SUCCESS;
 }

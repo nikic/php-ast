@@ -20,6 +20,8 @@ extern zend_module_entry ast_module_entry;
 #include "TSRM.h"
 #endif
 
+#define AST_NUM_CACHE_SLOTS (2 * 4)
+
 ZEND_BEGIN_MODULE_GLOBALS(ast)
 	zend_string *str_kind;
 	zend_string *str_flags;
@@ -27,6 +29,7 @@ ZEND_BEGIN_MODULE_GLOBALS(ast)
 	zend_string *str_children;
 	zend_string *str_docComment;
 	zend_string *str_endLineno;
+	void *cache_slots[AST_NUM_CACHE_SLOTS];
 ZEND_END_MODULE_GLOBALS(ast)
 
 #ifdef ZTS
