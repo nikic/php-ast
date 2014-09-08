@@ -337,6 +337,7 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("TYPE_STRING", IS_STRING);
 	ast_register_flag_constant("TYPE_ARRAY", IS_ARRAY);
 	ast_register_flag_constant("TYPE_OBJECT", IS_OBJECT);
+	ast_register_flag_constant("TYPE_CALLABLE", IS_CALLABLE);
 
 	ast_register_flag_constant("UNARY_BOOL_NOT", ZEND_BOOL_NOT);
 	ast_register_flag_constant("UNARY_BITWISE_NOT", ZEND_BW_NOT);
