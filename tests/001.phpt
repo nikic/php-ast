@@ -7,7 +7,7 @@ Dump of dump function
 
 require __DIR__ . '/../util.php';
 
-echo ast_dump(ast\parseCode(file_get_contents(__DIR__ . '/../util.php')));
+echo ast_dump(ast\parse_code(file_get_contents(__DIR__ . '/../util.php')));
 --EXPECT--
 AST_STMT_LIST @ 1 {
     0: AST_FUNC_DECL @ 4-30 {
@@ -42,7 +42,7 @@ AST_STMT_LIST @ 1 {
                             1: AST_CALL @ 6 {
                                 0: AST_NAME @ 6 {
                                     flags: 1
-                                    0: "ast\getKindName"
+                                    0: "ast\get_kind_name"
                                 }
                                 1: AST_ARG_LIST @ 6 {
                                     0: AST_PROP @ 6 {
@@ -110,7 +110,7 @@ AST_STMT_LIST @ 1 {
                                 0: AST_CALL @ 12 {
                                     0: AST_NAME @ 12 {
                                         flags: 1
-                                        0: "ast\kindUsesFlags"
+                                        0: "ast\kind_uses_flags"
                                     }
                                     1: AST_ARG_LIST @ 12 {
                                         0: AST_PROP @ 12 {

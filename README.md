@@ -9,14 +9,14 @@ Defines:
 
  * `ast\Node` class
  * `ast\AST_*` kind constants (mirroring `zend_ast.h`)
- * `ast\parseCode($code)`
- * `ast\getKindName($kind)`
- * `ast\kindUsesFlags($kind)`
+ * `ast\parse_code($code)`
+ * `ast\get_kind_name($kind)`
+ * `ast\kind_uses_flags($kind)`
 
 Usage
 -----
 
-The `ast\parseCode()` function accepts a source code string (which is parsed in INITIAL mode, i.e.
+The `ast\parse_code()` function accepts a source code string (which is parsed in INITIAL mode, i.e.
 it should generally include an opening PHP tag) and returns an abstract syntax tree consisting of
 `ast\Node` objects. `ast\Node` is declared as follows:
 
@@ -34,11 +34,11 @@ class Node {
 
 The `kind` property specified the type of the node. It is an integral value, which corresponds to
 one of the `ast\AST_*` constants, for example `ast\AST_STMT_LIST`. You can retrieve the string name
-of an integral kind by passing it to `ast\getKindName()`.
+of an integral kind by passing it to `ast\get_kind_name()`.
 
 The `flags` property contains node specific flags. It is always defined, but for most nodes it is
-always zero. `ast\kindUsesFlags()` can be used to determine whether a certain kind has a meaningful
-flags value.
+always zero. `ast\kind_uses_flags()` can be used to determine whether a certain kind has a
+meaningful flags value.
 
 The `lineno` property specified the *starting* line number of the node.
 
@@ -60,7 +60,7 @@ $code = <<<'EOC'
 $var = 42;
 EOC;
 
-var_dump(ast\parseCode($code));
+var_dump(ast\parse_code($code));
 
 // Output:
 object(ast\Node)#1 (4) {
@@ -117,7 +117,7 @@ $code = <<<'EOC'
 $var = 42;
 EOC;
 
-echo ast_dump(ast\parseCode($code)), "\n";
+echo ast_dump(ast\parse_code($code)), "\n";
 
 // Output:
 AST_STMT_LIST @ 1 {

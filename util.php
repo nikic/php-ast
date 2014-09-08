@@ -3,13 +3,13 @@
 /** Dumps abstract syntax tree */
 function ast_dump($ast) {
     if ($ast instanceof ast\Node) {
-        $result = ast\getKindName($ast->kind);
+        $result = ast\get_kind_name($ast->kind);
         $result .= " @ $ast->lineno";
         if (isset($ast->endLineno)) {
             $result .= "-$ast->endLineno";
         }
         $result .= " {";
-        if (ast\kindUsesFlags($ast->kind)) {
+        if (ast\kind_uses_flags($ast->kind)) {
             $result .= "\n    flags: $ast->flags";
         }
         if (isset($ast->docComment)) {

@@ -218,7 +218,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast TSRMLS_DC) {
 	}
 }
 
-PHP_FUNCTION(parseCode) {
+PHP_FUNCTION(parse_code) {
 	zend_string *code;
 	zend_ast *ast;
 
@@ -237,7 +237,7 @@ PHP_FUNCTION(parseCode) {
 	zend_arena_destroy(CG(ast_arena));
 }
 
-PHP_FUNCTION(getKindName) {
+PHP_FUNCTION(get_kind_name) {
 	zend_long kind;
 	const char *name;
 
@@ -254,7 +254,7 @@ PHP_FUNCTION(getKindName) {
 	RETURN_STRING(name);
 }
 
-PHP_FUNCTION(kindUsesFlags) {
+PHP_FUNCTION(kind_uses_flags) {
 	zend_long kind;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "l", &kind) == FAILURE) {
@@ -264,22 +264,22 @@ PHP_FUNCTION(kindUsesFlags) {
 	RETURN_BOOL(ast_kind_uses_attr(kind) || ast_kind_is_decl(kind));
 }
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_parseCode, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_parse_code, 0, 0, 1)
 	ZEND_ARG_INFO(0, code)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_getKindName, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_get_kind_name, 0, 0, 1)
 	ZEND_ARG_INFO(0, kind)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_kindUsesFlags, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_kind_uses_flags, 0, 0, 1)
 	ZEND_ARG_INFO(0, kind)
 ZEND_END_ARG_INFO()
 
 const zend_function_entry ast_functions[] = {
-	ZEND_NS_FE("ast", parseCode, arginfo_parseCode)
-	ZEND_NS_FE("ast", getKindName, arginfo_getKindName)
-	ZEND_NS_FE("ast", kindUsesFlags, arginfo_kindUsesFlags)
+	ZEND_NS_FE("ast", parse_code, arginfo_parse_code)
+	ZEND_NS_FE("ast", get_kind_name, arginfo_get_kind_name)
+	ZEND_NS_FE("ast", kind_uses_flags, arginfo_kind_uses_flags)
 	PHP_FE_END
 };
 
