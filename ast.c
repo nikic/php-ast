@@ -14,10 +14,12 @@
 #define ast_throw_exception(...) \
 	zend_throw_exception_ex(zend_exception_get_default(TSRMLS_C), 0 TSRMLS_CC, __VA_ARGS__)
 
-#define ast_declare_property_null(ce, name) \
-	zend_declare_property_null((ce), name, sizeof(name) - 1, ZEND_ACC_PUBLIC TSRMLS_CC)
-#define ast_declare_property_long(ce, name, lval) \
-	zend_declare_property_long((ce), name, sizeof(name) - 1, lval, ZEND_ACC_PUBLIC TSRMLS_CC)
+#define ast_init_string_global(str) \
+	AST_G(str_ ## str) = zend_new_interned_string( \
+		zend_string_init(#str, sizeof(#str) - 1, 1) TSRMLS_CC)
+
+#define ast_declare_property(ce, name, value) \
+	zend_declare_property_ex((ce), (name), (value), ZEND_ACC_PUBLIC, NULL TSRMLS_CC)
 
 #define AST_CACHE_SLOT_KIND     &AST_G(cache_slots)[2 * 0]
 #define AST_CACHE_SLOT_FLAGS    &AST_G(cache_slots)[2 * 1]
@@ -159,11 +161,6 @@ static void ast_to_zval(zval *zv, zend_ast *ast TSRMLS_DC) {
 	ZVAL_LONG(&tmp_zv, ast->kind);
 	ast_update_property(zv, AST_G(str_kind), &tmp_zv, AST_CACHE_SLOT_KIND TSRMLS_CC);
 
-	if (ast_kind_uses_attr(ast->kind)) {
-		ZVAL_LONG(&tmp_zv, ast->attr);
-		ast_update_property(zv, AST_G(str_flags), &tmp_zv, AST_CACHE_SLOT_FLAGS TSRMLS_CC);
-	}
-
 	ZVAL_LONG(&tmp_zv, zend_ast_get_lineno(ast));
 	ast_update_property(zv, AST_G(str_lineno), &tmp_zv, AST_CACHE_SLOT_LINENO TSRMLS_CC);
 
@@ -182,7 +179,12 @@ static void ast_to_zval(zval *zv, zend_ast *ast TSRMLS_DC) {
 			ZVAL_NULL(&tmp_zv);
 		}
 		ast_update_property(zv, AST_G(str_docComment), &tmp_zv, NULL TSRMLS_CC);
-	} else if (ast->kind == ZEND_AST_PROP_DECL) {
+	} else {
+		ZVAL_LONG(&tmp_zv, ast->attr);
+		ast_update_property(zv, AST_G(str_flags), &tmp_zv, AST_CACHE_SLOT_FLAGS TSRMLS_CC);
+	}
+	
+	if (ast->kind == ZEND_AST_PROP_DECL) {
 		zend_ast_list *props = zend_ast_get_list(ast);
 		zend_ast *last_prop = props->child[props->children - 1];
 
@@ -262,43 +264,6 @@ PHP_FUNCTION(kindUsesFlags) {
 	RETURN_BOOL(ast_kind_uses_attr(kind) || ast_kind_is_decl(kind));
 }
 
-PHP_MINFO_FUNCTION(ast) {
-	php_info_print_table_start();
-	php_info_print_table_header(2, "ast support", "enabled");
-	php_info_print_table_end();
-}
-
-PHP_RINIT_FUNCTION(ast) {
-	AST_G(str_kind) = zend_string_init("kind", sizeof("kind") - 1, 0);
-	AST_G(str_flags) = zend_string_init("flags", sizeof("flags") - 1, 0);
-	AST_G(str_lineno) = zend_string_init("lineno", sizeof("lineno") - 1, 0);
-	AST_G(str_children) = zend_string_init("children", sizeof("children") - 1, 0);
-	AST_G(str_docComment) = zend_string_init("docComment", sizeof("docComment") - 1, 0);
-	AST_G(str_endLineno) = zend_string_init("endLineno", sizeof("endLineno") - 1, 0);
-
-	AST_G(str_kind) = zend_new_interned_string(AST_G(str_kind) TSRMLS_CC);
-	AST_G(str_flags) = zend_new_interned_string(AST_G(str_flags) TSRMLS_CC);
-	AST_G(str_lineno) = zend_new_interned_string(AST_G(str_lineno) TSRMLS_CC);
-	AST_G(str_children) = zend_new_interned_string(AST_G(str_children) TSRMLS_CC);
-	AST_G(str_docComment) = zend_new_interned_string(AST_G(str_docComment) TSRMLS_CC);
-	AST_G(str_endLineno) = zend_new_interned_string(AST_G(str_endLineno) TSRMLS_CC);
-
-	memset(AST_G(cache_slots), 0, sizeof(void *) * AST_NUM_CACHE_SLOTS);
-
-	return SUCCESS;
-}
-
-PHP_RSHUTDOWN_FUNCTION(ast) {
-	zend_string_release(AST_G(str_kind));
-	zend_string_release(AST_G(str_flags));
-	zend_string_release(AST_G(str_lineno));
-	zend_string_release(AST_G(str_children));
-	zend_string_release(AST_G(str_docComment));
-	zend_string_release(AST_G(str_endLineno));
-
-	return SUCCESS;
-}
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_parseCode, 0, 0, 1)
 	ZEND_ARG_INFO(0, code)
 ZEND_END_ARG_INFO()
@@ -318,18 +283,52 @@ const zend_function_entry ast_functions[] = {
 	PHP_FE_END
 };
 
+PHP_MINFO_FUNCTION(ast) {
+	php_info_print_table_start();
+	php_info_print_table_header(2, "ast support", "enabled");
+	php_info_print_table_end();
+}
+
+PHP_RINIT_FUNCTION(ast) {
+	memset(AST_G(cache_slots), 0, sizeof(void *) * AST_NUM_CACHE_SLOTS);
+	return SUCCESS;
+}
+
 PHP_MINIT_FUNCTION(ast) {
 	zend_class_entry tmp_ce;
+
+	ast_init_string_global(kind);
+	ast_init_string_global(flags);
+	ast_init_string_global(lineno);
+	ast_init_string_global(children);
+	ast_init_string_global(endLineno);
+	ast_init_string_global(docComment);
 
 	ast_register_kind_constants(INIT_FUNC_ARGS_PASSTHRU);
 
 	INIT_CLASS_ENTRY(tmp_ce, "ast\\Node", NULL);
 	ast_node_ce = zend_register_internal_class(&tmp_ce TSRMLS_CC);
 
-	ast_declare_property_long(ast_node_ce, "kind", 0);
-	ast_declare_property_long(ast_node_ce, "flags", 0);
-	ast_declare_property_long(ast_node_ce, "lineno", 0);
-	ast_declare_property_null(ast_node_ce, "children");
+	{
+		zval zv;
+		ZVAL_NULL(&zv);
+
+		ast_declare_property(ast_node_ce, AST_G(str_kind), &zv);
+		ast_declare_property(ast_node_ce, AST_G(str_flags), &zv);
+		ast_declare_property(ast_node_ce, AST_G(str_lineno), &zv);
+		ast_declare_property(ast_node_ce, AST_G(str_children), &zv);
+	}
+
+	return SUCCESS;
+}
+
+PHP_MSHUTDOWN_FUNCTION(ast) {
+	zend_string_release(AST_G(str_kind));
+	zend_string_release(AST_G(str_flags));
+	zend_string_release(AST_G(str_lineno));
+	zend_string_release(AST_G(str_children));
+	zend_string_release(AST_G(str_docComment));
+	zend_string_release(AST_G(str_endLineno));
 
 	return SUCCESS;
 }
@@ -339,9 +338,9 @@ zend_module_entry ast_module_entry = {
 	"ast",
 	ast_functions,
 	PHP_MINIT(ast),
-	NULL,
+	PHP_MSHUTDOWN(ast),
 	PHP_RINIT(ast),
-	PHP_RSHUTDOWN(ast),
+	NULL,
 	PHP_MINFO(ast),
 	PHP_AST_VERSION,
 	PHP_MODULE_GLOBALS(ast),
