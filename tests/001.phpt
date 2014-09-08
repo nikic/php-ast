@@ -5,9 +5,9 @@ Dump of dump function
 --FILE--
 <?php 
 
-require __DIR__ . '/util.php';
+require __DIR__ . '/../util.php';
 
-echo ast_dump(ast\parseCode(file_get_contents(__DIR__ . '/util.php')));
+echo ast_dump(ast\parseCode(file_get_contents(__DIR__ . '/../util.php')));
 --EXPECT--
 AST_STMT_LIST @ 1 {
     0: AST_FUNC_DECL @ 4-30 {
