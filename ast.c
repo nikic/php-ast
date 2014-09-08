@@ -71,7 +71,8 @@ static inline zend_bool ast_kind_uses_attr(zend_ast_kind kind) {
 	return kind == ZEND_AST_PARAM || kind == ZEND_AST_TYPE || kind == ZEND_AST_TRAIT_ALIAS
 		|| kind == ZEND_AST_UNARY_OP || kind == ZEND_AST_BINARY_OP || kind == ZEND_AST_ASSIGN_OP
 		|| kind == ZEND_AST_CAST || kind == ZEND_AST_MAGIC_CONST || kind == ZEND_AST_ARRAY_ELEM
-		|| kind == ZEND_AST_INCLUDE_OR_EVAL || kind == ZEND_AST_USE || kind == ZEND_AST_PROP_DECL;
+		|| kind == ZEND_AST_INCLUDE_OR_EVAL || kind == ZEND_AST_USE || kind == ZEND_AST_PROP_DECL
+		|| kind == AST_NAME;
 }
 
 static inline zend_bool ast_kind_is_decl(zend_ast_kind kind) {
@@ -251,6 +252,16 @@ PHP_FUNCTION(getKindName) {
 	RETURN_STRING(name);
 }
 
+PHP_FUNCTION(kindUsesFlags) {
+	zend_long kind;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "l", &kind) == FAILURE) {
+		return;
+	}
+
+	RETURN_BOOL(ast_kind_uses_attr(kind) || ast_kind_is_decl(kind));
+}
+
 PHP_MINFO_FUNCTION(ast) {
 	php_info_print_table_start();
 	php_info_print_table_header(2, "ast support", "enabled");
@@ -296,9 +307,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_getKindName, 0, 0, 1)
 	ZEND_ARG_INFO(0, kind)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_kindUsesFlags, 0, 0, 1)
+	ZEND_ARG_INFO(0, kind)
+ZEND_END_ARG_INFO()
+
 const zend_function_entry ast_functions[] = {
 	ZEND_NS_FE("ast", parseCode, arginfo_parseCode)
 	ZEND_NS_FE("ast", getKindName, arginfo_getKindName)
+	ZEND_NS_FE("ast", kindUsesFlags, arginfo_kindUsesFlags)
 	PHP_FE_END
 };
 
