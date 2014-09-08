@@ -9,6 +9,7 @@ Defines:
 
  * `ast\Node` class
  * `ast\AST_*` kind constants (mirroring `zend_ast.h`)
+ * `ast\flags\*` flags
  * `ast\parse_code($code)`
  * `ast\get_kind_name($kind)`
  * `ast\kind_uses_flags($kind)`
@@ -38,7 +39,7 @@ of an integral kind by passing it to `ast\get_kind_name()`.
 
 The `flags` property contains node specific flags. It is always defined, but for most nodes it is
 always zero. `ast\kind_uses_flags()` can be used to determine whether a certain kind has a
-meaningful flags value.
+meaningful flags value. Which nodes use which flags is explained in the "Flags" section below.
 
 The `lineno` property specified the *starting* line number of the node.
 
@@ -131,6 +132,117 @@ AST_STMT_LIST @ 1 {
 ```
 
 A more substantial AST dump can be found [in the tests][test_dump].
+
+Flags
+-----
+
+This section lists which flags are used by which AST node kinds. The "combinable" flags can be
+combined using bitwise or and should be checked by using `$ast->flags & ast\flags\FOO`. The
+"exclusive" flags are used standalone and should be checked using `$ast->flags === ast\flags\BAR`.
+
+```
+// Used by ast\ARRAY_ELEM (exclusive)
+1 = by-reference
+
+// Used by ast\AST_NAME (exclusive)
+ast\flags\NAME_FQ (= 0)
+ast\flags\NAME_NOT_FQ
+ast\flags\NAME_RELATIVE
+
+// Used by ast\AST_METHOD, ast\AST_PROP_DECL, ast\AST_TRAIT_ALIAS (combinable)
+ast\flags\MODIFIER_PUBLIC
+ast\flags\MOFIFIER_PROTECTED
+ast\flags\MOFIFIER_PRIVATE
+ast\flags\MOFIFIER_STATIC
+ast\flags\MOFIFIER_ABSTRACT
+ast\flags\MOFIFIER_FINAL
+
+// Used by ast\AST_CLOSURE (combinable)
+ast\flags\MODIFIER_STATIC
+
+// Used by ast\AST_FUNC_DECL, ast\AST_METHOD, ast\AST_CLOSURE (combinable)
+ast\flags\RETURNS_REF
+
+// Used by ast\AST_CLASS (exclusive)
+ast\flags\CLASS_ABSTRACT
+ast\flags\CLASS_FINAL
+ast\flags\CLASS_TRAIT
+ast\flags\CLASS_INTERFACE
+
+// Used by ast\AST_PARAM (exclusive)
+ast\flags\PARAM_REF
+ast\flags\PARAM_VARIADIC
+
+// Used by ast\AST_TYPE (exclusive)
+ast\flags\TYPE_ARRAY
+ast\flags\TYPE_CALLABLE
+
+// Used by ast\AST_CAST (exclusive)
+ast\flags\TYPE_NULL
+ast\flags\TYPE_BOOL
+ast\flags\TYPE_LONG
+ast\flags\TYPE_DOUBLE
+ast\flags\TYPE_STRING
+ast\flags\TYPE_ARRAY
+ast\flags\TYPE_OBJECT
+
+// Used by ast\AST_UNARY_OP (exclusive)
+ast\flags\UNARY_BOOL_NOT
+ast\flags\UNARY_BITWISE_NOT
+
+// Used by ast\AST_BINARY_OP (exclusive)
+ast\flags\BINARY_BOOL_XOR
+ast\flags\BINARY_BITWISE_OR
+ast\flags\BINARY_BITWISE_AND
+ast\flags\BINARY_BITWISE_XOR
+ast\flags\BINARY_CONCAT
+ast\flags\BINARY_ADD
+ast\flags\BINARY_SUB
+ast\flags\BINARY_MUL
+ast\flags\BINARY_DIV
+ast\flags\BINARY_MOD
+ast\flags\BINARY_SHIFT_LEFT
+ast\flags\BINARY_SHIFT_RIGHT
+ast\flags\BINARY_IS_IDENTICAL
+ast\flags\BINARY_IS_NOT_IDENTICAL
+ast\flags\BINARY_IS_EQUAL
+ast\flags\BINARY_IS_NOT_EQUAL
+ast\flags\BINARY_IS_SMALLER
+ast\flags\BINARY_IS_SMALLER_OR_EQUAL
+
+// Used by ast\AST_ASSIGN_OP (exclusive)
+ast\flags\ASSIGN_BITWISE_OR
+ast\flags\ASSIGN_BITWISE_AND
+ast\flags\ASSIGN_BITWISE_XOR
+ast\flags\ASSIGN_CONCAT
+ast\flags\ASSIGN_ADD
+ast\flags\ASSIGN_SUB
+ast\flags\ASSIGN_MUL
+ast\flags\ASSIGN_DIV
+ast\flags\ASSIGN_MOD
+ast\flags\ASSIGN_SHIFT_LEFT
+ast\flags\ASSIGN_SHIFT_RIGHT
+
+// Used by ast\AST_MAGIC_CONST (exclusive)
+// (Constants defined by ext\tokenizer)
+T_LINE
+T_FILE
+T_DIR
+T_TRAIT_C
+T_METHOD_C
+T_FUNC_C
+T_NS_C
+T_CLASS_C
+
+// Used by ast\AST_USE (exclusive)
+// (Constants defined by ext\tokenizer)
+T_CLASS
+T_FUNCTION
+T_CONST
+
+// Used by ast\AST_INCLUDE_OR_EVAL (exclusive)
+ast\flags\???
+```
 
   [parser]: http://lxr.php.net/xref/PHP_TRUNK/Zend/zend_language_parser.y
   [util]: https://github.com/nikic/php-ast/blob/master/util.php

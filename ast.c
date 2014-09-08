@@ -21,6 +21,9 @@
 #define ast_declare_property(ce, name, value) \
 	zend_declare_property_ex((ce), (name), (value), ZEND_ACC_PUBLIC, NULL TSRMLS_CC)
 
+#define ast_register_flag_constant(name, value) \
+	REGISTER_NS_LONG_CONSTANT("ast\\flags", name, value, CONST_CS | CONST_PERSISTENT)
+
 #define AST_CACHE_SLOT_KIND     &AST_G(cache_slots)[2 * 0]
 #define AST_CACHE_SLOT_FLAGS    &AST_G(cache_slots)[2 * 1]
 #define AST_CACHE_SLOT_LINENO   &AST_G(cache_slots)[2 * 2]
@@ -305,6 +308,69 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_init_string_global(docComment);
 
 	ast_register_kind_constants(INIT_FUNC_ARGS_PASSTHRU);
+
+	ast_register_flag_constant("NAME_FQ", ZEND_NAME_FQ);
+	ast_register_flag_constant("NAME_NOT_FQ", ZEND_NAME_NOT_FQ);
+	ast_register_flag_constant("NAME_RELATIVE", ZEND_NAME_RELATIVE);
+
+	ast_register_flag_constant("MODIFIER_PUBLIC", ZEND_ACC_PUBLIC);
+	ast_register_flag_constant("MODIFIER_PROTECTED", ZEND_ACC_PROTECTED);
+	ast_register_flag_constant("MODIFIER_PRIVATE", ZEND_ACC_PRIVATE);
+	ast_register_flag_constant("MODIFIER_STATIC", ZEND_ACC_STATIC);
+	ast_register_flag_constant("MODIFIER_ABSTRACT", ZEND_ACC_ABSTRACT);
+	ast_register_flag_constant("MODIFIER_FINAL", ZEND_ACC_FINAL);
+
+	ast_register_flag_constant("RETURNS_REF", ZEND_ACC_RETURN_REFERENCE);
+
+	ast_register_flag_constant("CLASS_ABSTRACT", ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+	ast_register_flag_constant("CLASS_FINAL", ZEND_ACC_FINAL_CLASS);
+	ast_register_flag_constant("CLASS_TRAIT", ZEND_ACC_TRAIT);
+	ast_register_flag_constant("CLASS_INTERFACE", ZEND_ACC_INTERFACE);
+
+	ast_register_flag_constant("PARAM_REF", ZEND_PARAM_REF);
+	ast_register_flag_constant("PARAM_VARIADIC", ZEND_PARAM_VARIADIC);
+
+	ast_register_flag_constant("TYPE_NULL", IS_NULL);
+	ast_register_flag_constant("TYPE_BOOL", _IS_BOOL);
+	ast_register_flag_constant("TYPE_LONG", IS_LONG);
+	ast_register_flag_constant("TYPE_DOUBLE", IS_DOUBLE);
+	ast_register_flag_constant("TYPE_STRING", IS_STRING);
+	ast_register_flag_constant("TYPE_ARRAY", IS_ARRAY);
+	ast_register_flag_constant("TYPE_OBJECT", IS_OBJECT);
+
+	ast_register_flag_constant("UNARY_BOOL_NOT", ZEND_BOOL_NOT);
+	ast_register_flag_constant("UNARY_BITWISE_NOT", ZEND_BW_NOT);
+
+	ast_register_flag_constant("BINARY_BOOL_XOR", ZEND_BOOL_XOR);
+	ast_register_flag_constant("BINARY_BITWISE_OR", ZEND_BW_OR);
+	ast_register_flag_constant("BINARY_BITWISE_AND", ZEND_BW_AND);
+	ast_register_flag_constant("BINARY_BITWISE_XOR", ZEND_BW_XOR);
+	ast_register_flag_constant("BINARY_CONCAT", ZEND_CONCAT);
+	ast_register_flag_constant("BINARY_ADD", ZEND_ADD);
+	ast_register_flag_constant("BINARY_SUB", ZEND_SUB);
+	ast_register_flag_constant("BINARY_MUL", ZEND_MUL);
+	ast_register_flag_constant("BINARY_DIV", ZEND_DIV);
+	ast_register_flag_constant("BINARY_MOD", ZEND_MOD);
+	ast_register_flag_constant("BINARY_SHIFT_LEFT", ZEND_SL);
+	ast_register_flag_constant("BINARY_SHIFT_RIGHT", ZEND_SR);
+	ast_register_flag_constant("BINARY_IS_IDENTICAL", ZEND_IS_IDENTICAL);
+	ast_register_flag_constant("BINARY_IS_NOT_IDENTICAL", ZEND_IS_NOT_IDENTICAL);
+	ast_register_flag_constant("BINARY_IS_EQUAL", ZEND_IS_EQUAL);
+	ast_register_flag_constant("BINARY_IS_NOT_EQUAL", ZEND_IS_NOT_EQUAL);
+	ast_register_flag_constant("BINARY_IS_SMALLER", ZEND_IS_SMALLER);
+	ast_register_flag_constant("BINARY_IS_SMALLER_OR_EQUAL", ZEND_IS_SMALLER_OR_EQUAL);
+
+	ast_register_flag_constant("ASSIGN_BITWISE_OR", ZEND_ASSIGN_BW_OR);
+	ast_register_flag_constant("ASSIGN_BITWISE_AND", ZEND_ASSIGN_BW_AND);
+	ast_register_flag_constant("ASSIGN_BITWISE_XOR", ZEND_ASSIGN_BW_XOR);
+	ast_register_flag_constant("ASSIGN_CONCAT", ZEND_ASSIGN_CONCAT);
+	ast_register_flag_constant("ASSIGN_ADD", ZEND_ASSIGN_ADD);
+	ast_register_flag_constant("ASSIGN_SUB", ZEND_ASSIGN_SUB);
+	ast_register_flag_constant("ASSIGN_MUL", ZEND_ASSIGN_MUL);
+	ast_register_flag_constant("ASSIGN_DIV", ZEND_ASSIGN_DIV);
+	ast_register_flag_constant("ASSIGN_MOD", ZEND_ASSIGN_MOD);
+	ast_register_flag_constant("ASSIGN_SHIFT_LEFT", ZEND_ASSIGN_SL);
+	ast_register_flag_constant("ASSIGN_SHIFT_RIGHT", ZEND_ASSIGN_SR);
 
 	INIT_CLASS_ENTRY(tmp_ce, "ast\\Node", NULL);
 	ast_node_ce = zend_register_internal_class(&tmp_ce TSRMLS_CC);
