@@ -12,14 +12,14 @@
 #include "zend_exceptions.h"
 
 #define ast_throw_exception(...) \
-	zend_throw_exception_ex(zend_exception_get_default(TSRMLS_C), 0 TSRMLS_CC, __VA_ARGS__)
+	zend_throw_exception_ex(zend_exception_get_default(), 0, __VA_ARGS__)
 
 #define ast_init_string_global(str) \
 	AST_G(str_ ## str) = zend_new_interned_string( \
-		zend_string_init(#str, sizeof(#str) - 1, 1) TSRMLS_CC)
+		zend_string_init(#str, sizeof(#str) - 1, 1))
 
 #define ast_declare_property(ce, name, value) \
-	zend_declare_property_ex((ce), (name), (value), ZEND_ACC_PUBLIC, NULL TSRMLS_CC)
+	zend_declare_property_ex((ce), (name), (value), ZEND_ACC_PUBLIC, NULL)
 
 #define ast_register_flag_constant(name, value) \
 	REGISTER_NS_LONG_CONSTANT("ast\\flags", name, value, CONST_CS | CONST_PERSISTENT)
@@ -29,19 +29,19 @@
 #define AST_CACHE_SLOT_LINENO   &AST_G(cache_slots)[2 * 2]
 #define AST_CACHE_SLOT_CHILDREN &AST_G(cache_slots)[2 * 3]
 
-static inline void ast_update_property(zval *object, zend_string *name, zval *value, void **cache_slot TSRMLS_DC) {
+static inline void ast_update_property(zval *object, zend_string *name, zval *value, void **cache_slot) {
 	zval name_zv;
 	ZVAL_STR(&name_zv, name);
 
 	Z_TRY_DELREF_P(value);
-	Z_OBJ_HT_P(object)->write_property(object, &name_zv, value, cache_slot TSRMLS_CC);
+	Z_OBJ_HT_P(object)->write_property(object, &name_zv, value, cache_slot);
 }
 
 ZEND_DECLARE_MODULE_GLOBALS(ast)
 
 static zend_class_entry *ast_node_ce;
 
-static zend_ast *get_ast(zend_string *code TSRMLS_DC) {
+static zend_ast *get_ast(zend_string *code) {
 	zval code_zv;
 	zend_bool original_in_compilation;
 	zend_lex_state original_lex_state;
@@ -51,20 +51,20 @@ static zend_ast *get_ast(zend_string *code TSRMLS_DC) {
 	original_in_compilation = CG(in_compilation);
 	CG(in_compilation) = 1;
 
-	zend_save_lexical_state(&original_lex_state TSRMLS_CC);
-	if (zend_prepare_string_for_scanning(&code_zv, "string code" TSRMLS_CC) == SUCCESS) {
+	zend_save_lexical_state(&original_lex_state);
+	if (zend_prepare_string_for_scanning(&code_zv, "string code") == SUCCESS) {
 		CG(ast) = NULL;
 		CG(ast_arena) = zend_arena_create(1024 * 32);
 		LANG_SCNG(yy_state) = yycINITIAL;
 
-		if (zendparse(TSRMLS_C) != 0) {
+		if (zendparse() != 0) {
 			zend_ast_destroy(CG(ast));
 			zend_arena_destroy(CG(ast_arena));
 			CG(ast) = NULL;
 		}
 	}
 
-	zend_restore_lexical_state(&original_lex_state TSRMLS_CC);
+	zend_restore_lexical_state(&original_lex_state);
 	CG(in_compilation) = original_in_compilation;
 
 	zval_dtor(&code_zv);
@@ -125,28 +125,28 @@ static inline zend_ast **ast_get_children(zend_ast *ast, uint32_t *count) {
 	}
 }
 
-static void ast_name_to_zval(zval *zv, zend_ast *ast TSRMLS_DC) {
+static void ast_name_to_zval(zval *zv, zend_ast *ast) {
 	zval tmp_zv, tmp_zv2;
 
 	object_init_ex(zv, ast_node_ce);
 
 	ZVAL_LONG(&tmp_zv, AST_NAME);
-	ast_update_property(zv, AST_G(str_kind), &tmp_zv, AST_CACHE_SLOT_KIND TSRMLS_CC);
+	ast_update_property(zv, AST_G(str_kind), &tmp_zv, AST_CACHE_SLOT_KIND);
 
 	ZVAL_LONG(&tmp_zv, ast->attr);
-	ast_update_property(zv, AST_G(str_flags), &tmp_zv, AST_CACHE_SLOT_FLAGS TSRMLS_CC);
+	ast_update_property(zv, AST_G(str_flags), &tmp_zv, AST_CACHE_SLOT_FLAGS);
 
 	ZVAL_LONG(&tmp_zv, zend_ast_get_lineno(ast));
-	ast_update_property(zv, AST_G(str_lineno), &tmp_zv, AST_CACHE_SLOT_LINENO TSRMLS_CC);
+	ast_update_property(zv, AST_G(str_lineno), &tmp_zv, AST_CACHE_SLOT_LINENO);
 
 	array_init(&tmp_zv);
-	ast_update_property(zv, AST_G(str_children), &tmp_zv, AST_CACHE_SLOT_CHILDREN TSRMLS_CC);
+	ast_update_property(zv, AST_G(str_children), &tmp_zv, AST_CACHE_SLOT_CHILDREN);
 
 	ZVAL_COPY(&tmp_zv2, zend_ast_get_zval(ast));
 	zend_hash_next_index_insert(Z_ARRVAL(tmp_zv), &tmp_zv2);
 }
 
-static void ast_to_zval(zval *zv, zend_ast *ast TSRMLS_DC) {
+static void ast_to_zval(zval *zv, zend_ast *ast) {
 	zval tmp_zv;
 
 	if (ast == NULL) {
@@ -162,29 +162,29 @@ static void ast_to_zval(zval *zv, zend_ast *ast TSRMLS_DC) {
 	object_init_ex(zv, ast_node_ce);
 
 	ZVAL_LONG(&tmp_zv, ast->kind);
-	ast_update_property(zv, AST_G(str_kind), &tmp_zv, AST_CACHE_SLOT_KIND TSRMLS_CC);
+	ast_update_property(zv, AST_G(str_kind), &tmp_zv, AST_CACHE_SLOT_KIND);
 
 	ZVAL_LONG(&tmp_zv, zend_ast_get_lineno(ast));
-	ast_update_property(zv, AST_G(str_lineno), &tmp_zv, AST_CACHE_SLOT_LINENO TSRMLS_CC);
+	ast_update_property(zv, AST_G(str_lineno), &tmp_zv, AST_CACHE_SLOT_LINENO);
 
 	if (ast_kind_is_decl(ast->kind)) {
 		zend_ast_decl *decl = (zend_ast_decl *) ast;
 
 		ZVAL_LONG(&tmp_zv, decl->flags);
-		ast_update_property(zv, AST_G(str_flags), &tmp_zv, AST_CACHE_SLOT_FLAGS TSRMLS_CC);
+		ast_update_property(zv, AST_G(str_flags), &tmp_zv, AST_CACHE_SLOT_FLAGS);
 
 		ZVAL_LONG(&tmp_zv, decl->end_lineno);
-		ast_update_property(zv, AST_G(str_endLineno), &tmp_zv, NULL TSRMLS_CC);
+		ast_update_property(zv, AST_G(str_endLineno), &tmp_zv, NULL);
 
 		if (decl->doc_comment) {
 			ZVAL_STR(&tmp_zv, zend_string_copy(decl->doc_comment));
 		} else {
 			ZVAL_NULL(&tmp_zv);
 		}
-		ast_update_property(zv, AST_G(str_docComment), &tmp_zv, NULL TSRMLS_CC);
+		ast_update_property(zv, AST_G(str_docComment), &tmp_zv, NULL);
 	} else {
 		ZVAL_LONG(&tmp_zv, ast->attr);
-		ast_update_property(zv, AST_G(str_flags), &tmp_zv, AST_CACHE_SLOT_FLAGS TSRMLS_CC);
+		ast_update_property(zv, AST_G(str_flags), &tmp_zv, AST_CACHE_SLOT_FLAGS);
 	}
 	
 	if (ast->kind == ZEND_AST_PROP_DECL) {
@@ -196,12 +196,12 @@ static void ast_to_zval(zval *zv, zend_ast *ast TSRMLS_DC) {
 			props->children -= 1;
 
 			ZVAL_STR(&tmp_zv, zend_ast_get_str(last_prop));
-			ast_update_property(zv, AST_G(str_docComment), &tmp_zv, NULL TSRMLS_CC);
+			ast_update_property(zv, AST_G(str_docComment), &tmp_zv, NULL);
 		}
 	}
 
 	array_init(&tmp_zv);
-	ast_update_property(zv, AST_G(str_children), &tmp_zv, AST_CACHE_SLOT_CHILDREN TSRMLS_CC);
+	ast_update_property(zv, AST_G(str_children), &tmp_zv, AST_CACHE_SLOT_CHILDREN);
 
 	{
 		uint32_t i, count;
@@ -211,9 +211,9 @@ static void ast_to_zval(zval *zv, zend_ast *ast TSRMLS_DC) {
 			zval child_zv;
 
 			if (ast_is_name(child, ast, i)) {
-				ast_name_to_zval(&child_zv, child TSRMLS_CC);
+				ast_name_to_zval(&child_zv, child);
 			} else {
-				ast_to_zval(&child_zv, child TSRMLS_CC);
+				ast_to_zval(&child_zv, child);
 			}
 
 			zend_hash_next_index_insert(Z_ARRVAL(tmp_zv), &child_zv);
@@ -225,16 +225,16 @@ PHP_FUNCTION(parse_code) {
 	zend_string *code;
 	zend_ast *ast;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "S", &code) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "S", &code) == FAILURE) {
 		return;
 	}
 
-	ast = get_ast(code TSRMLS_CC);
+	ast = get_ast(code);
 	if (!ast) {
 		RETURN_FALSE;
 	}
 
-	ast_to_zval(return_value, ast TSRMLS_CC);
+	ast_to_zval(return_value, ast);
 
 	zend_ast_destroy(ast);
 	zend_arena_destroy(CG(ast_arena));
@@ -244,7 +244,7 @@ PHP_FUNCTION(get_kind_name) {
 	zend_long kind;
 	const char *name;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "l", &kind) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "l", &kind) == FAILURE) {
 		return;
 	}
 
@@ -260,7 +260,7 @@ PHP_FUNCTION(get_kind_name) {
 PHP_FUNCTION(kind_uses_flags) {
 	zend_long kind;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "l", &kind) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "l", &kind) == FAILURE) {
 		return;
 	}
 
@@ -323,7 +323,7 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("RETURNS_REF", ZEND_ACC_RETURN_REFERENCE);
 
 	ast_register_flag_constant("CLASS_ABSTRACT", ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
-	ast_register_flag_constant("CLASS_FINAL", ZEND_ACC_FINAL_CLASS);
+	ast_register_flag_constant("CLASS_FINAL", ZEND_ACC_FINAL);
 	ast_register_flag_constant("CLASS_TRAIT", ZEND_ACC_TRAIT);
 	ast_register_flag_constant("CLASS_INTERFACE", ZEND_ACC_INTERFACE);
 
@@ -374,7 +374,7 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("ASSIGN_SHIFT_RIGHT", ZEND_ASSIGN_SR);
 
 	INIT_CLASS_ENTRY(tmp_ce, "ast\\Node", NULL);
-	ast_node_ce = zend_register_internal_class(&tmp_ce TSRMLS_CC);
+	ast_node_ce = zend_register_internal_class(&tmp_ce);
 
 	{
 		zval zv;
