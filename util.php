@@ -8,7 +8,6 @@ function ast_dump($ast) {
         if (isset($ast->endLineno)) {
             $result .= "-$ast->endLineno";
         }
-        $result .= " {";
         if (ast\kind_uses_flags($ast->kind)) {
             $result .= "\n    flags: $ast->flags";
         }
@@ -18,7 +17,6 @@ function ast_dump($ast) {
         foreach ($ast->children as $i => $child) {
             $result .= "\n    $i: " . str_replace("\n", "\n    ", ast_dump($child));
         }
-        $result .= "\n}";
         return $result;
     } else if ($ast === null) {
         return 'null';
