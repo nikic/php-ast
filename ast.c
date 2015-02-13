@@ -41,10 +41,11 @@ ZEND_DECLARE_MODULE_GLOBALS(ast)
 
 static zend_class_entry *ast_node_ce;
 
-static zend_ast *get_ast(zend_string *code) {
+static zend_ast *get_ast(zend_string *code, zend_arena **ast_arena) {
 	zval code_zv;
 	zend_bool original_in_compilation;
 	zend_lex_state original_lex_state;
+	zend_ast *ast;
 
 	ZVAL_STR(&code_zv, zend_string_copy(code));
 
@@ -64,12 +65,16 @@ static zend_ast *get_ast(zend_string *code) {
 		}
 	}
 
+	/* restore_lexical_state changes CG(ast) and CG(ast_arena) */
+	ast = CG(ast);
+	*ast_arena = CG(ast_arena);
+
 	zend_restore_lexical_state(&original_lex_state);
 	CG(in_compilation) = original_in_compilation;
 
 	zval_dtor(&code_zv);
 
-	return CG(ast);
+	return ast;
 }
 
 static inline zend_bool ast_kind_uses_attr(zend_ast_kind kind) {
@@ -224,12 +229,13 @@ static void ast_to_zval(zval *zv, zend_ast *ast) {
 PHP_FUNCTION(parse_code) {
 	zend_string *code;
 	zend_ast *ast;
+	zend_arena *arena;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS(), "S", &code) == FAILURE) {
 		return;
 	}
 
-	ast = get_ast(code);
+	ast = get_ast(code, &arena);
 	if (!ast) {
 		RETURN_FALSE;
 	}
@@ -237,7 +243,7 @@ PHP_FUNCTION(parse_code) {
 	ast_to_zval(return_value, ast);
 
 	zend_ast_destroy(ast);
-	zend_arena_destroy(CG(ast_arena));
+	zend_arena_destroy(arena);
 }
 
 PHP_FUNCTION(get_kind_name) {
