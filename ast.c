@@ -105,7 +105,7 @@ static inline zend_bool ast_is_name(zend_ast *ast, zend_ast *parent, uint32_t i)
 			|| parent->kind == ZEND_AST_CALL || parent->kind == ZEND_AST_CONST
 			|| parent->kind == ZEND_AST_NEW || parent->kind == ZEND_AST_STATIC_CALL
 			|| parent->kind == ZEND_AST_CLASS_CONST || parent->kind == ZEND_AST_STATIC_PROP
-			|| parent->kind == ZEND_AST_RESOLVE_CLASS_NAME;
+			;
 	}
 
 	if (i == 1) {
