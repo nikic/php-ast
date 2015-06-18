@@ -24,6 +24,7 @@ extern zend_module_entry ast_module_entry;
 
 ZEND_BEGIN_MODULE_GLOBALS(ast)
 	zend_string *str_kind;
+	zend_string *str_name;
 	zend_string *str_flags;
 	zend_string *str_lineno;
 	zend_string *str_children;

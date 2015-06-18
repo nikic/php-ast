@@ -11,6 +11,9 @@ function ast_dump($ast) {
         if (ast\kind_uses_flags($ast->kind)) {
             $result .= "\n    flags: $ast->flags";
         }
+        if (isset($ast->name)) {
+            $result .= "\n    name: $ast->name";
+        }
         if (isset($ast->docComment)) {
             $result .= "\n    docComment: $ast->docComment";
         }
