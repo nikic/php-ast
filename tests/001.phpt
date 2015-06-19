@@ -22,48 +22,48 @@ PHP;
 
 echo ast_dump(ast\parse_code($code));
 --EXPECT--
-AST_STMT_LIST @ 1
-    0: AST_FUNC_DECL @ 4-10
+AST_STMT_LIST
+    0: AST_FUNC_DECL
         flags: 0
         name: test
         docComment: /** Test function */
-        0: AST_PARAM_LIST @ 4
-            0: AST_PARAM @ 4
+        0: AST_PARAM_LIST
+            0: AST_PARAM
                 flags: 0
-                0: AST_NAME @ 4
+                0: AST_NAME
                     flags: 1
                     0: "Type"
                 1: "arg"
-                2: AST_CONST @ 4
-                    0: AST_NAME @ 4
+                2: AST_CONST
+                    0: AST_NAME
                         flags: 1
                         0: "XYZ"
         1: null
-        2: AST_STMT_LIST @ 4
-            0: AST_IF @ 7
-                0: AST_IF_ELEM @ 5
-                    0: AST_INSTANCEOF @ 5
-                        0: AST_VAR @ 5
+        2: AST_STMT_LIST
+            0: AST_IF
+                0: AST_IF_ELEM
+                    0: AST_INSTANCEOF
+                        0: AST_VAR
                             0: "arg"
-                        1: AST_NAME @ 5
+                        1: AST_NAME
                             flags: 1
                             0: "Foo\Bar"
-                    1: AST_STMT_LIST @ 5
-                        0: AST_RETURN @ 6
-                            0: AST_CALL @ 6
-                                0: AST_NAME @ 6
+                    1: AST_STMT_LIST
+                        0: AST_RETURN
+                            0: AST_CALL
+                                0: AST_NAME
                                     flags: 1
                                     0: "test"
-                                1: AST_ARG_LIST @ 6
-                                    0: AST_PROP @ 6
-                                        0: AST_VAR @ 6
+                                1: AST_ARG_LIST
+                                    0: AST_PROP
+                                        0: AST_VAR
                                             0: "arg"
                                         1: "foo"
-                1: AST_IF_ELEM @ 7
+                1: AST_IF_ELEM
                     0: null
-                    1: AST_STMT_LIST @ 7
-                        0: AST_RETURN @ 8
-                            0: AST_PROP @ 8
-                                0: AST_VAR @ 8
+                    1: AST_STMT_LIST
+                        0: AST_RETURN
+                            0: AST_PROP
+                                0: AST_VAR
                                     0: "arg"
                                 1: "bar"
