@@ -10,8 +10,9 @@ require __DIR__ . '/../util.php';
 echo ast_dump(ast\parse_code(file_get_contents(__DIR__ . '/../util.php')));
 --EXPECT--
 AST_STMT_LIST @ 1
-    0: AST_FUNC_DECL @ 4-28
+    0: AST_FUNC_DECL @ 4-31
         flags: 0
+        name: ast_dump
         docComment: /** Dumps abstract syntax tree */
         0: AST_PARAM_LIST @ 4
             0: AST_PARAM @ 4
@@ -21,7 +22,7 @@ AST_STMT_LIST @ 1
                 2: null
         1: null
         2: AST_STMT_LIST @ 4
-            0: AST_IF @ 21
+            0: AST_IF @ 24
                 0: AST_IF_ELEM @ 5
                     0: AST_INSTANCEOF @ 5
                         0: AST_VAR @ 5
@@ -99,7 +100,7 @@ AST_STMT_LIST @ 1
                                     0: AST_PROP @ 14
                                         0: AST_VAR @ 14
                                             0: "ast"
-                                        1: "docComment"
+                                        1: "name"
                                 1: AST_STMT_LIST @ 14
                                     0: AST_ASSIGN_OP @ 15
                                         flags: 30
@@ -107,90 +108,109 @@ AST_STMT_LIST @ 1
                                             0: "result"
                                         1: AST_ENCAPS_LIST @ 15
                                             0: "
-                                                docComment: "
+                                                name: "
                                             1: AST_PROP @ 15
                                                 0: AST_VAR @ 15
                                                     0: "ast"
+                                                1: "name"
+                        5: AST_IF @ 19
+                            0: AST_IF_ELEM @ 17
+                                0: AST_ISSET @ 17
+                                    0: AST_PROP @ 17
+                                        0: AST_VAR @ 17
+                                            0: "ast"
+                                        1: "docComment"
+                                1: AST_STMT_LIST @ 17
+                                    0: AST_ASSIGN_OP @ 18
+                                        flags: 30
+                                        0: AST_VAR @ 18
+                                            0: "result"
+                                        1: AST_ENCAPS_LIST @ 18
+                                            0: "
+                                                docComment: "
+                                            1: AST_PROP @ 18
+                                                0: AST_VAR @ 18
+                                                    0: "ast"
                                                 1: "docComment"
-                        5: AST_FOREACH @ 17
-                            0: AST_PROP @ 17
-                                0: AST_VAR @ 17
+                        6: AST_FOREACH @ 20
+                            0: AST_PROP @ 20
+                                0: AST_VAR @ 20
                                     0: "ast"
                                 1: "children"
-                            1: AST_VAR @ 17
+                            1: AST_VAR @ 20
                                 0: "child"
-                            2: AST_VAR @ 17
+                            2: AST_VAR @ 20
                                 0: "i"
-                            3: AST_STMT_LIST @ 17
-                                0: AST_ASSIGN_OP @ 18
+                            3: AST_STMT_LIST @ 20
+                                0: AST_ASSIGN_OP @ 21
                                     flags: 30
-                                    0: AST_VAR @ 18
+                                    0: AST_VAR @ 21
                                         0: "result"
-                                    1: AST_BINARY_OP @ 18
+                                    1: AST_BINARY_OP @ 21
                                         flags: 8
-                                        0: AST_ENCAPS_LIST @ 18
+                                        0: AST_ENCAPS_LIST @ 21
                                             0: "
                                                 "
-                                            1: AST_VAR @ 18
+                                            1: AST_VAR @ 21
                                                 0: "i"
                                             2: ": "
-                                        1: AST_CALL @ 18
-                                            0: AST_NAME @ 18
+                                        1: AST_CALL @ 21
+                                            0: AST_NAME @ 21
                                                 flags: 1
                                                 0: "str_replace"
-                                            1: AST_ARG_LIST @ 18
+                                            1: AST_ARG_LIST @ 21
                                                 0: "
                                                 "
                                                 1: "
                                                     "
-                                                2: AST_CALL @ 18
-                                                    0: AST_NAME @ 18
+                                                2: AST_CALL @ 21
+                                                    0: AST_NAME @ 21
                                                         flags: 1
                                                         0: "ast_dump"
-                                                    1: AST_ARG_LIST @ 18
-                                                        0: AST_VAR @ 18
+                                                    1: AST_ARG_LIST @ 21
+                                                        0: AST_VAR @ 21
                                                             0: "child"
-                        6: AST_RETURN @ 20
-                            0: AST_VAR @ 20
+                        7: AST_RETURN @ 23
+                            0: AST_VAR @ 23
                                 0: "result"
-                1: AST_IF_ELEM @ 23
+                1: AST_IF_ELEM @ 26
                     0: null
-                    1: AST_IF @ 23
-                        0: AST_IF_ELEM @ 21
-                            0: AST_BINARY_OP @ 21
+                    1: AST_IF @ 26
+                        0: AST_IF_ELEM @ 24
+                            0: AST_BINARY_OP @ 24
                                 flags: 15
-                                0: AST_VAR @ 21
+                                0: AST_VAR @ 24
                                     0: "ast"
-                                1: AST_CONST @ 21
-                                    0: AST_NAME @ 21
+                                1: AST_CONST @ 24
+                                    0: AST_NAME @ 24
                                         flags: 1
                                         0: "null"
-                            1: AST_STMT_LIST @ 21
-                                0: AST_RETURN @ 22
+                            1: AST_STMT_LIST @ 24
+                                0: AST_RETURN @ 25
                                     0: "null"
-                        1: AST_IF_ELEM @ 25
+                        1: AST_IF_ELEM @ 28
                             0: null
-                            1: AST_IF @ 25
-                                0: AST_IF_ELEM @ 23
-                                    0: AST_CALL @ 23
-                                        0: AST_NAME @ 23
+                            1: AST_IF @ 28
+                                0: AST_IF_ELEM @ 26
+                                    0: AST_CALL @ 26
+                                        0: AST_NAME @ 26
                                             flags: 1
                                             0: "is_string"
-                                        1: AST_ARG_LIST @ 23
-                                            0: AST_VAR @ 23
+                                        1: AST_ARG_LIST @ 26
+                                            0: AST_VAR @ 26
                                                 0: "ast"
-                                    1: AST_STMT_LIST @ 23
-                                        0: AST_RETURN @ 24
-                                            0: AST_ENCAPS_LIST @ 24
+                                    1: AST_STMT_LIST @ 26
+                                        0: AST_RETURN @ 27
+                                            0: AST_ENCAPS_LIST @ 27
                                                 0: """
-                                                1: AST_VAR @ 24
+                                                1: AST_VAR @ 27
                                                     0: "ast"
                                                 2: """
-                                1: AST_IF_ELEM @ 25
+                                1: AST_IF_ELEM @ 28
                                     0: null
-                                    1: AST_STMT_LIST @ 25
-                                        0: AST_RETURN @ 26
-                                            0: AST_CAST @ 26
+                                    1: AST_STMT_LIST @ 28
+                                        0: AST_RETURN @ 29
+                                            0: AST_CAST @ 29
                                                 flags: 6
-                                                0: AST_VAR @ 26
+                                                0: AST_VAR @ 29
                                                     0: "ast"

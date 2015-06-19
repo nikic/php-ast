@@ -181,6 +181,13 @@ static void ast_to_zval(zval *zv, zend_ast *ast) {
 		ZVAL_LONG(&tmp_zv, decl->end_lineno);
 		ast_update_property(zv, AST_G(str_endLineno), &tmp_zv, NULL);
 
+		if (decl->name) {
+			ZVAL_STR(&tmp_zv, zend_string_copy(decl->name));
+		} else {
+			ZVAL_NULL(&tmp_zv);
+		}
+		ast_update_property(zv, AST_G(str_name), &tmp_zv, NULL);
+
 		if (decl->doc_comment) {
 			ZVAL_STR(&tmp_zv, zend_string_copy(decl->doc_comment));
 		} else {
@@ -307,6 +314,7 @@ PHP_MINIT_FUNCTION(ast) {
 	zend_class_entry tmp_ce;
 
 	ast_init_string_global(kind);
+	ast_init_string_global(name);
 	ast_init_string_global(flags);
 	ast_init_string_global(lineno);
 	ast_init_string_global(children);
