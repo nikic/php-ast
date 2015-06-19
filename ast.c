@@ -48,7 +48,7 @@ static zend_ast *get_ast(zend_string *code, zend_arena **ast_arena) {
 	zend_lex_state original_lex_state;
 	zend_ast *ast;
 
-	ZVAL_STR(&code_zv, zend_string_copy(code));
+	ZVAL_STR_COPY(&code_zv, code);
 
 	original_in_compilation = CG(in_compilation);
 	CG(in_compilation) = 1;
@@ -184,20 +184,20 @@ static void ast_to_zval(zval *zv, zend_ast *ast) {
 		zend_ast_decl *decl = (zend_ast_decl *) ast;
 
 		ZVAL_LONG(&tmp_zv, decl->flags);
-		ast_update_property(zv, AST_G(str_flags), &tmp_zv, AST_CACHE_SLOT_FLAGS);
+		ast_update_property(zv, AST_G(str_flags), &tmp_zv, NULL);
 
 		ZVAL_LONG(&tmp_zv, decl->end_lineno);
 		ast_update_property(zv, AST_G(str_endLineno), &tmp_zv, NULL);
 
 		if (decl->name) {
-			ZVAL_STR(&tmp_zv, zend_string_copy(decl->name));
+			ZVAL_STR_COPY(&tmp_zv, decl->name);
 		} else {
 			ZVAL_NULL(&tmp_zv);
 		}
 		ast_update_property(zv, AST_G(str_name), &tmp_zv, NULL);
 
 		if (decl->doc_comment) {
-			ZVAL_STR(&tmp_zv, zend_string_copy(decl->doc_comment));
+			ZVAL_STR_COPY(&tmp_zv, decl->doc_comment);
 		} else {
 			ZVAL_NULL(&tmp_zv);
 		}
