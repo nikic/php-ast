@@ -40,6 +40,7 @@ static inline void ast_update_property(zval *object, zend_string *name, zval *va
 ZEND_DECLARE_MODULE_GLOBALS(ast)
 
 static zend_class_entry *ast_node_ce;
+static zend_class_entry *ast_decl_ce;
 
 static zend_ast *get_ast(zend_string *code, zend_arena **ast_arena) {
 	zval code_zv;
@@ -153,6 +154,7 @@ static void ast_name_to_zval(zval *zv, zend_ast *ast) {
 
 static void ast_to_zval(zval *zv, zend_ast *ast) {
 	zval tmp_zv;
+	zend_bool is_decl;
 
 	if (ast == NULL) {
 		ZVAL_NULL(zv);
@@ -164,7 +166,8 @@ static void ast_to_zval(zval *zv, zend_ast *ast) {
 		return;
 	}
 
-	object_init_ex(zv, ast_node_ce);
+	is_decl = ast_kind_is_decl(ast->kind);
+	object_init_ex(zv, is_decl ? ast_decl_ce : ast_node_ce);
 
 	ZVAL_LONG(&tmp_zv, ast->kind);
 	ast_update_property(zv, AST_G(str_kind), &tmp_zv, AST_CACHE_SLOT_KIND);
@@ -172,7 +175,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast) {
 	ZVAL_LONG(&tmp_zv, zend_ast_get_lineno(ast));
 	ast_update_property(zv, AST_G(str_lineno), &tmp_zv, AST_CACHE_SLOT_LINENO);
 
-	if (ast_kind_is_decl(ast->kind)) {
+	if (is_decl) {
 		zend_ast_decl *decl = (zend_ast_decl *) ast;
 
 		ZVAL_LONG(&tmp_zv, decl->flags);
@@ -398,6 +401,18 @@ PHP_MINIT_FUNCTION(ast) {
 		ast_declare_property(ast_node_ce, AST_G(str_flags), &zv);
 		ast_declare_property(ast_node_ce, AST_G(str_lineno), &zv);
 		ast_declare_property(ast_node_ce, AST_G(str_children), &zv);
+	}
+
+	INIT_CLASS_ENTRY(tmp_ce, "ast\\Node\\Decl", NULL);
+	ast_decl_ce = zend_register_internal_class_ex(&tmp_ce, ast_node_ce);
+
+	{
+		zval zv;
+		ZVAL_NULL(&zv);
+
+		ast_declare_property(ast_decl_ce, AST_G(str_endLineno), &zv);
+		ast_declare_property(ast_decl_ce, AST_G(str_name), &zv);
+		ast_declare_property(ast_decl_ce, AST_G(str_docComment), &zv);
 	}
 
 	return SUCCESS;
