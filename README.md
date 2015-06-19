@@ -8,6 +8,7 @@ API overview
 Defines:
 
  * `ast\Node` class
+ * `ast\Node\Decl` class
  * `ast\AST_*` kind constants (mirroring `zend_ast.h`)
  * `ast\flags\*` flags
  * `ast\parse_code($code)`
@@ -22,8 +23,6 @@ it should generally include an opening PHP tag) and returns an abstract syntax t
 `ast\Node` objects. `ast\Node` is declared as follows:
 
 ```php
-<?php
-
 namespace ast;
 class Node {
     public $kind;
@@ -47,9 +46,23 @@ The `children` property contains an array of child-nodes. These children can be 
 `ast\Node` objects or plain values. The meaning of the children is node-specific and should be
 deduced from context or by looking at the [parser definition][parser].
 
-Function and class declarations specify two additional properties: `endLineno` provides the end
-line number of the declaration and `docComment` contains the preceding doc comment or `null` if
-no doc comment was used.
+Function and class declarations use `ast\Node\Decl` objects instead, which specify a number of
+additional properties:
+
+```php
+namespace ast\Node;
+use ast\Node;
+
+class Decl extends Node {
+    public $endLineno;
+    public $name;
+    public $docComment;
+}
+```
+
+`endLineno` provides the end line number of the declaration, `name` contains the name of the
+function or class (can be `null` for anonymous classes) and `docComment` contains the preceding
+doc comment or `null` if no doc comment was used.
 
 Simple usage example:
 
@@ -121,15 +134,15 @@ EOC;
 echo ast_dump(ast\parse_code($code)), "\n";
 
 // Output:
-AST_STMT_LIST @ 1 {
-    0: AST_ASSIGN @ 1 {
-        0: AST_VAR @ 1 {
+AST_STMT_LIST
+    0: AST_ASSIGN
+        0: AST_VAR
             0: "var"
-        }
         1: 42
-    }
-}
 ```
+
+To additionally show line numbers pass the `AST_DUMP_LINENOS` option as the second argument to
+`ast_dump()`.
 
 A more substantial AST dump can be found [in the tests][test_dump].
 
