@@ -1,0 +1,15 @@
+language: php
+
+php:
+  - 7.0
+
+before_script:
+  - phpize
+  - ./configure
+  - make
+  - make install
+  - echo "extension=ast.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+
+script:
+  - REPORT_EXIT_STATUS=1 php ./run-tests.php -P -q --show-diff
+
