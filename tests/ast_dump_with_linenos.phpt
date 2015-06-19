@@ -40,3 +40,4 @@ AST_STMT_LIST @ 1
                 1: AST_ARG_LIST @ 8
                     0: AST_VAR @ 7
                         0: "foo"
+        3: null

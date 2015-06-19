@@ -113,13 +113,18 @@ static inline zend_bool ast_is_name(zend_ast *ast, zend_ast *parent, uint32_t i)
 		return parent->kind == ZEND_AST_INSTANCEOF;
 	}
 
+	if (i == 3) {
+		return parent->kind == ZEND_AST_FUNC_DECL || parent->kind == ZEND_AST_CLOSURE
+			|| parent->kind == ZEND_AST_METHOD;
+	}
+
 	return 0;
 }
 
 static inline zend_ast **ast_get_children(zend_ast *ast, uint32_t *count) {
 	if (ast_kind_is_decl(ast->kind)) {
 		zend_ast_decl *decl = (zend_ast_decl *) ast;
-		*count = 3;
+		*count = 4;
 		return decl->child;
 	} else if (zend_ast_is_list(ast)) {
 		zend_ast_list *list = zend_ast_get_list(ast);

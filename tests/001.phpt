@@ -11,7 +11,7 @@ $code = <<<'PHP'
 <?php
 
 /** Test function */
-function test(Type $arg = XYZ) {
+function test(Type $arg = XYZ) : Ret {
     if ($arg instanceof Foo\Bar) {
         return test($arg->foo);
     } else {
@@ -67,3 +67,6 @@ AST_STMT_LIST
                                 0: AST_VAR
                                     0: "arg"
                                 1: "bar"
+        3: AST_NAME
+            flags: 1
+            0: "Ret"
