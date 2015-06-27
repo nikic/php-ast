@@ -267,6 +267,7 @@ PHP_FUNCTION(parse_file) {
 
 		ast_to_zval(return_value, ast);
 		zend_string_free(code);
+		php_stream_close(stream);
 
 	} else {
 		RETURN_FALSE;
