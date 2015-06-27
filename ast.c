@@ -42,7 +42,7 @@ ZEND_DECLARE_MODULE_GLOBALS(ast)
 static zend_class_entry *ast_node_ce;
 static zend_class_entry *ast_decl_ce;
 
-static zend_ast *get_ast(zend_string *code, zend_arena **ast_arena) {
+static zend_ast *get_ast(zend_string *code, zend_arena **ast_arena, char *filename) {
 	zval code_zv;
 	zend_bool original_in_compilation;
 	zend_lex_state original_lex_state;
@@ -54,7 +54,7 @@ static zend_ast *get_ast(zend_string *code, zend_arena **ast_arena) {
 	CG(in_compilation) = 1;
 
 	zend_save_lexical_state(&original_lex_state);
-	if (zend_prepare_string_for_scanning(&code_zv, "string code") == SUCCESS) {
+	if (zend_prepare_string_for_scanning(&code_zv, filename) == SUCCESS) {
 		CG(ast) = NULL;
 		CG(ast_arena) = zend_arena_create(1024 * 32);
 		LANG_SCNG(yy_state) = yycINITIAL;
@@ -241,6 +241,42 @@ static void ast_to_zval(zval *zv, zend_ast *ast) {
 	}
 }
 
+PHP_FUNCTION(parse_file) {
+	zend_string *filename;
+	zend_string *code;
+	zend_ast *ast;
+	zend_arena *arena;
+	php_stream *stream;
+
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "P", &filename) == FAILURE) {
+		return;
+	}
+
+	stream = php_stream_open_wrapper_ex(filename->val, "rb", REPORT_ERRORS, NULL, NULL);
+	if (!stream) {
+        RETURN_FALSE;
+	}
+
+	if ((code = php_stream_copy_to_mem(stream, PHP_STREAM_COPY_ALL, 0)) != NULL) {
+
+		ast = get_ast(code, &arena, filename->val);
+
+		if (!ast) {
+			RETURN_FALSE;
+		}
+
+		ast_to_zval(return_value, ast);
+		zend_string_free(code);
+		php_stream_close(stream);
+
+	} else {
+		RETURN_FALSE;
+	}
+
+	zend_ast_destroy(ast);
+	zend_arena_destroy(arena);
+}
+
 PHP_FUNCTION(parse_code) {
 	zend_string *code;
 	zend_ast *ast;
@@ -250,7 +286,7 @@ PHP_FUNCTION(parse_code) {
 		return;
 	}
 
-	ast = get_ast(code, &arena);
+	ast = get_ast(code, &arena, "string code");
 	if (!ast) {
 		RETURN_FALSE;
 	}
@@ -288,6 +324,10 @@ PHP_FUNCTION(kind_uses_flags) {
 	RETURN_BOOL(ast_kind_uses_attr(kind) || ast_kind_is_decl(kind));
 }
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_parse_file, 0, 0, 1)
+	ZEND_ARG_INFO(0, filename)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_parse_code, 0, 0, 1)
 	ZEND_ARG_INFO(0, code)
 ZEND_END_ARG_INFO()
@@ -301,6 +341,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_kind_uses_flags, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 const zend_function_entry ast_functions[] = {
+	ZEND_NS_FE("ast", parse_file, arginfo_parse_file)
 	ZEND_NS_FE("ast", parse_code, arginfo_parse_code)
 	ZEND_NS_FE("ast", get_kind_name, arginfo_get_kind_name)
 	ZEND_NS_FE("ast", kind_uses_flags, arginfo_kind_uses_flags)
