@@ -283,15 +283,15 @@ PHP_FUNCTION(parse_file) {
 }
 
 PHP_FUNCTION(parse_code) {
-	zend_string *code;
+	zend_string *code, *filename = NULL;
 	zend_ast *ast;
 	zend_arena *arena;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS(), "S", &code) == FAILURE) {
+	if (zend_parse_parameters(ZEND_NUM_ARGS(), "S|P", &code, &filename) == FAILURE) {
 		return;
 	}
 
-	ast = get_ast(code, &arena, "string code");
+	ast = get_ast(code, &arena, filename ? filename->val : "string code");
 	if (!ast) {
 		RETURN_FALSE;
 	}

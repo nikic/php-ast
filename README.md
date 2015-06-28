@@ -11,10 +11,10 @@ Defines:
  * `ast\Node\Decl` class
  * `ast\AST_*` kind constants (mirroring `zend_ast.h`)
  * `ast\flags\*` flags
- * `ast\parse_file($filename)`
- * `ast\parse_code($code)`
- * `ast\get_kind_name($kind)`
- * `ast\kind_uses_flags($kind)`
+ * `ast\parse_file(string $filename)`
+ * `ast\parse_code(string $code [, string $filename = "string code"])`
+ * `ast\get_kind_name(int $kind)`
+ * `ast\kind_uses_flags(int $kind)`
 
 Usage
 -----
