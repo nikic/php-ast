@@ -6,6 +6,7 @@
 #include "php_ini.h"
 #include "ext/standard/info.h"
 #include "php_ast.h"
+#include "ext/spl/spl_exceptions.h"
 
 #include "zend_language_scanner.h"
 #include "zend_language_scanner_defs.h"
@@ -247,18 +248,23 @@ PHP_FUNCTION(parse_file) {
 	zend_ast *ast;
 	zend_arena *arena;
 	php_stream *stream;
+	zend_error_handling error_handling;
 
 	if (zend_parse_parameters(ZEND_NUM_ARGS(), "P", &filename) == FAILURE) {
 		return;
 	}
 
+	zend_replace_error_handling(EH_THROW, spl_ce_RuntimeException, &error_handling);
 	stream = php_stream_open_wrapper_ex(filename->val, "rb", REPORT_ERRORS, NULL, NULL);
 	if (!stream) {
-        RETURN_FALSE;
+		zend_restore_error_handling(&error_handling);
+		RETURN_FALSE;
 	}
 
 	code = php_stream_copy_to_mem(stream, PHP_STREAM_COPY_ALL, 0);
 	php_stream_close(stream);
+	zend_restore_error_handling(&error_handling);
+
 	if (!code) {
 		RETURN_FALSE;
 	}
