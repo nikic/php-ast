@@ -257,22 +257,21 @@ PHP_FUNCTION(parse_file) {
         RETURN_FALSE;
 	}
 
-	if ((code = php_stream_copy_to_mem(stream, PHP_STREAM_COPY_ALL, 0)) != NULL) {
-
-		ast = get_ast(code, &arena, filename->val);
-
-		if (!ast) {
-			RETURN_FALSE;
-		}
-
-		ast_to_zval(return_value, ast);
-		zend_string_free(code);
-		php_stream_close(stream);
-
-	} else {
+	code = php_stream_copy_to_mem(stream, PHP_STREAM_COPY_ALL, 0);
+	php_stream_close(stream);
+	if (!code) {
 		RETURN_FALSE;
 	}
 
+	ast = get_ast(code, &arena, filename->val);
+	if (!ast) {
+		zend_string_free(code);
+		RETURN_FALSE;
+	}
+
+	ast_to_zval(return_value, ast);
+
+	zend_string_free(code);
 	zend_ast_destroy(ast);
 	zend_arena_destroy(arena);
 }

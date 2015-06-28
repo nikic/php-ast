@@ -1,5 +1,5 @@
 --TEST--
-Dump of dump function
+ast_dump() test
 --SKIPIF--
 <?php if (!extension_loaded("ast")) print "skip"; ?>
 --FILE--
