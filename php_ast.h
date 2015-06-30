@@ -41,6 +41,7 @@ ZEND_END_MODULE_GLOBALS(ast)
 
 /* Custom ast kind for names */
 #define AST_NAME 2048
+#define AST_CLOSURE_VAR 2049
 
 extern const size_t ast_kinds_count;
 extern const zend_ast_kind ast_kinds[];

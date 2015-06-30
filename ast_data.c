@@ -100,6 +100,7 @@ const zend_ast_kind ast_kinds[] = {
 	ZEND_AST_FOR,
 	ZEND_AST_FOREACH,
 	AST_NAME,
+	AST_CLOSURE_VAR
 };
 
 const char *ast_kind_to_name(zend_ast_kind kind) {
@@ -201,6 +202,7 @@ const char *ast_kind_to_name(zend_ast_kind kind) {
 		case ZEND_AST_FOR: return "AST_FOR";
 		case ZEND_AST_FOREACH: return "AST_FOREACH";
 		case AST_NAME: return "AST_NAME";
+		case AST_CLOSURE_VAR: return "AST_CLOSURE_VAR";
 	}
 
 	return NULL;
@@ -304,4 +306,5 @@ void ast_register_kind_constants(INIT_FUNC_ARGS) {
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_FOR", ZEND_AST_FOR, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_FOREACH", ZEND_AST_FOREACH, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_NAME", AST_NAME, CONST_CS | CONST_PERSISTENT);
+	REGISTER_NS_LONG_CONSTANT("ast", "AST_CLOSURE_VAR", AST_CLOSURE_VAR, CONST_CS | CONST_PERSISTENT);
 }
