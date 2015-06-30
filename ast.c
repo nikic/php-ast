@@ -424,6 +424,7 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("BINARY_MUL", ZEND_MUL);
 	ast_register_flag_constant("BINARY_DIV", ZEND_DIV);
 	ast_register_flag_constant("BINARY_MOD", ZEND_MOD);
+	ast_register_flag_constant("BINARY_POW", ZEND_POW);
 	ast_register_flag_constant("BINARY_SHIFT_LEFT", ZEND_SL);
 	ast_register_flag_constant("BINARY_SHIFT_RIGHT", ZEND_SR);
 	ast_register_flag_constant("BINARY_IS_IDENTICAL", ZEND_IS_IDENTICAL);
@@ -432,6 +433,7 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("BINARY_IS_NOT_EQUAL", ZEND_IS_NOT_EQUAL);
 	ast_register_flag_constant("BINARY_IS_SMALLER", ZEND_IS_SMALLER);
 	ast_register_flag_constant("BINARY_IS_SMALLER_OR_EQUAL", ZEND_IS_SMALLER_OR_EQUAL);
+	ast_register_flag_constant("BINARY_SPACESHIP", ZEND_SPACESHIP);
 
 	ast_register_flag_constant("ASSIGN_BITWISE_OR", ZEND_ASSIGN_BW_OR);
 	ast_register_flag_constant("ASSIGN_BITWISE_AND", ZEND_ASSIGN_BW_AND);
@@ -442,6 +444,7 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("ASSIGN_MUL", ZEND_ASSIGN_MUL);
 	ast_register_flag_constant("ASSIGN_DIV", ZEND_ASSIGN_DIV);
 	ast_register_flag_constant("ASSIGN_MOD", ZEND_ASSIGN_MOD);
+	ast_register_flag_constant("ASSIGN_POW", ZEND_ASSIGN_POW);
 	ast_register_flag_constant("ASSIGN_SHIFT_LEFT", ZEND_ASSIGN_SL);
 	ast_register_flag_constant("ASSIGN_SHIFT_RIGHT", ZEND_ASSIGN_SR);
 

@@ -68,6 +68,7 @@ function get_flag_info() : array {
             flags\BINARY_MUL => 'BINARY_MUL',
             flags\BINARY_DIV => 'BINARY_DIV',
             flags\BINARY_MOD => 'BINARY_MOD',
+            flags\BINARY_POW => 'BINARY_POW',
             flags\BINARY_SHIFT_LEFT => 'BINARY_SHIFT_LEFT',
             flags\BINARY_SHIFT_RIGHT => 'BINARY_SHIFT_RIGHT',
             flags\BINARY_IS_IDENTICAL => 'BINARY_IS_IDENTICAL',
@@ -76,6 +77,7 @@ function get_flag_info() : array {
             flags\BINARY_IS_NOT_EQUAL => 'BINARY_IS_NOT_EQUAL',
             flags\BINARY_IS_SMALLER => 'BINARY_IS_SMALLER',
             flags\BINARY_IS_SMALLER_OR_EQUAL => 'BINARY_IS_SMALLER_OR_EQUAL',
+            flags\BINARY_SPACESHIP => 'BINARY_SPACESHIP',
         ],
         ast\AST_ASSIGN_OP => [
             flags\ASSIGN_BITWISE_OR => 'ASSIGN_BITWISE_OR',
@@ -87,6 +89,7 @@ function get_flag_info() : array {
             flags\ASSIGN_MUL => 'ASSIGN_MUL',
             flags\ASSIGN_DIV => 'ASSIGN_DIV',
             flags\ASSIGN_MOD => 'ASSIGN_MOD',
+            flags\ASSIGN_POW => 'ASSIGN_POW',
             flags\ASSIGN_SHIFT_LEFT => 'ASSIGN_SHIFT_LEFT',
             flags\ASSIGN_SHIFT_RIGHT => 'ASSIGN_SHIFT_RIGHT',
         ],

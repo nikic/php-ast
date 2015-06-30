@@ -216,6 +216,7 @@ ast\flags\BINARY_SUB
 ast\flags\BINARY_MUL
 ast\flags\BINARY_DIV
 ast\flags\BINARY_MOD
+ast\flags\BINARY_POW
 ast\flags\BINARY_SHIFT_LEFT
 ast\flags\BINARY_SHIFT_RIGHT
 ast\flags\BINARY_IS_IDENTICAL
@@ -224,6 +225,7 @@ ast\flags\BINARY_IS_EQUAL
 ast\flags\BINARY_IS_NOT_EQUAL
 ast\flags\BINARY_IS_SMALLER
 ast\flags\BINARY_IS_SMALLER_OR_EQUAL
+ast\flags\BINARY_SPACESHIP
 
 // Used by ast\AST_ASSIGN_OP (exclusive)
 ast\flags\ASSIGN_BITWISE_OR
@@ -235,6 +237,7 @@ ast\flags\ASSIGN_SUB
 ast\flags\ASSIGN_MUL
 ast\flags\ASSIGN_DIV
 ast\flags\ASSIGN_MOD
+ast\flags\ASSIGN_POW
 ast\flags\ASSIGN_SHIFT_LEFT
 ast\flags\ASSIGN_SHIFT_RIGHT
 
