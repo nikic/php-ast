@@ -84,7 +84,7 @@ static inline zend_bool ast_kind_uses_attr(zend_ast_kind kind) {
 		|| kind == ZEND_AST_UNARY_OP || kind == ZEND_AST_BINARY_OP || kind == ZEND_AST_ASSIGN_OP
 		|| kind == ZEND_AST_CAST || kind == ZEND_AST_MAGIC_CONST || kind == ZEND_AST_ARRAY_ELEM
 		|| kind == ZEND_AST_INCLUDE_OR_EVAL || kind == ZEND_AST_USE || kind == ZEND_AST_PROP_DECL
-		|| kind == AST_NAME;
+		|| kind == AST_NAME || kind == AST_CLOSURE_VAR;
 }
 
 static inline zend_bool ast_kind_is_decl(zend_ast_kind kind) {
@@ -122,6 +122,18 @@ static inline zend_bool ast_is_name(zend_ast *ast, zend_ast *parent, uint32_t i)
 	return 0;
 }
 
+static inline zend_bool ast_is_closure_var(zend_ast *ast, zend_ast *parent, uint32_t i) {
+	if (!ast || ast->kind != ZEND_AST_ZVAL || Z_TYPE_P(zend_ast_get_zval(ast)) != IS_STRING) {
+		return 0;
+	}
+
+	if (parent->kind == ZEND_AST_CLOSURE_USES) {
+		return 1;
+	}
+
+	return 0;
+}
+
 static inline zend_ast **ast_get_children(zend_ast *ast, uint32_t *count) {
 	if (ast_kind_is_decl(ast->kind)) {
 		zend_ast_decl *decl = (zend_ast_decl *) ast;
@@ -143,6 +155,27 @@ static void ast_name_to_zval(zval *zv, zend_ast *ast) {
 	object_init_ex(zv, ast_node_ce);
 
 	ZVAL_LONG(&tmp_zv, AST_NAME);
+	ast_update_property(zv, AST_G(str_kind), &tmp_zv, AST_CACHE_SLOT_KIND);
+
+	ZVAL_LONG(&tmp_zv, ast->attr);
+	ast_update_property(zv, AST_G(str_flags), &tmp_zv, AST_CACHE_SLOT_FLAGS);
+
+	ZVAL_LONG(&tmp_zv, zend_ast_get_lineno(ast));
+	ast_update_property(zv, AST_G(str_lineno), &tmp_zv, AST_CACHE_SLOT_LINENO);
+
+	array_init(&tmp_zv);
+	ast_update_property(zv, AST_G(str_children), &tmp_zv, AST_CACHE_SLOT_CHILDREN);
+
+	ZVAL_COPY(&tmp_zv2, zend_ast_get_zval(ast));
+	zend_hash_next_index_insert(Z_ARRVAL(tmp_zv), &tmp_zv2);
+}
+
+static void ast_closure_var_to_zval(zval *zv, zend_ast *ast) {
+	zval tmp_zv, tmp_zv2;
+
+	object_init_ex(zv, ast_node_ce);
+
+	ZVAL_LONG(&tmp_zv, AST_CLOSURE_VAR);
 	ast_update_property(zv, AST_G(str_kind), &tmp_zv, AST_CACHE_SLOT_KIND);
 
 	ZVAL_LONG(&tmp_zv, ast->attr);
@@ -233,6 +266,8 @@ static void ast_to_zval(zval *zv, zend_ast *ast) {
 
 			if (ast_is_name(child, ast, i)) {
 				ast_name_to_zval(&child_zv, child);
+			} else if(ast_is_closure_var(child, ast,i)) {
+				ast_closure_var_to_zval(&child_zv, child);
 			} else {
 				ast_to_zval(&child_zv, child);
 			}
