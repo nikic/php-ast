@@ -249,7 +249,7 @@ T_FUNC_C
 T_NS_C
 T_CLASS_C
 
-// Used by ast\AST_USE (exclusive)
+// Used by ast\AST_USE, ast\AST_GROUP_USE and ast\AST_USE_ELEM (exclusive)
 // (Constants defined by ext\tokenizer)
 T_CLASS
 T_FUNCTION

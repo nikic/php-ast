@@ -84,6 +84,7 @@ static inline zend_bool ast_kind_uses_attr(zend_ast_kind kind) {
 		|| kind == ZEND_AST_UNARY_OP || kind == ZEND_AST_BINARY_OP || kind == ZEND_AST_ASSIGN_OP
 		|| kind == ZEND_AST_CAST || kind == ZEND_AST_MAGIC_CONST || kind == ZEND_AST_ARRAY_ELEM
 		|| kind == ZEND_AST_INCLUDE_OR_EVAL || kind == ZEND_AST_USE || kind == ZEND_AST_PROP_DECL
+		|| kind == ZEND_AST_GROUP_USE || kind == ZEND_AST_USE_ELEM
 		|| kind == AST_NAME || kind == AST_CLOSURE_VAR;
 }
 

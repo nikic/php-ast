@@ -29,6 +29,11 @@ function get_flag_info() : array {
         flags\TYPE_OBJECT => 'TYPE_OBJECT',
         flags\TYPE_CALLABLE => 'TYPE_CALLABLE',
     ];
+    $useTypes = [
+        T_CLASS => 'T_CLASS',
+        T_FUNCTION => 'T_FUNCTION',
+        T_CONST => 'T_CONST',
+    ];
 
     $exclusive = [
         ast\AST_NAME => [
@@ -95,11 +100,9 @@ function get_flag_info() : array {
             T_NS_C => 'T_NS_C',
             T_CLASS_C => 'T_CLASS_C',
         ],
-        ast\AST_USE => [
-            T_CLASS => 'T_CLASS',
-            T_FUNCTION => 'T_FUNCTION',
-            T_CONST => 'T_CONST',
-        ],
+        ast\AST_USE => $useTypes,
+        ast\AST_GROUP_USE => $useTypes,
+        ast\AST_USE_ELEM => $useTypes,
     ];
 
     $combinable = [];
