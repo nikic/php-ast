@@ -20,6 +20,7 @@ const char *ast_kind_to_name(zend_ast_kind kind) {
 void ast_register_kind_constants(INIT_FUNC_ARGS) {
 {CONSTS}
 }
+
 EOC;
 
 if ($argc != 2) {
@@ -55,6 +56,7 @@ foreach ($lines as $line) {
 }
 
 $data['AST_NAME'] = 'AST_NAME';
+$data['AST_CLOSURE_VAR'] = 'AST_CLOSURE_VAR';
 
 $kinds = [];
 $strs = [];

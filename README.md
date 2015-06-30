@@ -156,7 +156,7 @@ combined using bitwise or and should be checked by using `$ast->flags & ast\flag
 "exclusive" flags are used standalone and should be checked using `$ast->flags === ast\flags\BAR`.
 
 ```
-// Used by ast\ARRAY_ELEM (exclusive)
+// Used by ast\AST_ARRAY_ELEM and ast\AST_CLOSURE_VAR (exclusive)
 1 = by-reference
 
 // Used by ast\AST_NAME (exclusive)

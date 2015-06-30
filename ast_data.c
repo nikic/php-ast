@@ -1,6 +1,6 @@
 #include "php_ast.h"
 
-const size_t ast_kinds_count = 97;
+const size_t ast_kinds_count = 98;
 
 const zend_ast_kind ast_kinds[] = {
 	ZEND_AST_FUNC_DECL,
@@ -100,7 +100,7 @@ const zend_ast_kind ast_kinds[] = {
 	ZEND_AST_FOR,
 	ZEND_AST_FOREACH,
 	AST_NAME,
-	AST_CLOSURE_VAR
+	AST_CLOSURE_VAR,
 };
 
 const char *ast_kind_to_name(zend_ast_kind kind) {

@@ -122,18 +122,6 @@ static inline zend_bool ast_is_name(zend_ast *ast, zend_ast *parent, uint32_t i)
 	return 0;
 }
 
-static inline zend_bool ast_is_closure_var(zend_ast *ast, zend_ast *parent, uint32_t i) {
-	if (!ast || ast->kind != ZEND_AST_ZVAL || Z_TYPE_P(zend_ast_get_zval(ast)) != IS_STRING) {
-		return 0;
-	}
-
-	if (parent->kind == ZEND_AST_CLOSURE_USES) {
-		return 1;
-	}
-
-	return 0;
-}
-
 static inline zend_ast **ast_get_children(zend_ast *ast, uint32_t *count) {
 	if (ast_kind_is_decl(ast->kind)) {
 		zend_ast_decl *decl = (zend_ast_decl *) ast;
@@ -149,33 +137,12 @@ static inline zend_ast **ast_get_children(zend_ast *ast, uint32_t *count) {
 	}
 }
 
-static void ast_name_to_zval(zval *zv, zend_ast *ast) {
+static void ast_create_virtual_node(zval *zv, zend_ast_kind kind, zend_ast *ast) {
 	zval tmp_zv, tmp_zv2;
 
 	object_init_ex(zv, ast_node_ce);
 
-	ZVAL_LONG(&tmp_zv, AST_NAME);
-	ast_update_property(zv, AST_G(str_kind), &tmp_zv, AST_CACHE_SLOT_KIND);
-
-	ZVAL_LONG(&tmp_zv, ast->attr);
-	ast_update_property(zv, AST_G(str_flags), &tmp_zv, AST_CACHE_SLOT_FLAGS);
-
-	ZVAL_LONG(&tmp_zv, zend_ast_get_lineno(ast));
-	ast_update_property(zv, AST_G(str_lineno), &tmp_zv, AST_CACHE_SLOT_LINENO);
-
-	array_init(&tmp_zv);
-	ast_update_property(zv, AST_G(str_children), &tmp_zv, AST_CACHE_SLOT_CHILDREN);
-
-	ZVAL_COPY(&tmp_zv2, zend_ast_get_zval(ast));
-	zend_hash_next_index_insert(Z_ARRVAL(tmp_zv), &tmp_zv2);
-}
-
-static void ast_closure_var_to_zval(zval *zv, zend_ast *ast) {
-	zval tmp_zv, tmp_zv2;
-
-	object_init_ex(zv, ast_node_ce);
-
-	ZVAL_LONG(&tmp_zv, AST_CLOSURE_VAR);
+	ZVAL_LONG(&tmp_zv, kind);
 	ast_update_property(zv, AST_G(str_kind), &tmp_zv, AST_CACHE_SLOT_KIND);
 
 	ZVAL_LONG(&tmp_zv, ast->attr);
@@ -265,9 +232,9 @@ static void ast_to_zval(zval *zv, zend_ast *ast) {
 			zval child_zv;
 
 			if (ast_is_name(child, ast, i)) {
-				ast_name_to_zval(&child_zv, child);
-			} else if(ast_is_closure_var(child, ast,i)) {
-				ast_closure_var_to_zval(&child_zv, child);
+				ast_create_virtual_node(&child_zv, AST_NAME, child);
+			} else if (ast->kind == ZEND_AST_CLOSURE_USES) {
+				ast_create_virtual_node(&child_zv, AST_CLOSURE_VAR, child);
 			} else {
 				ast_to_zval(&child_zv, child);
 			}
