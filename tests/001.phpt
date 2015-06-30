@@ -31,12 +31,12 @@ AST_STMT_LIST
             0: AST_PARAM
                 flags: 0
                 0: AST_NAME
-                    flags: 1
+                    flags: NAME_NOT_FQ (1)
                     0: "Type"
                 1: "arg"
                 2: AST_CONST
                     0: AST_NAME
-                        flags: 1
+                        flags: NAME_NOT_FQ (1)
                         0: "XYZ"
         1: null
         2: AST_STMT_LIST
@@ -46,13 +46,13 @@ AST_STMT_LIST
                         0: AST_VAR
                             0: "arg"
                         1: AST_NAME
-                            flags: 1
+                            flags: NAME_NOT_FQ (1)
                             0: "Foo\Bar"
                     1: AST_STMT_LIST
                         0: AST_RETURN
                             0: AST_CALL
                                 0: AST_NAME
-                                    flags: 1
+                                    flags: NAME_NOT_FQ (1)
                                     0: "test"
                                 1: AST_ARG_LIST
                                     0: AST_PROP
@@ -68,5 +68,5 @@ AST_STMT_LIST
                                     0: "arg"
                                 1: "bar"
         3: AST_NAME
-            flags: 1
+            flags: NAME_NOT_FQ (1)
             0: "Ret"

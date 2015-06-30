@@ -7,7 +7,7 @@ require __DIR__ . '/../util.php';
 
 $code = <<<'PHP'
 <?php
-$fn = function &($a, &$b) use ($c, &$d) {
+$fn = static function &($a, &$b) use ($c, &$d) {
 };
 PHP;
 echo ast_dump(ast\parse_code($code));
@@ -19,7 +19,7 @@ AST_STMT_LIST
         0: AST_VAR
             0: "fn"
         1: AST_CLOSURE
-            flags: 67108864
+            flags: MODIFIER_STATIC | RETURNS_REF (67108865)
             name: {closure}
             0: AST_PARAM_LIST
                 0: AST_PARAM
@@ -28,7 +28,7 @@ AST_STMT_LIST
                     1: "a"
                     2: null
                 1: AST_PARAM
-                    flags: 1
+                    flags: PARAM_REF (1)
                     0: null
                     1: "b"
                     2: null

@@ -35,7 +35,7 @@ AST_STMT_LIST @ 1
         2: AST_STMT_LIST @ 5
             0: AST_CALL @ 6
                 0: AST_NAME @ 6
-                    flags: 1
+                    flags: NAME_NOT_FQ (1)
                     0: "var_dump"
                 1: AST_ARG_LIST @ 8
                     0: AST_VAR @ 7
