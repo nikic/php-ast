@@ -12,8 +12,8 @@
 #include "zend_language_scanner_defs.h"
 #include "zend_exceptions.h"
 
-#define ast_throw_exception(...) \
-	zend_throw_exception_ex(zend_exception_get_default(), 0, __VA_ARGS__)
+#define ast_throw_exception(exception_ce, ...) \
+	zend_throw_exception_ex(exception_ce, 0, __VA_ARGS__)
 
 #define ast_init_string_global(str) \
 	AST_G(str_ ## str) = zend_new_interned_string( \
@@ -314,7 +314,7 @@ PHP_FUNCTION(get_kind_name) {
 
 	name = ast_kind_to_name(kind);
 	if (!name) {
-		ast_throw_exception("Unknown kind %pd", kind);
+		ast_throw_exception(spl_ce_LogicException, "Unknown kind %pd", kind);
 		return;
 	}
 
@@ -337,6 +337,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_parse_code, 0, 0, 1)
 	ZEND_ARG_INFO(0, code)
+	ZEND_ARG_INFO(0, filename)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_get_kind_name, 0, 0, 1)
