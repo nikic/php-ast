@@ -179,10 +179,10 @@ ast\flags\MODIFIER_STATIC
 ast\flags\RETURNS_REF
 
 // Used by ast\AST_CLASS (exclusive)
-ast\flags\CLASS_ABSTRACT
 ast\flags\CLASS_FINAL
 ast\flags\CLASS_TRAIT
 ast\flags\CLASS_INTERFACE
+ast\flags\CLASS_ABSTRACT (combinable)
 
 // Used by ast\AST_PARAM (exclusive)
 ast\flags\PARAM_REF
