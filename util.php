@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use ast\flags;
 
@@ -134,7 +134,7 @@ function format_flags(int $kind, int $flags) : string {
             return implode(" | ", $names) . " ($flags)";
         }
     }
-    return $flags;
+    return (string) $flags;
 }
 
 /** Dumps abstract syntax tree */
