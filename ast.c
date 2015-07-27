@@ -448,6 +448,12 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("ASSIGN_SHIFT_LEFT", ZEND_ASSIGN_SL);
 	ast_register_flag_constant("ASSIGN_SHIFT_RIGHT", ZEND_ASSIGN_SR);
 
+	ast_register_flag_constant("EXEC_EVAL", ZEND_EVAL);
+	ast_register_flag_constant("EXEC_INCLUDE", ZEND_INCLUDE);
+	ast_register_flag_constant("EXEC_INCLUDE_ONCE", ZEND_INCLUDE_ONCE);
+	ast_register_flag_constant("EXEC_REQUIRE", ZEND_REQUIRE);
+	ast_register_flag_constant("EXEC_REQUIRE_ONCE", ZEND_REQUIRE_ONCE);
+
 	INIT_CLASS_ENTRY(tmp_ce, "ast\\Node", NULL);
 	ast_node_ce = zend_register_internal_class(&tmp_ce);
 

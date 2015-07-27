@@ -106,6 +106,13 @@ function get_flag_info() : array {
         ast\AST_USE => $useTypes,
         ast\AST_GROUP_USE => $useTypes,
         ast\AST_USE_ELEM => $useTypes,
+        ast\AST_INCLUDE_OR_EVAL => [
+            flags\EXEC_EVAL => 'EXEC_EVAL',
+            flags\EXEC_INCLUDE => 'EXEC_INCLUDE',
+            flags\EXEC_INCLUDE_ONCE => 'EXEC_INCLUDE_ONCE',
+            flags\EXEC_REQUIRE => 'EXEC_REQUIRE',
+            flags\EXEC_REQUIRE_ONCE => 'EXEC_REQUIRE_ONCE',
+        ],
     ];
 
     $combinable = [];

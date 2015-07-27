@@ -259,7 +259,11 @@ T_FUNCTION
 T_CONST
 
 // Used by ast\AST_INCLUDE_OR_EVAL (exclusive)
-ast\flags\???
+ast\flags\EXEC_EVAL
+ast\flags\EXEC_INCLUDE
+ast\flags\EXEC_INCLUDE_ONCE
+ast\flags\EXEC_REQUIRE
+ast\flags\EXEC_REQUIRE_ONCE
 ```
 
   [parser]: http://lxr.php.net/xref/PHP_TRUNK/Zend/zend_language_parser.y
