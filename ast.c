@@ -253,7 +253,7 @@ PHP_FUNCTION(parse_file) {
 	php_stream *stream;
 	zend_error_handling error_handling;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS(), "P", &filename) == FAILURE) {
+	if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "P", &filename) == FAILURE) {
 		return;
 	}
 
@@ -261,7 +261,7 @@ PHP_FUNCTION(parse_file) {
 	stream = php_stream_open_wrapper_ex(filename->val, "rb", REPORT_ERRORS, NULL, NULL);
 	if (!stream) {
 		zend_restore_error_handling(&error_handling);
-		RETURN_FALSE;
+		return;
 	}
 
 	code = php_stream_copy_to_mem(stream, PHP_STREAM_COPY_ALL, 0);
@@ -269,13 +269,13 @@ PHP_FUNCTION(parse_file) {
 	zend_restore_error_handling(&error_handling);
 
 	if (!code) {
-		RETURN_FALSE;
+		return;
 	}
 
 	ast = get_ast(code, &arena, filename->val);
 	if (!ast) {
 		zend_string_free(code);
-		RETURN_FALSE;
+		return;
 	}
 
 	ast_to_zval(return_value, ast);
@@ -290,13 +290,13 @@ PHP_FUNCTION(parse_code) {
 	zend_ast *ast;
 	zend_arena *arena;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS(), "S|P", &code, &filename) == FAILURE) {
+	if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "S|P", &code, &filename) == FAILURE) {
 		return;
 	}
 
 	ast = get_ast(code, &arena, filename ? filename->val : "string code");
 	if (!ast) {
-		RETURN_FALSE;
+		return;
 	}
 
 	ast_to_zval(return_value, ast);
@@ -309,7 +309,7 @@ PHP_FUNCTION(get_kind_name) {
 	zend_long kind;
 	const char *name;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS(), "l", &kind) == FAILURE) {
+	if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "l", &kind) == FAILURE) {
 		return;
 	}
 
@@ -325,7 +325,7 @@ PHP_FUNCTION(get_kind_name) {
 PHP_FUNCTION(kind_uses_flags) {
 	zend_long kind;
 
-	if (zend_parse_parameters(ZEND_NUM_ARGS(), "l", &kind) == FAILURE) {
+	if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "l", &kind) == FAILURE) {
 		return;
 	}
 
