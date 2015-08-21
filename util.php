@@ -34,6 +34,20 @@ function get_flag_info() : array {
         T_FUNCTION => 'T_FUNCTION',
         T_CONST => 'T_CONST',
     ];
+    $sharedBinaryOps = [
+        flags\BINARY_BITWISE_OR => 'BINARY_BITWISE_OR',
+        flags\BINARY_BITWISE_AND => 'BINARY_BITWISE_AND',
+        flags\BINARY_BITWISE_XOR => 'BINARY_BITWISE_XOR',
+        flags\BINARY_CONCAT => 'BINARY_CONCAT',
+        flags\BINARY_ADD => 'BINARY_ADD',
+        flags\BINARY_SUB => 'BINARY_SUB',
+        flags\BINARY_MUL => 'BINARY_MUL',
+        flags\BINARY_DIV => 'BINARY_DIV',
+        flags\BINARY_MOD => 'BINARY_MOD',
+        flags\BINARY_POW => 'BINARY_POW',
+        flags\BINARY_SHIFT_LEFT => 'BINARY_SHIFT_LEFT',
+        flags\BINARY_SHIFT_RIGHT => 'BINARY_SHIFT_RIGHT',
+    ];
 
     $exclusive = [
         ast\AST_NAME => [
@@ -57,20 +71,8 @@ function get_flag_info() : array {
             flags\UNARY_BOOL_NOT => 'UNARY_BOOL_NOT',
             flags\UNARY_BITWISE_NOT => 'UNARY_BITWISE_NOT',
         ],
-        ast\AST_BINARY_OP => [
+        ast\AST_BINARY_OP => $sharedBinaryOps + [
             flags\BINARY_BOOL_XOR => 'BINARY_BOOL_XOR',
-            flags\BINARY_BITWISE_OR => 'BINARY_BITWISE_OR',
-            flags\BINARY_BITWISE_AND => 'BINARY_BITWISE_AND',
-            flags\BINARY_BITWISE_XOR => 'BINARY_BITWISE_XOR',
-            flags\BINARY_CONCAT => 'BINARY_CONCAT',
-            flags\BINARY_ADD => 'BINARY_ADD',
-            flags\BINARY_SUB => 'BINARY_SUB',
-            flags\BINARY_MUL => 'BINARY_MUL',
-            flags\BINARY_DIV => 'BINARY_DIV',
-            flags\BINARY_MOD => 'BINARY_MOD',
-            flags\BINARY_POW => 'BINARY_POW',
-            flags\BINARY_SHIFT_LEFT => 'BINARY_SHIFT_LEFT',
-            flags\BINARY_SHIFT_RIGHT => 'BINARY_SHIFT_RIGHT',
             flags\BINARY_IS_IDENTICAL => 'BINARY_IS_IDENTICAL',
             flags\BINARY_IS_NOT_IDENTICAL => 'BINARY_IS_NOT_IDENTICAL',
             flags\BINARY_IS_EQUAL => 'BINARY_IS_EQUAL',
@@ -81,7 +83,8 @@ function get_flag_info() : array {
             flags\BINARY_IS_GREATER_OR_EQUAL => 'BINARY_IS_GREATER_OR_EQUAL',
             flags\BINARY_SPACESHIP => 'BINARY_SPACESHIP',
         ],
-        ast\AST_ASSIGN_OP => [
+        ast\AST_ASSIGN_OP => $sharedBinaryOps + [
+            // Old version 10 flags
             flags\ASSIGN_BITWISE_OR => 'ASSIGN_BITWISE_OR',
             flags\ASSIGN_BITWISE_AND => 'ASSIGN_BITWISE_AND',
             flags\ASSIGN_BITWISE_XOR => 'ASSIGN_BITWISE_XOR',

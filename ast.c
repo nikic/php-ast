@@ -129,6 +129,24 @@ static inline zend_bool ast_is_name(zend_ast *ast, zend_ast *parent, uint32_t i)
 	return 0;
 }
 
+static inline zend_ast_attr ast_assign_op_to_binary_op(zend_ast_attr attr) {
+	switch (attr) {
+		case ZEND_ASSIGN_BW_OR: return ZEND_BW_OR;
+		case ZEND_ASSIGN_BW_AND: return ZEND_BW_AND;
+		case ZEND_ASSIGN_BW_XOR: return ZEND_BW_XOR;
+		case ZEND_ASSIGN_CONCAT: return ZEND_CONCAT;
+		case ZEND_ASSIGN_ADD: return ZEND_ADD;
+		case ZEND_ASSIGN_SUB: return ZEND_SUB;
+		case ZEND_ASSIGN_MUL: return ZEND_MUL;
+		case ZEND_ASSIGN_DIV: return ZEND_DIV;
+		case ZEND_ASSIGN_MOD: return ZEND_MOD;
+		case ZEND_ASSIGN_POW: return ZEND_POW;
+		case ZEND_ASSIGN_SL: return ZEND_SL;
+		case ZEND_ASSIGN_SR: return ZEND_SR;
+		EMPTY_SWITCH_DEFAULT_CASE()
+	}
+}
+
 static inline zend_ast **ast_get_children(zend_ast *ast, uint32_t *count) {
 	if (ast_kind_is_decl(ast->kind)) {
 		zend_ast_decl *decl = (zend_ast_decl *) ast;
@@ -184,6 +202,8 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 			ast->attr = ast->kind == ZEND_AST_GREATER
 				? AST_BINARY_IS_GREATER : AST_BINARY_IS_GREATER_OR_EQUAL;
 			ast->kind = ZEND_AST_BINARY_OP;
+		} else if (ast->kind == ZEND_AST_ASSIGN_OP) {
+			ast->attr = ast_assign_op_to_binary_op(ast->attr);
 		}
 	}
 

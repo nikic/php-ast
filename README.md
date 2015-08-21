@@ -205,8 +205,7 @@ ast\flags\TYPE_OBJECT
 ast\flags\UNARY_BOOL_NOT
 ast\flags\UNARY_BITWISE_NOT
 
-// Used by ast\AST_BINARY_OP (exclusive)
-ast\flags\BINARY_BOOL_XOR
+// Used by ast\AST_BINARY_OP and ast\AST_ASSIGN_OP in version >= 20 (exclusive)
 ast\flags\BINARY_BITWISE_OR
 ast\flags\BINARY_BITWISE_AND
 ast\flags\BINARY_BITWISE_XOR
@@ -219,6 +218,9 @@ ast\flags\BINARY_MOD
 ast\flags\BINARY_POW
 ast\flags\BINARY_SHIFT_LEFT
 ast\flags\BINARY_SHIFT_RIGHT
+
+// Used by ast\AST_BINARY_OP (exclusive)
+ast\flags\BINARY_BOOL_XOR
 ast\flags\BINARY_IS_IDENTICAL
 ast\flags\BINARY_IS_NOT_IDENTICAL
 ast\flags\BINARY_IS_EQUAL
@@ -229,7 +231,7 @@ ast\flags\BINARY_IS_GREATER          // since version 20
 ast\flags\BINARY_IS_GREATER_OR_EQUAL // since version 20
 ast\flags\BINARY_SPACESHIP
 
-// Used by ast\AST_ASSIGN_OP (exclusive)
+// Used by ast\AST_ASSIGN_OP in version 10 (exclusive)
 ast\flags\ASSIGN_BITWISE_OR
 ast\flags\ASSIGN_BITWISE_AND
 ast\flags\ASSIGN_BITWISE_XOR
@@ -267,6 +269,19 @@ ast\flags\EXEC_INCLUDE_ONCE
 ast\flags\EXEC_REQUIRE
 ast\flags\EXEC_REQUIRE_ONCE
 ```
+
+Version changelog
+-----------------
+
+### 20 (unstable)
+
+* `AST_GREATER` and `AST_GREATER_EQUAL` nodes are now instead represented using
+  `AST_BINARY_OP` with flags `AST_BINARY_IS_GREATER` and `AST_BINARY_IS_GREATER_OR_EQUAL`.
+* `AST_ASSIGN_OP` now uses `AST_BINARY_*` flags instead of separate `AST_ASSIGN_*` flags.
+
+### 10 (current)
+
+Initial.
 
   [parser]: http://lxr.php.net/xref/PHP_TRUNK/Zend/zend_language_parser.y
   [util]: https://github.com/nikic/php-ast/blob/master/util.php
