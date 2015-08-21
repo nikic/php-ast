@@ -11,8 +11,8 @@ Defines:
  * `ast\Node\Decl` class
  * `ast\AST_*` kind constants (mirroring `zend_ast.h`)
  * `ast\flags\*` flags
- * `ast\parse_file(string $filename)`
- * `ast\parse_code(string $code [, string $filename = "string code"])`
+ * `ast\parse_file(string $filename [, int $version])`
+ * `ast\parse_code(string $code [, int $version [, string $filename = "string code"]])`
  * `ast\get_kind_name(int $kind)`
  * `ast\kind_uses_flags(int $kind)`
 
@@ -42,7 +42,7 @@ The `flags` property contains node specific flags. It is always defined, but for
 always zero. `ast\kind_uses_flags()` can be used to determine whether a certain kind has a
 meaningful flags value. Which nodes use which flags is explained in the "Flags" section below.
 
-The `lineno` property specified the *starting* line number of the node.
+The `lineno` property specifies the *starting* line number of the node.
 
 The `children` property contains an array of child-nodes. These children can be either other
 `ast\Node` objects or plain values. The meaning of the children is node-specific and should be

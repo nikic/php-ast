@@ -11,7 +11,7 @@ try {
     echo $e, "\n";
 }
 try {
-    ast\parse_code($code, 'file.php');
+    ast\parse_code($code, 10, 'file.php');
 } catch (ParseError $e) {
     echo $e, "\n";
 }
@@ -24,5 +24,5 @@ Stack trace:
 #1 {main}
 ParseError: syntax error, unexpected '&', expecting end of file in file.php:1
 Stack trace:
-#0 %s(%d): ast\parse_code('%s', 'file.php')
+#0 %s(%d): ast\parse_code('%s', 10, 'file.php')
 #1 {main}

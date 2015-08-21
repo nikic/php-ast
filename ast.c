@@ -30,6 +30,8 @@
 #define AST_CACHE_SLOT_LINENO   &AST_G(cache_slots)[2 * 2]
 #define AST_CACHE_SLOT_CHILDREN &AST_G(cache_slots)[2 * 3]
 
+#define AST_DEFAULT_VERSION 10
+
 static inline void ast_update_property(zval *object, zend_string *name, zval *value, void **cache_slot) {
 	zval name_zv;
 	ZVAL_STR(&name_zv, name);
@@ -245,15 +247,28 @@ static void ast_to_zval(zval *zv, zend_ast *ast) {
 	}
 }
 
+static int ast_check_version(zend_long version) {
+	if (version == 10) {
+		return SUCCESS;
+	}
+	
+	ast_throw_exception(spl_ce_LogicException, "Unknown version " ZEND_LONG_FMT, version);
+	return FAILURE;
+}
+
 PHP_FUNCTION(parse_file) {
-	zend_string *filename;
-	zend_string *code;
+	zend_string *filename, *code;
+	zend_long version = AST_DEFAULT_VERSION;
 	zend_ast *ast;
 	zend_arena *arena;
 	php_stream *stream;
 	zend_error_handling error_handling;
 
-	if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "P", &filename) == FAILURE) {
+	if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "P|l", &filename, &version) == FAILURE) {
+		return;
+	}
+
+	if (ast_check_version(version) == FAILURE) {
 		return;
 	}
 
@@ -287,10 +302,15 @@ PHP_FUNCTION(parse_file) {
 
 PHP_FUNCTION(parse_code) {
 	zend_string *code, *filename = NULL;
+	zend_long version = AST_DEFAULT_VERSION;
 	zend_ast *ast;
 	zend_arena *arena;
 
-	if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "S|P", &code, &filename) == FAILURE) {
+	if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "S|lP", &code, &version, &filename) == FAILURE) {
+		return;
+	}
+
+	if (ast_check_version(version) == FAILURE) {
 		return;
 	}
 
@@ -334,10 +354,12 @@ PHP_FUNCTION(kind_uses_flags) {
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_parse_file, 0, 0, 1)
 	ZEND_ARG_INFO(0, filename)
+	ZEND_ARG_INFO(0, version)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_parse_code, 0, 0, 1)
 	ZEND_ARG_INFO(0, code)
+	ZEND_ARG_INFO(0, version)
 	ZEND_ARG_INFO(0, filename)
 ZEND_END_ARG_INFO()
 
