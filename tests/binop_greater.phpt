@@ -30,13 +30,13 @@ AST_STMT_LIST
 AST_STMT_LIST
     0: AST_BINARY_OP
         flags: BINARY_IS_GREATER (256)
-        0: AST_VAR
-            0: "a"
-        1: AST_VAR
-            0: "b"
+        left: AST_VAR
+            name: "a"
+        right: AST_VAR
+            name: "b"
     1: AST_BINARY_OP
         flags: BINARY_IS_GREATER_OR_EQUAL (257)
-        0: AST_VAR
-            0: "a"
-        1: AST_VAR
-            0: "b"
+        left: AST_VAR
+            name: "a"
+        right: AST_VAR
+            name: "b"

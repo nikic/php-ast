@@ -2,6 +2,7 @@
 #define PHP_AST_H
 
 #include "php.h"
+#include "ast_str_defs.h"
 
 extern zend_module_entry ast_module_entry;
 #define phpext_ast_ptr &ast_module_entry
@@ -22,15 +23,6 @@ extern zend_module_entry ast_module_entry;
 
 #define AST_NUM_CACHE_SLOTS (2 * 4)
 
-#define AST_STR_DEFS \
-	X(kind) \
-	X(name) \
-	X(flags) \
-	X(lineno) \
-	X(children) \
-	X(docComment) \
-	X(endLineno)
-
 ZEND_BEGIN_MODULE_GLOBALS(ast)
 #define X(str) zend_string *str_ ## str;
 	AST_STR_DEFS
@@ -38,11 +30,11 @@ ZEND_BEGIN_MODULE_GLOBALS(ast)
 	void *cache_slots[AST_NUM_CACHE_SLOTS];
 ZEND_END_MODULE_GLOBALS(ast)
 
-#ifdef ZTS
-#define AST_G(v) TSRMG(ast_globals_id, zend_ast_globals *, v)
-#else
-#define AST_G(v) (ast_globals.v)
-#endif
+ZEND_EXTERN_MODULE_GLOBALS(ast)
+
+#define AST_G(v) ZEND_MODULE_GLOBALS_ACCESSOR(ast, v)
+
+#define AST_STR(str) AST_G(str_ ## str)
 
 /* Custom ast kind for names */
 #define AST_NAME 2048
@@ -52,6 +44,7 @@ extern const size_t ast_kinds_count;
 extern const zend_ast_kind ast_kinds[];
 
 const char *ast_kind_to_name(zend_ast_kind kind);
+zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child);
 void ast_register_kind_constants(INIT_FUNC_ARGS);
 
 #endif	/* PHP_AST_H */
