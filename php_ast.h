@@ -22,14 +22,19 @@ extern zend_module_entry ast_module_entry;
 
 #define AST_NUM_CACHE_SLOTS (2 * 4)
 
+#define AST_STR_DEFS \
+	X(kind) \
+	X(name) \
+	X(flags) \
+	X(lineno) \
+	X(children) \
+	X(docComment) \
+	X(endLineno)
+
 ZEND_BEGIN_MODULE_GLOBALS(ast)
-	zend_string *str_kind;
-	zend_string *str_name;
-	zend_string *str_flags;
-	zend_string *str_lineno;
-	zend_string *str_children;
-	zend_string *str_docComment;
-	zend_string *str_endLineno;
+#define X(str) zend_string *str_ ## str;
+	AST_STR_DEFS
+#undef X
 	void *cache_slots[AST_NUM_CACHE_SLOTS];
 ZEND_END_MODULE_GLOBALS(ast)
 
