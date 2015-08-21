@@ -225,6 +225,8 @@ ast\flags\BINARY_IS_EQUAL
 ast\flags\BINARY_IS_NOT_EQUAL
 ast\flags\BINARY_IS_SMALLER
 ast\flags\BINARY_IS_SMALLER_OR_EQUAL
+ast\flags\BINARY_IS_GREATER          // since version 20
+ast\flags\BINARY_IS_GREATER_OR_EQUAL // since version 20
 ast\flags\BINARY_SPACESHIP
 
 // Used by ast\AST_ASSIGN_OP (exclusive)

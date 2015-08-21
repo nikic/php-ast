@@ -32,6 +32,10 @@
 
 #define AST_DEFAULT_VERSION 10
 
+/* Flag for BINARY_OP to use instead of AST_GREATER(_EQUAL) */
+#define AST_BINARY_IS_GREATER 256
+#define AST_BINARY_IS_GREATER_OR_EQUAL 257
+
 static inline void ast_update_property(zval *object, zend_string *name, zval *value, void **cache_slot) {
 	zval name_zv;
 	ZVAL_STR(&name_zv, name);
@@ -161,7 +165,7 @@ static void ast_create_virtual_node(zval *zv, zend_ast_kind kind, zend_ast *ast)
 	zend_hash_next_index_insert(Z_ARRVAL(tmp_zv), &tmp_zv2);
 }
 
-static void ast_to_zval(zval *zv, zend_ast *ast) {
+static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 	zval tmp_zv;
 	zend_bool is_decl;
 
@@ -173,6 +177,14 @@ static void ast_to_zval(zval *zv, zend_ast *ast) {
 	if (ast->kind == ZEND_AST_ZVAL) {
 		ZVAL_COPY(zv, zend_ast_get_zval(ast));
 		return;
+	}
+
+	if (version >= 20) {
+		if (ast->kind == ZEND_AST_GREATER || ast->kind == ZEND_AST_GREATER_EQUAL) {
+			ast->attr = ast->kind == ZEND_AST_GREATER
+				? AST_BINARY_IS_GREATER : AST_BINARY_IS_GREATER_OR_EQUAL;
+			ast->kind = ZEND_AST_BINARY_OP;
+		}
 	}
 
 	is_decl = ast_kind_is_decl(ast->kind);
@@ -239,7 +251,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast) {
 			} else if (ast->kind == ZEND_AST_CLOSURE_USES) {
 				ast_create_virtual_node(&child_zv, AST_CLOSURE_VAR, child);
 			} else {
-				ast_to_zval(&child_zv, child);
+				ast_to_zval(&child_zv, child, version);
 			}
 
 			zend_hash_next_index_insert(Z_ARRVAL(tmp_zv), &child_zv);
@@ -248,7 +260,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast) {
 }
 
 static int ast_check_version(zend_long version) {
-	if (version == 10) {
+	if (version == 10 || version == 20) {
 		return SUCCESS;
 	}
 	
@@ -293,7 +305,7 @@ PHP_FUNCTION(parse_file) {
 		return;
 	}
 
-	ast_to_zval(return_value, ast);
+	ast_to_zval(return_value, ast, version);
 
 	zend_string_free(code);
 	zend_ast_destroy(ast);
@@ -319,7 +331,7 @@ PHP_FUNCTION(parse_code) {
 		return;
 	}
 
-	ast_to_zval(return_value, ast);
+	ast_to_zval(return_value, ast, version);
 
 	zend_ast_destroy(ast);
 	zend_arena_destroy(arena);
@@ -455,6 +467,8 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("BINARY_IS_NOT_EQUAL", ZEND_IS_NOT_EQUAL);
 	ast_register_flag_constant("BINARY_IS_SMALLER", ZEND_IS_SMALLER);
 	ast_register_flag_constant("BINARY_IS_SMALLER_OR_EQUAL", ZEND_IS_SMALLER_OR_EQUAL);
+	ast_register_flag_constant("BINARY_IS_GREATER", AST_BINARY_IS_GREATER);
+	ast_register_flag_constant("BINARY_IS_GREATER_OR_EQUAL", AST_BINARY_IS_GREATER_OR_EQUAL);
 	ast_register_flag_constant("BINARY_SPACESHIP", ZEND_SPACESHIP);
 
 	ast_register_flag_constant("ASSIGN_BITWISE_OR", ZEND_ASSIGN_BW_OR);

@@ -77,6 +77,8 @@ function get_flag_info() : array {
             flags\BINARY_IS_NOT_EQUAL => 'BINARY_IS_NOT_EQUAL',
             flags\BINARY_IS_SMALLER => 'BINARY_IS_SMALLER',
             flags\BINARY_IS_SMALLER_OR_EQUAL => 'BINARY_IS_SMALLER_OR_EQUAL',
+            flags\BINARY_IS_GREATER => 'BINARY_IS_GREATER',
+            flags\BINARY_IS_GREATER_OR_EQUAL => 'BINARY_IS_GREATER_OR_EQUAL',
             flags\BINARY_SPACESHIP => 'BINARY_SPACESHIP',
         ],
         ast\AST_ASSIGN_OP => [
