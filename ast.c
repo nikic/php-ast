@@ -34,6 +34,11 @@
 #define AST_BINARY_IS_GREATER 256
 #define AST_BINARY_IS_GREATER_OR_EQUAL 257
 
+/* Flags for UNARY_OP to use instead of AST_SILENCE, AST_UNARY_PLUS, AST_UNARY_MINUS */
+#define AST_SILENCE 258
+#define AST_PLUS 259
+#define AST_MINUS 260
+
 static inline void ast_update_property(zval *object, zend_string *name, zval *value, void **cache_slot) {
 	zval name_zv;
 	ZVAL_STR(&name_zv, name);
@@ -205,6 +210,23 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 		}
 	}
 
+	if (version >= 30) { // assumes 30 will be next version bump
+		switch (ast->kind) {
+			case ZEND_AST_SILENCE:
+				ast->kind = ZEND_AST_UNARY_OP;
+				ast->attr = AST_SILENCE;
+				break;
+			case ZEND_AST_UNARY_PLUS:
+				ast->kind = ZEND_AST_UNARY_OP;
+				ast->attr = AST_PLUS;
+				break;
+			case ZEND_AST_UNARY_MINUS:
+				ast->kind = ZEND_AST_UNARY_OP;
+				ast->attr = AST_MINUS;
+				break;
+		}
+	}
+
 	is_decl = ast_kind_is_decl(ast->kind);
 	object_init_ex(zv, is_decl ? ast_decl_ce : ast_node_ce);
 
@@ -240,7 +262,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 		ZVAL_LONG(&tmp_zv, ast->attr);
 		ast_update_property(zv, AST_STR(flags), &tmp_zv, AST_CACHE_SLOT_FLAGS);
 	}
-	
+
 	if (ast->kind == ZEND_AST_PROP_DECL) {
 		zend_ast_list *props = zend_ast_get_list(ast);
 		zend_ast *last_prop = props->child[props->children - 1];
@@ -278,10 +300,10 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 }
 
 static int ast_check_version(zend_long version) {
-	if (version == 10 || version == 20) {
+	if (version == 10 || version == 20 || version == 30) { // next version assumption
 		return SUCCESS;
 	}
-	
+
 	ast_throw_exception(spl_ce_LogicException, "Unknown version " ZEND_LONG_FMT, version);
 	return FAILURE;
 }
@@ -463,6 +485,9 @@ PHP_MINIT_FUNCTION(ast) {
 
 	ast_register_flag_constant("UNARY_BOOL_NOT", ZEND_BOOL_NOT);
 	ast_register_flag_constant("UNARY_BITWISE_NOT", ZEND_BW_NOT);
+	ast_register_flag_constant("UNARY_SILENCE", AST_SILENCE);
+	ast_register_flag_constant("UNARY_PLUS", AST_PLUS);
+	ast_register_flag_constant("UNARY_MINUS", AST_MINUS);
 
 	ast_register_flag_constant("BINARY_BOOL_XOR", ZEND_BOOL_XOR);
 	ast_register_flag_constant("BINARY_BITWISE_OR", ZEND_BW_OR);
@@ -562,4 +587,3 @@ zend_module_entry ast_module_entry = {
 #ifdef COMPILE_DL_AST
 ZEND_GET_MODULE(ast)
 #endif
-
