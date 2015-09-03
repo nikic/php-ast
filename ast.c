@@ -210,7 +210,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 		}
 	}
 
-	if (version >= 30) { // assumes 30 will be next version bump
+	if (version >= 30) {
 		switch (ast->kind) {
 			case ZEND_AST_SILENCE:
 				ast->kind = ZEND_AST_UNARY_OP;
@@ -300,7 +300,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 }
 
 static int ast_check_version(zend_long version) {
-	if (version == 10 || version == 20 || version == 30) { // next version assumption
+	if (version == 10 || version == 20 || version == 30) {
 		return SUCCESS;
 	}
 
