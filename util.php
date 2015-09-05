@@ -70,6 +70,9 @@ function get_flag_info() : array {
         ast\AST_UNARY_OP => [
             flags\UNARY_BOOL_NOT => 'UNARY_BOOL_NOT',
             flags\UNARY_BITWISE_NOT => 'UNARY_BITWISE_NOT',
+            flags\UNARY_MINUS => 'UNARY_MINUS',
+            flags\UNARY_PLUS => 'UNARY_PLUS',
+            flags\UNARY_SILENCE => 'UNARY_SILENCE',
         ],
         ast\AST_BINARY_OP => $sharedBinaryOps + [
             flags\BINARY_BOOL_XOR => 'BINARY_BOOL_XOR',

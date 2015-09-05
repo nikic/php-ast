@@ -201,17 +201,18 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 	}
 
 	if (version >= 20) {
-		if (ast->kind == ZEND_AST_GREATER || ast->kind == ZEND_AST_GREATER_EQUAL) {
-			ast->attr = ast->kind == ZEND_AST_GREATER
-				? AST_BINARY_IS_GREATER : AST_BINARY_IS_GREATER_OR_EQUAL;
-			ast->kind = ZEND_AST_BINARY_OP;
-		} else if (ast->kind == ZEND_AST_ASSIGN_OP) {
-			ast->attr = ast_assign_op_to_binary_op(ast->attr);
-		}
-	}
-
-	if (version >= 30) {
 		switch (ast->kind) {
+			case ZEND_AST_ASSIGN_OP:
+				ast->attr = ast_assign_op_to_binary_op(ast->attr);
+				break;
+			case ZEND_AST_GREATER:
+				ast->kind = ZEND_AST_BINARY_OP;
+				ast->attr = AST_BINARY_IS_GREATER;
+				break;
+			case ZEND_AST_GREATER_EQUAL:
+				ast->kind = ZEND_AST_BINARY_OP;
+				ast->attr = AST_BINARY_IS_GREATER_OR_EQUAL;
+				break;
 			case ZEND_AST_SILENCE:
 				ast->kind = ZEND_AST_UNARY_OP;
 				ast->attr = AST_SILENCE;
@@ -300,7 +301,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 }
 
 static int ast_check_version(zend_long version) {
-	if (version == 10 || version == 20 || version == 30) {
+	if (version == 10 || version == 20) {
 		return SUCCESS;
 	}
 

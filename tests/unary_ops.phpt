@@ -12,8 +12,8 @@ $code = <<<'PHP'
 -1;
 PHP;
 
+echo ast_dump(ast\parse_code($code, $version=10)), "\n";
 echo ast_dump(ast\parse_code($code, $version=20)), "\n";
-echo ast_dump(ast\parse_code($code, $version=30)), "\n";
 
 ?>
 --EXPECT--
@@ -27,12 +27,12 @@ AST_STMT_LIST
         0: 1
 AST_STMT_LIST
     0: AST_UNARY_OP
-        flags: 258
+        flags: UNARY_SILENCE (258)
         0: AST_VAR
             0: "a"
     1: AST_UNARY_OP
-        flags: 259
+        flags: UNARY_PLUS (259)
         0: 1
     2: AST_UNARY_OP
-        flags: 260
+        flags: UNARY_MINUS (260)
         0: 1

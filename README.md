@@ -204,6 +204,9 @@ ast\flags\TYPE_OBJECT
 // Used by ast\AST_UNARY_OP (exclusive)
 ast\flags\UNARY_BOOL_NOT
 ast\flags\UNARY_BITWISE_NOT
+ast\flags\UNARY_MINUS
+ast\flags\UNARY_PLUS
+ast\flags\UNARY_SILENCE
 
 // Used by ast\AST_BINARY_OP and ast\AST_ASSIGN_OP in version >= 20 (exclusive)
 ast\flags\BINARY_BITWISE_OR
@@ -276,8 +279,10 @@ Version changelog
 ### 20 (unstable)
 
 * `AST_GREATER` and `AST_GREATER_EQUAL` nodes are now instead represented using
-  `AST_BINARY_OP` with flags `AST_BINARY_IS_GREATER` and `AST_BINARY_IS_GREATER_OR_EQUAL`.
-* `AST_ASSIGN_OP` now uses `AST_BINARY_*` flags instead of separate `AST_ASSIGN_*` flags.
+  `AST_BINARY_OP` with flags `BINARY_IS_GREATER` and `BINARY_IS_GREATER_OR_EQUAL`.
+* `AST_SILENCE`, `AST_UNARY_MINUS` and `AST_UNARY_PLUS` nodes are noew represented using
+  `AST_UNARY_OP` with flags `UNARY_SILENCE`, `UNARY_MINUS` and `UNARY_PLUS`
+* `AST_ASSIGN_OP` now uses `BINARY_*` flags instead of separate `ASSIGN_*` flags.
 
 ### 10 (current)
 
