@@ -75,6 +75,8 @@ function get_flag_info() : array {
             flags\UNARY_SILENCE => 'UNARY_SILENCE',
         ],
         ast\AST_BINARY_OP => $sharedBinaryOps + [
+            flags\BINARY_BOOL_AND => 'BINARY_BOOL_AND',
+            flags\BINARY_BOOL_OR => 'BINARY_BOOL_OR',
             flags\BINARY_BOOL_XOR => 'BINARY_BOOL_XOR',
             flags\BINARY_IS_IDENTICAL => 'BINARY_IS_IDENTICAL',
             flags\BINARY_IS_NOT_IDENTICAL => 'BINARY_IS_NOT_IDENTICAL',

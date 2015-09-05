@@ -30,14 +30,16 @@
 
 #define AST_DEFAULT_VERSION 10
 
-/* Flag for BINARY_OP to use instead of AST_GREATER(_EQUAL) */
+/* Additional flags for BINARY_OP */
 #define AST_BINARY_IS_GREATER 256
 #define AST_BINARY_IS_GREATER_OR_EQUAL 257
+#define AST_BINARY_BOOL_OR 258
+#define AST_BINARY_BOOL_AND 259
 
 /* Flags for UNARY_OP to use instead of AST_SILENCE, AST_UNARY_PLUS, AST_UNARY_MINUS */
-#define AST_SILENCE 258
-#define AST_PLUS 259
-#define AST_MINUS 260
+#define AST_SILENCE 260
+#define AST_PLUS 261
+#define AST_MINUS 262
 
 static inline void ast_update_property(zval *object, zend_string *name, zval *value, void **cache_slot) {
 	zval name_zv;
@@ -212,6 +214,14 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 			case ZEND_AST_GREATER_EQUAL:
 				ast->kind = ZEND_AST_BINARY_OP;
 				ast->attr = AST_BINARY_IS_GREATER_OR_EQUAL;
+				break;
+			case ZEND_AST_OR:
+				ast->kind = ZEND_AST_BINARY_OP;
+				ast->attr = AST_BINARY_BOOL_OR;
+				break;
+			case ZEND_AST_AND:
+				ast->kind = ZEND_AST_BINARY_OP;
+				ast->attr = AST_BINARY_BOOL_AND;
 				break;
 			case ZEND_AST_SILENCE:
 				ast->kind = ZEND_AST_UNARY_OP;
@@ -490,6 +500,8 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("UNARY_PLUS", AST_PLUS);
 	ast_register_flag_constant("UNARY_MINUS", AST_MINUS);
 
+	ast_register_flag_constant("BINARY_BOOL_AND", AST_BINARY_BOOL_AND);
+	ast_register_flag_constant("BINARY_BOOL_OR", AST_BINARY_BOOL_OR);
 	ast_register_flag_constant("BINARY_BOOL_XOR", ZEND_BOOL_XOR);
 	ast_register_flag_constant("BINARY_BITWISE_OR", ZEND_BW_OR);
 	ast_register_flag_constant("BINARY_BITWISE_AND", ZEND_BW_AND);
