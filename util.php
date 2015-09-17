@@ -60,6 +60,7 @@ function get_flag_info() : array {
             flags\CLASS_FINAL => 'CLASS_FINAL',
             flags\CLASS_TRAIT => 'CLASS_TRAIT',
             flags\CLASS_INTERFACE => 'CLASS_INTERFACE',
+            flags\CLASS_ANONYMOUS => 'CLASS_ANONYMOUS',
         ],
         ast\AST_PARAM => [
             flags\PARAM_REF => 'PARAM_REF',
@@ -70,8 +71,13 @@ function get_flag_info() : array {
         ast\AST_UNARY_OP => [
             flags\UNARY_BOOL_NOT => 'UNARY_BOOL_NOT',
             flags\UNARY_BITWISE_NOT => 'UNARY_BITWISE_NOT',
+            flags\UNARY_MINUS => 'UNARY_MINUS',
+            flags\UNARY_PLUS => 'UNARY_PLUS',
+            flags\UNARY_SILENCE => 'UNARY_SILENCE',
         ],
         ast\AST_BINARY_OP => $sharedBinaryOps + [
+            flags\BINARY_BOOL_AND => 'BINARY_BOOL_AND',
+            flags\BINARY_BOOL_OR => 'BINARY_BOOL_OR',
             flags\BINARY_BOOL_XOR => 'BINARY_BOOL_XOR',
             flags\BINARY_IS_IDENTICAL => 'BINARY_IS_IDENTICAL',
             flags\BINARY_IS_NOT_IDENTICAL => 'BINARY_IS_NOT_IDENTICAL',

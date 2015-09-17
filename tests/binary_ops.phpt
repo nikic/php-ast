@@ -9,6 +9,8 @@ $code = <<<'PHP'
 <?php
 $a > $b;
 $a >= $b;
+$a and $b;
+$a or $b;
 PHP;
 
 echo ast_dump(ast\parse_code($code, $version=10)), "\n";
@@ -27,6 +29,16 @@ AST_STMT_LIST
             0: "a"
         1: AST_VAR
             0: "b"
+    2: AST_AND
+        0: AST_VAR
+            0: "a"
+        1: AST_VAR
+            0: "b"
+    3: AST_OR
+        0: AST_VAR
+            0: "a"
+        1: AST_VAR
+            0: "b"
 AST_STMT_LIST
     0: AST_BINARY_OP
         flags: BINARY_IS_GREATER (256)
@@ -36,6 +48,18 @@ AST_STMT_LIST
             name: "b"
     1: AST_BINARY_OP
         flags: BINARY_IS_GREATER_OR_EQUAL (257)
+        left: AST_VAR
+            name: "a"
+        right: AST_VAR
+            name: "b"
+    2: AST_BINARY_OP
+        flags: BINARY_BOOL_AND (259)
+        left: AST_VAR
+            name: "a"
+        right: AST_VAR
+            name: "b"
+    3: AST_BINARY_OP
+        flags: BINARY_BOOL_OR (258)
         left: AST_VAR
             name: "a"
         right: AST_VAR

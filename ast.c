@@ -28,9 +28,16 @@
 
 #define AST_DEFAULT_VERSION 10
 
-/* Flag for BINARY_OP to use instead of AST_GREATER(_EQUAL) */
+/* Additional flags for BINARY_OP */
 #define AST_BINARY_IS_GREATER 256
 #define AST_BINARY_IS_GREATER_OR_EQUAL 257
+#define AST_BINARY_BOOL_OR 258
+#define AST_BINARY_BOOL_AND 259
+
+/* Flags for UNARY_OP to use instead of AST_SILENCE, AST_UNARY_PLUS, AST_UNARY_MINUS */
+#define AST_SILENCE 260
+#define AST_PLUS 261
+#define AST_MINUS 262
 
 static inline void ast_update_property(zval *object, zend_string *name, zval *value, void **cache_slot) {
 	zval name_zv;
@@ -199,12 +206,38 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 	}
 
 	if (version >= 20) {
-		if (ast->kind == ZEND_AST_GREATER || ast->kind == ZEND_AST_GREATER_EQUAL) {
-			ast->attr = ast->kind == ZEND_AST_GREATER
-				? AST_BINARY_IS_GREATER : AST_BINARY_IS_GREATER_OR_EQUAL;
-			ast->kind = ZEND_AST_BINARY_OP;
-		} else if (ast->kind == ZEND_AST_ASSIGN_OP) {
-			ast->attr = ast_assign_op_to_binary_op(ast->attr);
+		switch (ast->kind) {
+			case ZEND_AST_ASSIGN_OP:
+				ast->attr = ast_assign_op_to_binary_op(ast->attr);
+				break;
+			case ZEND_AST_GREATER:
+				ast->kind = ZEND_AST_BINARY_OP;
+				ast->attr = AST_BINARY_IS_GREATER;
+				break;
+			case ZEND_AST_GREATER_EQUAL:
+				ast->kind = ZEND_AST_BINARY_OP;
+				ast->attr = AST_BINARY_IS_GREATER_OR_EQUAL;
+				break;
+			case ZEND_AST_OR:
+				ast->kind = ZEND_AST_BINARY_OP;
+				ast->attr = AST_BINARY_BOOL_OR;
+				break;
+			case ZEND_AST_AND:
+				ast->kind = ZEND_AST_BINARY_OP;
+				ast->attr = AST_BINARY_BOOL_AND;
+				break;
+			case ZEND_AST_SILENCE:
+				ast->kind = ZEND_AST_UNARY_OP;
+				ast->attr = AST_SILENCE;
+				break;
+			case ZEND_AST_UNARY_PLUS:
+				ast->kind = ZEND_AST_UNARY_OP;
+				ast->attr = AST_PLUS;
+				break;
+			case ZEND_AST_UNARY_MINUS:
+				ast->kind = ZEND_AST_UNARY_OP;
+				ast->attr = AST_MINUS;
+				break;
 		}
 	}
 
@@ -244,7 +277,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 		ZVAL_LONG(&tmp_zv, ast->attr);
 		ast_update_property(zv, AST_STR(flags), &tmp_zv, AST_CACHE_SLOT_FLAGS);
 	}
-	
+
 	if (ast->kind == ZEND_AST_PROP_DECL) {
 		zend_ast_list *props = zend_ast_get_list(ast);
 		zend_ast *last_prop = props->child[props->children - 1];
@@ -292,7 +325,7 @@ static int ast_check_version(zend_long version) {
 	if (version == 10 || version == 20) {
 		return SUCCESS;
 	}
-	
+
 	ast_throw_exception(spl_ce_LogicException, "Unknown version " ZEND_LONG_FMT, version);
 	return FAILURE;
 }
@@ -459,6 +492,7 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("CLASS_FINAL", ZEND_ACC_FINAL);
 	ast_register_flag_constant("CLASS_TRAIT", ZEND_ACC_TRAIT);
 	ast_register_flag_constant("CLASS_INTERFACE", ZEND_ACC_INTERFACE);
+	ast_register_flag_constant("CLASS_ANONYMOUS", ZEND_ACC_ANON_CLASS);
 
 	ast_register_flag_constant("PARAM_REF", ZEND_PARAM_REF);
 	ast_register_flag_constant("PARAM_VARIADIC", ZEND_PARAM_VARIADIC);
@@ -474,7 +508,12 @@ PHP_MINIT_FUNCTION(ast) {
 
 	ast_register_flag_constant("UNARY_BOOL_NOT", ZEND_BOOL_NOT);
 	ast_register_flag_constant("UNARY_BITWISE_NOT", ZEND_BW_NOT);
+	ast_register_flag_constant("UNARY_SILENCE", AST_SILENCE);
+	ast_register_flag_constant("UNARY_PLUS", AST_PLUS);
+	ast_register_flag_constant("UNARY_MINUS", AST_MINUS);
 
+	ast_register_flag_constant("BINARY_BOOL_AND", AST_BINARY_BOOL_AND);
+	ast_register_flag_constant("BINARY_BOOL_OR", AST_BINARY_BOOL_OR);
 	ast_register_flag_constant("BINARY_BOOL_XOR", ZEND_BOOL_XOR);
 	ast_register_flag_constant("BINARY_BITWISE_OR", ZEND_BW_OR);
 	ast_register_flag_constant("BINARY_BITWISE_AND", ZEND_BW_AND);
@@ -573,4 +612,3 @@ zend_module_entry ast_module_entry = {
 #ifdef COMPILE_DL_AST
 ZEND_GET_MODULE(ast)
 #endif
-
