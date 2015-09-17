@@ -113,7 +113,7 @@ $names = [
     'ZEND_AST_YIELD' => ['value', 'key'],
     'ZEND_AST_COALESCE' => ['left', 'right'],
 
-    'ZEND_AST_STATIC' => ['varName', 'default'],
+    'ZEND_AST_STATIC' => ['var', 'default'],
     'ZEND_AST_WHILE' => ['cond', 'stmts'],
     'ZEND_AST_DO_WHILE' => ['stmts', 'cond'],
     'ZEND_AST_IF_ELEM' => ['cond', 'stmts'],
@@ -136,7 +136,7 @@ $names = [
     'ZEND_AST_CONDITIONAL' => ['cond', 'trueExpr', 'falseExpr'],
 
     'ZEND_AST_TRY' => ['tryStmts', 'catches', 'finallyStmts'],
-    'ZEND_AST_CATCH' => ['exception', 'varName', 'stmts'],
+    'ZEND_AST_CATCH' => ['exception', 'var', 'stmts'],
     'ZEND_AST_PARAM' => ['type', 'name', 'default'],
 
     /* 4 child nodes */

@@ -520,7 +520,7 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 			return NULL;
 		case ZEND_AST_STATIC:
 			switch (child) {
-				case 0: return AST_STR(varName);
+				case 0: return AST_STR(var);
 				case 1: return AST_STR(default);
 			}
 			return NULL;
@@ -645,7 +645,7 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 		case ZEND_AST_CATCH:
 			switch (child) {
 				case 0: return AST_STR(exception);
-				case 1: return AST_STR(varName);
+				case 1: return AST_STR(var);
 				case 2: return AST_STR(stmts);
 			}
 			return NULL;

@@ -132,6 +132,11 @@ static inline zend_bool ast_is_name(zend_ast *ast, zend_ast *parent, uint32_t i)
 	return 0;
 }
 
+static inline zend_bool ast_is_var_name(zend_ast *ast, zend_ast *parent, uint32_t i) {
+	return (parent->kind == ZEND_AST_STATIC && i == 0)
+		|| (parent->kind == ZEND_AST_CATCH && i == 1);
+}
+
 static inline zend_ast_attr ast_assign_op_to_binary_op(zend_ast_attr attr) {
 	switch (attr) {
 		case ZEND_ASSIGN_BW_OR: return ZEND_BW_OR;
@@ -307,6 +312,8 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 				ast_create_virtual_node(&child_zv, AST_NAME, child, version);
 			} else if (ast->kind == ZEND_AST_CLOSURE_USES) {
 				ast_create_virtual_node(&child_zv, AST_CLOSURE_VAR, child, version);
+			} else if (version >= 20 && ast_is_var_name(child, ast, i)) {
+				ast_create_virtual_node(&child_zv, ZEND_AST_VAR, child, version);
 			} else {
 				ast_to_zval(&child_zv, child, version);
 			}

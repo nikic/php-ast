@@ -29,7 +29,6 @@
 	X(right) \
 	X(value) \
 	X(key) \
-	X(varName) \
 	X(default) \
 	X(cond) \
 	X(declares) \
