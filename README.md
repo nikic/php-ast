@@ -279,6 +279,10 @@ ast\flags\EXEC_REQUIRE_ONCE
 Version changelog
 -----------------
 
+### 30 (unstable)
+
+* Use string names for child nodes of kinds with fixed length.
+
 ### 20 (unstable)
 
 * `AST_GREATER`, `AST_GREATER_EQUAL`, `AST_OR`, `AST_AND` nodes are now represented using
@@ -287,6 +291,9 @@ Version changelog
 * `AST_SILENCE`, `AST_UNARY_MINUS` and `AST_UNARY_PLUS` nodes are noew represented using
   `AST_UNARY_OP` with flags `UNARY_SILENCE`, `UNARY_MINUS` and `UNARY_PLUS`
 * `AST_ASSIGN_OP` now uses `BINARY_*` flags instead of separate `ASSIGN_*` flags.
+* `AST_STATIC` and `AST_CATCH` now use an `AST_VAR` node for the static/catch variable. Previously
+  it was a simple string containing the name.
+* Nested `AST_STMT_LIST`s are now flattened out.
 
 ### 10 (current)
 
