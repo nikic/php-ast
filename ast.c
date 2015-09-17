@@ -196,9 +196,46 @@ static void ast_create_virtual_node(
 	}
 }
 
+static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version);
+
+static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, zend_long version) {
+	uint32_t i, count;
+	zend_bool is_list = zend_ast_is_list(ast);
+	zend_ast **children = ast_get_children(ast, &count);
+	for (i = 0; i < count; ++i) {
+		zend_ast *child = children[i];
+		zend_string *child_name =
+			!is_list && version >= 30 ? ast_kind_child_name(ast->kind, i) : NULL;
+		zval child_zv;
+
+		if (version >= 20 && ast->kind == ZEND_AST_STMT_LIST
+				&& child != NULL && child->kind == ZEND_AST_STMT_LIST) {
+			ast_fill_children_ht(ht, child, version);
+			continue;
+		}
+
+		if (ast_is_name(child, ast, i)) {
+			ast_create_virtual_node(&child_zv, AST_NAME, child, version);
+		} else if (ast->kind == ZEND_AST_CLOSURE_USES) {
+			ast_create_virtual_node(&child_zv, AST_CLOSURE_VAR, child, version);
+		} else if (version >= 20 && ast_is_var_name(child, ast, i)) {
+			ast_create_virtual_node(&child_zv, ZEND_AST_VAR, child, version);
+		} else {
+			ast_to_zval(&child_zv, child, version);
+		}
+
+		if (child_name) {
+			zend_hash_add_new(ht, child_name, &child_zv);
+		} else {
+			zend_hash_next_index_insert(ht, &child_zv);
+		}
+
+	}
+}
+
 static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 	zval tmp_zv;
-	zend_bool is_decl, is_list;
+	zend_bool is_decl;
 
 	if (ast == NULL) {
 		ZVAL_NULL(zv);
@@ -247,7 +284,6 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 	}
 
 	is_decl = ast_kind_is_decl(ast->kind);
-	is_list = zend_ast_is_list(ast);
 	object_init_ex(zv, is_decl ? ast_decl_ce : ast_node_ce);
 
 	ZVAL_LONG(&tmp_zv, ast->kind);
@@ -299,33 +335,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 	array_init(&tmp_zv);
 	ast_update_property(zv, AST_STR(children), &tmp_zv, AST_CACHE_SLOT_CHILDREN);
 
-	{
-		uint32_t i, count;
-		zend_ast **children = ast_get_children(ast, &count);
-		for (i = 0; i < count; ++i) {
-			zend_ast *child = children[i];
-			zend_string *child_name =
-				!is_list && version >= 30 ? ast_kind_child_name(ast->kind, i) : NULL;
-			zval child_zv;
-
-			if (ast_is_name(child, ast, i)) {
-				ast_create_virtual_node(&child_zv, AST_NAME, child, version);
-			} else if (ast->kind == ZEND_AST_CLOSURE_USES) {
-				ast_create_virtual_node(&child_zv, AST_CLOSURE_VAR, child, version);
-			} else if (version >= 20 && ast_is_var_name(child, ast, i)) {
-				ast_create_virtual_node(&child_zv, ZEND_AST_VAR, child, version);
-			} else {
-				ast_to_zval(&child_zv, child, version);
-			}
-
-			if (child_name) {
-				zend_hash_add_new(Z_ARRVAL(tmp_zv), child_name, &child_zv);
-			} else {
-				zend_hash_next_index_insert(Z_ARRVAL(tmp_zv), &child_zv);
-			}
-
-		}
-	}
+	ast_fill_children_ht(Z_ARRVAL(tmp_zv), ast, version);
 }
 
 static int ast_check_version(zend_long version) {
