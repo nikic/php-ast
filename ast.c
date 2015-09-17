@@ -166,7 +166,7 @@ static inline zend_ast **ast_get_children(zend_ast *ast, uint32_t *count) {
 }
 
 static void ast_create_virtual_node(
-		zval *zv, zend_ast_kind kind, zend_ast *ast, zend_string *child_name) {
+		zval *zv, zend_ast_kind kind, zend_ast *ast, zend_long version) {
 	zval tmp_zv, tmp_zv2;
 
 	object_init_ex(zv, ast_node_ce);
@@ -184,8 +184,8 @@ static void ast_create_virtual_node(
 	ast_update_property(zv, AST_STR(children), &tmp_zv, AST_CACHE_SLOT_CHILDREN);
 
 	ZVAL_COPY(&tmp_zv2, zend_ast_get_zval(ast));
-	if (child_name) {
-		zend_hash_add_new(Z_ARRVAL(tmp_zv), child_name, &tmp_zv2);
+	if (version >= 30) {
+		zend_hash_add_new(Z_ARRVAL(tmp_zv), ast_kind_child_name(kind, 0), &tmp_zv2);
 	} else {
 		zend_hash_next_index_insert(Z_ARRVAL(tmp_zv), &tmp_zv2);
 	}
@@ -304,9 +304,9 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 			zval child_zv;
 
 			if (ast_is_name(child, ast, i)) {
-				ast_create_virtual_node(&child_zv, AST_NAME, child, child_name);
+				ast_create_virtual_node(&child_zv, AST_NAME, child, version);
 			} else if (ast->kind == ZEND_AST_CLOSURE_USES) {
-				ast_create_virtual_node(&child_zv, AST_CLOSURE_VAR, child, child_name);
+				ast_create_virtual_node(&child_zv, AST_CLOSURE_VAR, child, version);
 			} else {
 				ast_to_zval(&child_zv, child, version);
 			}
