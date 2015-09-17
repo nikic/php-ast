@@ -300,7 +300,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 		for (i = 0; i < count; ++i) {
 			zend_ast *child = children[i];
 			zend_string *child_name =
-				!is_list && version >= 20 ? ast_kind_child_name(ast->kind, i) : NULL;
+				!is_list && version >= 30 ? ast_kind_child_name(ast->kind, i) : NULL;
 			zval child_zv;
 
 			if (ast_is_name(child, ast, i)) {
@@ -322,7 +322,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 }
 
 static int ast_check_version(zend_long version) {
-	if (version == 10 || version == 20) {
+	if (version == 10 || version == 20 || version == 30) {
 		return SUCCESS;
 	}
 

@@ -28,11 +28,11 @@ AST_STMT_LIST
 AST_STMT_LIST
     0: AST_UNARY_OP
         flags: UNARY_SILENCE (260)
-        expr: AST_VAR
-            name: "a"
+        0: AST_VAR
+            0: "a"
     1: AST_UNARY_OP
         flags: UNARY_PLUS (261)
-        expr: 1
+        0: 1
     2: AST_UNARY_OP
         flags: UNARY_MINUS (262)
-        expr: 1
+        0: 1
