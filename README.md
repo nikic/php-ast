@@ -183,6 +183,7 @@ ast\flags\CLASS_ABSTRACT
 ast\flags\CLASS_FINAL
 ast\flags\CLASS_TRAIT
 ast\flags\CLASS_INTERFACE
+ast\flags\CLASS_ANONYMOUS
 
 // Used by ast\AST_PARAM (exclusive)
 ast\flags\PARAM_REF

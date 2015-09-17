@@ -60,6 +60,7 @@ function get_flag_info() : array {
             flags\CLASS_FINAL => 'CLASS_FINAL',
             flags\CLASS_TRAIT => 'CLASS_TRAIT',
             flags\CLASS_INTERFACE => 'CLASS_INTERFACE',
+            flags\CLASS_ANONYMOUS => 'CLASS_ANONYMOUS',
         ],
         ast\AST_PARAM => [
             flags\PARAM_REF => 'PARAM_REF',

@@ -481,6 +481,7 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("CLASS_FINAL", ZEND_ACC_FINAL);
 	ast_register_flag_constant("CLASS_TRAIT", ZEND_ACC_TRAIT);
 	ast_register_flag_constant("CLASS_INTERFACE", ZEND_ACC_INTERFACE);
+	ast_register_flag_constant("CLASS_ANONYMOUS", ZEND_ACC_ANON_CLASS);
 
 	ast_register_flag_constant("PARAM_REF", ZEND_PARAM_REF);
 	ast_register_flag_constant("PARAM_VARIADIC", ZEND_PARAM_VARIADIC);
