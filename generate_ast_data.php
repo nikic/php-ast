@@ -120,7 +120,7 @@ $names = [
     'ZEND_AST_SWITCH' => ['cond', 'stmts'],
     'ZEND_AST_SWITCH_CASE' => ['cond', 'stmts'],
     'ZEND_AST_DECLARE' => ['declares', 'stmts'],
-    'ZEND_AST_PROP_ELEM' => ['name', 'default'],
+    'ZEND_AST_PROP_ELEM' => ['var', 'default'],
     'ZEND_AST_CONST_ELEM' => ['name', 'value'],
     'ZEND_AST_USE_TRAIT' => ['traits', 'adaptations'],
     'ZEND_AST_TRAIT_PRECEDENCE' => ['method', 'insteadof'],
@@ -137,7 +137,7 @@ $names = [
 
     'ZEND_AST_TRY' => ['tryStmts', 'catches', 'finallyStmts'],
     'ZEND_AST_CATCH' => ['exception', 'var', 'stmts'],
-    'ZEND_AST_PARAM' => ['type', 'name', 'default'],
+    'ZEND_AST_PARAM' => ['type', 'var', 'default'],
 
     /* 4 child nodes */
     'ZEND_AST_FOR' => ['init', 'cond', 'loop', 'stmts'],

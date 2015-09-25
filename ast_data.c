@@ -562,7 +562,7 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 			return NULL;
 		case ZEND_AST_PROP_ELEM:
 			switch (child) {
-				case 0: return AST_STR(name);
+				case 0: return AST_STR(var);
 				case 1: return AST_STR(default);
 			}
 			return NULL;
@@ -652,7 +652,7 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 		case ZEND_AST_PARAM:
 			switch (child) {
 				case 0: return AST_STR(type);
-				case 1: return AST_STR(name);
+				case 1: return AST_STR(var);
 				case 2: return AST_STR(default);
 			}
 			return NULL;
