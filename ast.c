@@ -134,7 +134,9 @@ static inline zend_bool ast_is_name(zend_ast *ast, zend_ast *parent, uint32_t i)
 
 static inline zend_bool ast_is_var_name(zend_ast *ast, zend_ast *parent, uint32_t i) {
 	return (parent->kind == ZEND_AST_STATIC && i == 0)
-		|| (parent->kind == ZEND_AST_CATCH && i == 1);
+		|| (parent->kind == ZEND_AST_CATCH && i == 1)
+		|| (parent->kind == ZEND_AST_PARAM && i == 1)
+		|| (parent->kind == ZEND_AST_PROP_ELEM && i == 0);
 }
 
 static inline zend_ast_attr ast_assign_op_to_binary_op(zend_ast_attr attr) {
