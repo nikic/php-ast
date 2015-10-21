@@ -220,6 +220,9 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, zend_long version
 			ast_create_virtual_node(&child_zv, AST_CLOSURE_VAR, child, version);
 		} else if (version >= 20 && ast_is_var_name(child, ast, i)) {
 			ast_create_virtual_node(&child_zv, ZEND_AST_VAR, child, version);
+		} else if (ast->kind == ZEND_AST_PROP_ELEM && i == 2) {
+			/* Skip docComment child -- It's handled separately */
+			continue;
 		} else {
 			ast_to_zval(&child_zv, child, version);
 		}
@@ -319,17 +322,23 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 		ast_update_property(zv, AST_STR(flags), &tmp_zv, AST_CACHE_SLOT_FLAGS);
 	}
 
-	if (ast->kind == ZEND_AST_PROP_DECL) {
+	if (version < 15 && ast->kind == ZEND_AST_PROP_DECL) {
+		/* Before version 15 the first docComment was stored on the PROP_DECL */
 		zend_ast_list *props = zend_ast_get_list(ast);
-		zend_ast *last_prop = props->child[props->children - 1];
-
-		/* PROP_DECL stores the doc comment as last property */
-		if (last_prop->kind == ZEND_AST_ZVAL) {
-			props->children -= 1;
-
-			ZVAL_STR(&tmp_zv, zend_ast_get_str(last_prop));
-			ast_update_property(zv, AST_STR(docComment), &tmp_zv, NULL);
+		uint32_t i;
+		for (i = 0; i < props->children; ++i) {
+			zend_ast *prop = props->child[i];
+			if (prop->child[2]) {
+				ZVAL_STR_COPY(&tmp_zv, zend_ast_get_str(prop->child[2]));
+				ast_update_property(zv, AST_STR(docComment), &tmp_zv, NULL);
+				break;
+			}
 		}
+	}
+
+	if (version >= 15 && ast->kind == ZEND_AST_PROP_ELEM && ast->child[2]) {
+		ZVAL_STR_COPY(&tmp_zv, zend_ast_get_str(ast->child[2]));
+		ast_update_property(zv, AST_STR(docComment), &tmp_zv, NULL);
 	}
 
 	array_init(&tmp_zv);
@@ -339,7 +348,8 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 }
 
 static int ast_check_version(zend_long version) {
-	if (version == 10 || version == 20 || version == 30) {
+	if (version == 10 || version == 15
+		|| version == 20 || version == 30) {
 		return SUCCESS;
 	}
 

@@ -295,7 +295,13 @@ Version changelog
   it was a simple string containing the name.
 * Nested `AST_STMT_LIST`s are now flattened out.
 
-### 10 (current)
+### 15 (current)
+
+* In line with an upstream change, the `docComment` property on `AST_PROP_DECL` has been moved to
+  `AST_PROP_ELEM`. This means that each property in one property declaration can have its own
+  doc comment.
+
+### 10 (supported)
 
 Initial.
 
