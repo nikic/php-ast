@@ -10,7 +10,7 @@ $code = <<<'PHP'
 $fn = static function &($a, &$b) use ($c, &$d) {
 };
 PHP;
-echo ast_dump(ast\parse_code($code));
+echo ast_dump(ast\parse_code($code, $version=15));
 
 ?>
 --EXPECT--

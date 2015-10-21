@@ -11,6 +11,7 @@
 #include "zend_language_scanner.h"
 #include "zend_language_scanner_defs.h"
 #include "zend_exceptions.h"
+#include "zend_smart_str.h"
 
 #define ast_throw_exception(exception_ce, ...) \
 	zend_throw_exception_ex(exception_ce, 0, __VA_ARGS__)
@@ -26,7 +27,7 @@
 #define AST_CACHE_SLOT_LINENO   &AST_G(cache_slots)[2 * 2]
 #define AST_CACHE_SLOT_CHILDREN &AST_G(cache_slots)[2 * 3]
 
-#define AST_DEFAULT_VERSION 10
+#define AST_CURRENT_VERSION 15
 
 /* Additional flags for BINARY_OP */
 #define AST_BINARY_IS_GREATER 256
@@ -347,19 +348,51 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 	ast_fill_children_ht(Z_ARRVAL(tmp_zv), ast, version);
 }
 
+static const zend_long versions[] = {10, 15, 20, 30};
+static const size_t versions_count = sizeof(versions)/sizeof(versions[0]);
+
+static zend_string *ast_version_info() {
+	smart_str str = {0};
+	size_t i;
+
+	smart_str_appends(&str, "Current version is ");
+	smart_str_append_long(&str, AST_CURRENT_VERSION);
+	smart_str_appends(&str, ". All versions (including experimental): {");
+	for (i = 0; i < versions_count; ++i) {
+		if (i != 0) smart_str_appends(&str, ", ");
+		smart_str_append_long(&str, versions[i]);
+	}
+	smart_str_appends(&str, "}");
+
+	smart_str_0(&str);
+	return str.s;
+}
+
 static int ast_check_version(zend_long version) {
-	if (version == 10 || version == 15
-		|| version == 20 || version == 30) {
-		return SUCCESS;
+	size_t i;
+	zend_string *version_info;
+
+	for (i = 0; i < versions_count; ++i) {
+		if (version == versions[i]) {
+			return SUCCESS;
+		}
 	}
 
-	ast_throw_exception(spl_ce_LogicException, "Unknown version " ZEND_LONG_FMT, version);
+	version_info = ast_version_info();
+	if (version != -1) {
+		ast_throw_exception(spl_ce_LogicException,
+				"Unknown version " ZEND_LONG_FMT ". %s", version, ZSTR_VAL(version_info));
+	} else {
+		ast_throw_exception(spl_ce_LogicException,
+				"No version specified. %s", ZSTR_VAL(version_info));
+	}
+	zend_string_release(version_info);
 	return FAILURE;
 }
 
 PHP_FUNCTION(parse_file) {
 	zend_string *filename, *code;
-	zend_long version = AST_DEFAULT_VERSION;
+	zend_long version = -1;
 	zend_ast *ast;
 	zend_arena *arena;
 	php_stream *stream;
@@ -403,7 +436,7 @@ PHP_FUNCTION(parse_file) {
 
 PHP_FUNCTION(parse_code) {
 	zend_string *code, *filename = NULL;
-	zend_long version = AST_DEFAULT_VERSION;
+	zend_long version = -1;
 	zend_ast *ast;
 	zend_arena *arena;
 

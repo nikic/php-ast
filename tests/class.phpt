@@ -15,7 +15,7 @@ class A extends B implements D, E {
 }
 PHP;
 
-echo ast_dump(ast\parse_code($code));
+echo ast_dump(ast\parse_code($code, $version=15));
 
 ?>
 --EXPECT--

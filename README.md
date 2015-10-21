@@ -11,18 +11,26 @@ Defines:
  * `ast\Node\Decl` class
  * `ast\AST_*` kind constants (mirroring `zend_ast.h`)
  * `ast\flags\*` flags
- * `ast\parse_file(string $filename [, int $version])`
- * `ast\parse_code(string $code [, int $version [, string $filename = "string code"]])`
+ * `ast\parse_file(string $filename, int $version)`
+ * `ast\parse_code(string $code, int $version [, string $filename = "string code"])`
  * `ast\get_kind_name(int $kind)`
  * `ast\kind_uses_flags(int $kind)`
 
 Usage
 -----
 
-The `ast\parse_code()` function accepts a source code string or the `ast\parse_file()` which accepts
-a filename containing PHP code (which is parsed in INITIAL mode, i.e.  it should generally include an
-opening PHP tag) and returns an abstract syntax tree consisting of `ast\Node` objects. `ast\Node` is
-declared as follows:
+Code can be parsed using either `ast\parse_code()`, which accepts a code string, or
+`ast\parse_file()`, which accepts a file path. Additionally both functions require a `$version`
+argument to ensure forward-compatibility. The current version is 15.
+
+```php
+$ast = ast\parse_code('<?php ...', $version=15);
+// or
+$ast = ast\parse_file('file.php', $version=15);
+```
+
+The abstract syntax tree returned by these functions consists of `ast\Node` objects.
+`ast\Node` is declared as follows:
 
 ```php
 namespace ast;

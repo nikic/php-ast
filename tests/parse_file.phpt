@@ -5,7 +5,7 @@ ast\parse_file() on valid file
 
 require __DIR__ . '/../util.php';
 
-$ast = ast\parse_file(__DIR__ . '/valid_file.php');
+$ast = ast\parse_file(__DIR__ . '/valid_file.php', $version=15);
 echo ast_dump($ast);
 
 ?>

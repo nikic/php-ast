@@ -19,7 +19,7 @@ test
 }
 PHP;
 
-$ast = ast\parse_code($code);
+$ast = ast\parse_code($code, $version=15);
 echo ast_dump($ast, AST_DUMP_LINENOS);
 
 // The lineno for AST_ARG_LIST is wrong...

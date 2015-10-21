@@ -20,7 +20,7 @@ function test(Type $arg = XYZ) : Ret {
 }
 PHP;
 
-echo ast_dump(ast\parse_code($code));
+echo ast_dump(ast\parse_code($code, $version=15));
 --EXPECT--
 AST_STMT_LIST
     0: AST_FUNC_DECL

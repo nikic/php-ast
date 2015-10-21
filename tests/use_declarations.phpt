@@ -13,7 +13,7 @@ use Foo\{Bar, function bar};
 use function foo\{bar, baz};
 PHP;
 
-echo ast_dump(ast\parse_code($code));
+echo ast_dump(ast\parse_code($code, $version=15));
 
 ?>
 --EXPECT--
