@@ -136,12 +136,12 @@ $names = [
     'ZEND_AST_CONDITIONAL' => ['cond', 'trueExpr', 'falseExpr'],
 
     'ZEND_AST_TRY' => ['tryStmts', 'catches', 'finallyStmts'],
-    'ZEND_AST_CATCH' => ['exception', 'var', 'stmts'],
+    'ZEND_AST_CATCH' => ['class', 'var', 'stmts'],
     'ZEND_AST_PARAM' => ['type', 'name', 'default'],
 
     /* 4 child nodes */
     'ZEND_AST_FOR' => ['init', 'cond', 'loop', 'stmts'],
-    'ZEND_AST_FOREACH' => ['expr', 'valueVar', 'keyVar', 'stmts'],
+    'ZEND_AST_FOREACH' => ['expr', 'value', 'key', 'stmts'],
 ];
 
 if ($argc != 2) {

@@ -43,11 +43,8 @@
 	X(tryStmts) \
 	X(catches) \
 	X(finallyStmts) \
-	X(exception) \
 	X(type) \
 	X(init) \
 	X(loop) \
-	X(valueVar) \
-	X(keyVar) \
 
 #endif

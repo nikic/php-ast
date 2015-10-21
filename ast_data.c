@@ -82,7 +82,6 @@ const zend_ast_kind ast_kinds[] = {
 	ZEND_AST_SWITCH,
 	ZEND_AST_SWITCH_CASE,
 	ZEND_AST_DECLARE,
-	ZEND_AST_PROP_ELEM,
 	ZEND_AST_CONST_ELEM,
 	ZEND_AST_USE_TRAIT,
 	ZEND_AST_TRAIT_PRECEDENCE,
@@ -97,6 +96,7 @@ const zend_ast_kind ast_kinds[] = {
 	ZEND_AST_TRY,
 	ZEND_AST_CATCH,
 	ZEND_AST_PARAM,
+	ZEND_AST_PROP_ELEM,
 	ZEND_AST_FOR,
 	ZEND_AST_FOREACH,
 	AST_NAME,
@@ -184,7 +184,6 @@ const char *ast_kind_to_name(zend_ast_kind kind) {
 		case ZEND_AST_SWITCH: return "AST_SWITCH";
 		case ZEND_AST_SWITCH_CASE: return "AST_SWITCH_CASE";
 		case ZEND_AST_DECLARE: return "AST_DECLARE";
-		case ZEND_AST_PROP_ELEM: return "AST_PROP_ELEM";
 		case ZEND_AST_CONST_ELEM: return "AST_CONST_ELEM";
 		case ZEND_AST_USE_TRAIT: return "AST_USE_TRAIT";
 		case ZEND_AST_TRAIT_PRECEDENCE: return "AST_TRAIT_PRECEDENCE";
@@ -199,6 +198,7 @@ const char *ast_kind_to_name(zend_ast_kind kind) {
 		case ZEND_AST_TRY: return "AST_TRY";
 		case ZEND_AST_CATCH: return "AST_CATCH";
 		case ZEND_AST_PARAM: return "AST_PARAM";
+		case ZEND_AST_PROP_ELEM: return "AST_PROP_ELEM";
 		case ZEND_AST_FOR: return "AST_FOR";
 		case ZEND_AST_FOREACH: return "AST_FOREACH";
 		case AST_NAME: return "AST_NAME";
@@ -644,7 +644,7 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 			return NULL;
 		case ZEND_AST_CATCH:
 			switch (child) {
-				case 0: return AST_STR(exception);
+				case 0: return AST_STR(class);
 				case 1: return AST_STR(var);
 				case 2: return AST_STR(stmts);
 			}
@@ -667,8 +667,8 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 		case ZEND_AST_FOREACH:
 			switch (child) {
 				case 0: return AST_STR(expr);
-				case 1: return AST_STR(valueVar);
-				case 2: return AST_STR(keyVar);
+				case 1: return AST_STR(value);
+				case 2: return AST_STR(key);
 				case 3: return AST_STR(stmts);
 			}
 			return NULL;
@@ -757,7 +757,6 @@ void ast_register_kind_constants(INIT_FUNC_ARGS) {
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_SWITCH", ZEND_AST_SWITCH, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_SWITCH_CASE", ZEND_AST_SWITCH_CASE, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_DECLARE", ZEND_AST_DECLARE, CONST_CS | CONST_PERSISTENT);
-	REGISTER_NS_LONG_CONSTANT("ast", "AST_PROP_ELEM", ZEND_AST_PROP_ELEM, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_CONST_ELEM", ZEND_AST_CONST_ELEM, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_USE_TRAIT", ZEND_AST_USE_TRAIT, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_TRAIT_PRECEDENCE", ZEND_AST_TRAIT_PRECEDENCE, CONST_CS | CONST_PERSISTENT);
@@ -772,6 +771,7 @@ void ast_register_kind_constants(INIT_FUNC_ARGS) {
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_TRY", ZEND_AST_TRY, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_CATCH", ZEND_AST_CATCH, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_PARAM", ZEND_AST_PARAM, CONST_CS | CONST_PERSISTENT);
+	REGISTER_NS_LONG_CONSTANT("ast", "AST_PROP_ELEM", ZEND_AST_PROP_ELEM, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_FOR", ZEND_AST_FOR, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_FOREACH", ZEND_AST_FOREACH, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_NAME", AST_NAME, CONST_CS | CONST_PERSISTENT);
