@@ -1,7 +1,10 @@
 --TEST--
 ast_dump() with AST_DUMP_LINENOS
 --SKIPIF--
-<?php if (!extension_loaded("ast")) print "skip"; ?>
+<?php
+if (!extension_loaded("ast")) print "skip ast extension not loaded";
+if (!extension_loaded("tokenizer")) print "skip tokenizer extension not loaded";
+?>
 --FILE--
 <?php
 
