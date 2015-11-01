@@ -30,9 +30,9 @@ function get_flag_info() : array {
         flags\TYPE_CALLABLE => 'TYPE_CALLABLE',
     ];
     $useTypes = [
-        T_CLASS => 'T_CLASS',
-        T_FUNCTION => 'T_FUNCTION',
-        T_CONST => 'T_CONST',
+        flags\USE_NORMAL => 'USE_NORMAL',
+        flags\USE_FUNCTION => 'USE_FUNCTION',
+        flags\USE_CONST => 'USE_CONST',
     ];
     $sharedBinaryOps = [
         flags\BINARY_BITWISE_OR => 'BINARY_BITWISE_OR',
@@ -105,14 +105,14 @@ function get_flag_info() : array {
             flags\ASSIGN_SHIFT_RIGHT => 'ASSIGN_SHIFT_RIGHT',
         ],
         ast\AST_MAGIC_CONST => [
-            T_LINE => 'T_LINE',
-            T_FILE => 'T_FILE',
-            T_DIR => 'T_DIR',
-            T_TRAIT_C => 'T_TRAIT_C',
-            T_METHOD_C => 'T_METHOD_C',
-            T_FUNC_C => 'T_FUNC_C',
-            T_NS_C => 'T_NS_C',
-            T_CLASS_C => 'T_CLASS_C',
+            flags\MAGIC_LINE => 'MAGIC_LINE',
+            flags\MAGIC_FILE => 'MAGIC_FILE',
+            flags\MAGIC_DIR => 'MAGIC_DIR',
+            flags\MAGIC_NAMESPACE => 'MAGIC_NAMESPACE',
+            flags\MAGIC_FUNCTION => 'MAGIC_FUNCTION',
+            flags\MAGIC_METHOD => 'MAGIC_METHOD',
+            flags\MAGIC_CLASS => 'MAGIC_CLASS',
+            flags\MAGIC_TRAIT => 'MAGIC_TRAIT',
         ],
         ast\AST_USE => $useTypes,
         ast\AST_GROUP_USE => $useTypes,

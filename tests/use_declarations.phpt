@@ -16,16 +16,16 @@ PHP;
 echo ast_dump(ast\parse_code($code, $version=15));
 
 ?>
---EXPECT--
+--EXPECTF--
 AST_STMT_LIST
     0: AST_USE
-        flags: T_CLASS (361)
+        flags: USE_NORMAL (%d)
         0: AST_USE_ELEM
             flags: 0
             0: "Foo\Bar"
             1: "Baz"
     1: AST_USE
-        flags: T_FUNCTION (346)
+        flags: USE_FUNCTION (%d)
         0: AST_USE_ELEM
             flags: 0
             0: "foo\bar"
@@ -36,15 +36,15 @@ AST_STMT_LIST
         1: AST_USE
             flags: 0
             0: AST_USE_ELEM
-                flags: T_CLASS (361)
+                flags: USE_NORMAL (%d)
                 0: "Bar"
                 1: null
             1: AST_USE_ELEM
-                flags: T_FUNCTION (346)
+                flags: USE_FUNCTION (%d)
                 0: "bar"
                 1: null
     3: AST_GROUP_USE
-        flags: T_FUNCTION (346)
+        flags: USE_FUNCTION (%d)
         0: "foo"
         1: AST_USE
             flags: 0

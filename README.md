@@ -245,7 +245,7 @@ ast\flags\BINARY_IS_GREATER          // since version 20
 ast\flags\BINARY_IS_GREATER_OR_EQUAL // since version 20
 ast\flags\BINARY_SPACESHIP
 
-// Used by ast\AST_ASSIGN_OP in version 10 (exclusive)
+// Used by ast\AST_ASSIGN_OP in versions before 20 (exclusive)
 ast\flags\ASSIGN_BITWISE_OR
 ast\flags\ASSIGN_BITWISE_AND
 ast\flags\ASSIGN_BITWISE_XOR
@@ -260,21 +260,19 @@ ast\flags\ASSIGN_SHIFT_LEFT
 ast\flags\ASSIGN_SHIFT_RIGHT
 
 // Used by ast\AST_MAGIC_CONST (exclusive)
-// (Constants defined by ext\tokenizer)
-T_LINE
-T_FILE
-T_DIR
-T_TRAIT_C
-T_METHOD_C
-T_FUNC_C
-T_NS_C
-T_CLASS_C
+ast\flags\MAGIC_LINE
+ast\flags\MAGIC_FILE
+ast\flags\MAGIC_DIR
+ast\flags\MAGIC_NAMESPACE
+ast\flags\MAGIC_FUNCTION
+ast\flags\MAGIC_METHOD
+ast\flags\MAGIC_CLASS
+ast\flags\MAGIC_TRAIT
 
 // Used by ast\AST_USE, ast\AST_GROUP_USE and ast\AST_USE_ELEM (exclusive)
-// (Constants defined by ext\tokenizer)
-T_CLASS
-T_FUNCTION
-T_CONST
+ast\flags\USE_NORMAL
+ast\flags\USE_FUNCTION
+ast\flags\USE_CONST
 
 // Used by ast\AST_INCLUDE_OR_EVAL (exclusive)
 ast\flags\EXEC_EVAL

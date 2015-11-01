@@ -10,6 +10,7 @@
 
 #include "zend_language_scanner.h"
 #include "zend_language_scanner_defs.h"
+#include "zend_language_parser.h"
 #include "zend_exceptions.h"
 #include "zend_smart_str.h"
 
@@ -615,6 +616,19 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("EXEC_INCLUDE_ONCE", ZEND_INCLUDE_ONCE);
 	ast_register_flag_constant("EXEC_REQUIRE", ZEND_REQUIRE);
 	ast_register_flag_constant("EXEC_REQUIRE_ONCE", ZEND_REQUIRE_ONCE);
+
+	ast_register_flag_constant("USE_NORMAL", T_CLASS);
+	ast_register_flag_constant("USE_FUNCTION", T_FUNCTION);
+	ast_register_flag_constant("USE_CONST", T_CONST);
+
+	ast_register_flag_constant("MAGIC_LINE", T_LINE);
+	ast_register_flag_constant("MAGIC_FILE", T_FILE);
+	ast_register_flag_constant("MAGIC_DIR", T_DIR);
+	ast_register_flag_constant("MAGIC_NAMESPACE", T_NS_C);
+	ast_register_flag_constant("MAGIC_FUNCTION", T_FUNC_C);
+	ast_register_flag_constant("MAGIC_METHOD", T_METHOD_C);
+	ast_register_flag_constant("MAGIC_CLASS", T_CLASS_C);
+	ast_register_flag_constant("MAGIC_TRAIT", T_TRAIT_C);
 
 	INIT_CLASS_ENTRY(tmp_ce, "ast\\Node", NULL);
 	ast_node_ce = zend_register_internal_class(&tmp_ce);
