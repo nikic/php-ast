@@ -204,7 +204,7 @@ foreach ($names as $kind => $children) {
 
     $kindChildNames = [];
     foreach ($children as $index => $name) {
-        $kindChildNames[] = "\t\t\t\tcase $index: return AST_STR($name);";
+        $kindChildNames[] = "\t\t\t\tcase $index: return AST_STR(str_$name);";
     }
     $childNames[] = "\t\tcase $kind:\n\t\t\tswitch (child) {\n"
         . implode("\n", $kindChildNames) . "\n\t\t\t}\n\t\t\treturn NULL;";

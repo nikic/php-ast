@@ -34,7 +34,7 @@ ZEND_EXTERN_MODULE_GLOBALS(ast)
 
 #define AST_G(v) ZEND_MODULE_GLOBALS_ACCESSOR(ast, v)
 
-#define AST_STR(str) AST_G(str_ ## str)
+#define AST_STR(str) AST_G(str)
 
 /* Custom ast kind for names */
 #define AST_NAME 2048

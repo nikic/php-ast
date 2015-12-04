@@ -212,43 +212,43 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 	switch (kind) {
 		case AST_NAME:
 			switch (child) {
-				case 0: return AST_STR(name);
+				case 0: return AST_STR(str_name);
 			}
 			return NULL;
 		case AST_CLOSURE_VAR:
 			switch (child) {
-				case 0: return AST_STR(name);
+				case 0: return AST_STR(str_name);
 			}
 			return NULL;
 		case ZEND_AST_FUNC_DECL:
 			switch (child) {
-				case 0: return AST_STR(params);
-				case 1: return AST_STR(uses);
-				case 2: return AST_STR(stmts);
-				case 3: return AST_STR(returnType);
+				case 0: return AST_STR(str_params);
+				case 1: return AST_STR(str_uses);
+				case 2: return AST_STR(str_stmts);
+				case 3: return AST_STR(str_returnType);
 			}
 			return NULL;
 		case ZEND_AST_CLOSURE:
 			switch (child) {
-				case 0: return AST_STR(params);
-				case 1: return AST_STR(uses);
-				case 2: return AST_STR(stmts);
-				case 3: return AST_STR(returnType);
+				case 0: return AST_STR(str_params);
+				case 1: return AST_STR(str_uses);
+				case 2: return AST_STR(str_stmts);
+				case 3: return AST_STR(str_returnType);
 			}
 			return NULL;
 		case ZEND_AST_METHOD:
 			switch (child) {
-				case 0: return AST_STR(params);
-				case 1: return AST_STR(uses);
-				case 2: return AST_STR(stmts);
-				case 3: return AST_STR(returnType);
+				case 0: return AST_STR(str_params);
+				case 1: return AST_STR(str_uses);
+				case 2: return AST_STR(str_stmts);
+				case 3: return AST_STR(str_returnType);
 			}
 			return NULL;
 		case ZEND_AST_CLASS:
 			switch (child) {
-				case 0: return AST_STR(extends);
-				case 1: return AST_STR(implements);
-				case 2: return AST_STR(stmts);
+				case 0: return AST_STR(str_extends);
+				case 1: return AST_STR(str_implements);
+				case 2: return AST_STR(str_stmts);
 			}
 			return NULL;
 		case ZEND_AST_MAGIC_CONST:
@@ -257,419 +257,419 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 			return NULL;
 		case ZEND_AST_VAR:
 			switch (child) {
-				case 0: return AST_STR(name);
+				case 0: return AST_STR(str_name);
 			}
 			return NULL;
 		case ZEND_AST_CONST:
 			switch (child) {
-				case 0: return AST_STR(name);
+				case 0: return AST_STR(str_name);
 			}
 			return NULL;
 		case ZEND_AST_UNPACK:
 			switch (child) {
-				case 0: return AST_STR(expr);
+				case 0: return AST_STR(str_expr);
 			}
 			return NULL;
 		case ZEND_AST_UNARY_PLUS:
 			switch (child) {
-				case 0: return AST_STR(expr);
+				case 0: return AST_STR(str_expr);
 			}
 			return NULL;
 		case ZEND_AST_UNARY_MINUS:
 			switch (child) {
-				case 0: return AST_STR(expr);
+				case 0: return AST_STR(str_expr);
 			}
 			return NULL;
 		case ZEND_AST_CAST:
 			switch (child) {
-				case 0: return AST_STR(expr);
+				case 0: return AST_STR(str_expr);
 			}
 			return NULL;
 		case ZEND_AST_EMPTY:
 			switch (child) {
-				case 0: return AST_STR(expr);
+				case 0: return AST_STR(str_expr);
 			}
 			return NULL;
 		case ZEND_AST_ISSET:
 			switch (child) {
-				case 0: return AST_STR(var);
+				case 0: return AST_STR(str_var);
 			}
 			return NULL;
 		case ZEND_AST_SILENCE:
 			switch (child) {
-				case 0: return AST_STR(expr);
+				case 0: return AST_STR(str_expr);
 			}
 			return NULL;
 		case ZEND_AST_SHELL_EXEC:
 			switch (child) {
-				case 0: return AST_STR(expr);
+				case 0: return AST_STR(str_expr);
 			}
 			return NULL;
 		case ZEND_AST_CLONE:
 			switch (child) {
-				case 0: return AST_STR(expr);
+				case 0: return AST_STR(str_expr);
 			}
 			return NULL;
 		case ZEND_AST_EXIT:
 			switch (child) {
-				case 0: return AST_STR(expr);
+				case 0: return AST_STR(str_expr);
 			}
 			return NULL;
 		case ZEND_AST_PRINT:
 			switch (child) {
-				case 0: return AST_STR(expr);
+				case 0: return AST_STR(str_expr);
 			}
 			return NULL;
 		case ZEND_AST_INCLUDE_OR_EVAL:
 			switch (child) {
-				case 0: return AST_STR(expr);
+				case 0: return AST_STR(str_expr);
 			}
 			return NULL;
 		case ZEND_AST_UNARY_OP:
 			switch (child) {
-				case 0: return AST_STR(expr);
+				case 0: return AST_STR(str_expr);
 			}
 			return NULL;
 		case ZEND_AST_PRE_INC:
 			switch (child) {
-				case 0: return AST_STR(var);
+				case 0: return AST_STR(str_var);
 			}
 			return NULL;
 		case ZEND_AST_PRE_DEC:
 			switch (child) {
-				case 0: return AST_STR(var);
+				case 0: return AST_STR(str_var);
 			}
 			return NULL;
 		case ZEND_AST_POST_INC:
 			switch (child) {
-				case 0: return AST_STR(var);
+				case 0: return AST_STR(str_var);
 			}
 			return NULL;
 		case ZEND_AST_POST_DEC:
 			switch (child) {
-				case 0: return AST_STR(var);
+				case 0: return AST_STR(str_var);
 			}
 			return NULL;
 		case ZEND_AST_YIELD_FROM:
 			switch (child) {
-				case 0: return AST_STR(expr);
+				case 0: return AST_STR(str_expr);
 			}
 			return NULL;
 		case ZEND_AST_GLOBAL:
 			switch (child) {
-				case 0: return AST_STR(var);
+				case 0: return AST_STR(str_var);
 			}
 			return NULL;
 		case ZEND_AST_UNSET:
 			switch (child) {
-				case 0: return AST_STR(var);
+				case 0: return AST_STR(str_var);
 			}
 			return NULL;
 		case ZEND_AST_RETURN:
 			switch (child) {
-				case 0: return AST_STR(expr);
+				case 0: return AST_STR(str_expr);
 			}
 			return NULL;
 		case ZEND_AST_LABEL:
 			switch (child) {
-				case 0: return AST_STR(name);
+				case 0: return AST_STR(str_name);
 			}
 			return NULL;
 		case ZEND_AST_REF:
 			switch (child) {
-				case 0: return AST_STR(var);
+				case 0: return AST_STR(str_var);
 			}
 			return NULL;
 		case ZEND_AST_HALT_COMPILER:
 			switch (child) {
-				case 0: return AST_STR(offset);
+				case 0: return AST_STR(str_offset);
 			}
 			return NULL;
 		case ZEND_AST_ECHO:
 			switch (child) {
-				case 0: return AST_STR(expr);
+				case 0: return AST_STR(str_expr);
 			}
 			return NULL;
 		case ZEND_AST_THROW:
 			switch (child) {
-				case 0: return AST_STR(expr);
+				case 0: return AST_STR(str_expr);
 			}
 			return NULL;
 		case ZEND_AST_GOTO:
 			switch (child) {
-				case 0: return AST_STR(label);
+				case 0: return AST_STR(str_label);
 			}
 			return NULL;
 		case ZEND_AST_BREAK:
 			switch (child) {
-				case 0: return AST_STR(depth);
+				case 0: return AST_STR(str_depth);
 			}
 			return NULL;
 		case ZEND_AST_CONTINUE:
 			switch (child) {
-				case 0: return AST_STR(depth);
+				case 0: return AST_STR(str_depth);
 			}
 			return NULL;
 		case ZEND_AST_DIM:
 			switch (child) {
-				case 0: return AST_STR(expr);
-				case 1: return AST_STR(dim);
+				case 0: return AST_STR(str_expr);
+				case 1: return AST_STR(str_dim);
 			}
 			return NULL;
 		case ZEND_AST_PROP:
 			switch (child) {
-				case 0: return AST_STR(expr);
-				case 1: return AST_STR(prop);
+				case 0: return AST_STR(str_expr);
+				case 1: return AST_STR(str_prop);
 			}
 			return NULL;
 		case ZEND_AST_STATIC_PROP:
 			switch (child) {
-				case 0: return AST_STR(class);
-				case 1: return AST_STR(prop);
+				case 0: return AST_STR(str_class);
+				case 1: return AST_STR(str_prop);
 			}
 			return NULL;
 		case ZEND_AST_CALL:
 			switch (child) {
-				case 0: return AST_STR(expr);
-				case 1: return AST_STR(args);
+				case 0: return AST_STR(str_expr);
+				case 1: return AST_STR(str_args);
 			}
 			return NULL;
 		case ZEND_AST_CLASS_CONST:
 			switch (child) {
-				case 0: return AST_STR(class);
-				case 1: return AST_STR(const);
+				case 0: return AST_STR(str_class);
+				case 1: return AST_STR(str_const);
 			}
 			return NULL;
 		case ZEND_AST_ASSIGN:
 			switch (child) {
-				case 0: return AST_STR(var);
-				case 1: return AST_STR(expr);
+				case 0: return AST_STR(str_var);
+				case 1: return AST_STR(str_expr);
 			}
 			return NULL;
 		case ZEND_AST_ASSIGN_REF:
 			switch (child) {
-				case 0: return AST_STR(var);
-				case 1: return AST_STR(expr);
+				case 0: return AST_STR(str_var);
+				case 1: return AST_STR(str_expr);
 			}
 			return NULL;
 		case ZEND_AST_ASSIGN_OP:
 			switch (child) {
-				case 0: return AST_STR(var);
-				case 1: return AST_STR(expr);
+				case 0: return AST_STR(str_var);
+				case 1: return AST_STR(str_expr);
 			}
 			return NULL;
 		case ZEND_AST_BINARY_OP:
 			switch (child) {
-				case 0: return AST_STR(left);
-				case 1: return AST_STR(right);
+				case 0: return AST_STR(str_left);
+				case 1: return AST_STR(str_right);
 			}
 			return NULL;
 		case ZEND_AST_GREATER:
 			switch (child) {
-				case 0: return AST_STR(left);
-				case 1: return AST_STR(right);
+				case 0: return AST_STR(str_left);
+				case 1: return AST_STR(str_right);
 			}
 			return NULL;
 		case ZEND_AST_GREATER_EQUAL:
 			switch (child) {
-				case 0: return AST_STR(left);
-				case 1: return AST_STR(right);
+				case 0: return AST_STR(str_left);
+				case 1: return AST_STR(str_right);
 			}
 			return NULL;
 		case ZEND_AST_AND:
 			switch (child) {
-				case 0: return AST_STR(left);
-				case 1: return AST_STR(right);
+				case 0: return AST_STR(str_left);
+				case 1: return AST_STR(str_right);
 			}
 			return NULL;
 		case ZEND_AST_OR:
 			switch (child) {
-				case 0: return AST_STR(left);
-				case 1: return AST_STR(right);
+				case 0: return AST_STR(str_left);
+				case 1: return AST_STR(str_right);
 			}
 			return NULL;
 		case ZEND_AST_ARRAY_ELEM:
 			switch (child) {
-				case 0: return AST_STR(value);
-				case 1: return AST_STR(key);
+				case 0: return AST_STR(str_value);
+				case 1: return AST_STR(str_key);
 			}
 			return NULL;
 		case ZEND_AST_NEW:
 			switch (child) {
-				case 0: return AST_STR(class);
-				case 1: return AST_STR(args);
+				case 0: return AST_STR(str_class);
+				case 1: return AST_STR(str_args);
 			}
 			return NULL;
 		case ZEND_AST_INSTANCEOF:
 			switch (child) {
-				case 0: return AST_STR(expr);
-				case 1: return AST_STR(class);
+				case 0: return AST_STR(str_expr);
+				case 1: return AST_STR(str_class);
 			}
 			return NULL;
 		case ZEND_AST_YIELD:
 			switch (child) {
-				case 0: return AST_STR(value);
-				case 1: return AST_STR(key);
+				case 0: return AST_STR(str_value);
+				case 1: return AST_STR(str_key);
 			}
 			return NULL;
 		case ZEND_AST_COALESCE:
 			switch (child) {
-				case 0: return AST_STR(left);
-				case 1: return AST_STR(right);
+				case 0: return AST_STR(str_left);
+				case 1: return AST_STR(str_right);
 			}
 			return NULL;
 		case ZEND_AST_STATIC:
 			switch (child) {
-				case 0: return AST_STR(var);
-				case 1: return AST_STR(default);
+				case 0: return AST_STR(str_var);
+				case 1: return AST_STR(str_default);
 			}
 			return NULL;
 		case ZEND_AST_WHILE:
 			switch (child) {
-				case 0: return AST_STR(cond);
-				case 1: return AST_STR(stmts);
+				case 0: return AST_STR(str_cond);
+				case 1: return AST_STR(str_stmts);
 			}
 			return NULL;
 		case ZEND_AST_DO_WHILE:
 			switch (child) {
-				case 0: return AST_STR(stmts);
-				case 1: return AST_STR(cond);
+				case 0: return AST_STR(str_stmts);
+				case 1: return AST_STR(str_cond);
 			}
 			return NULL;
 		case ZEND_AST_IF_ELEM:
 			switch (child) {
-				case 0: return AST_STR(cond);
-				case 1: return AST_STR(stmts);
+				case 0: return AST_STR(str_cond);
+				case 1: return AST_STR(str_stmts);
 			}
 			return NULL;
 		case ZEND_AST_SWITCH:
 			switch (child) {
-				case 0: return AST_STR(cond);
-				case 1: return AST_STR(stmts);
+				case 0: return AST_STR(str_cond);
+				case 1: return AST_STR(str_stmts);
 			}
 			return NULL;
 		case ZEND_AST_SWITCH_CASE:
 			switch (child) {
-				case 0: return AST_STR(cond);
-				case 1: return AST_STR(stmts);
+				case 0: return AST_STR(str_cond);
+				case 1: return AST_STR(str_stmts);
 			}
 			return NULL;
 		case ZEND_AST_DECLARE:
 			switch (child) {
-				case 0: return AST_STR(declares);
-				case 1: return AST_STR(stmts);
+				case 0: return AST_STR(str_declares);
+				case 1: return AST_STR(str_stmts);
 			}
 			return NULL;
 		case ZEND_AST_PROP_ELEM:
 			switch (child) {
-				case 0: return AST_STR(name);
-				case 1: return AST_STR(default);
+				case 0: return AST_STR(str_name);
+				case 1: return AST_STR(str_default);
 			}
 			return NULL;
 		case ZEND_AST_CONST_ELEM:
 			switch (child) {
-				case 0: return AST_STR(name);
-				case 1: return AST_STR(value);
+				case 0: return AST_STR(str_name);
+				case 1: return AST_STR(str_value);
 			}
 			return NULL;
 		case ZEND_AST_USE_TRAIT:
 			switch (child) {
-				case 0: return AST_STR(traits);
-				case 1: return AST_STR(adaptations);
+				case 0: return AST_STR(str_traits);
+				case 1: return AST_STR(str_adaptations);
 			}
 			return NULL;
 		case ZEND_AST_TRAIT_PRECEDENCE:
 			switch (child) {
-				case 0: return AST_STR(method);
-				case 1: return AST_STR(insteadof);
+				case 0: return AST_STR(str_method);
+				case 1: return AST_STR(str_insteadof);
 			}
 			return NULL;
 		case ZEND_AST_METHOD_REFERENCE:
 			switch (child) {
-				case 0: return AST_STR(class);
-				case 1: return AST_STR(method);
+				case 0: return AST_STR(str_class);
+				case 1: return AST_STR(str_method);
 			}
 			return NULL;
 		case ZEND_AST_NAMESPACE:
 			switch (child) {
-				case 0: return AST_STR(name);
-				case 1: return AST_STR(stmts);
+				case 0: return AST_STR(str_name);
+				case 1: return AST_STR(str_stmts);
 			}
 			return NULL;
 		case ZEND_AST_USE_ELEM:
 			switch (child) {
-				case 0: return AST_STR(name);
-				case 1: return AST_STR(alias);
+				case 0: return AST_STR(str_name);
+				case 1: return AST_STR(str_alias);
 			}
 			return NULL;
 		case ZEND_AST_TRAIT_ALIAS:
 			switch (child) {
-				case 0: return AST_STR(method);
-				case 1: return AST_STR(alias);
+				case 0: return AST_STR(str_method);
+				case 1: return AST_STR(str_alias);
 			}
 			return NULL;
 		case ZEND_AST_GROUP_USE:
 			switch (child) {
-				case 0: return AST_STR(prefix);
-				case 1: return AST_STR(uses);
+				case 0: return AST_STR(str_prefix);
+				case 1: return AST_STR(str_uses);
 			}
 			return NULL;
 		case ZEND_AST_METHOD_CALL:
 			switch (child) {
-				case 0: return AST_STR(expr);
-				case 1: return AST_STR(method);
-				case 2: return AST_STR(args);
+				case 0: return AST_STR(str_expr);
+				case 1: return AST_STR(str_method);
+				case 2: return AST_STR(str_args);
 			}
 			return NULL;
 		case ZEND_AST_STATIC_CALL:
 			switch (child) {
-				case 0: return AST_STR(class);
-				case 1: return AST_STR(method);
-				case 2: return AST_STR(args);
+				case 0: return AST_STR(str_class);
+				case 1: return AST_STR(str_method);
+				case 2: return AST_STR(str_args);
 			}
 			return NULL;
 		case ZEND_AST_CONDITIONAL:
 			switch (child) {
-				case 0: return AST_STR(cond);
-				case 1: return AST_STR(true);
-				case 2: return AST_STR(false);
+				case 0: return AST_STR(str_cond);
+				case 1: return AST_STR(str_true);
+				case 2: return AST_STR(str_false);
 			}
 			return NULL;
 		case ZEND_AST_TRY:
 			switch (child) {
-				case 0: return AST_STR(try);
-				case 1: return AST_STR(catches);
-				case 2: return AST_STR(finally);
+				case 0: return AST_STR(str_try);
+				case 1: return AST_STR(str_catches);
+				case 2: return AST_STR(str_finally);
 			}
 			return NULL;
 		case ZEND_AST_CATCH:
 			switch (child) {
-				case 0: return AST_STR(class);
-				case 1: return AST_STR(var);
-				case 2: return AST_STR(stmts);
+				case 0: return AST_STR(str_class);
+				case 1: return AST_STR(str_var);
+				case 2: return AST_STR(str_stmts);
 			}
 			return NULL;
 		case ZEND_AST_PARAM:
 			switch (child) {
-				case 0: return AST_STR(type);
-				case 1: return AST_STR(name);
-				case 2: return AST_STR(default);
+				case 0: return AST_STR(str_type);
+				case 1: return AST_STR(str_name);
+				case 2: return AST_STR(str_default);
 			}
 			return NULL;
 		case ZEND_AST_FOR:
 			switch (child) {
-				case 0: return AST_STR(init);
-				case 1: return AST_STR(cond);
-				case 2: return AST_STR(loop);
-				case 3: return AST_STR(stmts);
+				case 0: return AST_STR(str_init);
+				case 1: return AST_STR(str_cond);
+				case 2: return AST_STR(str_loop);
+				case 3: return AST_STR(str_stmts);
 			}
 			return NULL;
 		case ZEND_AST_FOREACH:
 			switch (child) {
-				case 0: return AST_STR(expr);
-				case 1: return AST_STR(value);
-				case 2: return AST_STR(key);
-				case 3: return AST_STR(stmts);
+				case 0: return AST_STR(str_expr);
+				case 1: return AST_STR(str_value);
+				case 2: return AST_STR(str_key);
+				case 3: return AST_STR(str_stmts);
 			}
 			return NULL;
 	}
