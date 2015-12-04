@@ -294,7 +294,7 @@ Version changelog
 * `AST_GREATER`, `AST_GREATER_EQUAL`, `AST_OR`, `AST_AND` nodes are now represented using
   `AST_BINARY_OP` with flags `BINARY_IS_GREATER`, `BINARY_IS_GREATER_OR_EQUAL`, `BINARY_BOOL_OR`
   and `BINARY_BOOL_AND`.
-* `AST_SILENCE`, `AST_UNARY_MINUS` and `AST_UNARY_PLUS` nodes are noew represented using
+* `AST_SILENCE`, `AST_UNARY_MINUS` and `AST_UNARY_PLUS` nodes are now represented using
   `AST_UNARY_OP` with flags `UNARY_SILENCE`, `UNARY_MINUS` and `UNARY_PLUS`
 * `AST_ASSIGN_OP` now uses `BINARY_*` flags instead of separate `ASSIGN_*` flags.
 * `AST_STATIC` and `AST_CATCH` now use an `AST_VAR` node for the static/catch variable. Previously

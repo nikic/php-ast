@@ -38,11 +38,11 @@
 	X(insteadof) \
 	X(alias) \
 	X(prefix) \
-	X(trueExpr) \
-	X(falseExpr) \
-	X(tryStmts) \
+	X(true) \
+	X(false) \
+	X(try) \
 	X(catches) \
-	X(finallyStmts) \
+	X(finally) \
 	X(type) \
 	X(init) \
 	X(loop) \

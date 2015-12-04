@@ -63,8 +63,8 @@ $names = [
     'ZEND_AST_VAR' => ['name'],
     'ZEND_AST_CONST' => ['name'],
     'ZEND_AST_UNPACK' => ['expr'],
-    'ZEND_AST_UNARY_PLUS' => ['expr'],
-    'ZEND_AST_UNARY_MINUS' => ['expr'],
+    'ZEND_AST_UNARY_PLUS' => ['expr'],       // version < 20
+    'ZEND_AST_UNARY_MINUS' => ['expr'],      // version < 20
     'ZEND_AST_CAST' => ['expr'],
     'ZEND_AST_EMPTY' => ['expr'],
     'ZEND_AST_ISSET' => ['var'],
@@ -103,10 +103,10 @@ $names = [
     'ZEND_AST_ASSIGN_REF' => ['var', 'expr'],
     'ZEND_AST_ASSIGN_OP' => ['var', 'expr'],
     'ZEND_AST_BINARY_OP' => ['left', 'right'],
-    'ZEND_AST_GREATER' => ['left', 'right'],
-    'ZEND_AST_GREATER_EQUAL' => ['left', 'right'],
-    'ZEND_AST_AND' => ['left', 'right'],
-    'ZEND_AST_OR' => ['left', 'right'],
+    'ZEND_AST_GREATER' => ['left', 'right'],       // version < 20
+    'ZEND_AST_GREATER_EQUAL' => ['left', 'right'], // version < 20
+    'ZEND_AST_AND' => ['left', 'right'],           // version < 20
+    'ZEND_AST_OR' => ['left', 'right'],            // version < 20
     'ZEND_AST_ARRAY_ELEM' => ['value', 'key'],
     'ZEND_AST_NEW' => ['class', 'args'],
     'ZEND_AST_INSTANCEOF' => ['expr', 'class'],
@@ -133,9 +133,9 @@ $names = [
     /* 3 child nodes */
     'ZEND_AST_METHOD_CALL' => ['expr', 'method', 'args'],
     'ZEND_AST_STATIC_CALL' => ['class', 'method', 'args'],
-    'ZEND_AST_CONDITIONAL' => ['cond', 'trueExpr', 'falseExpr'],
+    'ZEND_AST_CONDITIONAL' => ['cond', 'true', 'false'],
 
-    'ZEND_AST_TRY' => ['tryStmts', 'catches', 'finallyStmts'],
+    'ZEND_AST_TRY' => ['try', 'catches', 'finally'],
     'ZEND_AST_CATCH' => ['class', 'var', 'stmts'],
     'ZEND_AST_PARAM' => ['type', 'name', 'default'],
 

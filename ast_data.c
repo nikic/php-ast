@@ -631,15 +631,15 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 		case ZEND_AST_CONDITIONAL:
 			switch (child) {
 				case 0: return AST_STR(cond);
-				case 1: return AST_STR(trueExpr);
-				case 2: return AST_STR(falseExpr);
+				case 1: return AST_STR(true);
+				case 2: return AST_STR(false);
 			}
 			return NULL;
 		case ZEND_AST_TRY:
 			switch (child) {
-				case 0: return AST_STR(tryStmts);
+				case 0: return AST_STR(try);
 				case 1: return AST_STR(catches);
-				case 2: return AST_STR(finallyStmts);
+				case 2: return AST_STR(finally);
 			}
 			return NULL;
 		case ZEND_AST_CATCH:
