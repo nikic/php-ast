@@ -289,7 +289,7 @@ Version changelog
 
 * Use string names for child nodes of kinds with fixed length.
 
-### 20 (unstable)
+### 20 (current)
 
 * `AST_GREATER`, `AST_GREATER_EQUAL`, `AST_OR`, `AST_AND` nodes are now represented using
   `AST_BINARY_OP` with flags `BINARY_IS_GREATER`, `BINARY_IS_GREATER_OR_EQUAL`, `BINARY_BOOL_OR`
@@ -301,7 +301,7 @@ Version changelog
   it was a simple string containing the name.
 * Nested `AST_STMT_LIST`s are now flattened out.
 
-### 15 (current)
+### 15 (supported)
 
 * In line with an upstream change, the `docComment` property on `AST_PROP_DECL` has been moved to
   `AST_PROP_ELEM`. This means that each property in one property declaration can have its own
