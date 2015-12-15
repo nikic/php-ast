@@ -196,9 +196,12 @@ const MAGIC_TRAIT = 374;
 namespace ast;
 
 /**
+ * Parses code file and returns AST root node.
+ *
  * @param string $filename Code file to parse
- * @param int $version API version
+ * @param int    $version  AST version
  * @return Node Root node of AST
+ *
  * @see https://github.com/nikic/php-ast for version information
  */
 function parse_file($filename, $version)
@@ -207,10 +210,12 @@ function parse_file($filename, $version)
 
 /**
  * Parses code string and returns AST root node.
- * @param string $code Code string to parse
- * @param int $version API version
- * @param string $filename Optional - specifies filename of parsed file
+ *
+ * @param string $code     Code string to parse
+ * @param int    $version  AST version
+ * @param string $filename Optional filename for use in parse errors
  * @return Node Root node of AST
+ *
  * @see https://github.com/nikic/php-ast for version information
  */
 function parse_code($code, $version, $filename = "string code")
@@ -219,7 +224,7 @@ function parse_code($code, $version, $filename = "string code")
 
 /**
  * @param int $kind AST_* constant value defining the kind of an AST node
- * @return string string representation of AST kind value
+ * @return string String representation of AST kind value
  */
 function get_kind_name($kind)
 {
@@ -227,7 +232,7 @@ function get_kind_name($kind)
 
 /**
  * @param int $kind AST_* constant value defining the kind of an AST node
- * @return bool returns true if AST kind uses flags
+ * @return bool Returns true if AST kind uses flags
  */
 function kind_uses_flags($kind)
 {
@@ -235,7 +240,6 @@ function kind_uses_flags($kind)
 
 /**
  * This class describes a single node in a PHP AST.
- * @package ast
  */
 class Node
 {
@@ -249,10 +253,10 @@ class Node
      */
     public $flags;
 
-    /** @var int source line number */
+    /** @var int Line the node starts in */
     public $lineno;
 
-    /** @var array Child nodes, if any exist */
+    /** @var array Child nodes (may be empty) */
     public $children;
 }
 
@@ -260,17 +264,15 @@ namespace ast\Node;
 
 /**
  * AST Node type for function and class declarations.
- * Class Decl
- * @package ast\Node
  */
 class Decl extends \ast\Node
 {
-    /** @var int end line number of the declaration */
+    /** @var int End line number of the declaration */
     public $endLineno;
 
-    /** @var string name of the function or class */
+    /** @var string Name of the function or class (not including the namespace prefix) */
     public $name;
 
-    /** @var string|null doc comment preceeding the declaration. null if no doc comment was used. */
+    /** @var string|null Doc comment preceeding the declaration. null if no doc comment was used. */
     public $docComment;
 }
