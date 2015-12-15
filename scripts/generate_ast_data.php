@@ -1,5 +1,8 @@
 <?php error_reporting(E_ALL);
 
+$outCodeFile = __DIR__ . '/../ast_data.c';
+$strDefsFile = __DIR__ . '/../ast_str_defs.h';
+
 $code = <<<EOC
 #include "php_ast.h"
 
@@ -149,8 +152,6 @@ if ($argc != 2) {
 }
 
 $inFile = $argv[1];
-$outCodeFile = __DIR__ . '/ast_data.c';
-$strDefsFile = __DIR__ . '/ast_str_defs.h';
 
 if (!is_readable($inFile)) {
     die("Input file not readable\n");
