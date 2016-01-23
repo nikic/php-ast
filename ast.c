@@ -399,7 +399,7 @@ PHP_FUNCTION(parse_file) {
 	php_stream *stream;
 	zend_error_handling error_handling;
 
-	if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "P|l", &filename, &version) == FAILURE) {
+	if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "Pl", &filename, &version) == FAILURE) {
 		return;
 	}
 
@@ -441,7 +441,7 @@ PHP_FUNCTION(parse_code) {
 	zend_ast *ast;
 	zend_arena *arena;
 
-	if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "S|lP", &code, &version, &filename) == FAILURE) {
+	if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "Sl|P", &code, &version, &filename) == FAILURE) {
 		return;
 	}
 
