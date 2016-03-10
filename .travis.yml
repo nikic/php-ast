@@ -1,7 +1,9 @@
+sudo: false
 language: php
 
 php:
   - 7.0
+  - nightly
 
 before_script:
   - phpize

@@ -345,11 +345,16 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 	}
 
 	/* Convert doc comments on properties and constants into properties */
-	if ((version >= 15 && ast->kind == ZEND_AST_PROP_ELEM && ast->child[2])
-			|| (ast->kind == ZEND_AST_CONST_ELEM && ast->child[2])) {
+	if (version >= 15 && ast->kind == ZEND_AST_PROP_ELEM && ast->child[2]) {
 		ZVAL_STR_COPY(&tmp_zv, zend_ast_get_str(ast->child[2]));
 		ast_update_property(zv, AST_STR(str_docComment), &tmp_zv, NULL);
 	}
+#if PHP_VERSION_ID >= 70100
+	if (ast->kind == ZEND_AST_CONST_ELEM && ast->child[2]) {
+		ZVAL_STR_COPY(&tmp_zv, zend_ast_get_str(ast->child[2]));
+		ast_update_property(zv, AST_STR(str_docComment), &tmp_zv, NULL);
+	}
+#endif
 
 	array_init(&tmp_zv);
 	ast_update_property(zv, AST_STR(str_children), &tmp_zv, AST_CACHE_SLOT_CHILDREN);
