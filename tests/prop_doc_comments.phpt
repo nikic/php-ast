@@ -24,7 +24,8 @@ echo ast_dump(ast\parse_code($code, $version=10)), "\n";
 echo ast_dump(ast\parse_code($code, $version=15)), "\n";
 
 ?>
---EXPECT--
+--EXPECTF--
+Deprecated: ast\parse_code(): Version 10 is deprecated in %s on line %d
 AST_STMT_LIST
     0: AST_CLASS
         flags: 0

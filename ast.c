@@ -382,14 +382,25 @@ static zend_string *ast_version_info() {
 	return str.s;
 }
 
-static int ast_check_version(zend_long version) {
+static inline zend_bool ast_version_known(zend_long version) {
 	size_t i;
-	zend_string *version_info;
-
 	for (i = 0; i < versions_count; ++i) {
 		if (version == versions[i]) {
-			return SUCCESS;
+			return 1;
 		}
+	}
+	return 0;
+}
+
+static int ast_check_version(zend_long version) {
+	zend_string *version_info;
+
+	if (ast_version_known(version)) {
+		if (version == 10) {
+			php_error_docref(NULL, E_DEPRECATED,
+				"Version " ZEND_LONG_FMT " is deprecated", version);
+		}
+		return SUCCESS;
 	}
 
 	version_info = ast_version_info();

@@ -413,11 +413,11 @@ ZEND_AST_USE
 Version changelog
 -----------------
 
-### 30 (current)
+### 30 (current; 2015-03-10)
 
 * Use string names for child nodes of kinds with fixed length.
 
-### 20 (supported)
+### 20 (supported; 2015-12-14)
 
 * `AST_GREATER`, `AST_GREATER_EQUAL`, `AST_OR`, `AST_AND` nodes are now represented using
   `AST_BINARY_OP` with flags `BINARY_IS_GREATER`, `BINARY_IS_GREATER_OR_EQUAL`, `BINARY_BOOL_OR`
@@ -429,13 +429,13 @@ Version changelog
   it was a simple string containing the name.
 * Nested `AST_STMT_LIST`s are now flattened out.
 
-### 15 (supported)
+### 15 (supported; 2015-10-21)
 
 * In line with an upstream change, the `docComment` property on `AST_PROP_DECL` has been moved to
   `AST_PROP_ELEM`. This means that each property in one property declaration can have its own
   doc comment.
 
-### 10 (supported)
+### 10 (deprecated)
 
 Initial.
 

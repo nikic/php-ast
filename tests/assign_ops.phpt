@@ -21,7 +21,7 @@ $a <<= $b;
 $a >>= $b;
 PHP;
 
-echo ast_dump(ast\parse_code($code, $version=10)), "\n";
+echo ast_dump(ast\parse_code($code, $version=15)), "\n";
 echo ast_dump(ast\parse_code($code, $version=20)), "\n";
 
 ?>
