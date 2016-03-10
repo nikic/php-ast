@@ -301,6 +301,115 @@ ast\flags\EXEC_REQUIRE
 ast\flags\EXEC_REQUIRE_ONCE
 ```
 
+AST node kinds
+--------------
+
+This section lists the AST node kinds that are supported and the names of their child nodes (in
+version >= 30).
+
+```
+AST_AND:              left, right
+AST_ARRAY_ELEM:       value, key
+AST_ASSIGN:           var, expr
+AST_ASSIGN_OP:        var, expr
+AST_ASSIGN_REF:       var, expr
+AST_BINARY_OP:        left, right
+AST_BREAK:            depth
+AST_CALL:             expr, args
+AST_CAST:             expr
+AST_CATCH:            class, var, stmts
+AST_CLASS:            extends, implements, stmts
+AST_CLASS_CONST:      class, const
+AST_CLONE:            expr
+AST_CLOSURE:          params, uses, stmts, returnType
+AST_CLOSURE_VAR:      name
+AST_COALESCE:         left, right
+AST_CONDITIONAL:      cond, true, false
+AST_CONST:            name
+AST_CONST_ELEM:       name, value
+AST_CONTINUE:         depth
+AST_DECLARE:          declares, stmts
+AST_DIM:              expr, dim
+AST_DO_WHILE:         stmts, cond
+AST_ECHO:             expr
+AST_EMPTY:            expr
+AST_EXIT:             expr
+AST_FOR:              init, cond, loop, stmts
+AST_FOREACH:          expr, value, key, stmts
+AST_FUNC_DECL:        params, uses, stmts, returnType
+AST_GLOBAL:           var
+AST_GOTO:             label
+AST_GREATER:          left, right
+AST_GREATER_EQUAL:    left, right
+AST_GROUP_USE:        prefix, uses
+AST_HALT_COMPILER:    offset
+AST_IF_ELEM:          cond, stmts
+AST_INCLUDE_OR_EVAL:  expr
+AST_INSTANCEOF:       expr, class
+AST_ISSET:            var
+AST_LABEL:            name
+AST_MAGIC_CONST:      
+AST_METHOD:           params, uses, stmts, returnType
+AST_METHOD_CALL:      expr, method, args
+AST_METHOD_REFERENCE: class, method
+AST_NAME:             name
+AST_NAMESPACE:        name, stmts
+AST_NEW:              class, args
+AST_OR:               left, right
+AST_PARAM:            type, name, default
+AST_POST_DEC:         var
+AST_POST_INC:         var
+AST_PRE_DEC:          var
+AST_PRE_INC:          var
+AST_PRINT:            expr
+AST_PROP:             expr, prop
+AST_PROP_ELEM:        name, default
+AST_REF:              var
+AST_RETURN:           expr
+AST_SHELL_EXEC:       expr
+AST_SILENCE:          expr
+AST_STATIC:           var, default
+AST_STATIC_CALL:      class, method, args
+AST_STATIC_PROP:      class, prop
+AST_SWITCH:           cond, stmts
+AST_SWITCH_CASE:      cond, stmts
+AST_THROW:            expr
+AST_TRAIT_ALIAS:      method, alias
+AST_TRAIT_PRECEDENCE: method, insteadof
+AST_TRY:              try, catches, finally
+AST_TYPE:             
+AST_UNARY_MINUS:      expr                   // prior to version 20
+AST_UNARY_OP:         expr
+AST_UNARY_PLUS:       expr                   // prior to version 20
+AST_UNPACK:           expr
+AST_UNSET:            var
+AST_USE_ELEM:         name, alias
+AST_USE_TRAIT:        traits, adaptations
+AST_VAR:              name
+AST_WHILE:            cond, stmts
+AST_YIELD:            value, key
+AST_YIELD_FROM:       expr
+
+// List nodes (numerically indexed children):
+ZEND_AST_ARG_LIST
+ZEND_AST_ARRAY
+ZEND_AST_CATCH_LIST
+ZEND_AST_CLASS_CONST_DECL
+ZEND_AST_CLOSURE_USES
+ZEND_AST_CONST_DECL
+ZEND_AST_ENCAPS_LIST
+ZEND_AST_EXPR_LIST
+ZEND_AST_IF
+ZEND_AST_LIST
+ZEND_AST_NAME_LIST
+ZEND_AST_PARAM_LIST
+ZEND_AST_PROP_DECL
+ZEND_AST_STMT_LIST
+ZEND_AST_SWITCH_LIST
+ZEND_AST_TRAIT_ADAPTATIONS
+ZEND_AST_USE
+```
+
 Version changelog
 -----------------
 
