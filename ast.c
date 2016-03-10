@@ -96,7 +96,7 @@ static inline zend_bool ast_kind_uses_attr(zend_ast_kind kind) {
 		|| kind == ZEND_AST_CAST || kind == ZEND_AST_MAGIC_CONST || kind == ZEND_AST_ARRAY_ELEM
 		|| kind == ZEND_AST_INCLUDE_OR_EVAL || kind == ZEND_AST_USE || kind == ZEND_AST_PROP_DECL
 		|| kind == ZEND_AST_GROUP_USE || kind == ZEND_AST_USE_ELEM
-		|| kind == AST_NAME || kind == AST_CLOSURE_VAR;
+		|| kind == AST_NAME || kind == AST_CLOSURE_VAR || kind == ZEND_AST_CLASS_CONST_DECL;
 }
 
 static inline zend_bool ast_kind_is_decl(zend_ast_kind kind) {
@@ -222,7 +222,8 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, zend_long version
 			ast_create_virtual_node(&child_zv, AST_CLOSURE_VAR, child, version);
 		} else if (version >= 20 && ast_is_var_name(child, ast, i)) {
 			ast_create_virtual_node(&child_zv, ZEND_AST_VAR, child, version);
-		} else if (ast->kind == ZEND_AST_PROP_ELEM && i == 2) {
+		} else if (i == 2
+				&& (ast->kind == ZEND_AST_PROP_ELEM || ast->kind == ZEND_AST_CONST_ELEM)) {
 			/* Skip docComment child -- It's handled separately */
 			continue;
 		} else {
@@ -320,6 +321,11 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 		}
 		ast_update_property(zv, AST_STR(str_docComment), &tmp_zv, NULL);
 	} else {
+#if PHP_VERSION_ID < 70100
+		if (ast->kind == ZEND_AST_CLASS_CONST_DECL) {
+			ast->attr = ZEND_ACC_PUBLIC;
+		}
+#endif
 		ZVAL_LONG(&tmp_zv, ast->attr);
 		ast_update_property(zv, AST_STR(str_flags), &tmp_zv, AST_CACHE_SLOT_FLAGS);
 	}
@@ -338,7 +344,9 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 		}
 	}
 
-	if (version >= 15 && ast->kind == ZEND_AST_PROP_ELEM && ast->child[2]) {
+	/* Convert doc comments on properties and constants into properties */
+	if ((version >= 15 && ast->kind == ZEND_AST_PROP_ELEM && ast->child[2])
+			|| (ast->kind == ZEND_AST_CONST_ELEM && ast->child[2])) {
 		ZVAL_STR_COPY(&tmp_zv, zend_ast_get_str(ast->child[2]));
 		ast_update_property(zv, AST_STR(str_docComment), &tmp_zv, NULL);
 	}

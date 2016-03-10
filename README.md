@@ -190,7 +190,8 @@ ast\flags\NAME_FQ (= 0)
 ast\flags\NAME_NOT_FQ
 ast\flags\NAME_RELATIVE
 
-// Used by ast\AST_METHOD, ast\AST_PROP_DECL, ast\AST_TRAIT_ALIAS (combinable)
+// Used by ast\AST_METHOD, ast\AST_PROP_DECL, ast\AST_CLASS_CONST_DECL
+// and ast\AST_TRAIT_ALIAS (combinable)
 ast\flags\MODIFIER_PUBLIC
 ast\flags\MOFIFIER_PROTECTED
 ast\flags\MOFIFIER_PRIVATE

@@ -44,6 +44,7 @@ AST_STMT_LIST
                         0: "S"
                 1: null
             1: AST_CLASS_CONST_DECL
+                flags: MODIFIER_PUBLIC (256)
                 0: AST_CONST_ELEM
                     0: "X"
                     1: "Y"
