@@ -28,7 +28,7 @@
 #define AST_CACHE_SLOT_LINENO   &AST_G(cache_slots)[2 * 2]
 #define AST_CACHE_SLOT_CHILDREN &AST_G(cache_slots)[2 * 3]
 
-#define AST_CURRENT_VERSION 20
+#define AST_CURRENT_VERSION 30
 
 /* Additional flags for BINARY_OP */
 #define AST_BINARY_IS_GREATER 256

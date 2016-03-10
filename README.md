@@ -39,12 +39,12 @@ Usage
 
 Code can be parsed using either `ast\parse_code()`, which accepts a code string, or
 `ast\parse_file()`, which accepts a file path. Additionally both functions require a `$version`
-argument to ensure forward-compatibility. The current version is 20.
+argument to ensure forward-compatibility. The current version is 30.
 
 ```php
-$ast = ast\parse_code('<?php ...', $version=20);
+$ast = ast\parse_code('<?php ...', $version=30);
 // or
-$ast = ast\parse_file('file.php', $version=20);
+$ast = ast\parse_file('file.php', $version=30);
 ```
 
 The abstract syntax tree returned by these functions consists of `ast\Node` objects.
@@ -102,7 +102,7 @@ $code = <<<'EOC'
 $var = 42;
 EOC;
 
-var_dump(ast\parse_code($code, $version=20));
+var_dump(ast\parse_code($code, $version=30));
 
 // Output:
 object(ast\Node)#1 (4) {
@@ -121,24 +121,24 @@ object(ast\Node)#1 (4) {
       ["flags"]=>
       int(0)
       ["lineno"]=>
-      int(1)
+      int(2)
       ["children"]=>
       array(2) {
-        [0]=>
+        ["var"]=>
         object(ast\Node)#3 (4) {
           ["kind"]=>
           int(256)
           ["flags"]=>
           int(0)
           ["lineno"]=>
-          int(1)
+          int(2)
           ["children"]=>
           array(1) {
-            [0]=>
+            ["name"]=>
             string(3) "var"
           }
         }
-        [1]=>
+        ["expr"]=>
         int(42)
       }
     }
@@ -159,14 +159,14 @@ $code = <<<'EOC'
 $var = 42;
 EOC;
 
-echo ast_dump(ast\parse_code($code, $version=20)), "\n";
+echo ast_dump(ast\parse_code($code, $version=30)), "\n";
 
 // Output:
 AST_STMT_LIST
     0: AST_ASSIGN
-        0: AST_VAR
-            0: "var"
-        1: 42
+        var: AST_VAR
+            name: "var"
+        expr: 42
 ```
 
 To additionally show line numbers pass the `AST_DUMP_LINENOS` option as the second argument to
@@ -304,11 +304,11 @@ ast\flags\EXEC_REQUIRE_ONCE
 Version changelog
 -----------------
 
-### 30 (unstable)
+### 30 (current)
 
 * Use string names for child nodes of kinds with fixed length.
 
-### 20 (current)
+### 20 (supported)
 
 * `AST_GREATER`, `AST_GREATER_EQUAL`, `AST_OR`, `AST_AND` nodes are now represented using
   `AST_BINARY_OP` with flags `BINARY_IS_GREATER`, `BINARY_IS_GREATER_OR_EQUAL`, `BINARY_BOOL_OR`
