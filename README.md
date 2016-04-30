@@ -308,7 +308,7 @@ This section lists the AST node kinds that are supported and the names of their 
 version >= 30).
 
 ```
-AST_AND:              left, right
+AST_AND:              left, right            // prior to version 10
 AST_ARRAY_ELEM:       value, key
 AST_ASSIGN:           var, expr
 AST_ASSIGN_OP:        var, expr
@@ -355,7 +355,7 @@ AST_METHOD_REFERENCE: class, method
 AST_NAME:             name
 AST_NAMESPACE:        name, stmts
 AST_NEW:              class, args
-AST_OR:               left, right
+AST_OR:               left, right            // Prior to version 20
 AST_PARAM:            type, name, default
 AST_POST_DEC:         var
 AST_POST_INC:         var
@@ -367,7 +367,7 @@ AST_PROP_ELEM:        name, default
 AST_REF:              var
 AST_RETURN:           expr
 AST_SHELL_EXEC:       expr
-AST_SILENCE:          expr
+AST_SILENCE:          expr                   // prior to version 20
 AST_STATIC:           var, default
 AST_STATIC_CALL:      class, method, args
 AST_STATIC_PROP:      class, prop
