@@ -20,53 +20,53 @@ function test(Type $arg = XYZ) : Ret {
 }
 PHP;
 
-echo ast_dump(ast\parse_code($code, $version=15));
+echo ast_dump(ast\parse_code($code, $version=30));
 --EXPECT--
 AST_STMT_LIST
     0: AST_FUNC_DECL
         flags: 0
         name: test
         docComment: /** Test function */
-        0: AST_PARAM_LIST
+        params: AST_PARAM_LIST
             0: AST_PARAM
                 flags: 0
-                0: AST_NAME
+                type: AST_NAME
                     flags: NAME_NOT_FQ (1)
-                    0: "Type"
-                1: "arg"
-                2: AST_CONST
-                    0: AST_NAME
+                    name: "Type"
+                name: "arg"
+                default: AST_CONST
+                    name: AST_NAME
                         flags: NAME_NOT_FQ (1)
-                        0: "XYZ"
-        1: null
-        2: AST_STMT_LIST
+                        name: "XYZ"
+        uses: null
+        stmts: AST_STMT_LIST
             0: AST_IF
                 0: AST_IF_ELEM
-                    0: AST_INSTANCEOF
-                        0: AST_VAR
-                            0: "arg"
-                        1: AST_NAME
+                    cond: AST_INSTANCEOF
+                        expr: AST_VAR
+                            name: "arg"
+                        class: AST_NAME
                             flags: NAME_NOT_FQ (1)
-                            0: "Foo\Bar"
-                    1: AST_STMT_LIST
+                            name: "Foo\Bar"
+                    stmts: AST_STMT_LIST
                         0: AST_RETURN
-                            0: AST_CALL
-                                0: AST_NAME
+                            expr: AST_CALL
+                                expr: AST_NAME
                                     flags: NAME_NOT_FQ (1)
-                                    0: "test"
-                                1: AST_ARG_LIST
+                                    name: "test"
+                                args: AST_ARG_LIST
                                     0: AST_PROP
-                                        0: AST_VAR
-                                            0: "arg"
-                                        1: "foo"
+                                        expr: AST_VAR
+                                            name: "arg"
+                                        prop: "foo"
                 1: AST_IF_ELEM
-                    0: null
-                    1: AST_STMT_LIST
+                    cond: null
+                    stmts: AST_STMT_LIST
                         0: AST_RETURN
-                            0: AST_PROP
-                                0: AST_VAR
-                                    0: "arg"
-                                1: "bar"
-        3: AST_NAME
+                            expr: AST_PROP
+                                expr: AST_VAR
+                                    name: "arg"
+                                prop: "bar"
+        returnType: AST_NAME
             flags: NAME_NOT_FQ (1)
-            0: "Ret"
+            name: "Ret"

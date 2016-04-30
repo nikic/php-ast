@@ -17,7 +17,7 @@ __CLASS__;
 __TRAIT__;
 PHP;
 
-echo ast_dump(ast\parse_code($code, $version=15));
+echo ast_dump(ast\parse_code($code, $version=30));
 
 ?>
 --EXPECTF--

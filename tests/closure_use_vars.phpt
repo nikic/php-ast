@@ -10,34 +10,34 @@ $code = <<<'PHP'
 $fn = static function &($a, &$b) use ($c, &$d) {
 };
 PHP;
-echo ast_dump(ast\parse_code($code, $version=15));
+echo ast_dump(ast\parse_code($code, $version=30));
 
 ?>
 --EXPECT--
 AST_STMT_LIST
     0: AST_ASSIGN
-        0: AST_VAR
-            0: "fn"
-        1: AST_CLOSURE
+        var: AST_VAR
+            name: "fn"
+        expr: AST_CLOSURE
             flags: MODIFIER_STATIC | RETURNS_REF (67108865)
             name: {closure}
-            0: AST_PARAM_LIST
+            params: AST_PARAM_LIST
                 0: AST_PARAM
                     flags: 0
-                    0: null
-                    1: "a"
-                    2: null
+                    type: null
+                    name: "a"
+                    default: null
                 1: AST_PARAM
                     flags: PARAM_REF (1)
-                    0: null
-                    1: "b"
-                    2: null
-            1: AST_CLOSURE_USES
+                    type: null
+                    name: "b"
+                    default: null
+            uses: AST_CLOSURE_USES
                 0: AST_CLOSURE_VAR
                     flags: 0
-                    0: "c"
+                    name: "c"
                 1: AST_CLOSURE_VAR
                     flags: 1
-                    0: "d"
-            2: AST_STMT_LIST
-            3: null
+                    name: "d"
+            stmts: AST_STMT_LIST
+            returnType: null

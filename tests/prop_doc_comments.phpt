@@ -48,6 +48,8 @@ AST_STMT_LIST
                 1: AST_PROP_ELEM
                     0: "c"
                     1: null
+
+Deprecated: ast\parse_code(): Version 15 is deprecated in %s on line %d
 AST_STMT_LIST
     0: AST_CLASS
         flags: 0
