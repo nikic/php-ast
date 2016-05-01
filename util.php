@@ -88,6 +88,7 @@ function get_flag_info() : array {
             flags\BINARY_IS_GREATER => 'BINARY_IS_GREATER',
             flags\BINARY_IS_GREATER_OR_EQUAL => 'BINARY_IS_GREATER_OR_EQUAL',
             flags\BINARY_SPACESHIP => 'BINARY_SPACESHIP',
+            flags\BINARY_COALESCE => 'BINARY_COALESCE',
         ],
         ast\AST_ASSIGN_OP => $sharedBinaryOps + [
             // Old version 10 flags

@@ -263,6 +263,7 @@ ast\flags\BINARY_IS_SMALLER_OR_EQUAL
 ast\flags\BINARY_IS_GREATER          // since version 20
 ast\flags\BINARY_IS_GREATER_OR_EQUAL // since version 20
 ast\flags\BINARY_SPACESHIP
+ast\flags\BINARY_COALESCE            // since version 40
 
 // Used by ast\AST_ASSIGN_OP in versions before 20 (exclusive)
 ast\flags\ASSIGN_BITWISE_OR
@@ -308,7 +309,7 @@ This section lists the AST node kinds that are supported and the names of their 
 version >= 30).
 
 ```
-AST_AND:              left, right            // prior to version 10
+AST_AND:              left, right            // prior to version 20
 AST_ARRAY_ELEM:       value, key
 AST_ASSIGN:           var, expr
 AST_ASSIGN_OP:        var, expr
@@ -323,7 +324,7 @@ AST_CLASS_CONST:      class, const
 AST_CLONE:            expr
 AST_CLOSURE:          params, uses, stmts, returnType
 AST_CLOSURE_VAR:      name
-AST_COALESCE:         left, right
+AST_COALESCE:         left, right            // prior to version 40
 AST_CONDITIONAL:      cond, true, false
 AST_CONST:            name
 AST_CONST_ELEM:       name, value
@@ -412,6 +413,10 @@ ZEND_AST_USE
 
 Version changelog
 -----------------
+
+### 40 (in development)
+
+* `AST_COALESCE` is now represented as an `AST_BINARY_OP` with flag `BINARY_COALESCE`.
 
 ### 30 (current)
 

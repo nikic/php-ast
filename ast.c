@@ -35,6 +35,7 @@
 #define AST_BINARY_IS_GREATER_OR_EQUAL 257
 #define AST_BINARY_BOOL_OR 258
 #define AST_BINARY_BOOL_AND 259
+#define AST_BINARY_COALESCE 260
 
 /* Flags for UNARY_OP to use instead of AST_SILENCE, AST_UNARY_PLUS, AST_UNARY_MINUS */
 #define AST_SILENCE 260
@@ -274,6 +275,12 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 				ast->kind = ZEND_AST_BINARY_OP;
 				ast->attr = AST_BINARY_BOOL_AND;
 				break;
+			case ZEND_AST_COALESCE:
+				if (version >= 40) {
+					ast->kind = ZEND_AST_BINARY_OP;
+					ast->attr = AST_BINARY_COALESCE;
+				}
+				break;
 			case ZEND_AST_SILENCE:
 				ast->kind = ZEND_AST_UNARY_OP;
 				ast->attr = AST_SILENCE;
@@ -362,7 +369,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 	ast_fill_children_ht(Z_ARRVAL(tmp_zv), ast, version);
 }
 
-static const zend_long versions[] = {10, 15, 20, 30};
+static const zend_long versions[] = {10, 15, 20, 30, 40};
 static const size_t versions_count = sizeof(versions)/sizeof(versions[0]);
 
 static zend_string *ast_version_info() {
@@ -621,6 +628,7 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("BINARY_IS_GREATER", AST_BINARY_IS_GREATER);
 	ast_register_flag_constant("BINARY_IS_GREATER_OR_EQUAL", AST_BINARY_IS_GREATER_OR_EQUAL);
 	ast_register_flag_constant("BINARY_SPACESHIP", ZEND_SPACESHIP);
+	ast_register_flag_constant("BINARY_COALESCE", AST_BINARY_COALESCE);
 
 	ast_register_flag_constant("ASSIGN_BITWISE_OR", ZEND_ASSIGN_BW_OR);
 	ast_register_flag_constant("ASSIGN_BITWISE_AND", ZEND_ASSIGN_BW_AND);
