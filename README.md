@@ -417,6 +417,9 @@ Version changelog
 ### 40 (in development)
 
 * `AST_COALESCE` is now represented as an `AST_BINARY_OP` with flag `BINARY_COALESCE`.
+* For `AST_NAME` nodes with `NAME_FQ` the leading backslash is now dropped if syntax like
+  `('\bar')()` is used. Previously this would return the name as `'\bar'`, while a normal `\bar()`
+  call would return it as `'bar'`. Now always the latter form is used.
 
 ### 30 (current)
 

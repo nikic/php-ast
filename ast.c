@@ -218,6 +218,18 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, zend_long version
 		}
 
 		if (ast_is_name(child, ast, i)) {
+			if (version >= 40 && child->attr == ZEND_NAME_FQ) {
+				/* Ensure there is no leading \ for fully-qualified names. This can happen if
+				 * something like ('\bar')() is used. */
+				zval *name = zend_ast_get_zval(child);
+				if (Z_STRVAL_P(name)[0] == '\\') {
+					zend_string *new_name = zend_string_init(
+						Z_STRVAL_P(name) + 1, Z_STRLEN_P(name) - 1, 0);
+					zend_string_release(Z_STR_P(name));
+					Z_STR_P(name) = new_name;
+				}
+			}
+
 			ast_create_virtual_node(&child_zv, AST_NAME, child, version);
 		} else if (ast->kind == ZEND_AST_CLOSURE_USES) {
 			ast_create_virtual_node(&child_zv, AST_CLOSURE_VAR, child, version);
