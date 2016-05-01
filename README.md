@@ -429,6 +429,9 @@ Version changelog
   statements (`;`).
 * Type hints `int`, `float`, `string`, `bool` and `void` will now be represented as `AST_TYPE`
   nodes with a respective flag.
+* Many `stmts` children could previously hold one of `null`, a single node or an `AST_STMT_LIST`.
+  These will now be normalized to always use an `AST_STMT_LIST`. A `null` is only allowed if it is
+  semantically meaningful, e.g. in the case of `declare(ticks=1);` vs `declare(ticks=1) {}`.
 
 ### 30 (current)
 
@@ -485,6 +488,9 @@ of consequences:
    while running on PHP 7.0). Similarly, it is not possible to parse code that is no longer
    syntactically valid on the used version (e.g. some PHP 5 code may no longer be parsed -- however
    most code will work). PHP-Parser supports parsing both newer and older (up to PHP 5.2) versions.
+ * php-ast only provides the starting line number (and for declarations the ending line number) of
+   nodes, because this is the only part that PHP itself stores. PHP-Parser provides precise file
+   offsets.
 
 There are a number of differences in the AST representation and available support code:
 

@@ -157,6 +157,31 @@ static inline zend_bool ast_is_var_name(zend_ast *ast, zend_ast *parent, uint32_
 		|| (parent->kind == ZEND_AST_CATCH && i == 1);
 }
 
+/* Whether this node may need statement list normalization */
+static inline zend_bool ast_should_normalize_list(zend_ast *ast, zend_ast *parent, uint32_t i) {
+	if (ast && ast->kind == ZEND_AST_STMT_LIST) {
+		return 0;
+	}
+
+	if (i == 0) {
+		return parent->kind == ZEND_AST_DO_WHILE;
+	}
+	if (i == 1) {
+		if (parent->kind == ZEND_AST_DECLARE) {
+			/* declare(); and declare() {} are not the same */
+			return ast != NULL;
+		}
+		return parent->kind == ZEND_AST_IF_ELEM || parent->kind == ZEND_AST_WHILE;
+	}
+	if (i == 2) {
+		return parent->kind == ZEND_AST_CATCH;
+	}
+	if (i == 3) {
+		return parent->kind == ZEND_AST_FOR || parent->kind == ZEND_AST_FOREACH;
+	}
+	return 0;
+}
+
 /* Adopted from zend_compile.c */
 typedef struct _builtin_type_info {
 	const char* name;
@@ -216,7 +241,8 @@ static inline zend_ast **ast_get_children(zend_ast *ast, uint32_t *count) {
 	}
 }
 
-/* "child" may be AST_ZVAL or NULL */
+static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version);
+
 static void ast_create_virtual_node_ex(
 		zval *zv, zend_ast_kind kind, zend_ast_attr attr, uint32_t lineno,
 		zend_ast *child, zend_long version) {
@@ -237,9 +263,10 @@ static void ast_create_virtual_node_ex(
 	ast_update_property(zv, AST_STR(str_children), &tmp_zv, AST_CACHE_SLOT_CHILDREN);
 
 	if (child) {
-		ZVAL_COPY(&tmp_zv2, zend_ast_get_zval(child));
-		if (version >= 30) {
-			zend_hash_add_new(Z_ARRVAL(tmp_zv), ast_kind_child_name(kind, 0), &tmp_zv2);
+		zend_string *child_name = version >= 30 ? ast_kind_child_name(kind, 0) : NULL;
+		ast_to_zval(&tmp_zv2, child, version);
+		if (child_name) {
+			zend_hash_add_new(Z_ARRVAL(tmp_zv), child_name, &tmp_zv2);
 		} else {
 			zend_hash_next_index_insert(Z_ARRVAL(tmp_zv), &tmp_zv2);
 		}
@@ -251,8 +278,6 @@ static void ast_create_virtual_node(
 	return ast_create_virtual_node_ex(
 		zv, kind, child->attr, zend_ast_get_lineno(child), child, version);
 }
-
-static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version);
 
 static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, zend_long version) {
 	uint32_t i, count;
@@ -300,6 +325,10 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, zend_long version
 			ast_create_virtual_node(&child_zv, AST_CLOSURE_VAR, child, version);
 		} else if (version >= 20 && ast_is_var_name(child, ast, i)) {
 			ast_create_virtual_node(&child_zv, ZEND_AST_VAR, child, version);
+		} else if (version >= 40 && ast_should_normalize_list(child, ast, i)) {
+			ast_create_virtual_node_ex(
+				&child_zv, ZEND_AST_STMT_LIST, 0,
+				zend_ast_get_lineno(child ? child : ast), child, version);
 		} else if (i == 2
 				&& (ast->kind == ZEND_AST_PROP_ELEM || ast->kind == ZEND_AST_CONST_ELEM)) {
 			/* Skip docComment child -- It's handled separately */
