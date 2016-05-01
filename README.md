@@ -462,6 +462,52 @@ Supported since 2015-10-21. Deprecated since 2016-04-30.
 
 Initial.
 
+Differences to PHP-Parser
+-------------------------
+
+Next to php-ast I also maintain the [PHP-Parser][php-parser] library, which has some overlap with
+this extension. This section summarizes the main differences between php-ast and PHP-Parser so you
+may decide which is preferable for your use-case.
+
+The primary difference is that php-ast is a PHP extension (written in C) which exports the AST
+internally used by PHP 7. PHP-Parser on the other hand is library written in PHP. This has a number
+of consequences:
+
+ * php-ast is significantly faster than PHP-Parser, because the AST construction is implemented in
+   C.
+ * php-ast needs to be installed as an extension, on Linux either by compiling it manually or
+   retrieving it from a package manager, on Windows by loading a DLL. PHP-Parser is installed as a
+   Composer dependency.
+ * php-ast only runs on PHP >= 7.0, as prior versions did not use an internal AST. PHP-Parser
+   supports PHP >= 5.4.
+ * php-ast may only parse code that is syntactically valid on the version of PHP it runs on. This
+   means that it's not possible to parse code using features of newer versions (e.g. PHP 7.1 code
+   while running on PHP 7.0). Similarly, it is not possible to parse code that is no longer
+   syntactically valid on the used version (e.g. some PHP 5 code may no longer be parsed -- however
+   most code will work). PHP-Parser supports parsing both newer and older (up to PHP 5.2) versions.
+
+There are a number of differences in the AST representation and available support code:
+
+ * The PHP-Parser library uses a separate class for every node type, with child nodes stored as
+   type-annotated properties. php-ast uses one class for everything, with children stored as
+   arrays. The former approach is friendlier to developers because it has very good IDE integration.
+   The php-ast extension does not use separate classes, because registering hundreds of classes was
+   judged a no-go for a bundled extension.
+ * The PHP-Parser library contains various support code for working with the AST, while php-ast only
+   handles AST construction. The reason for this is that implementing this support code in C is
+   extremely complicated and there is little other benefit to implementing it in C. The main
+   components that PHP-Parser offers that may be of interest are:
+    * Node dumper (human readable representation): While the php-ast extension does not directly
+      implement this, a `ast_dump` function is provided in the `util.php` file.
+    * Pretty printer (converting the AST back to PHP code): This is not provided natively, but the
+      [php-ast-reverter][php-ast-reverter] package implements this functionality.
+    * Name resolution (resolving namespace prefixes and aliases): There is currently no standalone
+      package for this.
+    * AST traversation / visitation: There is currently no standalone package for this either, but
+      implementing a recursive AST walk is easy.
+
   [parser]: http://lxr.php.net/xref/PHP_TRUNK/Zend/zend_language_parser.y
   [util]: https://github.com/nikic/php-ast/blob/master/util.php
   [test_dump]: https://github.com/nikic/php-ast/blob/master/tests/001.phpt
+  [php-parser]: https://github.com/nikic/PHP-Parser
+  [ast-reverter]: https://github.com/tpunt/php-ast-reverter
