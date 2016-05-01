@@ -211,10 +211,14 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, zend_long version
 			!is_list && version >= 30 ? ast_kind_child_name(ast->kind, i) : NULL;
 		zval child_zv;
 
-		if (version >= 20 && ast->kind == ZEND_AST_STMT_LIST
-				&& child != NULL && child->kind == ZEND_AST_STMT_LIST) {
-			ast_fill_children_ht(ht, child, version);
-			continue;
+		if (version >= 20 && ast->kind == ZEND_AST_STMT_LIST) {
+			if (child != NULL && child->kind == ZEND_AST_STMT_LIST) {
+				ast_fill_children_ht(ht, child, version);
+				continue;
+			}
+			if (version >= 40 && child == NULL) {
+				continue;
+			}
 		}
 
 		if (ast_is_name(child, ast, i)) {
