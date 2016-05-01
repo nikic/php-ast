@@ -42,6 +42,11 @@
 #define AST_PLUS 261
 #define AST_MINUS 262
 
+/* Define "void" for PHP 7.0 */
+#ifndef IS_VOID
+#define IS_VOID 18
+#endif
+
 static inline void ast_update_property(zval *object, zend_string *name, zval *value, void **cache_slot) {
 	zval name_zv;
 	ZVAL_STR(&name_zv, name);
@@ -135,9 +140,47 @@ static inline zend_bool ast_is_name(zend_ast *ast, zend_ast *parent, uint32_t i)
 	return 0;
 }
 
+/* Assumes that ast_is_name is already true */
+static inline zend_bool ast_is_type(zend_ast *ast, zend_ast *parent, uint32_t i) {
+	if (i == 0) {
+		return parent->kind == ZEND_AST_PARAM;
+	}
+	if (i == 3) {
+		return parent->kind == ZEND_AST_CLOSURE || parent->kind == ZEND_AST_FUNC_DECL
+			|| parent->kind == ZEND_AST_METHOD;
+	}
+	return 0;
+}
+
 static inline zend_bool ast_is_var_name(zend_ast *ast, zend_ast *parent, uint32_t i) {
 	return (parent->kind == ZEND_AST_STATIC && i == 0)
 		|| (parent->kind == ZEND_AST_CATCH && i == 1);
+}
+
+/* Adopted from zend_compile.c */
+typedef struct _builtin_type_info {
+	const char* name;
+	const size_t name_len;
+	const zend_uchar type;
+} builtin_type_info;
+static const builtin_type_info builtin_types[] = {
+	{ZEND_STRL("int"), IS_LONG},
+	{ZEND_STRL("float"), IS_DOUBLE},
+	{ZEND_STRL("string"), IS_STRING},
+	{ZEND_STRL("bool"), _IS_BOOL},
+	{ZEND_STRL("void"), IS_VOID},
+	{NULL, 0, IS_UNDEF}
+};
+static inline zend_uchar lookup_builtin_type(const zend_string *name) {
+	const builtin_type_info *info = &builtin_types[0];
+	for (; info->name; ++info) {
+		if (ZSTR_LEN(name) == info->name_len
+			&& !zend_binary_strcasecmp(ZSTR_VAL(name), ZSTR_LEN(name), info->name, info->name_len)
+		) {
+			return info->type;
+		}
+	}
+	return 0;
 }
 
 static inline zend_ast_attr ast_assign_op_to_binary_op(zend_ast_attr attr) {
@@ -173,8 +216,10 @@ static inline zend_ast **ast_get_children(zend_ast *ast, uint32_t *count) {
 	}
 }
 
-static void ast_create_virtual_node(
-		zval *zv, zend_ast_kind kind, zend_ast *ast, zend_long version) {
+/* "child" may be AST_ZVAL or NULL */
+static void ast_create_virtual_node_ex(
+		zval *zv, zend_ast_kind kind, zend_ast_attr attr, uint32_t lineno,
+		zend_ast *child, zend_long version) {
 	zval tmp_zv, tmp_zv2;
 
 	object_init_ex(zv, ast_node_ce);
@@ -182,21 +227,29 @@ static void ast_create_virtual_node(
 	ZVAL_LONG(&tmp_zv, kind);
 	ast_update_property(zv, AST_STR(str_kind), &tmp_zv, AST_CACHE_SLOT_KIND);
 
-	ZVAL_LONG(&tmp_zv, ast->attr);
+	ZVAL_LONG(&tmp_zv, attr);
 	ast_update_property(zv, AST_STR(str_flags), &tmp_zv, AST_CACHE_SLOT_FLAGS);
 
-	ZVAL_LONG(&tmp_zv, zend_ast_get_lineno(ast));
+	ZVAL_LONG(&tmp_zv, lineno);
 	ast_update_property(zv, AST_STR(str_lineno), &tmp_zv, AST_CACHE_SLOT_LINENO);
 
 	array_init(&tmp_zv);
 	ast_update_property(zv, AST_STR(str_children), &tmp_zv, AST_CACHE_SLOT_CHILDREN);
 
-	ZVAL_COPY(&tmp_zv2, zend_ast_get_zval(ast));
-	if (version >= 30) {
-		zend_hash_add_new(Z_ARRVAL(tmp_zv), ast_kind_child_name(kind, 0), &tmp_zv2);
-	} else {
-		zend_hash_next_index_insert(Z_ARRVAL(tmp_zv), &tmp_zv2);
+	if (child) {
+		ZVAL_COPY(&tmp_zv2, zend_ast_get_zval(child));
+		if (version >= 30) {
+			zend_hash_add_new(Z_ARRVAL(tmp_zv), ast_kind_child_name(kind, 0), &tmp_zv2);
+		} else {
+			zend_hash_next_index_insert(Z_ARRVAL(tmp_zv), &tmp_zv2);
+		}
 	}
+}
+
+static void ast_create_virtual_node(
+		zval *zv, zend_ast_kind kind, zend_ast *child, zend_long version) {
+	return ast_create_virtual_node_ex(
+		zv, kind, child->attr, zend_ast_get_lineno(child), child, version);
 }
 
 static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version);
@@ -222,6 +275,7 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, zend_long version
 		}
 
 		if (ast_is_name(child, ast, i)) {
+			zend_uchar type;
 			if (version >= 40 && child->attr == ZEND_NAME_FQ) {
 				/* Ensure there is no leading \ for fully-qualified names. This can happen if
 				 * something like ('\bar')() is used. */
@@ -234,7 +288,14 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, zend_long version
 				}
 			}
 
-			ast_create_virtual_node(&child_zv, AST_NAME, child, version);
+			if (version >= 40 && child->attr == ZEND_NAME_NOT_FQ && ast_is_type(child, ast, i)
+					&& (type = lookup_builtin_type(zend_ast_get_str(child)))) {
+				/* Convert "int" etc typehints to TYPE nodes */
+				ast_create_virtual_node_ex(
+					&child_zv, ZEND_AST_TYPE, type, zend_ast_get_lineno(child), NULL, version);
+			} else {
+				ast_create_virtual_node(&child_zv, AST_NAME, child, version);
+			}
 		} else if (ast->kind == ZEND_AST_CLOSURE_USES) {
 			ast_create_virtual_node(&child_zv, AST_CLOSURE_VAR, child, version);
 		} else if (version >= 20 && ast_is_var_name(child, ast, i)) {
@@ -613,6 +674,7 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("TYPE_ARRAY", IS_ARRAY);
 	ast_register_flag_constant("TYPE_OBJECT", IS_OBJECT);
 	ast_register_flag_constant("TYPE_CALLABLE", IS_CALLABLE);
+	ast_register_flag_constant("TYPE_VOID", IS_VOID);
 
 	ast_register_flag_constant("UNARY_BOOL_NOT", ZEND_BOOL_NOT);
 	ast_register_flag_constant("UNARY_BITWISE_NOT", ZEND_BW_NOT);

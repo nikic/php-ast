@@ -219,6 +219,11 @@ ast\flags\PARAM_VARIADIC
 // Used by ast\AST_TYPE (exclusive)
 ast\flags\TYPE_ARRAY
 ast\flags\TYPE_CALLABLE
+ast\flags\TYPE_VOID         // since version 40
+ast\flags\TYPE_BOOL         // since version 40
+ast\flags\TYPE_LONG         // since version 40
+ast\flags\TYPE_DOUBLE       // since version 40
+ast\flags\TYPE_STRING       // since version 40
 
 // Used by ast\AST_CAST (exclusive)
 ast\flags\TYPE_NULL
@@ -232,9 +237,9 @@ ast\flags\TYPE_OBJECT
 // Used by ast\AST_UNARY_OP (exclusive)
 ast\flags\UNARY_BOOL_NOT
 ast\flags\UNARY_BITWISE_NOT
-ast\flags\UNARY_MINUS   // since version 20
-ast\flags\UNARY_PLUS    // since version 20
-ast\flags\UNARY_SILENCE // since version 20
+ast\flags\UNARY_MINUS       // since version 20
+ast\flags\UNARY_PLUS        // since version 20
+ast\flags\UNARY_SILENCE     // since version 20
 
 // Used by ast\AST_BINARY_OP and ast\AST_ASSIGN_OP in version >= 20 (exclusive)
 ast\flags\BINARY_BITWISE_OR
@@ -422,6 +427,8 @@ Version changelog
   call would return it as `'bar'`. Now always the latter form is used.
 * `null` elements are now stripped from `AST_STMT_LIST`. Previously these could be caused by nop
   statements (`;`).
+* Type hints `int`, `float`, `string`, `bool` and `void` will now be represented as `AST_TYPE`
+  nodes with a respective flag.
 
 ### 30 (current)
 
