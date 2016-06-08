@@ -40,6 +40,11 @@ ZEND_EXTERN_MODULE_GLOBALS(ast)
 #define AST_NAME 2048
 #define AST_CLOSURE_VAR 2049
 
+/* Pretend it still exists */
+#if PHP_VERSION_ID >= 70100
+# define ZEND_AST_LIST ((1 << (ZEND_AST_IS_LIST_SHIFT + 1)) - 1)
+#endif
+
 extern const size_t ast_kinds_count;
 extern const zend_ast_kind ast_kinds[];
 
