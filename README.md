@@ -474,9 +474,9 @@ Supported since 2015-12-14. Deprecated since 2016-08-04.
   it was a simple string containing the name.
 * Nested `AST_STMT_LIST`s are now flattened out.
 
-### 15 (deprecated)
+### 15 (removed)
 
-Supported since 2015-10-21. Deprecated since 2016-04-30.
+Supported since 2015-10-21. Deprecated since 2016-04-30. Removed since 2016-08-04.
 
 * In line with an upstream change, the `docComment` property on `AST_PROP_DECL` has been moved to
   `AST_PROP_ELEM`. This means that each property in one property declaration can have its own

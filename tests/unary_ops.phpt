@@ -12,30 +12,18 @@ $code = <<<'PHP'
 -1;
 PHP;
 
-echo ast_dump(ast\parse_code($code, $version=15)), "\n";
-echo ast_dump(ast\parse_code($code, $version=20)), "\n";
+echo ast_dump(ast\parse_code($code, $version=40)), "\n";
 
 ?>
---EXPECTF--
-Deprecated: ast\parse_code(): Version 15 is deprecated in %s on line %d
-AST_STMT_LIST
-    0: AST_SILENCE
-        0: AST_VAR
-            0: "a"
-    1: AST_UNARY_PLUS
-        0: 1
-    2: AST_UNARY_MINUS
-        0: 1
-
-Deprecated: ast\parse_code(): Version 20 is deprecated in %s on line %d
+--EXPECT--
 AST_STMT_LIST
     0: AST_UNARY_OP
         flags: UNARY_SILENCE (260)
-        0: AST_VAR
-            0: "a"
+        expr: AST_VAR
+            name: "a"
     1: AST_UNARY_OP
         flags: UNARY_PLUS (261)
-        0: 1
+        expr: 1
     2: AST_UNARY_OP
         flags: UNARY_MINUS (262)
-        0: 1
+        expr: 1

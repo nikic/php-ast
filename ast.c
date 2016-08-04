@@ -318,7 +318,7 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, zend_long version
 			!is_list && version >= 30 ? ast_kind_child_name(ast->kind, i) : NULL;
 		zval child_zv;
 
-		if (version >= 20 && ast->kind == ZEND_AST_STMT_LIST) {
+		if (ast->kind == ZEND_AST_STMT_LIST) {
 			if (child != NULL && child->kind == ZEND_AST_STMT_LIST) {
 				ast_fill_children_ht(ht, child, version);
 				continue;
@@ -383,7 +383,7 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, zend_long version
 			}
 		} else if (ast->kind == ZEND_AST_CLOSURE_USES) {
 			ast_create_virtual_node(&child_zv, AST_CLOSURE_VAR, child, version);
-		} else if (version >= 20 && ast_is_var_name(child, ast, i)) {
+		} else if (ast_is_var_name(child, ast, i)) {
 			ast_create_virtual_node(&child_zv, ZEND_AST_VAR, child, version);
 		} else if (version >= 40 && ast_should_normalize_list(child, ast, i)) {
 			if (child) {
@@ -441,46 +441,44 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 		return;
 	}
 
-	if (version >= 20) {
-		switch (ast->kind) {
-			case ZEND_AST_ASSIGN_OP:
-				ast->attr = ast_assign_op_to_binary_op(ast->attr);
-				break;
-			case ZEND_AST_GREATER:
+	switch (ast->kind) {
+		case ZEND_AST_ASSIGN_OP:
+			ast->attr = ast_assign_op_to_binary_op(ast->attr);
+			break;
+		case ZEND_AST_GREATER:
+			ast->kind = ZEND_AST_BINARY_OP;
+			ast->attr = AST_BINARY_IS_GREATER;
+			break;
+		case ZEND_AST_GREATER_EQUAL:
+			ast->kind = ZEND_AST_BINARY_OP;
+			ast->attr = AST_BINARY_IS_GREATER_OR_EQUAL;
+			break;
+		case ZEND_AST_OR:
+			ast->kind = ZEND_AST_BINARY_OP;
+			ast->attr = AST_BINARY_BOOL_OR;
+			break;
+		case ZEND_AST_AND:
+			ast->kind = ZEND_AST_BINARY_OP;
+			ast->attr = AST_BINARY_BOOL_AND;
+			break;
+		case ZEND_AST_COALESCE:
+			if (version >= 40) {
 				ast->kind = ZEND_AST_BINARY_OP;
-				ast->attr = AST_BINARY_IS_GREATER;
-				break;
-			case ZEND_AST_GREATER_EQUAL:
-				ast->kind = ZEND_AST_BINARY_OP;
-				ast->attr = AST_BINARY_IS_GREATER_OR_EQUAL;
-				break;
-			case ZEND_AST_OR:
-				ast->kind = ZEND_AST_BINARY_OP;
-				ast->attr = AST_BINARY_BOOL_OR;
-				break;
-			case ZEND_AST_AND:
-				ast->kind = ZEND_AST_BINARY_OP;
-				ast->attr = AST_BINARY_BOOL_AND;
-				break;
-			case ZEND_AST_COALESCE:
-				if (version >= 40) {
-					ast->kind = ZEND_AST_BINARY_OP;
-					ast->attr = AST_BINARY_COALESCE;
-				}
-				break;
-			case ZEND_AST_SILENCE:
-				ast->kind = ZEND_AST_UNARY_OP;
-				ast->attr = AST_SILENCE;
-				break;
-			case ZEND_AST_UNARY_PLUS:
-				ast->kind = ZEND_AST_UNARY_OP;
-				ast->attr = AST_PLUS;
-				break;
-			case ZEND_AST_UNARY_MINUS:
-				ast->kind = ZEND_AST_UNARY_OP;
-				ast->attr = AST_MINUS;
-				break;
-		}
+				ast->attr = AST_BINARY_COALESCE;
+			}
+			break;
+		case ZEND_AST_SILENCE:
+			ast->kind = ZEND_AST_UNARY_OP;
+			ast->attr = AST_SILENCE;
+			break;
+		case ZEND_AST_UNARY_PLUS:
+			ast->kind = ZEND_AST_UNARY_OP;
+			ast->attr = AST_PLUS;
+			break;
+		case ZEND_AST_UNARY_MINUS:
+			ast->kind = ZEND_AST_UNARY_OP;
+			ast->attr = AST_MINUS;
+			break;
 	}
 
 #if PHP_VERSION_ID >= 70100
@@ -554,7 +552,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 	ast_fill_children_ht(Z_ARRVAL(tmp_zv), ast, version);
 }
 
-static const zend_long versions[] = {15, 20, 30, 35, 40};
+static const zend_long versions[] = {20, 30, 35, 40};
 static const size_t versions_count = sizeof(versions)/sizeof(versions[0]);
 
 static zend_string *ast_version_info() {
@@ -588,7 +586,7 @@ static int ast_check_version(zend_long version) {
 	zend_string *version_info;
 
 	if (ast_version_known(version)) {
-		if (version == 15 || version == 20) {
+		if (version == 20) {
 			php_error_docref(NULL, E_DEPRECATED,
 				"Version " ZEND_LONG_FMT " is deprecated", version);
 		}
