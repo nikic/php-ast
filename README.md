@@ -435,6 +435,12 @@ Version changelog
   These will now be normalized to always use an `AST_STMT_LIST`. A `null` is only allowed if it is
   semantically meaningful, e.g. in the case of `declare(ticks=1);` vs `declare(ticks=1) {}`.
 
+### 35 (in development)
+
+* The `class` node of `AST_CATCH` is now always represented as an `AST_NAME_LIST`. In lower
+  versions: On PHP 7.0 it will always be an `AST_NAME`. In PHP 7.1 it will be an `AST_NAME` if
+  there is only a single class and `AST_NAME_LIST` otherwise.
+
 ### 30 (current)
 
 Supported since 2015-03-10.
