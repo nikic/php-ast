@@ -233,6 +233,22 @@ static inline zend_ast_attr ast_assign_op_to_binary_op(zend_ast_attr attr) {
 	}
 }
 
+static inline zend_bool ast_array_is_list(zend_ast *ast) {
+	zend_ast_list *list = zend_ast_get_list(ast);
+	uint32_t i;
+	if (ast->attr != ZEND_ARRAY_SYNTAX_LIST) {
+		return 0;
+	}
+
+	for (i = 0; i < list->children; i++) {
+		if (list->child[i]->child[1] != NULL || list->child[i]->attr) {
+			return 0;
+		}
+	}
+
+	return 1;
+}
+
 static inline zend_ast **ast_get_children(zend_ast *ast, uint32_t *count) {
 	if (ast_kind_is_decl(ast->kind)) {
 		zend_ast_decl *decl = (zend_ast_decl *) ast;
@@ -378,6 +394,15 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, zend_long version
 				&& (ast->kind == ZEND_AST_PROP_ELEM || ast->kind == ZEND_AST_CONST_ELEM)) {
 			/* Skip docComment child -- It's handled separately */
 			continue;
+#if PHP_VERSION_ID >= 70100
+		} else if (ast->kind == ZEND_AST_LIST) {
+			ast_to_zval(&child_zv, child->child[0], version);
+#else
+		} else if (ast->kind == ZEND_AST_LIST && version >= 35) {
+			zend_ast *new_child = zend_ast_create(ZEND_AST_ARRAY_ELEM, child, NULL);
+			new_child->lineno = zend_ast_get_lineno(child);
+			ast_to_zval(&child_zv, new_child, version);
+#endif
 		} else {
 			ast_to_zval(&child_zv, child, version);
 		}
@@ -446,6 +471,18 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 				break;
 		}
 	}
+
+#if PHP_VERSION_ID >= 70100
+	if (version < 35 && ast->kind == ZEND_AST_ARRAY && ast_array_is_list(ast)) {
+		ast->kind = ZEND_AST_LIST;
+		ast->attr = 0;
+	}
+#else
+	if (version >= 35 && ast->kind == ZEND_AST_LIST) {
+		ast->kind = ZEND_AST_ARRAY;
+		ast->attr = ZEND_AST_LIST;
+	}
+#endif
 
 	is_decl = ast_kind_is_decl(ast->kind);
 	object_init_ex(zv, is_decl ? ast_decl_ce : ast_node_ce);

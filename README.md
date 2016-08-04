@@ -445,6 +445,10 @@ Version changelog
 * The `class` node of `AST_CATCH` is now always represented as an `AST_NAME_LIST`. In lower
   versions: On PHP 7.0 it will always be an `AST_NAME`. In PHP 7.1 it will be an `AST_NAME` if
   there is only a single class and `AST_NAME_LIST` otherwise.
+* `list()` destructuring is now always represented as an `AST_ARRAY` with `ARRAY_SYNTAX_LIST` flag.
+  In lower versions: On PHP 7.0 it will always be an `AST_LIST`. In PHP 7.1 it will be an
+  `AST_ARRAY` if `list()` is used with keys. In PHP 7.1 destructuring using `[]` will always be
+  represented using `AST_ARRAY`, independently of the version.
 
 ### 30 (current)
 
