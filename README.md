@@ -306,6 +306,11 @@ ast\flags\EXEC_INCLUDE
 ast\flags\EXEC_INCLUDE_ONCE
 ast\flags\EXEC_REQUIRE
 ast\flags\EXEC_REQUIRE_ONCE
+
+// Used by ast\AST_ARRAY (exclusive), since PHP 7.1
+ast\flags\ARRAY_SYNTAX_SHORT
+ast\flags\ARRAY_SYNTAX_LONG
+ast\flags\ARRAY_SYNTAX_LIST
 ```
 
 AST node kinds

@@ -47,6 +47,9 @@
 # define IS_VOID 18
 # define IS_ITERABLE 19
 # define ZEND_TYPE_NULLABLE (1<<8)
+# define ZEND_ARRAY_SYNTAX_LIST 1
+# define ZEND_ARRAY_SYNTAX_LONG 2
+# define ZEND_ARRAY_SYNTAX_SHORT 3
 #endif
 
 static inline void ast_update_property(zval *object, zend_string *name, zval *value, void **cache_slot) {
@@ -104,7 +107,8 @@ static inline zend_bool ast_kind_uses_attr(zend_ast_kind kind) {
 		|| kind == ZEND_AST_CAST || kind == ZEND_AST_MAGIC_CONST || kind == ZEND_AST_ARRAY_ELEM
 		|| kind == ZEND_AST_INCLUDE_OR_EVAL || kind == ZEND_AST_USE || kind == ZEND_AST_PROP_DECL
 		|| kind == ZEND_AST_GROUP_USE || kind == ZEND_AST_USE_ELEM
-		|| kind == AST_NAME || kind == AST_CLOSURE_VAR || kind == ZEND_AST_CLASS_CONST_DECL;
+		|| kind == AST_NAME || kind == AST_CLOSURE_VAR || kind == ZEND_AST_CLASS_CONST_DECL
+		|| kind == ZEND_AST_ARRAY;
 }
 
 static inline zend_bool ast_kind_is_decl(zend_ast_kind kind) {
@@ -810,6 +814,10 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("MAGIC_METHOD", T_METHOD_C);
 	ast_register_flag_constant("MAGIC_CLASS", T_CLASS_C);
 	ast_register_flag_constant("MAGIC_TRAIT", T_TRAIT_C);
+
+	ast_register_flag_constant("ARRAY_SYNTAX_LIST", ZEND_ARRAY_SYNTAX_LIST);
+	ast_register_flag_constant("ARRAY_SYNTAX_LONG", ZEND_ARRAY_SYNTAX_LONG);
+	ast_register_flag_constant("ARRAY_SYNTAX_SHORT", ZEND_ARRAY_SYNTAX_SHORT);
 
 	INIT_CLASS_ENTRY(tmp_ce, "ast\\Node", NULL);
 	ast_node_ce = zend_register_internal_class(&tmp_ce);

@@ -12,8 +12,4 @@ echo ast_dump($ast);
 --EXPECT--
 AST_STMT_LIST
     0: AST_RETURN
-        expr: AST_ARRAY
-            0: AST_ARRAY_ELEM
-                flags: 0
-                value: 123
-                key: null
+        expr: 123

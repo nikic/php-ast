@@ -127,6 +127,11 @@ function get_flag_info() : array {
             flags\EXEC_REQUIRE => 'EXEC_REQUIRE',
             flags\EXEC_REQUIRE_ONCE => 'EXEC_REQUIRE_ONCE',
         ],
+        ast\AST_ARRAY => [
+            flags\ARRAY_SYNTAX_LIST => 'ARRAY_SYNTAX_LIST',
+            flags\ARRAY_SYNTAX_LONG => 'ARRAY_SYNTAX_LONG',
+            flags\ARRAY_SYNTAX_SHORT => 'ARRAY_SYNTAX_SHORT',
+        ],
     ];
 
     $combinable = [];
