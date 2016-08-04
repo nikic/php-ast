@@ -100,6 +100,8 @@ AST_STMT_LIST
             0: "a"
         1: AST_VAR
             0: "b"
+
+Deprecated: ast\parse_code(): Version 20 is deprecated in %s on line %d
 AST_STMT_LIST
     0: AST_ASSIGN_OP
         flags: BINARY_BITWISE_OR (9)

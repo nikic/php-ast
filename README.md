@@ -440,7 +440,11 @@ Version changelog
   These will now be normalized to always use an `AST_STMT_LIST`. A `null` is only allowed if it is
   semantically meaningful, e.g. in the case of `declare(ticks=1);` vs `declare(ticks=1) {}`.
 
-### 35 (in development)
+### 35 (current)
+
+Supported since 2016-08-04.
+
+This version normalizes the AST to PHP 7.1 format.
 
 * The `class` node of `AST_CATCH` is now always represented as an `AST_NAME_LIST`. In lower
   versions: On PHP 7.0 it will always be an `AST_NAME`. In PHP 7.1 it will be an `AST_NAME` if
@@ -450,15 +454,15 @@ Version changelog
   `AST_ARRAY` if `list()` is used with keys. In PHP 7.1 destructuring using `[]` will always be
   represented using `AST_ARRAY`, independently of the version.
 
-### 30 (current)
+### 30 (supported)
 
 Supported since 2015-03-10.
 
 * Use string names for child nodes of kinds with fixed length.
 
-### 20 (supported)
+### 20 (deprecated)
 
-Supported since 2015-12-14.
+Supported since 2015-12-14. Deprecated since 2016-08-04.
 
 * `AST_GREATER`, `AST_GREATER_EQUAL`, `AST_OR`, `AST_AND` nodes are now represented using
   `AST_BINARY_OP` with flags `BINARY_IS_GREATER`, `BINARY_IS_GREATER_OR_EQUAL`, `BINARY_BOOL_OR`

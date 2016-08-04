@@ -28,7 +28,7 @@
 #define AST_CACHE_SLOT_LINENO   &AST_G(cache_slots)[2 * 2]
 #define AST_CACHE_SLOT_CHILDREN &AST_G(cache_slots)[2 * 3]
 
-#define AST_CURRENT_VERSION 30
+#define AST_CURRENT_VERSION 35
 
 /* Additional flags for BINARY_OP */
 #define AST_BINARY_IS_GREATER 256
@@ -602,7 +602,7 @@ static int ast_check_version(zend_long version) {
 	zend_string *version_info;
 
 	if (ast_version_known(version)) {
-		if (version == 10 || version == 15) {
+		if (version == 10 || version == 15 || version == 20) {
 			php_error_docref(NULL, E_DEPRECATED,
 				"Version " ZEND_LONG_FMT " is deprecated", version);
 		}

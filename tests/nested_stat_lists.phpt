@@ -46,6 +46,8 @@ AST_STMT_LIST
             0: "f"
     2: AST_VAR
         0: "g"
+
+Deprecated: ast\parse_code(): Version 20 is deprecated in %s on line %d
 AST_STMT_LIST
     0: AST_VAR
         0: "a"

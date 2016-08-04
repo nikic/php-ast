@@ -54,6 +54,8 @@ AST_STMT_LIST
             0: AST_STMT_LIST
                 0: AST_ECHO
                     0: "finally"
+
+Deprecated: ast\parse_code(): Version 20 is deprecated in %s on line %d
 AST_STMT_LIST
     0: AST_TRY
         0: AST_STMT_LIST
