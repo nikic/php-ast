@@ -43,8 +43,9 @@
 #define AST_MINUS 262
 
 /* Define "void" for PHP 7.0 */
-#ifndef IS_VOID
-#define IS_VOID 18
+#if PHP_VERSION_ID < 70100
+# define IS_VOID 18
+# define IS_ITERABLE 19
 #endif
 
 static inline void ast_update_property(zval *object, zend_string *name, zval *value, void **cache_slot) {
@@ -194,6 +195,7 @@ static const builtin_type_info builtin_types[] = {
 	{ZEND_STRL("string"), IS_STRING},
 	{ZEND_STRL("bool"), _IS_BOOL},
 	{ZEND_STRL("void"), IS_VOID},
+	{ZEND_STRL("iterable"), IS_ITERABLE},
 	{NULL, 0, IS_UNDEF}
 };
 static inline zend_uchar lookup_builtin_type(const zend_string *name) {
@@ -725,6 +727,7 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("TYPE_OBJECT", IS_OBJECT);
 	ast_register_flag_constant("TYPE_CALLABLE", IS_CALLABLE);
 	ast_register_flag_constant("TYPE_VOID", IS_VOID);
+	ast_register_flag_constant("TYPE_ITERABLE", IS_ITERABLE);
 
 	ast_register_flag_constant("UNARY_BOOL_NOT", ZEND_BOOL_NOT);
 	ast_register_flag_constant("UNARY_BITWISE_NOT", ZEND_BW_NOT);

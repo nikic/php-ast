@@ -8,7 +8,7 @@ require __DIR__ . '/../util.php';
 $code = <<<'PHP'
 <?php
 function test(
-    A $a, array $b, callable $c, INT $d, Float $e, string $f, bool $g
+    A $a, array $b, callable $c, INT $d, Float $e, string $f, bool $g, iterable $h
 ) : void {
 }
 PHP;
@@ -70,6 +70,13 @@ AST_STMT_LIST
                     name: "bool"
                 name: "g"
                 default: null
+            7: AST_PARAM
+                flags: 0
+                type: AST_NAME
+                    flags: NAME_NOT_FQ (1)
+                    name: "iterable"
+                name: "h"
+                default: null
         uses: null
         stmts: AST_STMT_LIST
         returnType: AST_NAME
@@ -122,6 +129,12 @@ AST_STMT_LIST
                 type: AST_TYPE
                     flags: TYPE_BOOL (13)
                 name: "g"
+                default: null
+            7: AST_PARAM
+                flags: 0
+                type: AST_TYPE
+                    flags: TYPE_ITERABLE (19)
+                name: "h"
                 default: null
         uses: null
         stmts: AST_STMT_LIST

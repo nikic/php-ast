@@ -224,6 +224,7 @@ ast\flags\TYPE_BOOL         // since version 40
 ast\flags\TYPE_LONG         // since version 40
 ast\flags\TYPE_DOUBLE       // since version 40
 ast\flags\TYPE_STRING       // since version 40
+ast\flags\TYPE_ITERABLE     // since version 40
 
 // Used by ast\AST_CAST (exclusive)
 ast\flags\TYPE_NULL
@@ -428,8 +429,8 @@ Version changelog
   call would return it as `'bar'`. Now always the latter form is used.
 * `null` elements are now stripped from `AST_STMT_LIST`. Previously these could be caused by nop
   statements (`;`).
-* Type hints `int`, `float`, `string`, `bool` and `void` will now be represented as `AST_TYPE`
-  nodes with a respective flag.
+* Type hints `int`, `float`, `string`, `bool`, `void` and `iterable` will now be represented as
+  `AST_TYPE` nodes with a respective flag.
 * Many `stmts` children could previously hold one of `null`, a single node or an `AST_STMT_LIST`.
   These will now be normalized to always use an `AST_STMT_LIST`. A `null` is only allowed if it is
   semantically meaningful, e.g. in the case of `declare(ticks=1);` vs `declare(ticks=1) {}`.

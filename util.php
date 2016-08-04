@@ -29,6 +29,7 @@ function get_flag_info() : array {
         flags\TYPE_OBJECT => 'TYPE_OBJECT',
         flags\TYPE_CALLABLE => 'TYPE_CALLABLE',
         flags\TYPE_VOID => 'TYPE_VOID',
+        flags\TYPE_ITERABLE => 'TYPE_ITERABLE',
     ];
     $useTypes = [
         flags\USE_NORMAL => 'USE_NORMAL',
