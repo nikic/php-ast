@@ -147,39 +147,65 @@ $names = [
     'ZEND_AST_FOREACH' => ['expr', 'value', 'key', 'stmts'],
 ];
 
-if ($argc != 2) {
-    die("Must provide input file\n");
-}
-
-$inFile = $argv[1];
-
-if (!is_readable($inFile)) {
-    die("Input file not readable\n");
-}
-
-$inCode = file_get_contents($inFile);
-if (!preg_match('/enum _zend_ast_kind \{(.*?)\};/s', $inCode, $matches)) {
-    die("Malformed input file\n");
-}
+$listNodes = [
+	'ZEND_AST_ARG_LIST',
+	'ZEND_AST_LIST',
+	'ZEND_AST_ARRAY',
+	'ZEND_AST_ENCAPS_LIST',
+	'ZEND_AST_EXPR_LIST',
+	'ZEND_AST_STMT_LIST',
+	'ZEND_AST_IF',
+	'ZEND_AST_SWITCH_LIST',
+	'ZEND_AST_CATCH_LIST',
+	'ZEND_AST_PARAM_LIST',
+	'ZEND_AST_CLOSURE_USES',
+	'ZEND_AST_PROP_DECL',
+	'ZEND_AST_CONST_DECL',
+	'ZEND_AST_CLASS_CONST_DECL',
+	'ZEND_AST_NAME_LIST',
+	'ZEND_AST_TRAIT_ADAPTATIONS',
+	'ZEND_AST_USE',
+];
 
 $data = [];
-$lines = explode("\n", $matches[1]);
-
-foreach ($lines as $line) {
-    if (!preg_match('/\s*(ZEND_([A-Z_]+))/', $line, $matches)) {
-        continue;
-    }
-
-    list(, $zend_name, $name) = $matches;
-    if ($name == 'AST_ZNODE' || $name == 'AST_ZVAL') {
-        continue;
-    }
-
-    $data[$zend_name] = $name;
+foreach ($listNodes as $name) {
+    $shortName = str_replace('ZEND_', '', $name);
+    $data[$name] = $shortName;
+}
+foreach ($names as $name => $_) {
+    $shortName = str_replace('ZEND_', '', $name);
+    $data[$name] = $shortName;
 }
 
-$data['AST_NAME'] = 'AST_NAME';
-$data['AST_CLOSURE_VAR'] = 'AST_CLOSURE_VAR';
+if ($argc > 1) {
+    /* Optional: Check against zend_ast.h */
+    $inFile = $argv[1];
+
+    if (!is_readable($inFile)) {
+	die("Input file not readable\n");
+    }
+
+    $inCode = file_get_contents($inFile);
+    if (!preg_match('/enum _zend_ast_kind \{(.*?)\};/s', $inCode, $matches)) {
+	die("Malformed input file\n");
+    }
+
+    $lines = explode("\n", $matches[1]);
+    foreach ($lines as $line) {
+	if (!preg_match('/\s*(ZEND_([A-Z_]+))/', $line, $matches)) {
+	    continue;
+	}
+
+	list(, $zend_name, $name) = $matches;
+	if ($name == 'AST_ZNODE' || $name == 'AST_ZVAL') {
+	    continue;
+	}
+
+	if (!isset($data[$zend_name])) {
+	    echo "Missing $zend_name\n";
+	}
+    }
+}
 
 $kinds = [];
 $strs = [];
