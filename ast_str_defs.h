@@ -9,6 +9,7 @@
 	X(name) \
 	X(docComment) \
 	X(endLineno) \
+	X(type) \
 	X(params) \
 	X(uses) \
 	X(stmts) \
@@ -43,7 +44,6 @@
 	X(try) \
 	X(catches) \
 	X(finally) \
-	X(type) \
 	X(init) \
 	X(loop) \
 

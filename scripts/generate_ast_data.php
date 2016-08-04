@@ -51,6 +51,7 @@ $names = [
     /* special nodes */
     'AST_NAME' => ['name'],
     'AST_CLOSURE_VAR' => ['name'],
+    'AST_NULLABLE_TYPE' => ['type'],
 
     /* declaration nodes */
     'ZEND_AST_FUNC_DECL' => $funcNames,

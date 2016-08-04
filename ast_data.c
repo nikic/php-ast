@@ -1,6 +1,6 @@
 #include "php_ast.h"
 
-const size_t ast_kinds_count = 98;
+const size_t ast_kinds_count = 99;
 
 const zend_ast_kind ast_kinds[] = {
 	ZEND_AST_ARG_LIST,
@@ -22,6 +22,7 @@ const zend_ast_kind ast_kinds[] = {
 	ZEND_AST_USE,
 	AST_NAME,
 	AST_CLOSURE_VAR,
+	AST_NULLABLE_TYPE,
 	ZEND_AST_FUNC_DECL,
 	ZEND_AST_CLOSURE,
 	ZEND_AST_METHOD,
@@ -124,6 +125,7 @@ const char *ast_kind_to_name(zend_ast_kind kind) {
 		case ZEND_AST_USE: return "AST_USE";
 		case AST_NAME: return "AST_NAME";
 		case AST_CLOSURE_VAR: return "AST_CLOSURE_VAR";
+		case AST_NULLABLE_TYPE: return "AST_NULLABLE_TYPE";
 		case ZEND_AST_FUNC_DECL: return "AST_FUNC_DECL";
 		case ZEND_AST_CLOSURE: return "AST_CLOSURE";
 		case ZEND_AST_METHOD: return "AST_METHOD";
@@ -218,6 +220,11 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 		case AST_CLOSURE_VAR:
 			switch (child) {
 				case 0: return AST_STR(str_name);
+			}
+			return NULL;
+		case AST_NULLABLE_TYPE:
+			switch (child) {
+				case 0: return AST_STR(str_type);
 			}
 			return NULL;
 		case ZEND_AST_FUNC_DECL:
@@ -697,6 +704,7 @@ void ast_register_kind_constants(INIT_FUNC_ARGS) {
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_USE", ZEND_AST_USE, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_NAME", AST_NAME, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_CLOSURE_VAR", AST_CLOSURE_VAR, CONST_CS | CONST_PERSISTENT);
+	REGISTER_NS_LONG_CONSTANT("ast", "AST_NULLABLE_TYPE", AST_NULLABLE_TYPE, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_FUNC_DECL", ZEND_AST_FUNC_DECL, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_CLOSURE", ZEND_AST_CLOSURE, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_METHOD", ZEND_AST_METHOD, CONST_CS | CONST_PERSISTENT);

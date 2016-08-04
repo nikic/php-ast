@@ -361,6 +361,7 @@ AST_METHOD_REFERENCE: class, method
 AST_NAME:             name
 AST_NAMESPACE:        name, stmts
 AST_NEW:              class, args
+AST_NULLABLE_TYPE:    type                   // Used only in PHP 7.1
 AST_OR:               left, right            // Prior to version 20
 AST_PARAM:            type, name, default
 AST_POST_DEC:         var

@@ -37,8 +37,9 @@ ZEND_EXTERN_MODULE_GLOBALS(ast)
 #define AST_STR(str) AST_G(str)
 
 /* Custom ast kind for names */
-#define AST_NAME 2048
-#define AST_CLOSURE_VAR 2049
+#define AST_NAME          2048
+#define AST_CLOSURE_VAR   2049
+#define AST_NULLABLE_TYPE 2050
 
 /* Pretend it still exists */
 #if PHP_VERSION_ID >= 70100
