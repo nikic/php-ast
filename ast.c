@@ -42,10 +42,11 @@
 #define AST_PLUS 261
 #define AST_MINUS 262
 
-/* Define "void" for PHP 7.0 */
+/* Define some constants for PHP 7.0 */
 #if PHP_VERSION_ID < 70100
 # define IS_VOID 18
 # define IS_ITERABLE 19
+# define ZEND_TYPE_NULLABLE (1<<8)
 #endif
 
 static inline void ast_update_property(zval *object, zend_string *name, zval *value, void **cache_slot) {
