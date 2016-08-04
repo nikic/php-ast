@@ -102,7 +102,7 @@ $code = <<<'EOC'
 $var = 42;
 EOC;
 
-var_dump(ast\parse_code($code, $version=30));
+var_dump(ast\parse_code($code, $version=35));
 
 // Output:
 object(ast\Node)#1 (4) {
@@ -159,7 +159,7 @@ $code = <<<'EOC'
 $var = 42;
 EOC;
 
-echo ast_dump(ast\parse_code($code, $version=30)), "\n";
+echo ast_dump(ast\parse_code($code, $version=35)), "\n";
 
 // Output:
 AST_STMT_LIST
