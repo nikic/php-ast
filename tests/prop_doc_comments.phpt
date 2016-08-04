@@ -20,35 +20,10 @@ class A {
 }
 PHP;
 
-echo ast_dump(ast\parse_code($code, $version=10)), "\n";
 echo ast_dump(ast\parse_code($code, $version=15)), "\n";
 
 ?>
 --EXPECTF--
-Deprecated: ast\parse_code(): Version 10 is deprecated in %s on line %d
-AST_STMT_LIST
-    0: AST_CLASS
-        flags: 0
-        name: A
-        0: null
-        1: null
-        2: AST_STMT_LIST
-            0: AST_PROP_DECL
-                flags: MODIFIER_PUBLIC (256)
-                docComment: /** docComment $a */
-                0: AST_PROP_ELEM
-                    0: "a"
-                    1: null
-            1: AST_PROP_DECL
-                flags: MODIFIER_PUBLIC (256)
-                docComment: /** docComment $b */
-                0: AST_PROP_ELEM
-                    0: "b"
-                    1: null
-                1: AST_PROP_ELEM
-                    0: "c"
-                    1: null
-
 Deprecated: ast\parse_code(): Version 15 is deprecated in %s on line %d
 AST_STMT_LIST
     0: AST_CLASS

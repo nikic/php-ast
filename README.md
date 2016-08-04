@@ -482,9 +482,9 @@ Supported since 2015-10-21. Deprecated since 2016-04-30.
   `AST_PROP_ELEM`. This means that each property in one property declaration can have its own
   doc comment.
 
-### 10 (deprecated)
+### 10 (removed)
 
-Initial.
+Initial. Removed since 2016-08-04.
 
 Differences to PHP-Parser
 -------------------------

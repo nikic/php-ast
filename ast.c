@@ -536,22 +536,8 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 		ast_update_property(zv, AST_STR(str_flags), &tmp_zv, AST_CACHE_SLOT_FLAGS);
 	}
 
-	if (version < 15 && ast->kind == ZEND_AST_PROP_DECL) {
-		/* Before version 15 the first docComment was stored on the PROP_DECL */
-		zend_ast_list *props = zend_ast_get_list(ast);
-		uint32_t i;
-		for (i = 0; i < props->children; ++i) {
-			zend_ast *prop = props->child[i];
-			if (prop->child[2]) {
-				ZVAL_STR_COPY(&tmp_zv, zend_ast_get_str(prop->child[2]));
-				ast_update_property(zv, AST_STR(str_docComment), &tmp_zv, NULL);
-				break;
-			}
-		}
-	}
-
 	/* Convert doc comments on properties and constants into properties */
-	if (version >= 15 && ast->kind == ZEND_AST_PROP_ELEM && ast->child[2]) {
+	if (ast->kind == ZEND_AST_PROP_ELEM && ast->child[2]) {
 		ZVAL_STR_COPY(&tmp_zv, zend_ast_get_str(ast->child[2]));
 		ast_update_property(zv, AST_STR(str_docComment), &tmp_zv, NULL);
 	}
@@ -568,7 +554,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 	ast_fill_children_ht(Z_ARRVAL(tmp_zv), ast, version);
 }
 
-static const zend_long versions[] = {10, 15, 20, 30, 35, 40};
+static const zend_long versions[] = {15, 20, 30, 35, 40};
 static const size_t versions_count = sizeof(versions)/sizeof(versions[0]);
 
 static zend_string *ast_version_info() {
@@ -602,7 +588,7 @@ static int ast_check_version(zend_long version) {
 	zend_string *version_info;
 
 	if (ast_version_known(version)) {
-		if (version == 10 || version == 15 || version == 20) {
+		if (version == 15 || version == 20) {
 			php_error_docref(NULL, E_DEPRECATED,
 				"Version " ZEND_LONG_FMT " is deprecated", version);
 		}
