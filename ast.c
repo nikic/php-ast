@@ -303,7 +303,24 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, zend_long version
 			}
 		}
 
-		if (ast_is_name(child, ast, i)) {
+		/* These two AST_CATCH checks should occur before ast_is_name() */
+#if PHP_VERSION_ID >= 70100
+		if (ast->kind == ZEND_AST_CATCH && version < 35
+				&& i == 0 && zend_ast_get_list(child)->children == 1) {
+			/* Emulate PHP 7.0 format (no list) */
+			ast_create_virtual_node(
+				&child_zv, AST_NAME, zend_ast_get_list(child)->child[0], version);
+		}
+#else
+		if (ast->kind == ZEND_AST_CATCH && version >= 35 && i == 0) {
+			/* Emulate PHP 7.1 format (name list) */
+			zval tmp;
+			ast_create_virtual_node(&tmp, AST_NAME, child, version);
+			ast_create_virtual_node_ex(
+				&child_zv, ZEND_AST_NAME_LIST, 0, zend_ast_get_lineno(child), &tmp, version);
+		}
+#endif
+		else if (ast_is_name(child, ast, i)) {
 			zend_uchar type;
 			zend_bool is_nullable = 0;
 			if (child->attr & ZEND_TYPE_NULLABLE) {
@@ -357,20 +374,6 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, zend_long version
 				&& (ast->kind == ZEND_AST_PROP_ELEM || ast->kind == ZEND_AST_CONST_ELEM)) {
 			/* Skip docComment child -- It's handled separately */
 			continue;
-#if PHP_VERSION_ID >= 70100
-		} else if (ast->kind == ZEND_AST_CATCH && version < 35
-				&& i == 0 && zend_ast_get_list(child)->children == 1) {
-			/* Emulate PHP 7.0 format (no list) */
-			ast_create_virtual_node(
-				&child_zv, AST_NAME, zend_ast_get_list(child)->child[0], version);
-#else
-		} else if (ast->kind == ZEND_AST_CATCH && version >= 35) {
-			/* Emulate PHP 7.1 format (name list) */
-			zval tmp;
-			ast_create_virtual_node(&tmo, AST_NAME, child, version);
-			ast_create_virtual_node_ex(
-				&child_zv, ZEND_AST_NAME_LIST, 0, zend_ast_get_lineno(child), &tmp, version);
-#endif
 		} else {
 			ast_to_zval(&child_zv, child, version);
 		}
