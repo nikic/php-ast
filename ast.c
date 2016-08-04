@@ -268,8 +268,10 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version);
 
 static void ast_create_virtual_node_ex(
 		zval *zv, zend_ast_kind kind, zend_ast_attr attr, uint32_t lineno,
-		zval *child_zv, zend_long version) {
+		zend_long version, uint32_t num_children, ...) {
 	zval tmp_zv;
+	va_list va;
+	uint32_t i;
 
 	object_init_ex(zv, ast_node_ce);
 
@@ -285,14 +287,17 @@ static void ast_create_virtual_node_ex(
 	array_init(&tmp_zv);
 	ast_update_property(zv, AST_STR(str_children), &tmp_zv, AST_CACHE_SLOT_CHILDREN);
 
-	if (child_zv) {
-		zend_string *child_name = version >= 30 ? ast_kind_child_name(kind, 0) : NULL;
+	va_start(va, num_children);
+	for (i = 0; i < num_children; i++) {
+		zval *child_zv = va_arg(va, zval *);
+		zend_string *child_name = version >= 30 ? ast_kind_child_name(kind, i) : NULL;
 		if (child_name) {
 			zend_hash_add_new(Z_ARRVAL(tmp_zv), child_name, child_zv);
 		} else {
 			zend_hash_next_index_insert(Z_ARRVAL(tmp_zv), child_zv);
 		}
 	}
+	va_end(va);
 }
 
 static void ast_create_virtual_node(
@@ -300,7 +305,7 @@ static void ast_create_virtual_node(
 	zval child_zv;
 	ast_to_zval(&child_zv, child, version);
 	return ast_create_virtual_node_ex(
-		zv, kind, child->attr, zend_ast_get_lineno(child), &child_zv, version);
+		zv, kind, child->attr, zend_ast_get_lineno(child), version, 1, &child_zv);
 }
 
 static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, zend_long version) {
@@ -337,7 +342,7 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, zend_long version
 			zval tmp;
 			ast_create_virtual_node(&tmp, AST_NAME, child, version);
 			ast_create_virtual_node_ex(
-				&child_zv, ZEND_AST_NAME_LIST, 0, zend_ast_get_lineno(child), &tmp, version);
+				&child_zv, ZEND_AST_NAME_LIST, 0, zend_ast_get_lineno(child), version, 1, &tmp);
 		}
 #endif
 		else if (ast_is_name(child, ast, i)) {
@@ -364,7 +369,7 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, zend_long version
 					&& (type = lookup_builtin_type(zend_ast_get_str(child)))) {
 				/* Convert "int" etc typehints to TYPE nodes */
 				ast_create_virtual_node_ex(
-					&child_zv, ZEND_AST_TYPE, type, zend_ast_get_lineno(child), NULL, version);
+					&child_zv, ZEND_AST_TYPE, type, zend_ast_get_lineno(child), version, 0);
 			} else {
 				ast_create_virtual_node(&child_zv, AST_NAME, child, version);
 			}
@@ -374,7 +379,7 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, zend_long version
 				zval tmp;
 				ZVAL_COPY_VALUE(&tmp, &child_zv);
 				ast_create_virtual_node_ex(
-					&child_zv, AST_NULLABLE_TYPE, 0, zend_ast_get_lineno(child), &tmp, version);
+					&child_zv, AST_NULLABLE_TYPE, 0, zend_ast_get_lineno(child), version, 1, &tmp);
 			}
 		} else if (ast->kind == ZEND_AST_CLOSURE_USES) {
 			ast_create_virtual_node(&child_zv, AST_CLOSURE_VAR, child, version);
@@ -385,10 +390,10 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, zend_long version
 				zval tmp;
 				ast_to_zval(&tmp, child, version);
 				ast_create_virtual_node_ex(
-					&child_zv, ZEND_AST_STMT_LIST, 0, zend_ast_get_lineno(child), &tmp, version);
+					&child_zv, ZEND_AST_STMT_LIST, 0, zend_ast_get_lineno(child), version, 1, &tmp);
 			} else {
 				ast_create_virtual_node_ex(
-					&child_zv, ZEND_AST_STMT_LIST, 0, zend_ast_get_lineno(ast), NULL, version);
+					&child_zv, ZEND_AST_STMT_LIST, 0, zend_ast_get_lineno(ast), version, 0);
 			}
 		} else if (i == 2
 				&& (ast->kind == ZEND_AST_PROP_ELEM || ast->kind == ZEND_AST_CONST_ELEM)) {
@@ -396,12 +401,18 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, zend_long version
 			continue;
 #if PHP_VERSION_ID >= 70100
 		} else if (ast->kind == ZEND_AST_LIST) {
+			/* Emulate simple variable list */
 			ast_to_zval(&child_zv, child->child[0], version);
 #else
-		} else if (ast->kind == ZEND_AST_LIST && version >= 35) {
-			zend_ast *new_child = zend_ast_create(ZEND_AST_ARRAY_ELEM, child, NULL);
-			new_child->lineno = zend_ast_get_lineno(child);
-			ast_to_zval(&child_zv, new_child, version);
+		} else if (version >= 35 && ast->kind == ZEND_AST_ARRAY
+				&& ast->attr == ZEND_ARRAY_SYNTAX_LIST) {
+			/* Emulate ARRAY_ELEM list */
+			zval ch0, ch1;
+			ast_to_zval(&ch0, child, version);
+			ZVAL_NULL(&ch1);
+			ast_create_virtual_node_ex(
+				&child_zv, ZEND_AST_ARRAY_ELEM, 0, zend_ast_get_lineno(child), version,
+				2, &ch0, &ch1);
 #endif
 		} else {
 			ast_to_zval(&child_zv, child, version);
@@ -480,7 +491,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 #else
 	if (version >= 35 && ast->kind == ZEND_AST_LIST) {
 		ast->kind = ZEND_AST_ARRAY;
-		ast->attr = ZEND_AST_LIST;
+		ast->attr = ZEND_ARRAY_SYNTAX_LIST;
 	}
 #endif
 
