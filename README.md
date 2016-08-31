@@ -349,8 +349,8 @@ AST_FOREACH:          expr, value, key, stmts
 AST_FUNC_DECL:        params, uses, stmts, returnType
 AST_GLOBAL:           var
 AST_GOTO:             label
-AST_GREATER:          left, right
-AST_GREATER_EQUAL:    left, right
+AST_GREATER:          left, right            // prior to version 20
+AST_GREATER_EQUAL:    left, right            // prior to version 20
 AST_GROUP_USE:        prefix, uses
 AST_HALT_COMPILER:    offset
 AST_IF_ELEM:          cond, stmts
