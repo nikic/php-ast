@@ -405,7 +405,7 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, zend_long version
 			ast_to_zval(&child_zv, child->child[0], version);
 #else
 		} else if (version >= 35 && ast->kind == ZEND_AST_ARRAY
-				&& ast->attr == ZEND_ARRAY_SYNTAX_LIST) {
+				&& ast->attr == ZEND_ARRAY_SYNTAX_LIST && child != NULL) {
 			/* Emulate ARRAY_ELEM list */
 			zval ch0, ch1;
 			ast_to_zval(&ch0, child, version);
