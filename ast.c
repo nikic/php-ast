@@ -241,7 +241,7 @@ static inline zend_bool ast_array_is_list(zend_ast *ast) {
 	}
 
 	for (i = 0; i < list->children; i++) {
-		if (list->child[i]->child[1] != NULL || list->child[i]->attr) {
+		if (list->child[i] && (list->child[i]->child[1] != NULL || list->child[i]->attr)) {
 			return 0;
 		}
 	}
@@ -400,7 +400,7 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, zend_long version
 			/* Skip docComment child -- It's handled separately */
 			continue;
 #if PHP_VERSION_ID >= 70100
-		} else if (ast->kind == ZEND_AST_LIST) {
+		} else if (ast->kind == ZEND_AST_LIST && child != NULL) {
 			/* Emulate simple variable list */
 			ast_to_zval(&child_zv, child->child[0], version);
 #else
