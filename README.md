@@ -37,12 +37,12 @@ Usage
 
 Code can be parsed using either `ast\parse_code()`, which accepts a code string, or
 `ast\parse_file()`, which accepts a file path. Additionally both functions require a `$version`
-argument to ensure forward-compatibility. The current version is 30.
+argument to ensure forward-compatibility. The current version is 35.
 
 ```php
-$ast = ast\parse_code('<?php ...', $version=30);
+$ast = ast\parse_code('<?php ...', $version=35);
 // or
-$ast = ast\parse_file('file.php', $version=30);
+$ast = ast\parse_file('file.php', $version=35);
 ```
 
 The abstract syntax tree returned by these functions consists of `ast\Node` objects.
