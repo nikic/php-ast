@@ -834,9 +834,15 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("EXEC_REQUIRE", ZEND_REQUIRE);
 	ast_register_flag_constant("EXEC_REQUIRE_ONCE", ZEND_REQUIRE_ONCE);
 
+#if PHP_VERSION_ID >= 70200
+	ast_register_flag_constant("USE_NORMAL", ZEND_SYMBOL_CLASS);
+	ast_register_flag_constant("USE_FUNCTION", ZEND_SYMBOL_FUNCTION);
+	ast_register_flag_constant("USE_CONST", ZEND_SYMBOL_CONST);
+#else
 	ast_register_flag_constant("USE_NORMAL", T_CLASS);
 	ast_register_flag_constant("USE_FUNCTION", T_FUNCTION);
 	ast_register_flag_constant("USE_CONST", T_CONST);
+#endif
 
 	ast_register_flag_constant("MAGIC_LINE", T_LINE);
 	ast_register_flag_constant("MAGIC_FILE", T_FILE);
