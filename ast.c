@@ -730,7 +730,7 @@ const zend_function_entry ast_functions[] = {
 
 PHP_MINFO_FUNCTION(ast) {
 	php_info_print_table_start();
-	php_info_print_table_header(2, "ast support", "enabled");
+	php_info_print_table_row(2, "ast support", "enabled");
 	php_info_print_table_end();
 }
 
