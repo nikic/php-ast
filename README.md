@@ -458,9 +458,9 @@ Supported since 2015-03-10.
 
 * Use string names for child nodes of kinds with fixed length.
 
-### 20 (deprecated)
+### 20 (removed)
 
-Supported since 2015-12-14. Deprecated since 2016-08-04.
+Supported since 2015-12-14. Deprecated since 2016-08-04. Removed since 2017-01-18.
 
 * `AST_GREATER`, `AST_GREATER_EQUAL`, `AST_OR`, `AST_AND` nodes are now represented using
   `AST_BINARY_OP` with flags `BINARY_IS_GREATER`, `BINARY_IS_GREATER_OR_EQUAL`, `BINARY_BOOL_OR`

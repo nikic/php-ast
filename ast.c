@@ -290,7 +290,7 @@ static void ast_create_virtual_node_ex(
 	va_start(va, num_children);
 	for (i = 0; i < num_children; i++) {
 		zval *child_zv = va_arg(va, zval *);
-		zend_string *child_name = version >= 30 ? ast_kind_child_name(kind, i) : NULL;
+		zend_string *child_name = ast_kind_child_name(kind, i);
 		if (child_name) {
 			zend_hash_add_new(Z_ARRVAL(tmp_zv), child_name, child_zv);
 		} else {
@@ -314,8 +314,7 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, zend_long version
 	zend_ast **children = ast_get_children(ast, &count);
 	for (i = 0; i < count; ++i) {
 		zend_ast *child = children[i];
-		zend_string *child_name =
-			!is_list && version >= 30 ? ast_kind_child_name(ast->kind, i) : NULL;
+		zend_string *child_name = !is_list ? ast_kind_child_name(ast->kind, i) : NULL;
 		zval child_zv;
 
 		if (ast->kind == ZEND_AST_STMT_LIST) {
@@ -555,7 +554,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 	ast_fill_children_ht(Z_ARRVAL(tmp_zv), ast, version);
 }
 
-static const zend_long versions[] = {20, 30, 35, 40};
+static const zend_long versions[] = {30, 35, 40};
 static const size_t versions_count = sizeof(versions)/sizeof(versions[0]);
 
 static zend_string *ast_version_info() {
@@ -589,7 +588,7 @@ static int ast_check_version(zend_long version) {
 	zend_string *version_info;
 
 	if (ast_version_known(version)) {
-		if (version == 20) {
+		if (0) {
 			php_error_docref(NULL, E_DEPRECATED,
 				"Version " ZEND_LONG_FMT " is deprecated", version);
 		}
