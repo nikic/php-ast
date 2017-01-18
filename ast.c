@@ -381,6 +381,9 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, zend_long version
 				ast_create_virtual_node_ex(
 					&child_zv, AST_NULLABLE_TYPE, 0, zend_ast_get_lineno(child), version, 1, &tmp);
 			}
+		} else if (child && child->kind == ZEND_AST_TYPE && (child->attr & ZEND_TYPE_NULLABLE)) {
+			child->attr &= ~ZEND_TYPE_NULLABLE;
+			ast_create_virtual_node(&child_zv, AST_NULLABLE_TYPE, child, version);
 		} else if (ast->kind == ZEND_AST_CLOSURE_USES) {
 			ast_create_virtual_node(&child_zv, AST_CLOSURE_VAR, child, version);
 		} else if (ast_is_var_name(child, ast, i)) {
