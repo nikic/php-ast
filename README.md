@@ -37,12 +37,12 @@ Usage
 
 Code can be parsed using either `ast\parse_code()`, which accepts a code string, or
 `ast\parse_file()`, which accepts a file path. Additionally both functions require a `$version`
-argument to ensure forward-compatibility. The current version is 35.
+argument to ensure forward-compatibility. The current version is 40.
 
 ```php
-$ast = ast\parse_code('<?php ...', $version=35);
+$ast = ast\parse_code('<?php ...', $version=40);
 // or
-$ast = ast\parse_file('file.php', $version=35);
+$ast = ast\parse_file('file.php', $version=40);
 ```
 
 The abstract syntax tree returned by these functions consists of `ast\Node` objects.
@@ -100,7 +100,7 @@ $code = <<<'EOC'
 $var = 42;
 EOC;
 
-var_dump(ast\parse_code($code, $version=35));
+var_dump(ast\parse_code($code, $version=40));
 
 // Output:
 object(ast\Node)#1 (4) {
@@ -157,7 +157,7 @@ $code = <<<'EOC'
 $var = 42;
 EOC;
 
-echo ast_dump(ast\parse_code($code, $version=35)), "\n";
+echo ast_dump(ast\parse_code($code, $version=40)), "\n";
 
 // Output:
 AST_STMT_LIST
@@ -424,7 +424,9 @@ ZEND_AST_USE
 Version changelog
 -----------------
 
-### 40 (in development)
+### 40 (current)
+
+Supported since 2017-01-18.
 
 * `AST_COALESCE` is now represented as an `AST_BINARY_OP` with flag `BINARY_COALESCE`.
 * For `AST_NAME` nodes with `NAME_FQ` the leading backslash is now dropped if syntax like
@@ -438,7 +440,7 @@ Version changelog
   These will now be normalized to always use an `AST_STMT_LIST`. A `null` is only allowed if it is
   semantically meaningful, e.g. in the case of `declare(ticks=1);` vs `declare(ticks=1) {}`.
 
-### 35 (current)
+### 35 (supported)
 
 Supported since 2016-08-04.
 
