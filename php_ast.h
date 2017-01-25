@@ -7,7 +7,7 @@
 extern zend_module_entry ast_module_entry;
 #define phpext_ast_ptr &ast_module_entry
 
-#define PHP_AST_VERSION "0.1.4-dev"
+#define PHP_AST_VERSION "0.1.4"
 
 #ifdef PHP_WIN32
 #	define PHP_AST_API __declspec(dllexport)
