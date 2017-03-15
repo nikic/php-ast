@@ -1,5 +1,10 @@
 --TEST--
 Convert unary ops AST_(SILENCE|UNARY_(PLUS|MINUS)) to flags of ZEND_AST_UNARY_OP
+--SKIPIF--
+<?php
+if (!extension_loaded("ast")) print "skip ast extension not loaded";
+if (!extension_loaded("tokenizer")) print "skip tokenizer extension not loaded";
+?>
 --FILE--
 <?php
 

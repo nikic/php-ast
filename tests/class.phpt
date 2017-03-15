@@ -1,5 +1,10 @@
 --TEST--
 Test parse and dump of class
+--SKIPIF--
+<?php
+if (!extension_loaded("ast")) print "skip ast extension not loaded";
+if (!extension_loaded("tokenizer")) print "skip tokenizer extension not loaded";
+?>
 --FILE--
 <?php
 
