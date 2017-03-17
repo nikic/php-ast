@@ -1,7 +1,11 @@
 --TEST--
 ast_dump() with AST_DUMP_LINENOS
 --SKIPIF--
-<?php if (!extension_loaded("ast")) print "skip"; ?>
+<?php
+if (!extension_loaded("ast")) print "skip";
+if (PHP_VERSION_ID >= 70000 && PHP_VERSION_ID < 70018) print "skip buggy PHP version";
+if (PHP_VERSION_ID >= 70100 && PHP_VERSION_ID < 70104) print "skip buggy PHP version";
+?>
 --FILE--
 <?php
 
@@ -22,8 +26,6 @@ PHP;
 $ast = ast\parse_code($code, $version=30);
 echo ast_dump($ast, AST_DUMP_LINENOS);
 
-// The lineno for AST_ARG_LIST is wrong...
-
 ?>
 --EXPECT--
 AST_STMT_LIST @ 1
@@ -37,7 +39,7 @@ AST_STMT_LIST @ 1
                 expr: AST_NAME @ 6
                     flags: NAME_NOT_FQ (1)
                     name: "var_dump"
-                args: AST_ARG_LIST @ 8
+                args: AST_ARG_LIST @ 7
                     0: AST_VAR @ 7
                         name: "foo"
         returnType: null
