@@ -176,7 +176,7 @@ function ast_dump($ast, int $options = 0) : string {
             }
         }
 
-        if (ast\kind_uses_flags($ast->kind)) {
+        if (ast\kind_uses_flags($ast->kind) || $ast->flags != 0) {
             $result .= "\n    flags: " . format_flags($ast->kind, $ast->flags);
         }
         if (isset($ast->name)) {
