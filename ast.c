@@ -52,12 +52,43 @@
 # define ZEND_ARRAY_SYNTAX_SHORT 3
 #endif
 
+PHP_METHOD(ast_Node, __construct);
+PHP_METHOD(ast_Node_Decl, __construct);
+
 static inline void ast_update_property(zval *object, zend_string *name, zval *value, void **cache_slot) {
 	zval name_zv;
 	ZVAL_STR(&name_zv, name);
 
 	Z_TRY_DELREF_P(value);
 	Z_OBJ_HT_P(object)->write_property(object, &name_zv, value, cache_slot);
+}
+
+/**
+ * The same as ast_update_property, but preserves the reference count.
+ * Two reasons to use it:
+ * 1. value isn't reference collected in php 7 (e.g. ZVAL_LONG, but not ZVAL_STRING)
+ * 2. value is passed in as a function param, and decrementing would be incorrect.
+ */
+static inline void ast_update_property_keeprefcount(zval *object, zend_string *name, zval *value, void **cache_slot) {
+	zval name_zv;
+	ZVAL_STR(&name_zv, name);
+
+	Z_OBJ_HT_P(object)->write_property(object, &name_zv, value, cache_slot);
+}
+
+/**
+ * The same as ast_update_property, but preserves the reference count.
+ * Two reasons to use it:
+ * 1. value isn't reference collected in php 7 (e.g. ZVAL_LONG, but not ZVAL_STRING)
+ * 2. value is passed in as a function param, and decrementing would be incorrect.
+ */
+static inline void ast_update_property_to_long(zval *object, zend_string *name, zend_long value_raw, void **cache_slot) {
+	zval name_zv;
+	ZVAL_STR(&name_zv, name);
+	zval value_zv;
+	ZVAL_LONG(&value_zv, value_raw)
+
+	Z_OBJ_HT_P(object)->write_property(object, &name_zv, &value_zv, cache_slot);
 }
 
 ZEND_DECLARE_MODULE_GLOBALS(ast)
@@ -275,14 +306,11 @@ static void ast_create_virtual_node_ex(
 
 	object_init_ex(zv, ast_node_ce);
 
-	ZVAL_LONG(&tmp_zv, kind);
-	ast_update_property(zv, AST_STR(str_kind), &tmp_zv, AST_CACHE_SLOT_KIND);
+	ast_update_property_to_long(zv, AST_STR(str_kind), kind, AST_CACHE_SLOT_KIND);
 
-	ZVAL_LONG(&tmp_zv, attr);
-	ast_update_property(zv, AST_STR(str_flags), &tmp_zv, AST_CACHE_SLOT_FLAGS);
+	ast_update_property_to_long(zv, AST_STR(str_flags), attr, AST_CACHE_SLOT_FLAGS);
 
-	ZVAL_LONG(&tmp_zv, lineno);
-	ast_update_property(zv, AST_STR(str_lineno), &tmp_zv, AST_CACHE_SLOT_LINENO);
+	ast_update_property_to_long(zv, AST_STR(str_lineno), lineno, AST_CACHE_SLOT_LINENO);
 
 	array_init(&tmp_zv);
 	ast_update_property(zv, AST_STR(str_children), &tmp_zv, AST_CACHE_SLOT_CHILDREN);
@@ -499,20 +527,16 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 	is_decl = ast_kind_is_decl(ast->kind);
 	object_init_ex(zv, is_decl ? ast_decl_ce : ast_node_ce);
 
-	ZVAL_LONG(&tmp_zv, ast->kind);
-	ast_update_property(zv, AST_STR(str_kind), &tmp_zv, AST_CACHE_SLOT_KIND);
+	ast_update_property_to_long(zv, AST_STR(str_kind), ast->kind, AST_CACHE_SLOT_KIND);
 
-	ZVAL_LONG(&tmp_zv, zend_ast_get_lineno(ast));
-	ast_update_property(zv, AST_STR(str_lineno), &tmp_zv, AST_CACHE_SLOT_LINENO);
+	ast_update_property_to_long(zv, AST_STR(str_lineno), zend_ast_get_lineno(ast), AST_CACHE_SLOT_LINENO);
 
 	if (is_decl) {
 		zend_ast_decl *decl = (zend_ast_decl *) ast;
 
-		ZVAL_LONG(&tmp_zv, decl->flags);
-		ast_update_property(zv, AST_STR(str_flags), &tmp_zv, NULL);
+		ast_update_property_to_long(zv, AST_STR(str_flags), decl->flags, AST_CACHE_SLOT_FLAGS);
 
-		ZVAL_LONG(&tmp_zv, decl->end_lineno);
-		ast_update_property(zv, AST_STR(str_endLineno), &tmp_zv, NULL);
+		ast_update_property_to_long(zv, AST_STR(str_endLineno), decl->end_lineno, NULL);
 
 		if (decl->name) {
 			ZVAL_STR_COPY(&tmp_zv, decl->name);
@@ -533,8 +557,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 			ast->attr = ZEND_ACC_PUBLIC;
 		}
 #endif
-		ZVAL_LONG(&tmp_zv, ast->attr);
-		ast_update_property(zv, AST_STR(str_flags), &tmp_zv, AST_CACHE_SLOT_FLAGS);
+		ast_update_property_to_long(zv, AST_STR(str_flags), ast->attr, AST_CACHE_SLOT_FLAGS);
 	}
 
 	/* Convert doc comments on properties and constants into properties */
@@ -723,6 +746,24 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_kind_uses_flags, 0, 0, 1)
 	ZEND_ARG_INFO(0, kind)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_node_construct, 0, 0, 5)
+	ZEND_ARG_INFO(0, kind)
+	ZEND_ARG_INFO(0, flags)
+	ZEND_ARG_ARRAY_INFO(0, children, 1)
+	ZEND_ARG_INFO(0, lineno)
+	ZEND_ARG_INFO(0, endLineno)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_decl_construct, 0, 0, 7)
+	ZEND_ARG_INFO(0, kind)
+	ZEND_ARG_INFO(0, flags)
+	ZEND_ARG_ARRAY_INFO(0, children, 1)
+	ZEND_ARG_INFO(0, lineno)
+	ZEND_ARG_INFO(0, endLineno)
+	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_INFO(0, docComment)
+ZEND_END_ARG_INFO()
+
 const zend_function_entry ast_functions[] = {
 	ZEND_NS_FE("ast", parse_file, arginfo_parse_file)
 	ZEND_NS_FE("ast", parse_code, arginfo_parse_code)
@@ -730,6 +771,137 @@ const zend_function_entry ast_functions[] = {
 	ZEND_NS_FE("ast", kind_uses_flags, arginfo_kind_uses_flags)
 	PHP_FE_END
 };
+
+const zend_function_entry ast_node_functions[] = {
+	PHP_ME(ast_Node, __construct, arginfo_node_construct, ZEND_ACC_CTOR | ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+const zend_function_entry ast_node_decl_functions[] = {
+	// TODO: add method info for ReflectionMethod
+	PHP_ME(ast_Node_Decl, __construct, arginfo_decl_construct, ZEND_ACC_CTOR | ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+PHP_METHOD(ast_Node, __construct) {
+	int num_args = ZEND_NUM_ARGS();
+	if (num_args <= 0) {
+		return;  // If arguments aren't passed, leave them as their default values.
+	}
+	zend_long kind;
+	zend_long flags;
+	zval *children;  // array or null
+	zend_long lineno;  // int or null
+	zend_long endLineno;  // property declarations may have this.
+	zend_bool kindNull, flagsNull, linenoNull, endLinenoNull;
+
+	ZEND_PARSE_PARAMETERS_START(0, 5)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG_EX(kind, kindNull, 1, 0)
+		Z_PARAM_LONG_EX(flags, flagsNull, 1, 0)
+		Z_PARAM_ARRAY_EX(children, 1, 0)
+		Z_PARAM_LONG_EX(lineno, linenoNull, 1, 0)
+		Z_PARAM_LONG_EX(endLineno, endLinenoNull, 1, 0)
+	ZEND_PARSE_PARAMETERS_END();
+
+	zval *zv = getThis();
+
+	switch (num_args) {
+		default:
+		case 5:
+			if (!endLinenoNull) {
+				ast_update_property_to_long(zv, AST_STR(str_endLineno), endLineno, NULL);
+			}
+		case 4:
+			if (!linenoNull) {
+				ast_update_property_to_long(zv, AST_STR(str_lineno), lineno, AST_CACHE_SLOT_LINENO);
+			}
+		case 3:
+			if (children != NULL) {
+				ast_update_property_keeprefcount(zv, AST_STR(str_children), children, AST_CACHE_SLOT_CHILDREN);
+			}
+		case 2:
+			if (!flagsNull) {
+				ast_update_property_to_long(zv, AST_STR(str_flags), flags, AST_CACHE_SLOT_FLAGS);
+			}
+			// fall through
+		case 1:
+			if (!kindNull) {
+				ast_update_property_to_long(zv, AST_STR(str_kind), kind, AST_CACHE_SLOT_KIND);
+			}
+			break;
+		case 0:
+			break;
+	}
+}
+
+PHP_METHOD(ast_Node_Decl, __construct) {
+	int num_args = ZEND_NUM_ARGS();
+	if (num_args <= 0) {
+		return;  // If arguments aren't passed, leave them as their default values.
+	}
+	zend_long kind;
+	zend_long flags;
+	zval *children;  // array or null
+	zend_long lineno;  // int or null
+	zend_long endLineno;
+	zend_string *name;
+	zend_string *docComment;
+	zend_bool kindNull, flagsNull, linenoNull, endLinenoNull;
+
+	ZEND_PARSE_PARAMETERS_START(0, 7)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG_EX(kind, kindNull, 1, 0)
+		Z_PARAM_LONG_EX(flags, flagsNull, 1, 0)
+		Z_PARAM_ARRAY_EX(children, 1, 0)
+		Z_PARAM_LONG_EX(lineno, linenoNull, 1, 0)
+		Z_PARAM_LONG_EX(endLineno, endLinenoNull, 1, 0)
+		Z_PARAM_STR_EX(name, 1, 0)
+		Z_PARAM_STR_EX(docComment, 1, 0)
+	ZEND_PARSE_PARAMETERS_END();
+
+	zval *zv = getThis();
+
+	switch (num_args) {
+		default:
+		case 7:
+			if (docComment != NULL) {
+				zval docComment_zv;
+				ZVAL_STR(&docComment_zv, docComment);
+				ast_update_property_keeprefcount(zv, AST_STR(str_docComment), &docComment_zv, NULL);
+			}
+		case 6:
+			if (name != NULL) {
+				zval name_zv;
+				ZVAL_STR(&name_zv, name);
+				ast_update_property_keeprefcount(zv, AST_STR(str_name), &name_zv, NULL);
+			}
+		case 5:
+			if (!endLinenoNull) {
+				ast_update_property_to_long(zv, AST_STR(str_endLineno), endLineno, NULL);
+			}
+		case 4:
+			if (!linenoNull) {
+				ast_update_property_to_long(zv, AST_STR(str_lineno), lineno, AST_CACHE_SLOT_LINENO);
+			}
+		case 3:
+			if (children != NULL) {
+				ast_update_property_keeprefcount(zv, AST_STR(str_children), children, AST_CACHE_SLOT_CHILDREN);
+			}
+		case 2:
+			if (!flagsNull) {
+				ast_update_property_to_long(zv, AST_STR(str_flags), flags, AST_CACHE_SLOT_FLAGS);
+			}
+			// fall through
+		case 1:
+			if (!kindNull) {
+				ast_update_property_to_long(zv, AST_STR(str_kind), kind, AST_CACHE_SLOT_KIND);
+			}
+			break;
+		case 0:
+			break;
+	}
+}
 
 PHP_MINFO_FUNCTION(ast) {
 	php_info_print_table_start();
@@ -860,7 +1032,7 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("ARRAY_SYNTAX_LONG", ZEND_ARRAY_SYNTAX_LONG);
 	ast_register_flag_constant("ARRAY_SYNTAX_SHORT", ZEND_ARRAY_SYNTAX_SHORT);
 
-	INIT_CLASS_ENTRY(tmp_ce, "ast\\Node", NULL);
+	INIT_CLASS_ENTRY(tmp_ce, "ast\\Node", ast_node_functions);
 	ast_node_ce = zend_register_internal_class(&tmp_ce);
 
 	{
@@ -873,7 +1045,7 @@ PHP_MINIT_FUNCTION(ast) {
 		ast_declare_property(ast_node_ce, AST_STR(str_children), &zv);
 	}
 
-	INIT_CLASS_ENTRY(tmp_ce, "ast\\Node\\Decl", NULL);
+	INIT_CLASS_ENTRY(tmp_ce, "ast\\Node\\Decl", ast_node_decl_functions);
 	ast_decl_ce = zend_register_internal_class_ex(&tmp_ce, ast_node_ce);
 
 	{
