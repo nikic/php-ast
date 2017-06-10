@@ -537,4 +537,4 @@ There are a number of differences in the AST representation and available suppor
   [util]: https://github.com/nikic/php-ast/blob/master/util.php
   [test_dump]: https://github.com/nikic/php-ast/blob/master/tests/001.phpt
   [php-parser]: https://github.com/nikic/PHP-Parser
-  [ast-reverter]: https://github.com/tpunt/php-ast-reverter
+  [php-ast-reverter]: https://github.com/tpunt/php-ast-reverter
