@@ -56,29 +56,9 @@ static inline void ast_update_property(zval *object, zend_string *name, zval *va
 	zval name_zv;
 	ZVAL_STR(&name_zv, name);
 
-	Z_TRY_DELREF_P(value);
 	Z_OBJ_HT_P(object)->write_property(object, &name_zv, value, cache_slot);
 }
 
-/**
- * The same as ast_update_property, but preserves the reference count.
- * Two reasons to use it:
- * 1. value isn't reference collected in php 7 (e.g. ZVAL_LONG, but not ZVAL_STRING)
- * 2. value is passed in as a function param, and decrementing would be incorrect.
- */
-static inline void ast_update_property_keeprefcount(zval *object, zend_string *name, zval *value, void **cache_slot) {
-	zval name_zv;
-	ZVAL_STR(&name_zv, name);
-
-	Z_OBJ_HT_P(object)->write_property(object, &name_zv, value, cache_slot);
-}
-
-/**
- * The same as ast_update_property, but preserves the reference count.
- * Two reasons to use it:
- * 1. value isn't reference collected in php 7 (e.g. ZVAL_LONG, but not ZVAL_STRING)
- * 2. value is passed in as a function param, and decrementing would be incorrect.
- */
 static inline void ast_update_property_to_long(zval *object, zend_string *name, zend_long value_raw, void **cache_slot) {
 	zval name_zv;
 	ZVAL_STR(&name_zv, name);
@@ -310,6 +290,7 @@ static void ast_create_virtual_node_ex(
 	ast_update_property_to_long(zv, AST_STR(str_lineno), lineno, AST_CACHE_SLOT_LINENO);
 
 	array_init(&tmp_zv);
+	Z_DELREF(tmp_zv);
 	ast_update_property(zv, AST_STR(str_children), &tmp_zv, AST_CACHE_SLOT_CHILDREN);
 
 	va_start(va, num_children);
@@ -536,14 +517,14 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 		ast_update_property_to_long(zv, AST_STR(str_endLineno), decl->end_lineno, NULL);
 
 		if (decl->name) {
-			ZVAL_STR_COPY(&tmp_zv, decl->name);
+			ZVAL_STR(&tmp_zv, decl->name);
 		} else {
 			ZVAL_NULL(&tmp_zv);
 		}
 		ast_update_property(zv, AST_STR(str_name), &tmp_zv, NULL);
 
 		if (decl->doc_comment) {
-			ZVAL_STR_COPY(&tmp_zv, decl->doc_comment);
+			ZVAL_STR(&tmp_zv, decl->doc_comment);
 		} else {
 			ZVAL_NULL(&tmp_zv);
 		}
@@ -559,17 +540,18 @@ static void ast_to_zval(zval *zv, zend_ast *ast, zend_long version) {
 
 	/* Convert doc comments on properties and constants into properties */
 	if (ast->kind == ZEND_AST_PROP_ELEM && ast->child[2]) {
-		ZVAL_STR_COPY(&tmp_zv, zend_ast_get_str(ast->child[2]));
+		ZVAL_STR(&tmp_zv, zend_ast_get_str(ast->child[2]));
 		ast_update_property(zv, AST_STR(str_docComment), &tmp_zv, NULL);
 	}
 #if PHP_VERSION_ID >= 70100
 	if (ast->kind == ZEND_AST_CONST_ELEM && ast->child[2]) {
-		ZVAL_STR_COPY(&tmp_zv, zend_ast_get_str(ast->child[2]));
+		ZVAL_STR(&tmp_zv, zend_ast_get_str(ast->child[2]));
 		ast_update_property(zv, AST_STR(str_docComment), &tmp_zv, NULL);
 	}
 #endif
 
 	array_init(&tmp_zv);
+	Z_DELREF(tmp_zv);
 	ast_update_property(zv, AST_STR(str_children), &tmp_zv, AST_CACHE_SLOT_CHILDREN);
 
 	ast_fill_children_ht(Z_ARRVAL(tmp_zv), ast, version);
@@ -759,7 +741,7 @@ PHP_METHOD(ast_Node, __construct) {
 			}
 		case 3:
 			if (children != NULL) {
-				ast_update_property_keeprefcount(zv, AST_STR(str_children), children, AST_CACHE_SLOT_CHILDREN);
+				ast_update_property(zv, AST_STR(str_children), children, AST_CACHE_SLOT_CHILDREN);
 			}
 		case 2:
 			if (!flagsNull) {
@@ -809,13 +791,13 @@ PHP_METHOD(ast_Node_Decl, __construct) {
 			if (docComment != NULL) {
 				zval docComment_zv;
 				ZVAL_STR(&docComment_zv, docComment);
-				ast_update_property_keeprefcount(zv, AST_STR(str_docComment), &docComment_zv, NULL);
+				ast_update_property(zv, AST_STR(str_docComment), &docComment_zv, NULL);
 			}
 		case 6:
 			if (name != NULL) {
 				zval name_zv;
 				ZVAL_STR(&name_zv, name);
-				ast_update_property_keeprefcount(zv, AST_STR(str_name), &name_zv, NULL);
+				ast_update_property(zv, AST_STR(str_name), &name_zv, NULL);
 			}
 		case 5:
 			if (!endLinenoNull) {
@@ -827,7 +809,7 @@ PHP_METHOD(ast_Node_Decl, __construct) {
 			}
 		case 3:
 			if (children != NULL) {
-				ast_update_property_keeprefcount(zv, AST_STR(str_children), children, AST_CACHE_SLOT_CHILDREN);
+				ast_update_property(zv, AST_STR(str_children), children, AST_CACHE_SLOT_CHILDREN);
 			}
 		case 2:
 			if (!flagsNull) {
