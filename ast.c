@@ -52,9 +52,6 @@
 # define ZEND_ARRAY_SYNTAX_SHORT 3
 #endif
 
-PHP_METHOD(ast_Node, __construct);
-PHP_METHOD(ast_Node_Decl, __construct);
-
 static inline void ast_update_property(zval *object, zend_string *name, zval *value, void **cache_slot) {
 	zval name_zv;
 	ZVAL_STR(&name_zv, name);
@@ -727,62 +724,6 @@ PHP_FUNCTION(kind_uses_flags) {
 	RETURN_BOOL(ast_kind_uses_attr(kind) || ast_kind_is_decl(kind));
 }
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_parse_file, 0, 0, 1)
-	ZEND_ARG_INFO(0, filename)
-	ZEND_ARG_INFO(0, version)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_parse_code, 0, 0, 1)
-	ZEND_ARG_INFO(0, code)
-	ZEND_ARG_INFO(0, version)
-	ZEND_ARG_INFO(0, filename)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_get_kind_name, 0, 0, 1)
-	ZEND_ARG_INFO(0, kind)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_kind_uses_flags, 0, 0, 1)
-	ZEND_ARG_INFO(0, kind)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_node_construct, 0, 0, 5)
-	ZEND_ARG_INFO(0, kind)
-	ZEND_ARG_INFO(0, flags)
-	ZEND_ARG_ARRAY_INFO(0, children, 1)
-	ZEND_ARG_INFO(0, lineno)
-	ZEND_ARG_INFO(0, endLineno)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_decl_construct, 0, 0, 7)
-	ZEND_ARG_INFO(0, kind)
-	ZEND_ARG_INFO(0, flags)
-	ZEND_ARG_ARRAY_INFO(0, children, 1)
-	ZEND_ARG_INFO(0, lineno)
-	ZEND_ARG_INFO(0, endLineno)
-	ZEND_ARG_INFO(0, name)
-	ZEND_ARG_INFO(0, docComment)
-ZEND_END_ARG_INFO()
-
-const zend_function_entry ast_functions[] = {
-	ZEND_NS_FE("ast", parse_file, arginfo_parse_file)
-	ZEND_NS_FE("ast", parse_code, arginfo_parse_code)
-	ZEND_NS_FE("ast", get_kind_name, arginfo_get_kind_name)
-	ZEND_NS_FE("ast", kind_uses_flags, arginfo_kind_uses_flags)
-	PHP_FE_END
-};
-
-const zend_function_entry ast_node_functions[] = {
-	PHP_ME(ast_Node, __construct, arginfo_node_construct, ZEND_ACC_CTOR | ZEND_ACC_PUBLIC)
-	PHP_FE_END
-};
-
-const zend_function_entry ast_node_decl_functions[] = {
-	// TODO: add method info for ReflectionMethod
-	PHP_ME(ast_Node_Decl, __construct, arginfo_decl_construct, ZEND_ACC_CTOR | ZEND_ACC_PUBLIC)
-	PHP_FE_END
-};
-
 PHP_METHOD(ast_Node, __construct) {
 	int num_args = ZEND_NUM_ARGS();
 	if (num_args <= 0) {
@@ -902,6 +843,61 @@ PHP_METHOD(ast_Node_Decl, __construct) {
 			break;
 	}
 }
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_parse_file, 0, 0, 1)
+	ZEND_ARG_INFO(0, filename)
+	ZEND_ARG_INFO(0, version)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_parse_code, 0, 0, 1)
+	ZEND_ARG_INFO(0, code)
+	ZEND_ARG_INFO(0, version)
+	ZEND_ARG_INFO(0, filename)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_get_kind_name, 0, 0, 1)
+	ZEND_ARG_INFO(0, kind)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_kind_uses_flags, 0, 0, 1)
+	ZEND_ARG_INFO(0, kind)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_node_construct, 0, 0, 5)
+	ZEND_ARG_INFO(0, kind)
+	ZEND_ARG_INFO(0, flags)
+	ZEND_ARG_ARRAY_INFO(0, children, 1)
+	ZEND_ARG_INFO(0, lineno)
+	ZEND_ARG_INFO(0, endLineno)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_decl_construct, 0, 0, 7)
+	ZEND_ARG_INFO(0, kind)
+	ZEND_ARG_INFO(0, flags)
+	ZEND_ARG_ARRAY_INFO(0, children, 1)
+	ZEND_ARG_INFO(0, lineno)
+	ZEND_ARG_INFO(0, endLineno)
+	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_INFO(0, docComment)
+ZEND_END_ARG_INFO()
+
+const zend_function_entry ast_functions[] = {
+	ZEND_NS_FE("ast", parse_file, arginfo_parse_file)
+	ZEND_NS_FE("ast", parse_code, arginfo_parse_code)
+	ZEND_NS_FE("ast", get_kind_name, arginfo_get_kind_name)
+	ZEND_NS_FE("ast", kind_uses_flags, arginfo_kind_uses_flags)
+	PHP_FE_END
+};
+
+const zend_function_entry ast_node_functions[] = {
+	PHP_ME(ast_Node, __construct, arginfo_node_construct, ZEND_ACC_CTOR | ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
+
+const zend_function_entry ast_node_decl_functions[] = {
+	PHP_ME(ast_Node_Decl, __construct, arginfo_decl_construct, ZEND_ACC_CTOR | ZEND_ACC_PUBLIC)
+	PHP_FE_END
+};
 
 PHP_MINFO_FUNCTION(ast) {
 	php_info_print_table_start();
