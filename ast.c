@@ -717,26 +717,19 @@ PHP_METHOD(ast_Node, __construct) {
 	zend_long flags;
 	zval *children;
 	zend_long lineno;
-	zend_long endLineno; /* property declarations may have this */
-	zend_bool kindNull, flagsNull, linenoNull, endLinenoNull;
+	zend_bool kindNull, flagsNull, linenoNull;
 
-	ZEND_PARSE_PARAMETERS_START(0, 5)
+	ZEND_PARSE_PARAMETERS_START(0, 4)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_LONG_EX(kind, kindNull, 1, 0)
 		Z_PARAM_LONG_EX(flags, flagsNull, 1, 0)
 		Z_PARAM_ARRAY_EX(children, 1, 0)
 		Z_PARAM_LONG_EX(lineno, linenoNull, 1, 0)
-		Z_PARAM_LONG_EX(endLineno, endLinenoNull, 1, 0)
 	ZEND_PARSE_PARAMETERS_END();
 
 	zval *zv = getThis();
 
 	switch (num_args) {
-		case 5:
-			if (!endLinenoNull) {
-				ast_update_property_to_long(zv, AST_STR(str_endLineno), endLineno, NULL);
-			}
-			/* break missing intentionally */
 		case 4:
 			if (!linenoNull) {
 				ast_update_property_to_long(zv, AST_STR(str_lineno), lineno, AST_CACHE_SLOT_LINENO);
@@ -855,12 +848,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_kind_uses_flags, 0, 0, 1)
 	ZEND_ARG_INFO(0, kind)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_node_construct, 0, 0, 5)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_node_construct, 0, 0, 4)
 	ZEND_ARG_INFO(0, kind)
 	ZEND_ARG_INFO(0, flags)
 	ZEND_ARG_ARRAY_INFO(0, children, 1)
 	ZEND_ARG_INFO(0, lineno)
-	ZEND_ARG_INFO(0, endLineno)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_decl_construct, 0, 0, 7)
