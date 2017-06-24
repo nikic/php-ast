@@ -3,7 +3,7 @@ Decl nodes use ast\Node\Decl
 --FILE--
 <?php
 
-$ast = ast\parse_code('<?php function foo() {}', $version=30);
+$ast = ast\parse_code('<?php function foo() {}', $version=40);
 assert($ast instanceof ast\Node);
 assert(!$ast instanceof ast\Node\Decl);
 assert($ast->kind == ast\AST_STMT_LIST);

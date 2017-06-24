@@ -454,9 +454,9 @@ This version normalizes the AST to PHP 7.1 format.
   `AST_ARRAY` if `list()` is used with keys. In PHP 7.1 destructuring using `[]` will always be
   represented using `AST_ARRAY`, independently of the version.
 
-### 30 (supported)
+### 30 (deprecated)
 
-Supported since 2015-03-10.
+Supported since 2015-03-10. Deprecated since 2017-06-25.
 
 * Use string names for child nodes of kinds with fixed length.
 

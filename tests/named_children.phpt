@@ -13,7 +13,7 @@ $fn = function() use(&$var) {
 };
 PHP;
 
-echo ast_dump(ast\parse_code($code, $version=30));
+echo ast_dump(ast\parse_code($code, $version=40));
 
 ?>
 --EXPECT--

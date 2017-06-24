@@ -15,7 +15,7 @@ declare(ticks=1);
 declare(ticks=1) {}
 PHP;
 
-echo ast_dump(ast\parse_code($code, $version=30)), "\n";
+echo ast_dump(ast\parse_code($code, $version=35)), "\n";
 echo ast_dump(ast\parse_code($code, $version=40)), "\n";
 
 ?>

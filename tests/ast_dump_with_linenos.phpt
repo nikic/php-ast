@@ -23,7 +23,7 @@ test
 }
 PHP;
 
-$ast = ast\parse_code($code, $version=30);
+$ast = ast\parse_code($code, $version=40);
 echo ast_dump($ast, AST_DUMP_LINENOS);
 
 ?>
