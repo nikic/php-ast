@@ -358,7 +358,7 @@ AST_INCLUDE_OR_EVAL:  expr
 AST_INSTANCEOF:       expr, class
 AST_ISSET:            var
 AST_LABEL:            name
-AST_MAGIC_CONST:      
+AST_MAGIC_CONST:
 AST_METHOD:           params, uses, stmts, returnType
 AST_METHOD_CALL:      expr, method, args
 AST_METHOD_REFERENCE: class, method
@@ -388,7 +388,7 @@ AST_THROW:            expr
 AST_TRAIT_ALIAS:      method, alias
 AST_TRAIT_PRECEDENCE: method, insteadof
 AST_TRY:              try, catches, finally
-AST_TYPE:             
+AST_TYPE:
 AST_UNARY_MINUS:      expr                   // prior to version 20
 AST_UNARY_OP:         expr
 AST_UNARY_PLUS:       expr                   // prior to version 20
@@ -423,6 +423,14 @@ ZEND_AST_USE
 
 Version changelog
 -----------------
+
+### 45 (in development)
+
+* An integer `__declId` has been added to declaration nodes of kind `AST_FUNCTION`, `AST_METHOD`,
+  `AST_CLOSURE` and `AST_CLASS`. The `__declId` uniquely identifies a declaration within the parsed
+  code and will remain the same if the code is parsed again. This is useful to distinguish closures
+  declared on the same line, or multiple conditional declarations using the same name. The ID is not
+  unique across different codes/files.
 
 ### 40 (current)
 

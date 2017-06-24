@@ -3,7 +3,7 @@ ast_dump() test
 --SKIPIF--
 <?php if (!extension_loaded("ast")) print "skip"; ?>
 --FILE--
-<?php 
+<?php
 
 require __DIR__ . '/../util.php';
 
