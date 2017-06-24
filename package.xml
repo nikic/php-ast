@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>ast</name>
+ <channel>pecl.php.net</channel>
+ <summary>Extension exposing PHP 7 abstract syntax tree</summary>
+ <description>php-ast exports the AST internally used by PHP 7.
+     php-ast is significantly faster than PHP-Parser, because the AST construction is implemented in C.
+     However, php-ast may only parse code that is syntactically valid on the version of PHP it runs on.</description>
+ <lead>
+  <name>Nikita Popov</name>
+  <user>nikic</user>
+  <email>nikic@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2017-03-17</date>
+ <time>16:00:00</time>
+ <version>
+  <release>0.1.5dev</release>
+  <api>0.1.5dev</api>
+ </version>
+ <stability>
+  <release>devel</release>
+  <api>stable</api>
+ </stability>
+ <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
+ <notes>
+   Fix issue #51 : Make nullable array/callable have a flag of 0 in inner element, in version 40.
+ </notes>
+ <contents>
+  <dir name="/">
+    <file name="config.m4" role="src" />
+    <file name="config.w32" role="src" />
+    <file name="util.php" role="doc" />
+    <file name="ast.c" role="src" />
+    <file name="ast_data.c" role="src" />
+    <file name="ast_str_defs.h" role="src" />
+    <file name="ast_stub.php" role="doc" />
+    <file name="LICENSE" role="doc" />
+    <file name="php_ast.h" role="src" />
+    <file name="README.md" role="doc" />
+    <file name="php_ast.h" role="src" />
+    <dir name="tests">
+      <file name="001.phpt" role="test" />
+      <file name="002.phpt" role="test" />
+      <file name="array_destructuring_old.phpt" role="test" />
+      <file name="array_destructuring.phpt" role="test" />
+      <file name="assign_ops.phpt" role="test" />
+      <file name="ast_dump_with_linenos.phpt" role="test" />
+      <file name="binary_ops.phpt" role="test" />
+      <file name="class_consts.phpt" role="test" />
+      <file name="class.phpt" role="test" />
+      <file name="class_types.phpt" role="test" />
+      <file name="closure_use_vars.phpt" role="test" />
+      <file name="coalesce.phpt" role="test" />
+      <file name="eval_include.phpt" role="test" />
+      <file name="get_kind_name.phpt" role="test" />
+      <file name="invalid_file.php" role="test" />
+      <file name="magic_constants.phpt" role="test" />
+      <file name="multi_catch.phpt" role="test" />
+      <file name="named_children.phpt" role="test" />
+      <file name="name_node.phpt" role="test" />
+      <file name="nested_stat_lists.phpt" role="test" />
+      <file name="nop_statements.phpt" role="test" />
+      <file name="nullable_types.phpt" role="test" />
+      <file name="parse_code_parse_error.phpt" role="test" />
+      <file name="parse_file_not_existing.phpt" role="test" />
+      <file name="parse_file_parse_error.phpt" role="test" />
+      <file name="parse_file.phpt" role="test" />
+      <file name="prop_doc_comments.phpt" role="test" />
+      <file name="stmt_list.phpt" role="test" />
+      <file name="try_catch_finally.phpt" role="test" />
+      <file name="type_hints.phpt" role="test" />
+      <file name="unary_ops.phpt" role="test" />
+      <file name="use_declarations.phpt" role="test" />
+      <file name="valid_file.php" role="test" />
+      <file name="version_errors.phpt" role="test" />
+      <file name="zpp_errors.phpt" role="test" />
+    </dir>
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>7.0.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.10.0</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <providesextension>ast</providesextension>
+ <extsrcrelease />
+ <changelog>
+  <release>
+   <date>2017-03-17</date>
+   <time>16:00:00</time>
+   <version>
+    <release>0.1.5dev</release>
+    <api>0.1.5dev</api>
+   </version>
+   <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
+   <notes>
+     Fix issue #51 : Make nullable array/callable have a flag of 0 in inner element, in version 40.
+   </notes>
+  </release>
+  <release>
+   <date>2017-01-25</date>
+   <time>16:00:00</time>
+   <version>
+    <release>0.1.4</release>
+    <api>0.1.4</api>
+   </version>
+   <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
+   <notes>
+     Initial PECL release, from GitHub.
+
+     Supports AST versions 40 (recommended), 35, and 30. Support for generating earlier AST versions has been dropped.
+   </notes>
+  </release>
+  <release>
+   <date>2017-01-18</date>
+   <time>16:00:00</time>
+   <version>
+    <release>0.1.3</release>
+    <api>0.1.3</api>
+   </version>
+   <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
+   <notes>
+     0.1.3 release
+   </notes>
+  </release>
+  <release>
+   <date>2017-08-04</date>
+   <time>16:00:00</time>
+   <version>
+    <release>0.1.2</release>
+    <api>0.1.2</api>
+   </version>
+   <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
+   <notes>
+     0.1.2 release
+   </notes>
+  </release>
+  <release>
+   <date>2017-12-04</date>
+   <time>16:00:00</time>
+   <version>
+    <release>0.1.1</release>
+    <api>0.1.1</api>
+   </version>
+   <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
+   <notes>
+     0.1.1 release
+   </notes>
+  </release>
+  <release>
+   <date>2017-12-04</date>
+   <time>16:00:00</time>
+   <version>
+    <release>0.1.0</release>
+    <api>0.1.0</api>
+   </version>
+   <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
+   <notes>
+     0.1.0 release
+   </notes>
+  </release>
+ </changelog>
+</package>
