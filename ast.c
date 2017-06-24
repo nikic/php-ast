@@ -755,80 +755,6 @@ PHP_METHOD(ast_Node, __construct) {
 	}
 }
 
-PHP_METHOD(ast_Node_Decl, __construct) {
-	int num_args = ZEND_NUM_ARGS();
-	if (num_args <= 0) {
-		/* If arguments aren't passed, leave them as their default values. */
-		return;
-	}
-
-	zend_long kind;
-	zend_long flags;
-	zval *children;
-	zend_long lineno;
-	zend_long endLineno;
-	zend_string *name;
-	zend_string *docComment;
-	zend_bool kindNull, flagsNull, linenoNull, endLinenoNull;
-
-	ZEND_PARSE_PARAMETERS_START(0, 7)
-		Z_PARAM_OPTIONAL
-		Z_PARAM_LONG_EX(kind, kindNull, 1, 0)
-		Z_PARAM_LONG_EX(flags, flagsNull, 1, 0)
-		Z_PARAM_ARRAY_EX(children, 1, 0)
-		Z_PARAM_LONG_EX(lineno, linenoNull, 1, 0)
-		Z_PARAM_LONG_EX(endLineno, endLinenoNull, 1, 0)
-		Z_PARAM_STR_EX(name, 1, 0)
-		Z_PARAM_STR_EX(docComment, 1, 0)
-	ZEND_PARSE_PARAMETERS_END();
-
-	zval *zv = getThis();
-
-	switch (num_args) {
-		case 7:
-			if (docComment != NULL) {
-				zval docComment_zv;
-				ZVAL_STR(&docComment_zv, docComment);
-				ast_update_property(zv, AST_STR(str_docComment), &docComment_zv, NULL);
-			}
-			/* break missing intentionally */
-		case 6:
-			if (name != NULL) {
-				zval name_zv;
-				ZVAL_STR(&name_zv, name);
-				ast_update_property(zv, AST_STR(str_name), &name_zv, NULL);
-			}
-			/* break missing intentionally */
-		case 5:
-			if (!endLinenoNull) {
-				ast_update_property_to_long(zv, AST_STR(str_endLineno), endLineno, NULL);
-			}
-			/* break missing intentionally */
-		case 4:
-			if (!linenoNull) {
-				ast_update_property_to_long(zv, AST_STR(str_lineno), lineno, AST_CACHE_SLOT_LINENO);
-			}
-			/* break missing intentionally */
-		case 3:
-			if (children != NULL) {
-				ast_update_property(zv, AST_STR(str_children), children, AST_CACHE_SLOT_CHILDREN);
-			}
-			/* break missing intentionally */
-		case 2:
-			if (!flagsNull) {
-				ast_update_property_to_long(zv, AST_STR(str_flags), flags, AST_CACHE_SLOT_FLAGS);
-			}
-			/* break missing intentionally */
-		case 1:
-			if (!kindNull) {
-				ast_update_property_to_long(zv, AST_STR(str_kind), kind, AST_CACHE_SLOT_KIND);
-			}
-			/* break missing intentionally */
-		case 0:
-			break;
-	}
-}
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_parse_file, 0, 0, 1)
 	ZEND_ARG_INFO(0, filename)
 	ZEND_ARG_INFO(0, version)
@@ -855,16 +781,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_node_construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, lineno)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_decl_construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, kind)
-	ZEND_ARG_INFO(0, flags)
-	ZEND_ARG_ARRAY_INFO(0, children, 1)
-	ZEND_ARG_INFO(0, lineno)
-	ZEND_ARG_INFO(0, endLineno)
-	ZEND_ARG_INFO(0, name)
-	ZEND_ARG_INFO(0, docComment)
-ZEND_END_ARG_INFO()
-
 const zend_function_entry ast_functions[] = {
 	ZEND_NS_FE("ast", parse_file, arginfo_parse_file)
 	ZEND_NS_FE("ast", parse_code, arginfo_parse_code)
@@ -875,11 +791,6 @@ const zend_function_entry ast_functions[] = {
 
 const zend_function_entry ast_node_functions[] = {
 	PHP_ME(ast_Node, __construct, arginfo_node_construct, ZEND_ACC_CTOR | ZEND_ACC_PUBLIC)
-	PHP_FE_END
-};
-
-const zend_function_entry ast_node_decl_functions[] = {
-	PHP_ME(ast_Node_Decl, __construct, arginfo_decl_construct, ZEND_ACC_CTOR | ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -1025,7 +936,7 @@ PHP_MINIT_FUNCTION(ast) {
 		ast_declare_property(ast_node_ce, AST_STR(str_children), &zv);
 	}
 
-	INIT_CLASS_ENTRY(tmp_ce, "ast\\Node\\Decl", ast_node_decl_functions);
+	INIT_CLASS_ENTRY(tmp_ce, "ast\\Node\\Decl", NULL);
 	ast_decl_ce = zend_register_internal_class_ex(&tmp_ce, ast_node_ce);
 
 	{
