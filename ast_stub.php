@@ -265,6 +265,17 @@ class Node
 
     /** @var array Child nodes (may be empty) */
     public $children;
+
+    /**
+     * A constructor which validates data types but not the values themselves.
+     * For backwards compatibility reasons, all values are optional and properties default to null
+     */
+    public function __construct(int $kind = null, int $flags = null, array $children = null, int $lineno = null) {
+        $this->kind = $kind;
+        $this->flags = $flags;
+        $this->children = $children;
+        $this->lineno = $lineno;
+    }
 }
 
 namespace ast\Node;
@@ -277,7 +288,7 @@ class Decl extends \ast\Node
     /** @var int End line number of the declaration */
     public $endLineno;
 
-    /** @var string Name of the function or class (not including the namespace prefix) */
+    /** @var string|null Name of the function or class (not including the namespace prefix). Optional for anonymous classes. */
     public $name;
 
     /** @var string|null Doc comment preceeding the declaration. null if no doc comment was used. */
