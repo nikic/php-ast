@@ -708,14 +708,16 @@ PHP_FUNCTION(kind_uses_flags) {
 
 PHP_METHOD(ast_Node, __construct) {
 	int num_args = ZEND_NUM_ARGS();
-	if (num_args <= 0) {
-		return;  // If arguments aren't passed, leave them as their default values.
+	if (num_args == 0) {
+		/* If arguments aren't passed, leave them as their default values. */
+		return;
 	}
+
 	zend_long kind;
 	zend_long flags;
-	zval *children;  // array or null
-	zend_long lineno;  // int or null
-	zend_long endLineno;  // property declarations may have this.
+	zval *children;
+	zend_long lineno;
+	zend_long endLineno; /* property declarations may have this */
 	zend_bool kindNull, flagsNull, linenoNull, endLinenoNull;
 
 	ZEND_PARSE_PARAMETERS_START(0, 5)
@@ -730,29 +732,31 @@ PHP_METHOD(ast_Node, __construct) {
 	zval *zv = getThis();
 
 	switch (num_args) {
-		default:
 		case 5:
 			if (!endLinenoNull) {
 				ast_update_property_to_long(zv, AST_STR(str_endLineno), endLineno, NULL);
 			}
+			/* break missing intentionally */
 		case 4:
 			if (!linenoNull) {
 				ast_update_property_to_long(zv, AST_STR(str_lineno), lineno, AST_CACHE_SLOT_LINENO);
 			}
+			/* break missing intentionally */
 		case 3:
 			if (children != NULL) {
 				ast_update_property(zv, AST_STR(str_children), children, AST_CACHE_SLOT_CHILDREN);
 			}
+			/* break missing intentionally */
 		case 2:
 			if (!flagsNull) {
 				ast_update_property_to_long(zv, AST_STR(str_flags), flags, AST_CACHE_SLOT_FLAGS);
 			}
-			// fall through
+			/* break missing intentionally */
 		case 1:
 			if (!kindNull) {
 				ast_update_property_to_long(zv, AST_STR(str_kind), kind, AST_CACHE_SLOT_KIND);
 			}
-			break;
+			/* break missing intentionally */
 		case 0:
 			break;
 	}
@@ -761,12 +765,14 @@ PHP_METHOD(ast_Node, __construct) {
 PHP_METHOD(ast_Node_Decl, __construct) {
 	int num_args = ZEND_NUM_ARGS();
 	if (num_args <= 0) {
-		return;  // If arguments aren't passed, leave them as their default values.
+		/* If arguments aren't passed, leave them as their default values. */
+		return;
 	}
+
 	zend_long kind;
 	zend_long flags;
-	zval *children;  // array or null
-	zend_long lineno;  // int or null
+	zval *children;
+	zend_long lineno;
 	zend_long endLineno;
 	zend_string *name;
 	zend_string *docComment;
@@ -786,41 +792,45 @@ PHP_METHOD(ast_Node_Decl, __construct) {
 	zval *zv = getThis();
 
 	switch (num_args) {
-		default:
 		case 7:
 			if (docComment != NULL) {
 				zval docComment_zv;
 				ZVAL_STR(&docComment_zv, docComment);
 				ast_update_property(zv, AST_STR(str_docComment), &docComment_zv, NULL);
 			}
+			/* break missing intentionally */
 		case 6:
 			if (name != NULL) {
 				zval name_zv;
 				ZVAL_STR(&name_zv, name);
 				ast_update_property(zv, AST_STR(str_name), &name_zv, NULL);
 			}
+			/* break missing intentionally */
 		case 5:
 			if (!endLinenoNull) {
 				ast_update_property_to_long(zv, AST_STR(str_endLineno), endLineno, NULL);
 			}
+			/* break missing intentionally */
 		case 4:
 			if (!linenoNull) {
 				ast_update_property_to_long(zv, AST_STR(str_lineno), lineno, AST_CACHE_SLOT_LINENO);
 			}
+			/* break missing intentionally */
 		case 3:
 			if (children != NULL) {
 				ast_update_property(zv, AST_STR(str_children), children, AST_CACHE_SLOT_CHILDREN);
 			}
+			/* break missing intentionally */
 		case 2:
 			if (!flagsNull) {
 				ast_update_property_to_long(zv, AST_STR(str_flags), flags, AST_CACHE_SLOT_FLAGS);
 			}
-			// fall through
+			/* break missing intentionally */
 		case 1:
 			if (!kindNull) {
 				ast_update_property_to_long(zv, AST_STR(str_kind), kind, AST_CACHE_SLOT_KIND);
 			}
-			break;
+			/* break missing intentionally */
 		case 0:
 			break;
 	}
