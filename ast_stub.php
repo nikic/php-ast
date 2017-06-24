@@ -266,20 +266,15 @@ class Node
     /** @var array Child nodes (may be empty) */
     public $children;
 
-    // This may also have $endLineno, for potential future support of adding that info to the AST for all nodes.
-
     /**
      * A constructor which validates data types but not the values themselves.
      * For backwards compatibility reasons, all values are optional and properties default to null
      */
-    public function __construct(?int $kind = null, ?int $flags = null, ?array $children = null, ?int $lineno = null, ?int $endLineno = null) {
+    public function __construct(int $kind = null, int $flags = null, array $children = null, int $lineno = null) {
         $this->kind = $kind;
         $this->flags = $flags;
         $this->children = $children;
         $this->lineno = $lineno;
-        if (isset($endLineno)) {
-            $this->endLineno = $endLineno;
-        }
     }
 }
 
@@ -298,18 +293,4 @@ class Decl extends \ast\Node
 
     /** @var string|null Doc comment preceeding the declaration. null if no doc comment was used. */
     public $docComment;
-
-    /**
-     * A constructor which validates data types but not the values themselves.
-     * For backwards compatibility reasons, all values are optional and properties default to null
-     */
-    public function __construct(?int $kind = null, ?int $flags = null, ?array $children = null, ?int $lineno = null, ?int $endLineno = null, ?string $name = null, ?string $docComment = null) {
-        $this->kind = $kind;
-        $this->flags = $flags;
-        $this->children = $children;
-        $this->lineno = $lineno;
-        $this->endLineno = $endLineno;
-        $this->name = $name;  // optional for anonymous classes
-        $this->docComment = $docComment;
-    }
 }
