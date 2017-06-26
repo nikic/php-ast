@@ -40,3 +40,4 @@ AST_STMT_LIST
                             name: "func"
                         args: AST_ARG_LIST
             returnType: null
+            __declId: 0

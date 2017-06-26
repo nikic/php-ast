@@ -3,7 +3,7 @@ ast_dump() test
 --SKIPIF--
 <?php if (!extension_loaded("ast")) print "skip"; ?>
 --FILE--
-<?php 
+<?php
 
 require __DIR__ . '/../util.php';
 
@@ -70,3 +70,4 @@ AST_STMT_LIST
         returnType: AST_NAME
             flags: NAME_NOT_FQ (1)
             name: "Ret"
+        __declId: 0

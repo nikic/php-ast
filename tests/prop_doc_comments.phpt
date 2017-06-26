@@ -47,3 +47,4 @@ AST_STMT_LIST
                     docComment: /** docComment $c */
                     name: "c"
                     default: null
+        __declId: 0

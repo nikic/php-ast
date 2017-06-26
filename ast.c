@@ -54,7 +54,7 @@
 
 /* This contains mutable state of the ast Node creator. */
 typedef struct ast_state_info {
-	zend_long closureIdCounter;
+	zend_long declIdCounter;
 } ast_state_info_t;
 
 static inline void ast_update_property(zval *object, zend_string *name, zval *value, void **cache_slot) {
@@ -439,11 +439,11 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, zend_long version
 		}
 
 	}
-	if (version >= 45 && ast->kind == ZEND_AST_CLOSURE) {
+	if (ast_kind_is_decl(ast->kind)) {
 		zval id_zval;
-		ZVAL_LONG(&id_zval, state->closureIdCounter);
-		state->closureIdCounter++;
-		zend_hash_add_new(ht, AST_STR(str___closureId), &id_zval);
+		ZVAL_LONG(&id_zval, state->declIdCounter);
+		state->declIdCounter++;
+		zend_hash_add_new(ht, AST_STR(str___declId), &id_zval);
 	}
 }
 
@@ -658,7 +658,7 @@ PHP_FUNCTION(parse_file) {
 		zend_string_free(code);
 		return;
 	}
-	state.closureIdCounter = 0;
+	state.declIdCounter = 0;
 
 	ast_to_zval(return_value, ast, version, &state);
 
@@ -687,7 +687,7 @@ PHP_FUNCTION(parse_code) {
 		return;
 	}
 
-	state.closureIdCounter = 0;
+	state.declIdCounter = 0;
 	ast_to_zval(return_value, ast, version, &state);
 
 	zend_ast_destroy(ast);

@@ -12,8 +12,8 @@ $fn = static function &($a) use ($b) {
 $fn2 = function ($a) {
 };
 PHP;
-echo ast_dump(ast\parse_code($code, $version=45));
-echo ast_dump(ast\parse_code($code, $version=45));
+echo ast_dump(ast\parse_code($code, $version=45)) . "\n";
+echo ast_dump(ast\parse_code($code, $version=45)) . "\n";
 
 ?>
 --EXPECT--
@@ -36,7 +36,7 @@ AST_STMT_LIST
                     name: "b"
             stmts: AST_STMT_LIST
             returnType: null
-            __closureId: 0
+            __declId: 0
     1: AST_ASSIGN
         var: AST_VAR
             name: "fn2"
@@ -52,7 +52,8 @@ AST_STMT_LIST
             uses: null
             stmts: AST_STMT_LIST
             returnType: null
-            __closureId: 1AST_STMT_LIST
+            __declId: 1
+AST_STMT_LIST
     0: AST_ASSIGN
         var: AST_VAR
             name: "fn"
@@ -71,7 +72,7 @@ AST_STMT_LIST
                     name: "b"
             stmts: AST_STMT_LIST
             returnType: null
-            __closureId: 0
+            __declId: 0
     1: AST_ASSIGN
         var: AST_VAR
             name: "fn2"
@@ -87,5 +88,4 @@ AST_STMT_LIST
             uses: null
             stmts: AST_STMT_LIST
             returnType: null
-            __closureId: 1
-
+            __declId: 1

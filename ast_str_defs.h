@@ -46,6 +46,6 @@
 	X(finally) \
 	X(init) \
 	X(loop) \
-	X(__closureId) \
+	X(__declId) \
 
 #endif

@@ -425,8 +425,10 @@ Version changelog
 -----------------
 ### 45 (in development)
 
-* An integer `__closureId` has been added to Nodes for closures.
-  The combination of `lineno` and `__closureId` is guaranteed to uniquely identify a closure.
+* An integer `__declId` has been added to nodes that were of type Decl (e.g. function/method/closure/class) (And to all preceding versions).
+  The combination of `lineno` and `__declId` is guaranteed to uniquely identify a declaration within the parsed code
+  and will remain the same if the code is parsed again. (E.g. this may be useful for distinguishing closures declared on the same line)
+  NOTE: this is added by the php-ast extension (not part of the AST) and the implementation may be changed later on to use something else, such as a column number.
 
 ### 40 (current)
 
