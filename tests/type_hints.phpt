@@ -82,6 +82,7 @@ AST_STMT_LIST
         returnType: AST_NAME
             flags: NAME_NOT_FQ (1)
             name: "void"
+        __declId: 0
 AST_STMT_LIST
     0: AST_FUNC_DECL
         flags: 0
@@ -140,3 +141,4 @@ AST_STMT_LIST
         stmts: AST_STMT_LIST
         returnType: AST_TYPE
             flags: TYPE_VOID (18)
+        __declId: 0

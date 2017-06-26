@@ -26,34 +26,40 @@ AST_STMT_LIST
         extends: null
         implements: null
         stmts: AST_STMT_LIST
+        __declId: 0
     1: AST_CLASS
         flags: CLASS_ABSTRACT (32)
         name: B
         extends: null
         implements: null
         stmts: AST_STMT_LIST
+        __declId: 1
     2: AST_CLASS
         flags: CLASS_FINAL (4)
         name: C
         extends: null
         implements: null
         stmts: AST_STMT_LIST
+        __declId: 2
     3: AST_CLASS
         flags: CLASS_TRAIT (128)
         name: D
         extends: null
         implements: null
         stmts: AST_STMT_LIST
+        __declId: 3
     4: AST_CLASS
         flags: CLASS_INTERFACE (64)
         name: E
         extends: null
         implements: null
         stmts: AST_STMT_LIST
+        __declId: 4
     5: AST_NEW
         class: AST_CLASS
             flags: CLASS_ANONYMOUS (256)
             extends: null
             implements: null
             stmts: AST_STMT_LIST
+            __declId: 5
         args: AST_ARG_LIST

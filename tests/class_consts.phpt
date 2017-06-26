@@ -65,3 +65,4 @@ AST_STMT_LIST
                     docComment: /** Doc F */
                     name: "F"
                     value: 6
+        __declId: 0

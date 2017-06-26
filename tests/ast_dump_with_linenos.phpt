@@ -43,3 +43,4 @@ AST_STMT_LIST @ 1
                     0: AST_VAR @ 7
                         name: "foo"
         returnType: null
+        __declId: 0

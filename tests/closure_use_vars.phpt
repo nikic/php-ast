@@ -41,3 +41,4 @@ AST_STMT_LIST
                     name: "d"
             stmts: AST_STMT_LIST
             returnType: null
+            __declId: 0

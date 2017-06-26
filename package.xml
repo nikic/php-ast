@@ -25,6 +25,9 @@
  <notes>
 - Fix issue #51: Make nullable array/callable have a flag of 0 in inner element, in version 40.
 - Added a constructor for the ast\Node class.
+- Start implementing AST version 45 (currently under development).
+- Add __declId to info about Decl nodes (all versions), to make it easier for php-ast callers
+  to process multiple similar Decl definitions (e.g. closures) on the same line.
  </notes>
  <contents>
   <dir name="/">
@@ -51,6 +54,7 @@
       <file name="class.phpt" role="test" />
       <file name="class_types.phpt" role="test" />
       <file name="closure_use_vars.phpt" role="test" />
+      <file name="closure_numbers.phpt" role="test" />
       <file name="coalesce.phpt" role="test" />
       <file name="constructor.phpt" role="test" />
       <file name="eval_include.phpt" role="test" />

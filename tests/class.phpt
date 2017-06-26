@@ -66,3 +66,5 @@ AST_STMT_LIST
                 uses: null
                 stmts: null
                 returnType: null
+                __declId: 0
+        __declId: 1
