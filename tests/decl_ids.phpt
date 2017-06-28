@@ -1,5 +1,5 @@
 --TEST--
-Closures should have unique identifiers within parsed code in version 45
+Closures should have unique identifiers within parsed code in version 50
 --FILE--
 <?php
 
@@ -11,8 +11,8 @@ function () {}; function () {};
 function test() {} function test() {}
 class Test {} class Test{}
 PHP;
-echo ast_dump(ast\parse_code($code, $version=45)) . "\n";
-echo ast_dump(ast\parse_code($code, $version=45)) . "\n";
+echo ast_dump(ast\parse_code($code, $version=50)) . "\n";
+echo ast_dump(ast\parse_code($code, $version=50)) . "\n";
 
 ?>
 --EXPECT--

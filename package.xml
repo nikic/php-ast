@@ -25,9 +25,11 @@
  <notes>
 - Fix issue #51: Make nullable array/callable have a flag of 0 in inner element, in version 40.
 - Added a constructor for the ast\Node class.
-- Start implementing AST version 45 (currently under development).
-- Add __declId to info about Decl nodes, to make it easier for php-ast callers
-  to process multiple similar Decl definitions (e.g. closures) on the same line.
+- Added version 45 with the following changes (PHP 7.2 support):
+  - Object type hints are recognized.
+- Added version 50 with the following changes:
+  - Add __declId to info about Decl nodes, to make it easier for php-ast callers
+    to process multiple similar Decl definitions (e.g. closures) on the same line.
  </notes>
  <contents>
   <dir name="/">
@@ -67,6 +69,7 @@
       <file name="nested_stat_lists.phpt" role="test" />
       <file name="nop_statements.phpt" role="test" />
       <file name="nullable_types.phpt" role="test" />
+      <file name="object_type.phpt" role="test" />
       <file name="parse_code_parse_error.phpt" role="test" />
       <file name="parse_file_not_existing.phpt" role="test" />
       <file name="parse_file_parse_error.phpt" role="test" />

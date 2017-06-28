@@ -215,6 +215,7 @@ static const builtin_type_info builtin_types[] = {
 	{ZEND_STRL("bool"), _IS_BOOL},
 	{ZEND_STRL("void"), IS_VOID},
 	{ZEND_STRL("iterable"), IS_ITERABLE},
+	{ZEND_STRL("object"), IS_OBJECT},
 	{NULL, 0, IS_UNDEF}
 };
 static inline zend_uchar lookup_builtin_type(const zend_string *name) {
@@ -379,7 +380,9 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 
 			if (state->version >= 40 && child->attr == ZEND_NAME_NOT_FQ
 					&& ast_is_type(child, ast, i)
-					&& (type = lookup_builtin_type(zend_ast_get_str(child)))) {
+					&& (type = lookup_builtin_type(zend_ast_get_str(child)))
+					&& (type != IS_OBJECT || state->version >= 45)
+			) {
 				/* Convert "int" etc typehints to TYPE nodes */
 				ast_create_virtual_node_ex(
 					&child_zv, ZEND_AST_TYPE, type, zend_ast_get_lineno(child), state, 0);
@@ -442,7 +445,7 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 
 	}
 
-	if (state->version >= 45 && ast_kind_is_decl(ast->kind)) {
+	if (state->version >= 50 && ast_kind_is_decl(ast->kind)) {
 		zval id_zval;
 		ZVAL_LONG(&id_zval, state->declIdCounter);
 		state->declIdCounter++;
@@ -571,7 +574,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 	ast_fill_children_ht(Z_ARRVAL(tmp_zv), ast, state);
 }
 
-static const zend_long versions[] = {30, 35, 40, 45};
+static const zend_long versions[] = {30, 35, 40, 45, 50};
 static const size_t versions_count = sizeof(versions)/sizeof(versions[0]);
 
 static zend_string *ast_version_info() {

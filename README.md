@@ -223,6 +223,7 @@ ast\flags\TYPE_LONG         // since version 40
 ast\flags\TYPE_DOUBLE       // since version 40
 ast\flags\TYPE_STRING       // since version 40
 ast\flags\TYPE_ITERABLE     // since version 40
+ast\flags\TYPE_OBJECT       // since version 45
 
 // Used by ast\AST_CAST (exclusive)
 ast\flags\TYPE_NULL
@@ -424,13 +425,20 @@ ZEND_AST_USE
 Version changelog
 -----------------
 
-### 45 (in development)
+### 50 (in development)
 
 * An integer `__declId` has been added to declaration nodes of kind `AST_FUNCTION`, `AST_METHOD`,
   `AST_CLOSURE` and `AST_CLASS`. The `__declId` uniquely identifies a declaration within the parsed
   code and will remain the same if the code is parsed again. This is useful to distinguish closures
   declared on the same line, or multiple conditional declarations using the same name. The ID is not
   unique across different codes/files.
+
+### 45 (in development)
+
+This version normalizes the AST to PHP 7.2 format.
+
+* An `object` type annotation now returns an `AST_TYPE` with `TYPE_OBJECT` flag, rather than
+  treating `object` as a class name.
 
 ### 40 (current)
 
