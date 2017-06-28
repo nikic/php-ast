@@ -1,5 +1,10 @@
 --TEST--
 As of version 50 Decl is no more
+--SKIPIF--
+<?php
+// This test also tests for doc comments on constants, which are only available as of PHP 7.1
+if (PHP_VERSION_ID < 70100) die('skip PHP 7.1 required');
+?>
 --FILE--
 <?php
 
