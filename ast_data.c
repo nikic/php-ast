@@ -571,12 +571,14 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 			switch (child) {
 				case 0: return AST_STR(str_name);
 				case 1: return AST_STR(str_default);
+				case 2: return AST_STR(str_docComment);
 			}
 			return NULL;
 		case ZEND_AST_CONST_ELEM:
 			switch (child) {
 				case 0: return AST_STR(str_name);
 				case 1: return AST_STR(str_value);
+				case 2: return AST_STR(str_docComment);
 			}
 			return NULL;
 		case ZEND_AST_USE_TRAIT:

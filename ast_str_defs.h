@@ -9,6 +9,7 @@
 	X(name) \
 	X(docComment) \
 	X(endLineno) \
+	X(__declId) \
 	X(type) \
 	X(params) \
 	X(uses) \
@@ -46,6 +47,5 @@
 	X(finally) \
 	X(init) \
 	X(loop) \
-	X(__declId) \
 
 #endif

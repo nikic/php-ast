@@ -59,6 +59,7 @@
       <file name="coalesce.phpt" role="test" />
       <file name="constructor.phpt" role="test" />
       <file name="decl_ids.phpt" role="test" />
+      <file name="decl_normalization.phpt" role="test" />
       <file name="eval_include.phpt" role="test" />
       <file name="get_kind_name.phpt" role="test" />
       <file name="invalid_file.php" role="test" />

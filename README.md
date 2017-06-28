@@ -330,9 +330,11 @@ AST_CALL:             expr, args
 AST_CAST:             expr
 AST_CATCH:            class, var, stmts
 AST_CLASS:            extends, implements, stmts
+                      name, docComment       // since version 50
 AST_CLASS_CONST:      class, const
 AST_CLONE:            expr
 AST_CLOSURE:          params, uses, stmts, returnType
+                      name, docComment       // since version 50
 AST_CLOSURE_VAR:      name
 AST_COALESCE:         left, right            // prior to version 40
 AST_CONDITIONAL:      cond, true, false
@@ -348,6 +350,7 @@ AST_EXIT:             expr
 AST_FOR:              init, cond, loop, stmts
 AST_FOREACH:          expr, value, key, stmts
 AST_FUNC_DECL:        params, uses, stmts, returnType
+                      name, docComment       // since version 50
 AST_GLOBAL:           var
 AST_GOTO:             label
 AST_GREATER:          left, right            // prior to version 20
@@ -361,6 +364,7 @@ AST_ISSET:            var
 AST_LABEL:            name
 AST_MAGIC_CONST:
 AST_METHOD:           params, uses, stmts, returnType
+                      name, docComment       // since version 50
 AST_METHOD_CALL:      expr, method, args
 AST_METHOD_REFERENCE: class, method
 AST_NAME:             name
@@ -427,6 +431,10 @@ Version changelog
 
 ### 50 (in development)
 
+* `ast\Node\Decl` nodes are no longer generated. AST kinds `AST_FUNCTION`, `AST_METHOD`,
+  `AST_CLOSURE` and `AST_CLASS` now also use the normal `ast\Node` class. The `name` and
+  `docComment` properties are now represented as children. The `endLineno` is still represented as
+  an (undeclared) property.
 * An integer `__declId` has been added to declaration nodes of kind `AST_FUNCTION`, `AST_METHOD`,
   `AST_CLOSURE` and `AST_CLASS`. The `__declId` uniquely identifies a declaration within the parsed
   code and will remain the same if the code is parsed again. This is useful to distinguish closures

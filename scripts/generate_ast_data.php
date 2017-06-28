@@ -124,8 +124,8 @@ $names = [
     'ZEND_AST_SWITCH' => ['cond', 'stmts'],
     'ZEND_AST_SWITCH_CASE' => ['cond', 'stmts'],
     'ZEND_AST_DECLARE' => ['declares', 'stmts'],
-    'ZEND_AST_PROP_ELEM' => ['name', 'default'],
-    'ZEND_AST_CONST_ELEM' => ['name', 'value'],
+    'ZEND_AST_PROP_ELEM' => ['name', 'default', 'docComment'],
+    'ZEND_AST_CONST_ELEM' => ['name', 'value', 'docComment'],
     'ZEND_AST_USE_TRAIT' => ['traits', 'adaptations'],
     'ZEND_AST_TRAIT_PRECEDENCE' => ['method', 'insteadof'],
     'ZEND_AST_METHOD_REFERENCE' => ['class', 'method'],
@@ -253,7 +253,7 @@ file_put_contents($strDefsFile, $strDefsHeader);
 function get_possible_strings(array $spec) {
     $strings = array_fill_keys([
         'kind', 'flags', 'lineno', 'children',
-        'name', 'docComment', 'endLineno'
+        'name', 'docComment', 'endLineno', '__declId',
     ], true);
 
     foreach ($spec as $kind => $children) {
