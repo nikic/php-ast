@@ -31,6 +31,8 @@
 - Added version 50 with the following changes:
   - Add __declId to info about Decl nodes, to make it easier for php-ast callers
     to process multiple similar Decl definitions (e.g. closures) on the same line.
+  - `\ast\parse_file` will now consistently return an empty statement list (similar to
+    `\ast\parse_code`) if it is was passed a zero-byte file. Previously, it would return `null`.
  </notes>
  <contents>
   <dir name="/">
@@ -62,6 +64,8 @@
       <file name="decl_ids.phpt" role="test" />
       <file name="decl_normalization.phpt" role="test" />
       <file name="eval_include.phpt" role="test" />
+      <file name="empty_file.php" role="test" />
+      <file name="empty_file_parse.phpt" role="test" />
       <file name="generator_flag.phpt" role="test" />
       <file name="get_kind_name.phpt" role="test" />
       <file name="invalid_file.php" role="test" />

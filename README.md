@@ -441,6 +441,8 @@ Version changelog
   code and will remain the same if the code is parsed again. This is useful to distinguish closures
   declared on the same line, or multiple conditional declarations using the same name. The ID is not
   unique across different codes/files.
+* `\ast\parse_file` will now consistently return an empty statement list (similar to
+  `\ast\parse_code`) if it is was passed a zero-byte file. Previously, it would return `null`.
 
 ### 45 (in development)
 

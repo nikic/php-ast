@@ -668,7 +668,13 @@ PHP_FUNCTION(parse_file) {
 	zend_restore_error_handling(&error_handling);
 
 	if (!code) {
-		return;
+		if (version >= 50) {
+			// php_stream_copy_to_mem will return NULL if the file is empty, strangely.
+			// Fix this in new versions, preserve old behavior for version < 50
+			code = ZSTR_EMPTY_ALLOC();
+		} else {
+			return;
+		}
 	}
 
 	ast = get_ast(code, &arena, filename->val);
