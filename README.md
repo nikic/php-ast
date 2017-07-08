@@ -447,6 +447,8 @@ This version normalizes the AST to PHP 7.2 format.
 
 * An `object` type annotation now returns an `AST_TYPE` with `TYPE_OBJECT` flag, rather than
   treating `object` as a class name.
+* `\ast\parse_file` will now consistently return an empty statement list (similar to `\ast\parse_code) if it is passed a zero-byte file.
+  Previously, it would return `null`.
 
 ### 40 (current)
 
