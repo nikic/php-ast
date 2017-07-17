@@ -18,6 +18,7 @@ function get_flag_info() : array {
         flags\MODIFIER_ABSTRACT => 'MODIFIER_ABSTRACT',
         flags\MODIFIER_FINAL => 'MODIFIER_FINAL',
         flags\RETURNS_REF => 'RETURNS_REF',
+        flags\FUNC_GENERATOR => 'FUNC_GENERATOR',
     ];
     $types = [
         flags\TYPE_NULL => 'TYPE_NULL',

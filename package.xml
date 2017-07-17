@@ -25,6 +25,7 @@
  <notes>
 - Fix issue #51: Make nullable array/callable have a flag of 0 in inner element, in version 40.
 - Added a constructor for the ast\Node class.
+- Added ast\flags\FUNC_GENERATOR constant, which is used since PHP 7.1.
 - Added version 45 with the following changes (PHP 7.2 support):
   - Object type hints are recognized.
 - Added version 50 with the following changes:
@@ -61,6 +62,7 @@
       <file name="decl_ids.phpt" role="test" />
       <file name="decl_normalization.phpt" role="test" />
       <file name="eval_include.phpt" role="test" />
+      <file name="generator_flag.phpt" role="test" />
       <file name="get_kind_name.phpt" role="test" />
       <file name="invalid_file.php" role="test" />
       <file name="magic_constants.phpt" role="test" />
