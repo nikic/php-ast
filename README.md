@@ -476,7 +476,7 @@ Supported since 2017-01-18.
 
 ### 35 (supported)
 
-Supported since 2016-08-04.
+Supported since 2016-08-04. Deprecated since 2017-07-19.
 
 This version normalizes the AST to PHP 7.1 format.
 

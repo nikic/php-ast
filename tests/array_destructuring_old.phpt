@@ -12,7 +12,7 @@ list(, $b) = $x;
 PHP;
 
 echo ast_dump(ast\parse_code($code, $version=30)), "\n";
-echo ast_dump(ast\parse_code($code, $version=35));
+echo ast_dump(ast\parse_code($code, $version=50));
 
 ?>
 --EXPECTF--
