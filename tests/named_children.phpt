@@ -27,7 +27,7 @@ AST_STMT_LIST
             params: AST_PARAM_LIST
             uses: AST_CLOSURE_USES
                 0: AST_CLOSURE_VAR
-                    flags: 1
+                    flags: CLOSURE_USE_REF (1)
                     name: "var"
             stmts: AST_STMT_LIST
                 0: AST_ASSIGN_OP

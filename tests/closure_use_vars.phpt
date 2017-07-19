@@ -37,7 +37,7 @@ AST_STMT_LIST
                     flags: 0
                     name: "c"
                 1: AST_CLOSURE_VAR
-                    flags: 1
+                    flags: CLOSURE_USE_REF (1)
                     name: "d"
             stmts: AST_STMT_LIST
             returnType: null

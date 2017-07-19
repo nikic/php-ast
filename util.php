@@ -133,6 +133,9 @@ function get_flag_info() : array {
             flags\ARRAY_SYNTAX_LONG => 'ARRAY_SYNTAX_LONG',
             flags\ARRAY_SYNTAX_SHORT => 'ARRAY_SYNTAX_SHORT',
         ],
+        ast\AST_CLOSURE_VAR => [
+            flags\CLOSURE_USE_REF => 'CLOSURE_USE_REF',
+        ],
     ];
 
     $combinable = [];

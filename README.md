@@ -204,6 +204,9 @@ ast\flags\MODIFIER_STATIC
 ast\flags\FUNC_RETURNS_REF  // legacy alias: ast\flags\RETURNS_REF
 ast\flags\FUNC_GENERATOR    // used only in PHP >= 7.1
 
+// Used by ast\AST_CLOSURE_VAR
+ast\flags\CLOSURE_USE_REF
+
 // Used by ast\AST_CLASS (exclusive)
 ast\flags\CLASS_ABSTRACT
 ast\flags\CLASS_FINAL

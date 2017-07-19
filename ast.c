@@ -872,6 +872,8 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("FUNC_RETURNS_REF", ZEND_ACC_RETURN_REFERENCE);
 	ast_register_flag_constant("FUNC_GENERATOR", ZEND_ACC_GENERATOR);
 
+	ast_register_flag_constant("CLOSURE_USE_REF", 1);
+
 	ast_register_flag_constant("CLASS_ABSTRACT", ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 	ast_register_flag_constant("CLASS_FINAL", ZEND_ACC_FINAL);
 	ast_register_flag_constant("CLASS_TRAIT", ZEND_ACC_TRAIT);
