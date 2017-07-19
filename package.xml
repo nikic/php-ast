@@ -12,13 +12,13 @@
   <email>nikic@php.net</email>
   <active>yes</active>
  </lead>
- <date>2017-06-24</date>
+ <date>2017-07-19</date>
  <version>
-  <release>0.1.5dev</release>
-  <api>0.1.5dev</api>
+  <release>0.1.5</release>
+  <api>0.1.5</api>
  </version>
  <stability>
-  <release>devel</release>
+  <release>stable</release>
   <api>stable</api>
  </stability>
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
