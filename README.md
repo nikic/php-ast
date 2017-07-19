@@ -201,8 +201,8 @@ ast\flags\MODIFIER_FINAL
 ast\flags\MODIFIER_STATIC
 
 // Used by ast\AST_FUNC_DECL, ast\AST_METHOD, ast\AST_CLOSURE (combinable)
-ast\flags\RETURNS_REF
-ast\flags\FUNC_GENERATOR (used only in PHP >= 7.1)
+ast\flags\FUNC_RETURNS_REF  // legacy alias: ast\flags\RETURNS_REF
+ast\flags\FUNC_GENERATOR    // used only in PHP >= 7.1
 
 // Used by ast\AST_CLASS (exclusive)
 ast\flags\CLASS_ABSTRACT

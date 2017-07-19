@@ -19,7 +19,7 @@ AST_STMT_LIST
         var: AST_VAR
             name: "fn"
         expr: AST_CLOSURE
-            flags: MODIFIER_STATIC | RETURNS_REF (67108865)
+            flags: MODIFIER_STATIC | FUNC_RETURNS_REF (67108865)
             name: {closure}
             params: AST_PARAM_LIST
                 0: AST_PARAM
