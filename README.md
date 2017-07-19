@@ -37,12 +37,12 @@ Usage
 
 Code can be parsed using either `ast\parse_code()`, which accepts a code string, or
 `ast\parse_file()`, which accepts a file path. Additionally both functions require a `$version`
-argument to ensure forward-compatibility. The current version is 40.
+argument to ensure forward-compatibility. The current version is 50.
 
 ```php
-$ast = ast\parse_code('<?php ...', $version=40);
+$ast = ast\parse_code('<?php ...', $version=50);
 // or
-$ast = ast\parse_file('file.php', $version=40);
+$ast = ast\parse_file('file.php', $version=50);
 ```
 
 The abstract syntax tree returned by these functions consists of `ast\Node` objects.
@@ -72,8 +72,8 @@ The `children` property contains an array of child-nodes. These children can be 
 `ast\Node` objects or plain values. The meaning of the children is node-specific and should be
 deduced from context or by looking at the [parser definition][parser].
 
-Function and class declarations use `ast\Node\Decl` objects instead, which specify a number of
-additional properties:
+Prior to AST version 50, function and class declarations used `ast\Node\Decl` objects instead,
+which specify a number of additional properties:
 
 ```php
 namespace ast\Node;
@@ -86,9 +86,9 @@ class Decl extends Node {
 }
 ```
 
-`endLineno` provides the end line number of the declaration, `name` contains the name of the
-function or class (can be `null` for anonymous classes) and `docComment` contains the preceding
-doc comment or `null` if no doc comment was used.
+As of AST version 50, `ast\Node\Decl` objects are no longer used. Instead the `name` and the
+`docComment` will be provided as ordinary child nodes. The `endLineno` is provided as an
+(undeclared, dynamic) property on the node.
 
 Simple usage example:
 
@@ -100,7 +100,7 @@ $code = <<<'EOC'
 $var = 42;
 EOC;
 
-var_dump(ast\parse_code($code, $version=40));
+var_dump(ast\parse_code($code, $version=50));
 
 // Output:
 object(ast\Node)#1 (4) {
@@ -157,7 +157,7 @@ $code = <<<'EOC'
 $var = 42;
 EOC;
 
-echo ast_dump(ast\parse_code($code, $version=40)), "\n";
+echo ast_dump(ast\parse_code($code, $version=50)), "\n";
 
 // Output:
 AST_STMT_LIST
@@ -433,7 +433,9 @@ ZEND_AST_USE
 Version changelog
 -----------------
 
-### 50 (in development)
+### 50 (current)
+
+Supported since 2017-07-19.
 
 * `ast\Node\Decl` nodes are no longer generated. AST kinds `AST_FUNCTION`, `AST_METHOD`,
   `AST_CLOSURE` and `AST_CLASS` now also use the normal `ast\Node` class. The `name` and
@@ -447,14 +449,16 @@ Version changelog
 * `\ast\parse_file` will now consistently return an empty statement list (similar to
   `\ast\parse_code`) if it is was passed a zero-byte file. Previously, it would return `null`.
 
-### 45 (in development)
+### 45 (supported)
+
+Supported since 2017-07-19.
 
 This version normalizes the AST to PHP 7.2 format.
 
 * An `object` type annotation now returns an `AST_TYPE` with `TYPE_OBJECT` flag, rather than
   treating `object` as a class name.
 
-### 40 (current)
+### 40 (supported)
 
 Supported since 2017-01-18.
 
