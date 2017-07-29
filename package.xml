@@ -68,6 +68,7 @@
       <file name="nop_statements.phpt" role="test" />
       <file name="nullable_types.phpt" role="test" />
       <file name="object_type.phpt" role="test" />
+      <file name="params.phpt" role="test" />
       <file name="parse_code_parse_error.phpt" role="test" />
       <file name="parse_file_not_existing.phpt" role="test" />
       <file name="parse_file_parse_error.phpt" role="test" />

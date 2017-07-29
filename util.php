@@ -65,10 +65,6 @@ function get_flag_info() : array {
             flags\CLASS_INTERFACE => 'CLASS_INTERFACE',
             flags\CLASS_ANONYMOUS => 'CLASS_ANONYMOUS',
         ],
-        ast\AST_PARAM => [
-            flags\PARAM_REF => 'PARAM_REF',
-            flags\PARAM_VARIADIC => 'PARAM_VARIADIC',
-        ],
         ast\AST_TYPE => $types,
         ast\AST_CAST => $types,
         ast\AST_UNARY_OP => [
@@ -138,7 +134,12 @@ function get_flag_info() : array {
         ],
     ];
 
-    $combinable = [];
+    $combinable = [
+        ast\AST_PARAM => [
+            flags\PARAM_REF => 'PARAM_REF',
+            flags\PARAM_VARIADIC => 'PARAM_VARIADIC',
+        ],
+    ];
     $combinable[ast\AST_METHOD] = $combinable[ast\AST_FUNC_DECL] = $combinable[ast\AST_CLOSURE]
         = $combinable[ast\AST_PROP_DECL] = $combinable[ast\AST_CLASS_CONST_DECL]
         = $combinable[ast\AST_TRAIT_ALIAS] = $modifiers;
