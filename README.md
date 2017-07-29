@@ -184,9 +184,9 @@ combined using bitwise or and should be checked by using `$ast->flags & ast\flag
 1 = by-reference
 
 // Used by ast\AST_NAME (exclusive)
-ast\flags\NAME_FQ (= 0)
-ast\flags\NAME_NOT_FQ
-ast\flags\NAME_RELATIVE
+ast\flags\NAME_FQ (= 0)    // example: \Foo\Bar
+ast\flags\NAME_NOT_FQ      // example: Foo\Bar
+ast\flags\NAME_RELATIVE    // example: namespace\Foo\Bar
 
 // Used by ast\AST_METHOD, ast\AST_PROP_DECL, ast\AST_CLASS_CONST_DECL
 // and ast\AST_TRAIT_ALIAS (combinable)
@@ -319,8 +319,7 @@ ast\flags\ARRAY_SYNTAX_LIST
 AST node kinds
 --------------
 
-This section lists the AST node kinds that are supported and the names of their child nodes (in
-version >= 30).
+This section lists the AST node kinds that are supported and the names of their child nodes.
 
 ```
 AST_AND:              left, right            // prior to version 20
@@ -384,7 +383,7 @@ AST_PRE_INC:          var
 AST_PRINT:            expr
 AST_PROP:             expr, prop
 AST_PROP_ELEM:        name, default
-AST_REF:              var
+AST_REF:              var                    // only used in foreach ($a as &$v)
 AST_RETURN:           expr
 AST_SHELL_EXEC:       expr
 AST_SILENCE:          expr                   // prior to version 20
@@ -417,7 +416,7 @@ ZEND_AST_CATCH_LIST
 ZEND_AST_CLASS_CONST_DECL
 ZEND_AST_CLOSURE_USES
 ZEND_AST_CONST_DECL
-ZEND_AST_ENCAPS_LIST
+ZEND_AST_ENCAPS_LIST           // interpolated string: "foo$bar"
 ZEND_AST_EXPR_LIST
 ZEND_AST_IF
 ZEND_AST_LIST
