@@ -28,6 +28,7 @@ ZEND_BEGIN_MODULE_GLOBALS(ast)
 	AST_STR_DEFS
 #undef X
 	void *cache_slots[AST_NUM_CACHE_SLOTS];
+	zval metadata;
 ZEND_END_MODULE_GLOBALS(ast)
 
 ZEND_EXTERN_MODULE_GLOBALS(ast)

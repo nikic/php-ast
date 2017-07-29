@@ -61,6 +61,7 @@
       <file name="get_kind_name.phpt" role="test" />
       <file name="invalid_file.php" role="test" />
       <file name="magic_constants.phpt" role="test" />
+      <file name="metadata.phpt" role="test" />
       <file name="multi_catch.phpt" role="test" />
       <file name="named_children.phpt" role="test" />
       <file name="name_node.phpt" role="test" />

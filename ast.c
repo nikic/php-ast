@@ -58,6 +58,177 @@ typedef struct ast_state_info {
 	zend_long declIdCounter;
 } ast_state_info_t;
 
+typedef struct _ast_flag_info {
+	uint16_t ast_kind;
+	const char **flags;
+	zend_bool combinable;
+} ast_flag_info;
+
+ZEND_DECLARE_MODULE_GLOBALS(ast)
+
+static zend_class_entry *ast_node_ce;
+static zend_class_entry *ast_decl_ce;
+
+#define AST_FLAG(name) "ast\\flags\\" #name
+
+static const char *name_flags[] = {
+	AST_FLAG(NAME_FQ),
+	AST_FLAG(NAME_NOT_FQ),
+	AST_FLAG(NAME_RELATIVE),
+	NULL
+};
+
+static const char *class_flags[] = {
+	AST_FLAG(CLASS_ABSTRACT),
+	AST_FLAG(CLASS_FINAL),
+	AST_FLAG(CLASS_TRAIT),
+	AST_FLAG(CLASS_INTERFACE),
+	AST_FLAG(CLASS_ANONYMOUS),
+	NULL
+};
+
+static const char *param_flags[] = {
+	AST_FLAG(PARAM_REF),
+	AST_FLAG(PARAM_VARIADIC),
+	NULL
+};
+
+static const char *type_flags[] = {
+	AST_FLAG(TYPE_NULL),
+	AST_FLAG(TYPE_BOOL),
+	AST_FLAG(TYPE_LONG),
+	AST_FLAG(TYPE_DOUBLE),
+	AST_FLAG(TYPE_STRING),
+	AST_FLAG(TYPE_ARRAY),
+	AST_FLAG(TYPE_OBJECT),
+	AST_FLAG(TYPE_CALLABLE),
+	AST_FLAG(TYPE_VOID),
+	AST_FLAG(TYPE_ITERABLE),
+	NULL
+};
+
+static const char *unary_op_flags[] = {
+	AST_FLAG(UNARY_BOOL_NOT),
+	AST_FLAG(UNARY_BITWISE_NOT),
+	AST_FLAG(UNARY_MINUS),
+	AST_FLAG(UNARY_PLUS),
+	AST_FLAG(UNARY_SILENCE),
+	NULL
+};
+
+#define AST_SHARED_BINARY_OP_FLAGS \
+	AST_FLAG(BINARY_BITWISE_OR), \
+	AST_FLAG(BINARY_BITWISE_AND), \
+	AST_FLAG(BINARY_BITWISE_XOR), \
+	AST_FLAG(BINARY_CONCAT), \
+	AST_FLAG(BINARY_ADD), \
+	AST_FLAG(BINARY_SUB), \
+	AST_FLAG(BINARY_MUL), \
+	AST_FLAG(BINARY_DIV), \
+	AST_FLAG(BINARY_MOD), \
+	AST_FLAG(BINARY_POW), \
+	AST_FLAG(BINARY_SHIFT_LEFT), \
+	AST_FLAG(BINARY_SHIFT_RIGHT) \
+
+static const char *binary_op_flags[] = {
+	AST_SHARED_BINARY_OP_FLAGS,
+	AST_FLAG(BINARY_BOOL_AND),
+	AST_FLAG(BINARY_BOOL_OR),
+	AST_FLAG(BINARY_BOOL_XOR),
+	AST_FLAG(BINARY_IS_IDENTICAL),
+	AST_FLAG(BINARY_IS_NOT_IDENTICAL),
+	AST_FLAG(BINARY_IS_EQUAL),
+	AST_FLAG(BINARY_IS_NOT_EQUAL),
+	AST_FLAG(BINARY_IS_SMALLER),
+	AST_FLAG(BINARY_IS_SMALLER_OR_EQUAL),
+	AST_FLAG(BINARY_IS_GREATER),
+	AST_FLAG(BINARY_IS_GREATER_OR_EQUAL),
+	AST_FLAG(BINARY_SPACESHIP),
+	AST_FLAG(BINARY_COALESCE),
+	NULL
+};
+
+static const char *assign_op_flags[] = {
+	AST_SHARED_BINARY_OP_FLAGS,
+	NULL
+};
+
+static const char *magic_const_flags[] = {
+	AST_FLAG(MAGIC_LINE),
+	AST_FLAG(MAGIC_FILE),
+	AST_FLAG(MAGIC_DIR),
+	AST_FLAG(MAGIC_NAMESPACE),
+	AST_FLAG(MAGIC_FUNCTION),
+	AST_FLAG(MAGIC_METHOD),
+	AST_FLAG(MAGIC_CLASS),
+	AST_FLAG(MAGIC_TRAIT),
+	NULL
+};
+
+static const char *use_flags[] = {
+	AST_FLAG(USE_NORMAL),
+	AST_FLAG(USE_FUNCTION),
+	AST_FLAG(USE_CONST),
+	NULL
+};
+
+static const char *include_flags[] = {
+	AST_FLAG(EXEC_EVAL),
+	AST_FLAG(EXEC_INCLUDE),
+	AST_FLAG(EXEC_INCLUDE_ONCE),
+	AST_FLAG(EXEC_REQUIRE),
+	AST_FLAG(EXEC_REQUIRE_ONCE),
+	NULL
+};
+
+static const char *array_flags[] = {
+	AST_FLAG(ARRAY_SYNTAX_LIST),
+	AST_FLAG(ARRAY_SYNTAX_LONG),
+	AST_FLAG(ARRAY_SYNTAX_SHORT),
+	NULL
+};
+
+static const char *closure_use_flags[] = {
+	AST_FLAG(CLOSURE_USE_REF),
+	NULL
+};
+
+static const char *modifier_flags[] = {
+	AST_FLAG(MODIFIER_PUBLIC),
+	AST_FLAG(MODIFIER_PROTECTED),
+	AST_FLAG(MODIFIER_PRIVATE),
+	AST_FLAG(MODIFIER_STATIC),
+	AST_FLAG(MODIFIER_ABSTRACT),
+	AST_FLAG(MODIFIER_FINAL),
+	AST_FLAG(FUNC_RETURNS_REF),
+	AST_FLAG(FUNC_GENERATOR),
+	NULL
+};
+
+static const ast_flag_info flag_info[] = {
+	{ AST_NAME, name_flags, 0 },
+	{ ZEND_AST_CLASS, class_flags, 0 },
+	{ ZEND_AST_PARAM, param_flags, 1 },
+	{ ZEND_AST_TYPE, type_flags, 0 },
+	{ ZEND_AST_CAST, type_flags, 0 },
+	{ ZEND_AST_UNARY_OP, unary_op_flags, 0 },
+	{ ZEND_AST_BINARY_OP, binary_op_flags, 0 },
+	{ ZEND_AST_ASSIGN_OP, assign_op_flags, 0 },
+	{ ZEND_AST_MAGIC_CONST, magic_const_flags, 0 },
+	{ ZEND_AST_USE, use_flags, 0 },
+	{ ZEND_AST_GROUP_USE, use_flags, 0 },
+	{ ZEND_AST_USE_ELEM, use_flags, 0 },
+	{ ZEND_AST_INCLUDE_OR_EVAL, include_flags, 0 },
+	{ ZEND_AST_ARRAY, array_flags, 0 },
+	{ AST_CLOSURE_VAR, closure_use_flags, 0 },
+	{ ZEND_AST_METHOD, modifier_flags, 1 },
+	{ ZEND_AST_FUNC_DECL, modifier_flags, 1 },
+	{ ZEND_AST_CLOSURE, modifier_flags, 1 },
+	{ ZEND_AST_PROP_DECL, modifier_flags, 1 },
+	{ ZEND_AST_CLASS_CONST_DECL, modifier_flags, 1 },
+	{ ZEND_AST_TRAIT_ALIAS, modifier_flags, 1 },
+};
+
 static inline void ast_update_property(zval *object, zend_string *name, zval *value, void **cache_slot) {
 	zval name_zv;
 	ZVAL_STR(&name_zv, name);
@@ -73,11 +244,6 @@ static inline void ast_update_property_to_long(zval *object, zend_string *name, 
 
 	Z_OBJ_HT_P(object)->write_property(object, &name_zv, &value_zv, cache_slot);
 }
-
-ZEND_DECLARE_MODULE_GLOBALS(ast)
-
-static zend_class_entry *ast_node_ce;
-static zend_class_entry *ast_decl_ce;
 
 static zend_ast *get_ast(zend_string *code, zend_arena **ast_arena, char *filename) {
 	zval code_zv;
@@ -747,6 +913,54 @@ PHP_FUNCTION(kind_uses_flags) {
 	RETURN_BOOL(ast_kind_uses_attr(kind) || ast_kind_is_decl(kind));
 }
 
+static inline const ast_flag_info *ast_get_flag_info(uint16_t ast_kind) {
+	size_t i, flag_info_count = sizeof(flag_info)/sizeof(ast_flag_info);
+	for (i = 0; i < flag_info_count; i++) {
+		const ast_flag_info *info = &flag_info[i];
+		if (info->ast_kind == ast_kind) {
+			return info;
+		}
+	}
+	return NULL;
+}
+
+static void ast_build_metadata(zval *result) {
+	size_t i;
+	array_init(result);
+	for (i = 0; i < ast_kinds_count; i++) {
+		zend_ast_kind kind = ast_kinds[i];
+		const ast_flag_info *flag_info = ast_get_flag_info(kind);
+		zval info_zv, flags_zv;
+
+		array_init(&flags_zv);
+		if (flag_info) {
+			const char **flag;
+			for (flag = flag_info->flags; *flag; flag++) {
+				add_next_index_string(&flags_zv, *flag);
+			}
+		}
+
+		array_init(&info_zv);
+		add_assoc_long(&info_zv, "kind", kind);
+		add_assoc_string(&info_zv, "name", ast_kind_to_name(kind));
+		add_assoc_zval(&info_zv, "flags", &flags_zv);
+		add_assoc_bool(&info_zv, "flagsCombinable", flag_info && flag_info->combinable);
+		add_next_index_zval(result, &info_zv);
+	}
+}
+
+PHP_FUNCTION(get_metadata) {
+	if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "") == FAILURE) {
+		return;
+	}
+
+	if (Z_ISUNDEF(AST_G(metadata))) {
+		ast_build_metadata(&AST_G(metadata));
+	}
+
+	ZVAL_COPY(return_value, &AST_G(metadata));
+}
+
 PHP_METHOD(ast_Node, __construct) {
 	int num_args = ZEND_NUM_ARGS();
 	if (num_args == 0) {
@@ -815,6 +1029,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_kind_uses_flags, 0, 0, 1)
 	ZEND_ARG_INFO(0, kind)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_get_metadata, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_node_construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, kind)
 	ZEND_ARG_INFO(0, flags)
@@ -827,6 +1044,7 @@ const zend_function_entry ast_functions[] = {
 	ZEND_NS_FE("ast", parse_code, arginfo_parse_code)
 	ZEND_NS_FE("ast", get_kind_name, arginfo_get_kind_name)
 	ZEND_NS_FE("ast", kind_uses_flags, arginfo_kind_uses_flags)
+	ZEND_NS_FE("ast", get_metadata, arginfo_get_metadata)
 	PHP_FE_END
 };
 
@@ -843,6 +1061,12 @@ PHP_MINFO_FUNCTION(ast) {
 
 PHP_RINIT_FUNCTION(ast) {
 	memset(AST_G(cache_slots), 0, sizeof(void *) * AST_NUM_CACHE_SLOTS);
+	ZVAL_UNDEF(&AST_G(metadata));
+	return SUCCESS;
+}
+
+PHP_RSHUTDOWN_FUNCTION(ast) {
+	zval_ptr_dtor(&AST_G(metadata));
 	return SUCCESS;
 }
 
@@ -1011,7 +1235,7 @@ zend_module_entry ast_module_entry = {
 	PHP_MINIT(ast),
 	PHP_MSHUTDOWN(ast),
 	PHP_RINIT(ast),
-	NULL,
+	PHP_RSHUTDOWN(ast),
 	PHP_MINFO(ast),
 	PHP_AST_VERSION,
 	PHP_MODULE_GLOBALS(ast),
