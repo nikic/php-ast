@@ -31,6 +31,7 @@ Defines:
  * `ast\parse_code(string $code, int $version [, string $filename = "string code"])`
  * `ast\get_kind_name(int $kind)`
  * `ast\kind_uses_flags(int $kind)`
+ * `ast\get_metadata()`
 
 Usage
 -----

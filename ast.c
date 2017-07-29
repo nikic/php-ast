@@ -193,13 +193,29 @@ static const char *closure_use_flags[] = {
 	NULL
 };
 
+#define AST_VISIBILITY_FLAGS \
+	AST_FLAG(MODIFIER_PUBLIC), \
+	AST_FLAG(MODIFIER_PROTECTED), \
+	AST_FLAG(MODIFIER_PRIVATE)
+
+#define AST_MODIFIER_FLAGS \
+	AST_VISIBILITY_FLAGS, \
+	AST_FLAG(MODIFIER_STATIC), \
+	AST_FLAG(MODIFIER_ABSTRACT), \
+	AST_FLAG(MODIFIER_FINAL)
+
+static const char *visibility_flags[] = {
+	AST_VISIBILITY_FLAGS,
+	NULL
+};
+
 static const char *modifier_flags[] = {
-	AST_FLAG(MODIFIER_PUBLIC),
-	AST_FLAG(MODIFIER_PROTECTED),
-	AST_FLAG(MODIFIER_PRIVATE),
-	AST_FLAG(MODIFIER_STATIC),
-	AST_FLAG(MODIFIER_ABSTRACT),
-	AST_FLAG(MODIFIER_FINAL),
+	AST_MODIFIER_FLAGS,
+	NULL
+};
+
+static const char *func_flags[] = {
+	AST_MODIFIER_FLAGS,
 	AST_FLAG(FUNC_RETURNS_REF),
 	AST_FLAG(FUNC_GENERATOR),
 	NULL
@@ -221,11 +237,11 @@ static const ast_flag_info flag_info[] = {
 	{ ZEND_AST_INCLUDE_OR_EVAL, include_flags, 0 },
 	{ ZEND_AST_ARRAY, array_flags, 0 },
 	{ AST_CLOSURE_VAR, closure_use_flags, 0 },
-	{ ZEND_AST_METHOD, modifier_flags, 1 },
-	{ ZEND_AST_FUNC_DECL, modifier_flags, 1 },
-	{ ZEND_AST_CLOSURE, modifier_flags, 1 },
+	{ ZEND_AST_METHOD, func_flags, 1 },
+	{ ZEND_AST_FUNC_DECL, func_flags, 1 },
+	{ ZEND_AST_CLOSURE, func_flags, 1 },
 	{ ZEND_AST_PROP_DECL, modifier_flags, 1 },
-	{ ZEND_AST_CLASS_CONST_DECL, modifier_flags, 1 },
+	{ ZEND_AST_CLASS_CONST_DECL, visibility_flags, 1 },
 	{ ZEND_AST_TRAIT_ALIAS, modifier_flags, 1 },
 };
 
