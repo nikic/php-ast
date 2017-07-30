@@ -249,6 +249,17 @@ function kind_uses_flags($kind)
 }
 
 /**
+ * Provides metadata for the AST kinds.
+ *
+ * The returned array is a map from AST kind to a Metadata object.
+ *
+ * @return Metadata[] Metadata about AST kinds
+ */
+function get_metadata()
+{
+}
+
+/**
  * This class describes a single node in a PHP AST.
  */
 class Node
@@ -281,10 +292,35 @@ class Node
     }
 }
 
+/**
+ * Metadata entry for a single AST kind, as returned by ast\get_metadata().
+ */
+class Metadata
+{
+    /** @var int AST node kind (one of the ast\AST_* constants). */
+    public $kind;
+
+    /** @var string Name of the node kind (e.g. "AST_NAME"). */
+    public $name;
+
+    /**
+     * @var string[] Array of supported flags. The flags are given as names of constants, such as
+     *               "ast\flags\TYPE_STRING".
+     */
+    public $flags;
+
+    /**
+     * @var bool Whether the flags are exclusive or combinable. Exclusive flags should be checked
+     *           using ===, while combinable flags should be checked using &. */
+    public $flagsCombinable;
+}
+
 namespace ast\Node;
 
 /**
  * AST Node type for function and class declarations.
+ *
+ * This class is no longer used in AST version 50 and higher.
  */
 class Decl extends \ast\Node
 {
