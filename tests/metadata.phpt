@@ -6,11 +6,11 @@ AST metadata
 $metadata = ast\get_metadata();
 foreach ($metadata as $data) {
     $flags = [];
-    foreach ($data['flags'] as $flag) {
+    foreach ($data->flags as $flag) {
         $flags[] = substr($flag, strrpos($flag, '\\') + 1);
     }
-    echo "$data[name]: ";
-    if ($data['flagsCombinable']) {
+    echo "$data->name: ";
+    if ($data->flagsCombinable) {
         echo "(combinable) ";
     }
     echo "[", implode(", ", $flags), "]\n";

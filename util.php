@@ -5,30 +5,26 @@ use ast\flags;
 const AST_DUMP_LINENOS = 1;
 
 function get_flag_info() : array {
-    static $exclusive, $combinable;
-    if ($exclusive !== null) {
-        return [$exclusive, $combinable];
+    static $info;
+    if ($info !== null) {
+        return $info;
     }
 
     foreach (ast\get_metadata() as $data) {
-        if (empty($data['flags'])) {
+        if (empty($data->flags)) {
             continue;
         }
 
         $flagMap = [];
-        foreach ($data['flags'] as $fullName) {
+        foreach ($data->flags as $fullName) {
             $shortName = substr($fullName, strrpos($fullName, '\\') + 1);
             $flagMap[constant($fullName)] = $shortName;
         }
 
-        if ($data['flagsCombinable']) {
-            $combinable[$data['kind']] = $flagMap;
-        } else {
-            $exclusive[$data['kind']] = $flagMap;
-        }
+        $info[(int) $data->flagsCombinable][$data->kind] = $flagMap;
     }
 
-    return [$exclusive, $combinable];
+    return $info;
 }
 
 function format_flags(int $kind, int $flags) : string {

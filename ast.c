@@ -68,6 +68,7 @@ ZEND_DECLARE_MODULE_GLOBALS(ast)
 
 static zend_class_entry *ast_node_ce;
 static zend_class_entry *ast_decl_ce;
+static zend_class_entry *ast_metadata_ce;
 
 #define AST_FLAG(name) "ast\\flags\\" #name
 
@@ -252,13 +253,10 @@ static inline void ast_update_property(zval *object, zend_string *name, zval *va
 	Z_OBJ_HT_P(object)->write_property(object, &name_zv, value, cache_slot);
 }
 
-static inline void ast_update_property_to_long(zval *object, zend_string *name, zend_long value_raw, void **cache_slot) {
-	zval name_zv;
-	ZVAL_STR(&name_zv, name);
+static inline void ast_update_property_long(zval *object, zend_string *name, zend_long value_raw, void **cache_slot) {
 	zval value_zv;
-	ZVAL_LONG(&value_zv, value_raw)
-
-	Z_OBJ_HT_P(object)->write_property(object, &name_zv, &value_zv, cache_slot);
+	ZVAL_LONG(&value_zv, value_raw);
+	ast_update_property(object, name, &value_zv, cache_slot);
 }
 
 static zend_ast *get_ast(zend_string *code, zend_arena **ast_arena, char *filename) {
@@ -472,11 +470,11 @@ static void ast_create_virtual_node_ex(
 
 	object_init_ex(zv, ast_node_ce);
 
-	ast_update_property_to_long(zv, AST_STR(str_kind), kind, AST_CACHE_SLOT_KIND);
+	ast_update_property_long(zv, AST_STR(str_kind), kind, AST_CACHE_SLOT_KIND);
 
-	ast_update_property_to_long(zv, AST_STR(str_flags), attr, AST_CACHE_SLOT_FLAGS);
+	ast_update_property_long(zv, AST_STR(str_flags), attr, AST_CACHE_SLOT_FLAGS);
 
-	ast_update_property_to_long(zv, AST_STR(str_lineno), lineno, AST_CACHE_SLOT_LINENO);
+	ast_update_property_long(zv, AST_STR(str_lineno), lineno, AST_CACHE_SLOT_LINENO);
 
 	array_init(&tmp_zv);
 	Z_DELREF(tmp_zv);
@@ -704,9 +702,9 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 	is_decl = ast_kind_is_decl(ast->kind);
 	object_init_ex(zv, is_decl && state->version < 50 ? ast_decl_ce : ast_node_ce);
 
-	ast_update_property_to_long(zv, AST_STR(str_kind), ast->kind, AST_CACHE_SLOT_KIND);
+	ast_update_property_long(zv, AST_STR(str_kind), ast->kind, AST_CACHE_SLOT_KIND);
 
-	ast_update_property_to_long(zv, AST_STR(str_lineno), zend_ast_get_lineno(ast), AST_CACHE_SLOT_LINENO);
+	ast_update_property_long(zv, AST_STR(str_lineno), zend_ast_get_lineno(ast), AST_CACHE_SLOT_LINENO);
 
 	array_init(&children_zv);
 	Z_DELREF(children_zv);
@@ -715,9 +713,9 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 	if (is_decl) {
 		zend_ast_decl *decl = (zend_ast_decl *) ast;
 
-		ast_update_property_to_long(zv, AST_STR(str_flags), decl->flags, AST_CACHE_SLOT_FLAGS);
+		ast_update_property_long(zv, AST_STR(str_flags), decl->flags, AST_CACHE_SLOT_FLAGS);
 
-		ast_update_property_to_long(zv, AST_STR(str_endLineno), decl->end_lineno, NULL);
+		ast_update_property_long(zv, AST_STR(str_endLineno), decl->end_lineno, NULL);
 
 		if (decl->name) {
 			ZVAL_STR(&tmp_zv, decl->name);
@@ -748,7 +746,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 			ast->attr = ZEND_ACC_PUBLIC;
 		}
 #endif
-		ast_update_property_to_long(zv, AST_STR(str_flags), ast->attr, AST_CACHE_SLOT_FLAGS);
+		ast_update_property_long(zv, AST_STR(str_flags), ast->attr, AST_CACHE_SLOT_FLAGS);
 	}
 
 	if (state->version < 50) {
@@ -946,22 +944,34 @@ static void ast_build_metadata(zval *result) {
 	for (i = 0; i < ast_kinds_count; i++) {
 		zend_ast_kind kind = ast_kinds[i];
 		const ast_flag_info *flag_info = ast_get_flag_info(kind);
-		zval info_zv, flags_zv;
+		zval info_zv, tmp_zv;
 
-		array_init(&flags_zv);
+		object_init_ex(&info_zv, ast_metadata_ce);
+
+		/* kind */
+		ast_update_property_long(&info_zv, AST_G(str_kind), kind, NULL);
+
+		/* name */
+		ZVAL_STRING(&tmp_zv, ast_kind_to_name(kind));
+		Z_TRY_DELREF(tmp_zv);
+		ast_update_property(&info_zv, AST_G(str_name), &tmp_zv, NULL);
+
+		/* flags */
+		array_init(&tmp_zv);
 		if (flag_info) {
 			const char **flag;
 			for (flag = flag_info->flags; *flag; flag++) {
-				add_next_index_string(&flags_zv, *flag);
+				add_next_index_string(&tmp_zv, *flag);
 			}
 		}
+		Z_TRY_DELREF(tmp_zv);
+		ast_update_property(&info_zv, AST_G(str_flags), &tmp_zv, NULL);
 
-		array_init(&info_zv);
-		add_assoc_long(&info_zv, "kind", kind);
-		add_assoc_string(&info_zv, "name", ast_kind_to_name(kind));
-		add_assoc_zval(&info_zv, "flags", &flags_zv);
-		add_assoc_bool(&info_zv, "flagsCombinable", flag_info && flag_info->combinable);
-		add_next_index_zval(result, &info_zv);
+		/* flagsCombinable */
+		ZVAL_BOOL(&tmp_zv, flag_info && flag_info->combinable);
+		ast_update_property(&info_zv, AST_G(str_flagsCombinable), &tmp_zv, NULL);
+
+		add_index_zval(result, kind, &info_zv);
 	}
 }
 
@@ -1003,7 +1013,7 @@ PHP_METHOD(ast_Node, __construct) {
 	switch (num_args) {
 		case 4:
 			if (!linenoNull) {
-				ast_update_property_to_long(zv, AST_STR(str_lineno), lineno, AST_CACHE_SLOT_LINENO);
+				ast_update_property_long(zv, AST_STR(str_lineno), lineno, AST_CACHE_SLOT_LINENO);
 			}
 			/* break missing intentionally */
 		case 3:
@@ -1013,12 +1023,12 @@ PHP_METHOD(ast_Node, __construct) {
 			/* break missing intentionally */
 		case 2:
 			if (!flagsNull) {
-				ast_update_property_to_long(zv, AST_STR(str_flags), flags, AST_CACHE_SLOT_FLAGS);
+				ast_update_property_long(zv, AST_STR(str_flags), flags, AST_CACHE_SLOT_FLAGS);
 			}
 			/* break missing intentionally */
 		case 1:
 			if (!kindNull) {
-				ast_update_property_to_long(zv, AST_STR(str_kind), kind, AST_CACHE_SLOT_KIND);
+				ast_update_property_long(zv, AST_STR(str_kind), kind, AST_CACHE_SLOT_KIND);
 			}
 			/* break missing intentionally */
 		case 0:
@@ -1088,6 +1098,8 @@ PHP_RSHUTDOWN_FUNCTION(ast) {
 
 PHP_MINIT_FUNCTION(ast) {
 	zend_class_entry tmp_ce;
+	zval zv_null;
+	ZVAL_NULL(&zv_null);
 
 #define X(str) \
 	AST_STR(str_ ## str) = zend_new_interned_string( \
@@ -1210,28 +1222,23 @@ PHP_MINIT_FUNCTION(ast) {
 
 	INIT_CLASS_ENTRY(tmp_ce, "ast\\Node", ast_node_functions);
 	ast_node_ce = zend_register_internal_class(&tmp_ce);
-
-	{
-		zval zv;
-		ZVAL_NULL(&zv);
-
-		ast_declare_property(ast_node_ce, AST_STR(str_kind), &zv);
-		ast_declare_property(ast_node_ce, AST_STR(str_flags), &zv);
-		ast_declare_property(ast_node_ce, AST_STR(str_lineno), &zv);
-		ast_declare_property(ast_node_ce, AST_STR(str_children), &zv);
-	}
+	ast_declare_property(ast_node_ce, AST_STR(str_kind), &zv_null);
+	ast_declare_property(ast_node_ce, AST_STR(str_flags), &zv_null);
+	ast_declare_property(ast_node_ce, AST_STR(str_lineno), &zv_null);
+	ast_declare_property(ast_node_ce, AST_STR(str_children), &zv_null);
 
 	INIT_CLASS_ENTRY(tmp_ce, "ast\\Node\\Decl", NULL);
 	ast_decl_ce = zend_register_internal_class_ex(&tmp_ce, ast_node_ce);
+	ast_declare_property(ast_decl_ce, AST_STR(str_endLineno), &zv_null);
+	ast_declare_property(ast_decl_ce, AST_STR(str_name), &zv_null);
+	ast_declare_property(ast_decl_ce, AST_STR(str_docComment), &zv_null);
 
-	{
-		zval zv;
-		ZVAL_NULL(&zv);
-
-		ast_declare_property(ast_decl_ce, AST_STR(str_endLineno), &zv);
-		ast_declare_property(ast_decl_ce, AST_STR(str_name), &zv);
-		ast_declare_property(ast_decl_ce, AST_STR(str_docComment), &zv);
-	}
+	INIT_CLASS_ENTRY(tmp_ce, "ast\\Metadata", NULL);
+	ast_metadata_ce = zend_register_internal_class(&tmp_ce);
+	ast_declare_property(ast_metadata_ce, AST_STR(str_kind), &zv_null);
+	ast_declare_property(ast_metadata_ce, AST_STR(str_name), &zv_null);
+	ast_declare_property(ast_metadata_ce, AST_STR(str_flags), &zv_null);
+	ast_declare_property(ast_metadata_ce, AST_STR(str_flagsCombinable), &zv_null);
 
 	return SUCCESS;
 }

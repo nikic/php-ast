@@ -10,6 +10,7 @@
 	X(docComment) \
 	X(endLineno) \
 	X(__declId) \
+	X(flagsCombinable) \
 	X(type) \
 	X(params) \
 	X(uses) \
