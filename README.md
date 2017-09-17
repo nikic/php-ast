@@ -532,7 +532,7 @@ Supported since 2017-01-18.
   These will now be normalized to always use an `AST_STMT_LIST`. A `null` is only allowed if it is
   semantically meaningful, e.g. in the case of `declare(ticks=1);` vs `declare(ticks=1) {}`.
 
-### 35 (supported)
+### 35 (deprecated)
 
 Supported since 2016-08-04. Deprecated since 2017-07-19.
 
