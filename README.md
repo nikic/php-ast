@@ -13,7 +13,7 @@ Table of Contents
  * [Metadata](#introspection)
  * [Flags](#flags)
  * [AST node kinds](#ast-node-kinds)
- * [Version changelog](#version-changelog)
+ * [AST versioning](#ast-versioning)
  * [Differences to PHP-Parser](#differences-to-php-parser)
 
 Installation
