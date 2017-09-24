@@ -35,9 +35,9 @@ build_script:
 
     xcopy C:\projects\php-ast C:\projects\php-src\ext\ast /s /e /y /q
 
-    phpsdk_deps -u
-
     cd C:\projects\php-src
+
+    phpsdk_deps -u
 
     buildconf.bat
 
