@@ -35,13 +35,7 @@ build_script:
 
     xcopy C:\projects\php-ast C:\projects\php-src\ext\ast /s /e /y /q
 
-    REM FIXME no PHP 7.2 deps downloads available yet - wget http://windows.php.net/downloads/php-sdk/deps-%PHP_VER%-%VC_VER%-%ARCH%.7z -q
-    
-    wget http://windows.php.net/downloads/php-sdk/deps-master-%VC_VER%-%ARCH%.7z -q
-
-    REM FIXME no PHP 7.2 deps downloads available yet - 7z x -y deps-%PHP_VER%-%VC_VER%-%ARCH%.7z -oC:\projects\php-src
-    
-    7z x -y deps-master-%VC_VER%-%ARCH%.7z -oC:\projects\php-src
+    phpsdk_deps -u
 
     cd C:\projects\php-src
 
