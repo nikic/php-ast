@@ -611,12 +611,14 @@ of consequences:
    retrieving it from a package manager, on Windows by loading a DLL. PHP-Parser is installed as a
    Composer dependency.
  * php-ast only runs on PHP >= 7.0, as prior versions did not use an internal AST. PHP-Parser
-   supports PHP >= 5.4.
+   supports PHP >= 5.5.
  * php-ast may only parse code that is syntactically valid on the version of PHP it runs on. This
    means that it's not possible to parse code using features of newer versions (e.g. PHP 7.1 code
    while running on PHP 7.0). Similarly, it is not possible to parse code that is no longer
    syntactically valid on the used version (e.g. some PHP 5 code may no longer be parsed -- however
    most code will work). PHP-Parser supports parsing both newer and older (up to PHP 5.2) versions.
+ * php-ast can only parse code which is syntactically valid, while PHP-Parser can provide a partial
+   AST for code that contains errors (e.g., because it is currently being edited).
  * php-ast only provides the starting line number (and for declarations the ending line number) of
    nodes, because this is the only part that PHP itself stores. PHP-Parser provides precise file
    offsets.
@@ -641,8 +643,14 @@ There are a number of differences in the AST representation and available suppor
     * AST traversation / visitation: There is currently no standalone package for this either, but
       implementing a recursive AST walk is easy.
 
+The [php-parser-to-php-ast][php-parser-to-php-ast] project can convert the AST produced by
+PHP-Parser into the format used by the php-ast extension. This can be used as a slow fallback in
+case the php-ast extension is not available. It may also be used to produce a partial php-ast output
+for code with syntax errors.
+
   [parser]: http://lxr.php.net/xref/PHP_TRUNK/Zend/zend_language_parser.y
   [util]: https://github.com/nikic/php-ast/blob/master/util.php
   [test_dump]: https://github.com/nikic/php-ast/blob/master/tests/001.phpt
   [php-parser]: https://github.com/nikic/PHP-Parser
   [php-ast-reverter]: https://github.com/tpunt/php-ast-reverter
+  [php-parser-to-php-ast]: https://github.com/tysonandre/php-parser-to-php-ast
