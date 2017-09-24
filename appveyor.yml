@@ -37,8 +37,6 @@ build_script:
 
     cd C:\projects\php-src
 
-    phpsdk_deps -u
-
     buildconf.bat
 
     configure.bat --disable-all --enable-cli --enable-cgi --enable-zts --enable-ast=shared --with-prefix=C:\projects\php-ast\bin --with-php-build=deps
