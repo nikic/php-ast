@@ -27,7 +27,7 @@ build_script:
 
     move C:\projects\php-sdk-binary-tools-%PHP_SDK_BINARY_TOOLS_VER% C:\projects\php-sdk
     
-    C:\projects\php-sdk\bin\phpsdk_setvars.bat
+    C:\projects\php-sdk\phpsdk-%VC_VER%-%ARCH%.bat
 
     git clone https://github.com/php/php-src C:\projects\php-src -b PHP-%PHP_VER% --depth=1
 
