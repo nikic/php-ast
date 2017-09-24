@@ -32,42 +32,42 @@ environment:
                 - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
                   ARCH: x64
                   VC: vc14
-                  PHP_VER: 7.0.22
+                  PHP_VER: 7.0.23
                   TS: 0
                 - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
                   ARCH: x64
                   VC: vc14
-                  PHP_VER: 7.0.22
+                  PHP_VER: 7.0.23
                   TS: 1
                 - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
                   ARCH: x86
                   VC: vc14
-                  PHP_VER: 7.0.22
+                  PHP_VER: 7.0.23
                   TS: 0
                 - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
                   ARCH: x86
                   VC: vc14
-                  PHP_VER: 7.0.22
+                  PHP_VER: 7.0.23
                   TS: 1
                 - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
                   ARCH: x64
                   VC: vc14
-                  PHP_VER: 7.1.8
+                  PHP_VER: 7.1.9
                   TS: 0
                 - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
                   ARCH: x64
                   VC: vc14
-                  PHP_VER: 7.1.8
+                  PHP_VER: 7.1.9
                   TS: 1
                 - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
                   ARCH: x86
                   VC: vc14
-                  PHP_VER: 7.1.8
+                  PHP_VER: 7.1.9
                   TS: 0
                 - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
                   ARCH: x86
                   VC: vc14
-                  PHP_VER: 7.1.8
+                  PHP_VER: 7.1.9
                   TS: 1
 
 build_script:
@@ -77,6 +77,9 @@ build_script:
                 $bname = 'php-devel-pack-' + $env:PHP_VER + $ts_part + '-Win32-' + $env:VC.toUpper() + '-' + $env:ARCH + '.zip'
                 if (-not (Test-Path c:\build-cache\$bname)) {
                         (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/archives/' + $bname, 'c:\build-cache\' + $bname)
+                        if (-not (Test-Path c:\build-cache\$bname)) {
+                                (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/' + $bname, 'c:\build-cache\' + $bname)
+                        }
                 }
                 $dname0 = 'php-' + $env:PHP_VER + '-devel-' + $env:VC.toUpper() + '-' + $env:ARCH
                 $dname1 = 'php-' + $env:PHP_VER + $ts_part + '-devel-' + $env:VC.toUpper() + '-' + $env:ARCH
@@ -116,6 +119,9 @@ test_script:
                 $bname = 'php-' + $env:PHP_VER + $ts_part + '-Win32-' + $env:VC.toUpper() + '-' + $env:ARCH + '.zip'
                 if (-not (Test-Path c:\build-cache\$bname)) {
                         (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/archives/' + $bname, 'c:\build-cache\' + $bname)
+                        if (-not (Test-Path c:\build-cache\$bname)) {
+                                (new-object net.webclient).DownloadFile('http://windows.php.net/downloads/releases/' + $bname, 'c:\build-cache\' + $bname)
+                        }
                 }
                 $dname = 'php-' + $env:PHP_VER + $ts_part + '-' + $env:VC.toUpper() + '-' + $env:ARCH
                 if (-not (Test-Path c:\build-cache\$dname)) {
