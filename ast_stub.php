@@ -260,6 +260,16 @@ function get_metadata()
 }
 
 /**
+ * Returns currently supported AST versions.
+ *
+ * @param bool $exclude_deprecated Whether to exclude deprecated versions
+ * @return int[] Array of supported AST versions
+ */
+function get_supported_versions($exclude_deprecated = false)
+{
+}
+
+/**
  * This class describes a single node in a PHP AST.
  */
 class Node

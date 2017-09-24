@@ -769,6 +769,10 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 static const zend_long versions[] = {30, 35, 40, 45, 50};
 static const size_t versions_count = sizeof(versions)/sizeof(versions[0]);
 
+static inline zend_bool ast_version_deprecated(zend_long version) {
+	return version == 30 || version == 35;
+}
+
 static zend_string *ast_version_info() {
 	smart_str str = {0};
 	size_t i;
@@ -800,7 +804,7 @@ static int ast_check_version(zend_long version) {
 	zend_string *version_info;
 
 	if (ast_version_known(version)) {
-		if (version == 30 || version == 35) {
+		if (ast_version_deprecated(version)) {
 			php_error_docref(NULL, E_DEPRECATED,
 				"Version " ZEND_LONG_FMT " is deprecated", version);
 		}
@@ -987,6 +991,23 @@ PHP_FUNCTION(get_metadata) {
 	ZVAL_COPY(return_value, &AST_G(metadata));
 }
 
+PHP_FUNCTION(get_supported_versions) {
+	zend_bool exclude_deprecated = 0;
+	size_t i;
+
+	if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "|b", &exclude_deprecated) == FAILURE) {
+		return;
+	}
+
+	array_init(return_value);
+	for (i = 0; i < versions_count; i++) {
+		zend_long version = versions[i];
+		if (!exclude_deprecated || !ast_version_deprecated(version)) {
+			add_next_index_long(return_value, version);
+		}
+	}
+}
+
 PHP_METHOD(ast_Node, __construct) {
 	int num_args = ZEND_NUM_ARGS();
 	if (num_args == 0) {
@@ -1058,6 +1079,10 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_get_metadata, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_get_supported_versions, 0, 0, 0)
+	ZEND_ARG_INFO(0, exclude_deprecated)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_node_construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, kind)
 	ZEND_ARG_INFO(0, flags)
@@ -1071,6 +1096,7 @@ const zend_function_entry ast_functions[] = {
 	ZEND_NS_FE("ast", get_kind_name, arginfo_get_kind_name)
 	ZEND_NS_FE("ast", kind_uses_flags, arginfo_kind_uses_flags)
 	ZEND_NS_FE("ast", get_metadata, arginfo_get_metadata)
+	ZEND_NS_FE("ast", get_supported_versions, arginfo_get_supported_versions)
 	PHP_FE_END
 };
 

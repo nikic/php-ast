@@ -51,6 +51,7 @@ Defines:
  * `ast\get_kind_name(int $kind)`
  * `ast\kind_uses_flags(int $kind)`
  * `ast\get_metadata()`
+ * `ast\get_supported_versions(bool $exclude_deprecated = false)`
 
 Basic usage
 -----------
@@ -487,8 +488,23 @@ ZEND_AST_TRAIT_ADAPTATIONS
 ZEND_AST_USE
 ```
 
-Version changelog
------------------
+AST Versioning
+--------------
+
+The `ast\parse_code()` and `ast\parse_file()` functions each accept a required AST `$version`
+argument. The idea behind the AST version is that we may need to change the format of the AST to
+account for new features in newer PHP versions, or to improve it in other ways. Such changes will
+always be made under a new AST version, while previous formats continue to be supported for some
+time.
+
+Old AST versions may be deprecated and subsequently removed. However, AST versions will only be
+removed in conjunction with a version increase of the AST extension from 0.x to 0.(x+1).
+
+A list of currently supported versions is available through `ast\get_supported_versions()`. The
+function accepts a boolean argument that determines whether deprecated versions should be excluded.
+
+In the following the changes in the respective AST versions, as well as their current support state,
+are listed.
 
 ### 50 (current)
 
