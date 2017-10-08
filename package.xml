@@ -23,7 +23,10 @@
  </stability>
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
-- XXX
+- Added ast\get_metadata() function, which returns an array of ast\Metadata objects, one for each
+  AST kind. The metadata contains information such as the supported flags for the kind.
+- Added ast\get_supported_versions() function, which provides an array of currently supported AST
+  versions.
  </notes>
  <contents>
   <dir name="/">
@@ -59,6 +62,7 @@
       <file name="empty_file_parse.phpt" role="test" />
       <file name="generator_flag.phpt" role="test" />
       <file name="get_kind_name.phpt" role="test" />
+      <file name="get_supported_versions.phpt" role="test" />
       <file name="invalid_file.php" role="test" />
       <file name="magic_constants.phpt" role="test" />
       <file name="metadata.phpt" role="test" />

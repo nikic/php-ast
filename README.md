@@ -10,7 +10,7 @@ Table of Contents
  * [API overview](#api-overview)
  * [Basic usage](#basic-usage)
  * [Example](#example)
- * [Metadata](#introspection)
+ * [Metadata](#metadata)
  * [Flags](#flags)
  * [AST node kinds](#ast-node-kinds)
  * [AST versioning](#ast-versioning)
