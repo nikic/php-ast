@@ -12,10 +12,10 @@
   <email>nikic@php.net</email>
   <active>yes</active>
  </lead>
- <date>2017-07-19</date>
+ <date>2017-10-08</date>
  <version>
-  <release>0.1.6dev</release>
-  <api>0.1.6dev</api>
+  <release>0.1.6</release>
+  <api>0.1.6</api>
  </version>
  <stability>
   <release>stable</release>
