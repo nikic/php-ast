@@ -1,0 +1,11 @@
+* Run scripts/generate_ast_stub.php against PHP master.
+* Update version in php_ast.h to remove dev suffix.
+* Update version, release date in package.xml.
+* Run `pecl package package.xml`.
+* Run `pecl install ast-XXX.tgz`.
+* Commit.
+* Create a tag.
+* Bump version in php_ast.h and add dev suffix.
+* Copy release in package.xml into changelog.
+* Clear current changelog, bump versions and add dev suffix.
+* Commit.
