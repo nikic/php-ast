@@ -24,9 +24,6 @@ extern zend_module_entry ast_module_entry;
 #define AST_NUM_CACHE_SLOTS (2 * 4)
 
 ZEND_BEGIN_MODULE_GLOBALS(ast)
-#define X(str) zend_string *str_ ## str;
-	AST_STR_DEFS
-#undef X
 	void *cache_slots[AST_NUM_CACHE_SLOTS];
 	zval metadata;
 ZEND_END_MODULE_GLOBALS(ast)
@@ -35,7 +32,15 @@ ZEND_EXTERN_MODULE_GLOBALS(ast)
 
 #define AST_G(v) ZEND_MODULE_GLOBALS_ACCESSOR(ast, v)
 
-#define AST_STR(str) AST_G(str)
+typedef struct _ast_str_globals {
+#define X(str) zend_string *str_ ## str;
+	AST_STR_DEFS
+#undef X
+} ast_str_globals;
+
+extern ast_str_globals str_globals;
+
+#define AST_STR(str) str_globals.str
 
 /* Custom ast kind for names */
 #define AST_NAME          2048

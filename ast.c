@@ -66,6 +66,8 @@ typedef struct _ast_flag_info {
 
 ZEND_DECLARE_MODULE_GLOBALS(ast)
 
+ast_str_globals str_globals;
+
 static zend_class_entry *ast_node_ce;
 static zend_class_entry *ast_decl_ce;
 static zend_class_entry *ast_metadata_ce;
@@ -953,12 +955,12 @@ static void ast_build_metadata(zval *result) {
 		object_init_ex(&info_zv, ast_metadata_ce);
 
 		/* kind */
-		ast_update_property_long(&info_zv, AST_G(str_kind), kind, NULL);
+		ast_update_property_long(&info_zv, AST_STR(str_kind), kind, NULL);
 
 		/* name */
 		ZVAL_STRING(&tmp_zv, ast_kind_to_name(kind));
 		Z_TRY_DELREF(tmp_zv);
-		ast_update_property(&info_zv, AST_G(str_name), &tmp_zv, NULL);
+		ast_update_property(&info_zv, AST_STR(str_name), &tmp_zv, NULL);
 
 		/* flags */
 		array_init(&tmp_zv);
@@ -969,11 +971,11 @@ static void ast_build_metadata(zval *result) {
 			}
 		}
 		Z_TRY_DELREF(tmp_zv);
-		ast_update_property(&info_zv, AST_G(str_flags), &tmp_zv, NULL);
+		ast_update_property(&info_zv, AST_STR(str_flags), &tmp_zv, NULL);
 
 		/* flagsCombinable */
 		ZVAL_BOOL(&tmp_zv, flag_info && flag_info->combinable);
-		ast_update_property(&info_zv, AST_G(str_flagsCombinable), &tmp_zv, NULL);
+		ast_update_property(&info_zv, AST_STR(str_flagsCombinable), &tmp_zv, NULL);
 
 		add_index_zval(result, kind, &info_zv);
 	}
