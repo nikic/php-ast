@@ -916,7 +916,7 @@ PHP_FUNCTION(get_kind_name) {
 
 	name = ast_kind_to_name(kind);
 	if (!name) {
-		ast_throw_exception(spl_ce_LogicException, "Unknown kind %pd", kind);
+		ast_throw_exception(spl_ce_LogicException, "Unknown kind " ZEND_LONG_FMT, kind);
 		return;
 	}
 

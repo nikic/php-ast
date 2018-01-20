@@ -40,7 +40,7 @@ AST_STMT_LIST
             2: AST_PARAM
                 flags: 0
                 type: AST_TYPE
-                    flags: TYPE_CALLABLE (14)
+                    flags: TYPE_CALLABLE (%d)
                 name: "c"
                 default: null
             3: AST_PARAM
@@ -104,7 +104,7 @@ AST_STMT_LIST
             2: AST_PARAM
                 flags: 0
                 type: AST_TYPE
-                    flags: TYPE_CALLABLE (14)
+                    flags: TYPE_CALLABLE (%d)
                 name: "c"
                 default: null
             3: AST_PARAM
@@ -128,16 +128,16 @@ AST_STMT_LIST
             6: AST_PARAM
                 flags: 0
                 type: AST_TYPE
-                    flags: TYPE_BOOL (13)
+                    flags: TYPE_BOOL (%d)
                 name: "g"
                 default: null
             7: AST_PARAM
                 flags: 0
                 type: AST_TYPE
-                    flags: TYPE_ITERABLE (19)
+                    flags: TYPE_ITERABLE (%d)
                 name: "h"
                 default: null
         uses: null
         stmts: AST_STMT_LIST
         returnType: AST_TYPE
-            flags: TYPE_VOID (18)
+            flags: TYPE_VOID (%d)
