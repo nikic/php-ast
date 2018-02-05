@@ -340,6 +340,6 @@ class Decl extends \ast\Node
     /** @var string|null Name of the function or class (not including the namespace prefix). Optional for anonymous classes. */
     public $name;
 
-    /** @var string|null Doc comment preceeding the declaration. null if no doc comment was used. */
+    /** @var string|null Doc comment preceding the declaration. null if no doc comment was used. */
     public $docComment;
 }
