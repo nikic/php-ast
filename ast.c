@@ -499,7 +499,7 @@ static void ast_create_virtual_node(
 		zval *zv, zend_ast_kind kind, zend_ast_attr attr, zend_ast *child, ast_state_info_t *state) {
 	zval child_zv;
 	ast_to_zval(&child_zv, child, state);
-	return ast_create_virtual_node_ex(
+	ast_create_virtual_node_ex(
 		zv, kind, attr, zend_ast_get_lineno(child), state, 1, &child_zv);
 }
 
