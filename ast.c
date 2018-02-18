@@ -60,8 +60,8 @@ typedef struct ast_state_info {
 
 typedef struct _ast_flag_info {
 	uint16_t ast_kind;
-	const char **flags;
 	zend_bool combinable;
+	const char **flags;
 } ast_flag_info;
 
 ZEND_DECLARE_MODULE_GLOBALS(ast)
@@ -225,27 +225,27 @@ static const char *func_flags[] = {
 };
 
 static const ast_flag_info flag_info[] = {
-	{ AST_NAME, name_flags, 0 },
-	{ ZEND_AST_CLASS, class_flags, 0 },
-	{ ZEND_AST_PARAM, param_flags, 1 },
-	{ ZEND_AST_TYPE, type_flags, 0 },
-	{ ZEND_AST_CAST, type_flags, 0 },
-	{ ZEND_AST_UNARY_OP, unary_op_flags, 0 },
-	{ ZEND_AST_BINARY_OP, binary_op_flags, 0 },
-	{ ZEND_AST_ASSIGN_OP, assign_op_flags, 0 },
-	{ ZEND_AST_MAGIC_CONST, magic_const_flags, 0 },
-	{ ZEND_AST_USE, use_flags, 0 },
-	{ ZEND_AST_GROUP_USE, use_flags, 0 },
-	{ ZEND_AST_USE_ELEM, use_flags, 0 },
-	{ ZEND_AST_INCLUDE_OR_EVAL, include_flags, 0 },
-	{ ZEND_AST_ARRAY, array_flags, 0 },
-	{ AST_CLOSURE_VAR, closure_use_flags, 0 },
-	{ ZEND_AST_METHOD, func_flags, 1 },
-	{ ZEND_AST_FUNC_DECL, func_flags, 1 },
-	{ ZEND_AST_CLOSURE, func_flags, 1 },
-	{ ZEND_AST_PROP_DECL, modifier_flags, 1 },
-	{ ZEND_AST_CLASS_CONST_DECL, visibility_flags, 1 },
-	{ ZEND_AST_TRAIT_ALIAS, modifier_flags, 1 },
+	{ AST_NAME, 0, name_flags },
+	{ ZEND_AST_CLASS, 0, class_flags },
+	{ ZEND_AST_PARAM, 1, param_flags },
+	{ ZEND_AST_TYPE, 0, type_flags },
+	{ ZEND_AST_CAST, 0, type_flags },
+	{ ZEND_AST_UNARY_OP, 0, unary_op_flags },
+	{ ZEND_AST_BINARY_OP, 0, binary_op_flags },
+	{ ZEND_AST_ASSIGN_OP, 0, assign_op_flags },
+	{ ZEND_AST_MAGIC_CONST, 0, magic_const_flags },
+	{ ZEND_AST_USE, 0, use_flags },
+	{ ZEND_AST_GROUP_USE, 0, use_flags },
+	{ ZEND_AST_USE_ELEM, 0, use_flags },
+	{ ZEND_AST_INCLUDE_OR_EVAL, 0, include_flags },
+	{ ZEND_AST_ARRAY, 0, array_flags },
+	{ AST_CLOSURE_VAR, 0, closure_use_flags },
+	{ ZEND_AST_METHOD, 1, func_flags },
+	{ ZEND_AST_FUNC_DECL, 1, func_flags },
+	{ ZEND_AST_CLOSURE, 1, func_flags },
+	{ ZEND_AST_PROP_DECL, 1, modifier_flags },
+	{ ZEND_AST_CLASS_CONST_DECL, 1, visibility_flags },
+	{ ZEND_AST_TRAIT_ALIAS, 1, modifier_flags },
 };
 
 static inline void ast_update_property(zval *object, zend_string *name, zval *value, void **cache_slot) {
