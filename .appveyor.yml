@@ -115,7 +115,8 @@ build_script:
                 echo "call phpize 2>&1" | Out-File -Encoding "ASCII" -Append task.bat
                 echo "call configure --enable-ast --enable-debug-pack 2>&1" | Out-File -Encoding "ASCII" -Append task.bat
                 echo "nmake /nologo 2>&1" | Out-File -Encoding "ASCII" -Append task.bat
-                $here = (Get-Item -Path ".\" -Verbose).FullName
+                echo "exit %errorlevel%" | Out-File -Encoding "ASCII" -Append task.bat
+                $here = (Get-Item -Path "." -Verbose).FullName
                 $runner = 'c:\build-cache\php-sdk-' + $env:BIN_SDK_VER + '\phpsdk' + '-' + $env:VC + '-' + $env:ARCH + '.bat'
                 $task = $here + '\task.bat'
                 & $runner -t $task
@@ -149,10 +150,12 @@ test_script:
                 }
                 cd c:\projects\ast
                 echo "" | Out-File -Encoding "ASCII" task.bat
+                echo "set REPORT_EXIT_STATUS=1" | Out-File -Encoding "ASCII" -Append task.bat
                 $cmd = 'call configure --enable-ast --with-prefix=c:\build-cache\' + $dname + " 2>&1"
                 echo $cmd | Out-File -Encoding "ASCII" -Append task.bat
                 echo "nmake /nologo test TESTS=-q 2>&1" | Out-File -Encoding "ASCII" -Append task.bat
-                $here = (Get-Item -Path ".\" -Verbose).FullName
+                echo "exit %errorlevel%" | Out-File -Encoding "ASCII" -Append task.bat
+                $here = (Get-Item -Path "." -Verbose).FullName
                 $runner = 'c:\build-cache\php-sdk-' + $env:BIN_SDK_VER + '\phpsdk' + '-' + $env:VC + '-' + $env:ARCH + '.bat'
                 $task = $here + '\task.bat'
                 & $runner -t $task
