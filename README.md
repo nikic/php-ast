@@ -538,8 +538,9 @@ There are a number of differences in the AST representation and available suppor
     * AST traversal / visitation: There is currently no standalone package for this either, but
       implementing a recursive AST walk is easy.
 
-The [php-parser-to-php-ast][php-parser-to-php-ast] project can convert the AST produced by
-PHP-Parser into the format used by the php-ast extension. This can be used as a slow fallback in
+The [tolerant-php-parser-to-php-ast][tolerant-php-parser-to-php-ast] project can convert the AST produced by
+[tolerant-php-parser][tolerant-php-parser] (Another pure PHP parser library) into the format used by the php-ast extension.
+This can be used as a slow fallback in
 case the php-ast extension is not available. It may also be used to produce a partial php-ast output
 for code with syntax errors.
 
@@ -548,6 +549,7 @@ for code with syntax errors.
   [test_dump]: https://github.com/nikic/php-ast/blob/master/tests/001.phpt
   [php-parser]: https://github.com/nikic/PHP-Parser
   [php-ast-reverter]: https://github.com/tpunt/php-ast-reverter
-  [php-parser-to-php-ast]: https://github.com/tysonandre/php-parser-to-php-ast
+  [tolerant-php-parser]: https://github.com/Microsoft/tolerant-php-parser
+  [tolerant-php-parser-to-php-ast]: https://github.com/tysonandre/tolerant-php-parser-to-php-ast
   [v0_1_x]: https://github.com/nikic/php-ast/tree/v0.1.x#php-ast
   [v0_1_x_versions]: https://github.com/nikic/php-ast/tree/v0.1.x#ast-versioning
