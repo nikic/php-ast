@@ -20,7 +20,7 @@ Installation
 ------------
 
 **Windows**: Download a [prebuilt Windows DLL](http://windows.php.net/downloads/pecl/releases/ast/)
-and move it into the `ext/` directory of your PHP instalation. Furthermore add
+and move it into the `ext/` directory of your PHP installation. Furthermore add
 `extension=php_ast.dll` to your `php.ini` file.
 
 **Unix (PECL)**: Run `pecl install ast` and add `extension=ast.so` to your `php.ini`.
@@ -640,7 +640,7 @@ There are a number of differences in the AST representation and available suppor
       [php-ast-reverter][php-ast-reverter] package implements this functionality.
     * Name resolution (resolving namespace prefixes and aliases): There is currently no standalone
       package for this.
-    * AST traversation / visitation: There is currently no standalone package for this either, but
+    * AST traversal / visitation: There is currently no standalone package for this either, but
       implementing a recursive AST walk is easy.
 
 The [php-parser-to-php-ast][php-parser-to-php-ast] project can convert the AST produced by
