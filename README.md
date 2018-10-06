@@ -529,9 +529,9 @@ Supported since 2017-07-19.
 * `\ast\parse_file` will now consistently return an empty statement list (similar to
   `\ast\parse_code`) if it is was passed a zero-byte file. Previously, it would return `null`.
 
-### 45 (supported)
+### 45 (deprecated)
 
-Supported since 2017-07-19.
+Supported since 2017-07-19. Deprecated since 2018-10-06.
 
 This version normalizes the AST to PHP 7.2 format.
 

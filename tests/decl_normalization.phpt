@@ -41,6 +41,7 @@ echo ast_dump($ast) . "\n";
 
 ?>
 --EXPECTF--
+Deprecated: ast\parse_code(): Version 45 is deprecated in %s on line %d
 array(4) {
   [0]=>
   string(13) "ast\Node\Decl"

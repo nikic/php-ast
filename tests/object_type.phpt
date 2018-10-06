@@ -33,6 +33,8 @@ AST_STMT_LIST
         returnType: AST_NAME
             flags: NAME_NOT_FQ (1)
             name: "object"
+
+Deprecated: ast\parse_code(): Version 45 is deprecated in %s on line %d
 AST_STMT_LIST
     0: AST_FUNC_DECL
         flags: 0
