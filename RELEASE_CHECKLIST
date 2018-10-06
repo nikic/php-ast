@@ -9,3 +9,4 @@
 * Copy release in package.xml into changelog.
 * Clear current changelog, bump versions and add dev suffix.
 * Commit.
+* Upload package on pecl.php.net.
