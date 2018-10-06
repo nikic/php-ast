@@ -1103,7 +1103,7 @@ const zend_function_entry ast_functions[] = {
 };
 
 const zend_function_entry ast_node_functions[] = {
-	PHP_ME(ast_Node, __construct, arginfo_node_construct, ZEND_ACC_CTOR | ZEND_ACC_PUBLIC)
+	PHP_ME(ast_Node, __construct, arginfo_node_construct, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
