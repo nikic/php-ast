@@ -405,6 +405,7 @@ AST_COALESCE:         left, right            // prior to version 40
 AST_CONDITIONAL:      cond, true, false
 AST_CONST:            name
 AST_CONST_ELEM:       name, value
+                      docComment             // since version 50
 AST_CONTINUE:         depth
 AST_DECLARE:          declares, stmts
 AST_DIM:              expr, dim
@@ -445,6 +446,7 @@ AST_PRE_INC:          var
 AST_PRINT:            expr
 AST_PROP:             expr, prop
 AST_PROP_ELEM:        name, default
+                      docComment             // since version 50
 AST_REF:              var                    // only used in foreach ($a as &$v)
 AST_RETURN:           expr
 AST_SHELL_EXEC:       expr
@@ -517,7 +519,8 @@ Supported since 2017-07-19.
   `AST_CLOSURE` and `AST_CLASS` now also use the normal `ast\Node` class. The `name` and
   `docComment` properties are now represented as children. The `endLineno` is still represented as
   an (undeclared) property.
-* `AST_PROP_ELEM` now store the `docComment` as a child, rather than a property.
+* `AST_PROP_ELEM` and `AST_CONST_ELEM` now store the `docComment` as a child, rather than a
+  property.
 * An integer `__declId` has been added to declaration nodes of kind `AST_FUNCTION`, `AST_METHOD`,
   `AST_CLOSURE` and `AST_CLASS`. The `__declId` uniquely identifies a declaration within the parsed
   code and will remain the same if the code is parsed again. This is useful to distinguish closures
