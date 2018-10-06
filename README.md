@@ -520,7 +520,7 @@ are listed.
 
 ### 50 (current)
 
-Supported since 2017-07-19.
+Supported since 0.1.5 (2017-07-19).
 
 * `ast\Node\Decl` nodes are no longer generated. AST kinds `AST_FUNC_DECL`, `AST_METHOD`,
   `AST_CLOSURE` and `AST_CLASS` now also use the normal `ast\Node` class. The `name` and
@@ -538,7 +538,7 @@ Supported since 2017-07-19.
 
 ### 45 (deprecated)
 
-Supported since 2017-07-19. Deprecated since 2018-10-06.
+Supported since 0.1.5 (2017-07-19). Deprecated since 0.1.7 (XXX).
 
 This version normalizes the AST to PHP 7.2 format.
 
@@ -547,7 +547,7 @@ This version normalizes the AST to PHP 7.2 format.
 
 ### 40 (deprecated)
 
-Supported since 2017-01-18. Deprecated since 2018-10-06.
+Supported since 0.1.4 (2017-01-25). Deprecated since 0.1.7 (XXX).
 
 * `AST_COALESCE` is now represented as an `AST_BINARY_OP` with flag `BINARY_COALESCE`.
 * For `AST_NAME` nodes with `NAME_FQ` the leading backslash is now dropped if syntax like
@@ -563,7 +563,7 @@ Supported since 2017-01-18. Deprecated since 2018-10-06.
 
 ### 35 (deprecated)
 
-Supported since 2016-08-04. Deprecated since 2017-07-19.
+Supported since 0.1.2 (2016-08-04). Deprecated since 0.1.5 (2017-07-19).
 
 This version normalizes the AST to PHP 7.1 format.
 
@@ -577,13 +577,14 @@ This version normalizes the AST to PHP 7.1 format.
 
 ### 30 (deprecated)
 
-Supported since 2015-03-10. Deprecated since 2017-06-25.
+Supported since 0.1.2 (2016-08-04). Deprecated since 0.1.5 (2017-07-19).
 
 * Use string names for child nodes of kinds with fixed length.
 
 ### 20 (removed)
 
-Supported since 2015-12-14. Deprecated since 2016-08-04. Removed since 2017-01-18.
+Supported since 0.1.0 (2015-12-04). Deprecated since 0.1.2 (2016-08-04).
+Removed since 0.1.4 (2017-01-25).
 
 * `AST_GREATER`, `AST_GREATER_EQUAL`, `AST_OR`, `AST_AND` nodes are now represented using
   `AST_BINARY_OP` with flags `BINARY_IS_GREATER`, `BINARY_IS_GREATER_OR_EQUAL`, `BINARY_BOOL_OR`
@@ -597,7 +598,8 @@ Supported since 2015-12-14. Deprecated since 2016-08-04. Removed since 2017-01-1
 
 ### 15 (removed)
 
-Supported since 2015-10-21. Deprecated since 2016-04-30. Removed since 2016-08-04.
+Supported since 0.1.0 (2015-12-04). Deprecated since 0.1.2 (2016-08-04).
+Removed since 0.1.3 (2017-01-18).
 
 * In line with an upstream change, the `docComment` property on `AST_PROP_DECL` has been moved to
   `AST_PROP_ELEM`. This means that each property in one property declaration can have its own
@@ -605,7 +607,7 @@ Supported since 2015-10-21. Deprecated since 2016-04-30. Removed since 2016-08-0
 
 ### 10 (removed)
 
-Initial. Removed since 2016-08-04.
+Initial. Deprecated since 0.1.2 (2016-08-04). Removed since 0.1.3 (2017-01-18).
 
 Differences to PHP-Parser
 -------------------------
