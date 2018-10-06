@@ -19,10 +19,10 @@ PHP;
 echo ast_dump(ast\parse_code($code, $version=50)), "\n";
 
 ?>
---EXPECT--
+--EXPECTF--
 AST_STMT_LIST
     0: AST_FUNC_DECL
-        flags: FUNC_GENERATOR (8388608)
+        flags: FUNC_GENERATOR (%d)
         name: "gen"
         docComment: null
         params: AST_PARAM_LIST

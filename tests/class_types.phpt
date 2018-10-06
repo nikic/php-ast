@@ -18,7 +18,7 @@ PHP;
 echo ast_dump(ast\parse_code($code, $version=40));
 
 ?>
---EXPECT--
+--EXPECTF--
 AST_STMT_LIST
     0: AST_CLASS
         flags: 0
@@ -27,32 +27,32 @@ AST_STMT_LIST
         implements: null
         stmts: AST_STMT_LIST
     1: AST_CLASS
-        flags: CLASS_ABSTRACT (32)
+        flags: CLASS_ABSTRACT (%d)
         name: B
         extends: null
         implements: null
         stmts: AST_STMT_LIST
     2: AST_CLASS
-        flags: CLASS_FINAL (4)
+        flags: CLASS_FINAL (%d)
         name: C
         extends: null
         implements: null
         stmts: AST_STMT_LIST
     3: AST_CLASS
-        flags: CLASS_TRAIT (128)
+        flags: CLASS_TRAIT (%d)
         name: D
         extends: null
         implements: null
         stmts: AST_STMT_LIST
     4: AST_CLASS
-        flags: CLASS_INTERFACE (64)
+        flags: CLASS_INTERFACE (%d)
         name: E
         extends: null
         implements: null
         stmts: AST_STMT_LIST
     5: AST_NEW
         class: AST_CLASS
-            flags: CLASS_ANONYMOUS (256)
+            flags: CLASS_ANONYMOUS (%d)
             extends: null
             implements: null
             stmts: AST_STMT_LIST

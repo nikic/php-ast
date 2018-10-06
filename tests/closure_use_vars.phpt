@@ -13,13 +13,13 @@ PHP;
 echo ast_dump(ast\parse_code($code, $version=40));
 
 ?>
---EXPECT--
+--EXPECTF--
 AST_STMT_LIST
     0: AST_ASSIGN
         var: AST_VAR
             name: "fn"
         expr: AST_CLOSURE
-            flags: MODIFIER_STATIC | FUNC_RETURNS_REF (67108865)
+            flags: MODIFIER_STATIC | FUNC_RETURNS_REF (%d)
             name: {closure}
             params: AST_PARAM_LIST
                 0: AST_PARAM

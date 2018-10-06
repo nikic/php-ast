@@ -40,7 +40,7 @@ var_dump(array_map('get_class', $ast->children));
 echo ast_dump($ast) . "\n";
 
 ?>
---EXPECT--
+--EXPECTF--
 array(4) {
   [0]=>
   string(13) "ast\Node\Decl"
@@ -60,19 +60,19 @@ AST_STMT_LIST
         implements: null
         stmts: AST_STMT_LIST
             0: AST_CLASS_CONST_DECL
-                flags: MODIFIER_PUBLIC (256)
+                flags: MODIFIER_PUBLIC (%d)
                 0: AST_CONST_ELEM
                     docComment: /** B */
                     name: "B"
                     value: 0
             1: AST_PROP_DECL
-                flags: MODIFIER_PUBLIC (256)
+                flags: MODIFIER_PUBLIC (%d)
                 0: AST_PROP_ELEM
                     docComment: /** c */
                     name: "c"
                     default: null
             2: AST_METHOD
-                flags: MODIFIER_PUBLIC (256)
+                flags: MODIFIER_PUBLIC (%d)
                 name: d
                 docComment: /** d */
                 params: AST_PARAM_LIST
@@ -119,19 +119,19 @@ AST_STMT_LIST
         implements: null
         stmts: AST_STMT_LIST
             0: AST_CLASS_CONST_DECL
-                flags: MODIFIER_PUBLIC (256)
+                flags: MODIFIER_PUBLIC (%d)
                 0: AST_CONST_ELEM
                     name: "B"
                     value: 0
                     docComment: "/** B */"
             1: AST_PROP_DECL
-                flags: MODIFIER_PUBLIC (256)
+                flags: MODIFIER_PUBLIC (%d)
                 0: AST_PROP_ELEM
                     name: "c"
                     default: null
                     docComment: "/** c */"
             2: AST_METHOD
-                flags: MODIFIER_PUBLIC (256)
+                flags: MODIFIER_PUBLIC (%d)
                 name: "d"
                 docComment: "/** d */"
                 params: AST_PARAM_LIST

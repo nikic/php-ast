@@ -23,7 +23,7 @@ PHP;
 echo ast_dump(ast\parse_code($code, $version=40)), "\n";
 
 ?>
---EXPECT--
+--EXPECTF--
 AST_STMT_LIST
     0: AST_CLASS
         flags: 0
@@ -32,13 +32,13 @@ AST_STMT_LIST
         implements: null
         stmts: AST_STMT_LIST
             0: AST_PROP_DECL
-                flags: MODIFIER_PUBLIC (256)
+                flags: MODIFIER_PUBLIC (%d)
                 0: AST_PROP_ELEM
                     docComment: /** docComment $a */
                     name: "a"
                     default: null
             1: AST_PROP_DECL
-                flags: MODIFIER_PUBLIC (256)
+                flags: MODIFIER_PUBLIC (%d)
                 0: AST_PROP_ELEM
                     docComment: /** docComment $b */
                     name: "b"

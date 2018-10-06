@@ -18,7 +18,7 @@ PHP;
 echo ast_dump(ast\parse_code($code, $version=40));
 
 ?>
---EXPECT--
+--EXPECTF--
 AST_STMT_LIST
     0: AST_CLASS
         flags: 0
@@ -44,7 +44,7 @@ AST_STMT_LIST
                         name: "S"
                 adaptations: null
             1: AST_CLASS_CONST_DECL
-                flags: MODIFIER_PUBLIC (256)
+                flags: MODIFIER_PUBLIC (%d)
                 0: AST_CONST_ELEM
                     name: "X"
                     value: "Y"
@@ -52,7 +52,7 @@ AST_STMT_LIST
                     name: "Y"
                     value: "X"
             2: AST_PROP_DECL
-                flags: MODIFIER_PUBLIC (256)
+                flags: MODIFIER_PUBLIC (%d)
                 0: AST_PROP_ELEM
                     name: "foo"
                     default: null
@@ -60,7 +60,7 @@ AST_STMT_LIST
                     name: "bar"
                     default: null
             3: AST_METHOD
-                flags: MODIFIER_PUBLIC | MODIFIER_ABSTRACT (258)
+                flags: MODIFIER_PUBLIC | MODIFIER_ABSTRACT (%d)
                 name: test
                 params: AST_PARAM_LIST
                 uses: null
