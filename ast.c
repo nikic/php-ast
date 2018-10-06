@@ -42,7 +42,7 @@
 #define AST_PLUS 261
 #define AST_MINUS 262
 
-/* Define some constants for PHP 7.0 */
+/* Define some compatibility constants */
 #if PHP_VERSION_ID < 70100
 # define IS_VOID 18
 # define IS_ITERABLE 19
@@ -50,6 +50,10 @@
 # define ZEND_ARRAY_SYNTAX_LIST 1
 # define ZEND_ARRAY_SYNTAX_LONG 2
 # define ZEND_ARRAY_SYNTAX_SHORT 3
+#endif
+
+#if PHP_VERSION_ID < 70300
+# define ZEND_BIND_REF 1
 #endif
 
 /* This contains state of the ast Node creator. */
