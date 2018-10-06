@@ -513,7 +513,7 @@ function accepts a boolean argument that determines whether deprecated versions 
 In the following the changes in the respective AST versions, as well as their current support state,
 are listed.
 
-### 60 (experimental)
+### 60 (current)
 
 Supported since 0.1.7 (XXX).
 
@@ -522,7 +522,7 @@ Supported since 0.1.7 (XXX).
 * `AST_FUNC_CONST_ELEM` now always has a `docComment` child. Previously it was absent on PHP 7.0.
   On PHP 7.0 the value is always `null`.
 
-### 50 (current)
+### 50 (stable)
 
 Supported since 0.1.5 (2017-07-19).
 
