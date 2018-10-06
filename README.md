@@ -201,7 +201,7 @@ A more substantial AST dump can be found [in the tests][test_dump].
 Metadata
 --------
 
-There are a number of functions which meta-information for the AST structure: 
+There are a number of functions which provide meta-information for the AST structure:
 
 `ast\get_kind_name()` returns a string name for an integral node kind.
 
