@@ -15,7 +15,7 @@ class A extends B implements D, E {
 }
 PHP;
 
-echo ast_dump(ast\parse_code($code, $version=50));
+echo ast_dump(ast\parse_code($code, $version=60));
 
 ?>
 --EXPECTF--
@@ -69,7 +69,6 @@ AST_STMT_LIST
                 name: "test"
                 docComment: null
                 params: AST_PARAM_LIST
-                uses: null
                 stmts: null
                 returnType: null
                 __declId: 0

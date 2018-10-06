@@ -643,7 +643,7 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 
 #if PHP_VERSION_ID < 70100
 	/* Emulate docComment on constants, which is not available in PHP 7.0 */
-	if (state->version >= 50 && ast->kind == ZEND_AST_CONST_ELEM) {
+	if (state->version >= 60 && ast->kind == ZEND_AST_CONST_ELEM) {
 		zval tmp;
 		ZVAL_NULL(&tmp);
 		zend_hash_add_new(ht, AST_STR(str_docComment), &tmp);
