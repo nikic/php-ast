@@ -610,6 +610,10 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 				&& (ast->kind == ZEND_AST_PROP_ELEM || ast->kind == ZEND_AST_CONST_ELEM)) {
 			/* Skip docComment child -- It's handled separately */
 			continue;
+		} else if (state->version >= 60 && i == 1
+				&& (ast->kind == ZEND_AST_FUNC_DECL || ast->kind == ZEND_AST_METHOD)) {
+			/* Skip "uses" child, it is only relevant for closures */
+			continue;
 #if PHP_VERSION_ID >= 70100
 		} else if (ast->kind == ZEND_AST_LIST && child != NULL) {
 			/* Emulate simple variable list */
@@ -787,7 +791,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 	ast_fill_children_ht(Z_ARRVAL(children_zv), ast, state);
 }
 
-static const zend_long versions[] = {30, 35, 40, 45, 50};
+static const zend_long versions[] = {30, 35, 40, 45, 50, 60};
 static const size_t versions_count = sizeof(versions)/sizeof(versions[0]);
 
 static inline zend_bool ast_version_deprecated(zend_long version) {

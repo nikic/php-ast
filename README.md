@@ -415,7 +415,8 @@ AST_EMPTY:            expr
 AST_EXIT:             expr
 AST_FOR:              init, cond, loop, stmts
 AST_FOREACH:          expr, value, key, stmts
-AST_FUNC_DECL:        params, uses, stmts, returnType
+AST_FUNC_DECL:        params, stmts, returnType
+                      uses                   // prior to version 60
                       name, docComment       // since version 50
 AST_GLOBAL:           var
 AST_GOTO:             label
@@ -429,7 +430,8 @@ AST_INSTANCEOF:       expr, class
 AST_ISSET:            var
 AST_LABEL:            name
 AST_MAGIC_CONST:
-AST_METHOD:           params, uses, stmts, returnType
+AST_METHOD:           params, stmts, returnType
+                      uses                   // prior to version 60
                       name, docComment       // since version 50
 AST_METHOD_CALL:      expr, method, args
 AST_METHOD_REFERENCE: class, method
@@ -511,11 +513,16 @@ function accepts a boolean argument that determines whether deprecated versions 
 In the following the changes in the respective AST versions, as well as their current support state,
 are listed.
 
+### 60 (experimental)
+
+* `AST_FUNC_DECL` and `AST_METHOD` no longer generate a `uses` child. Previously this child was
+  always `null`.
+
 ### 50 (current)
 
 Supported since 2017-07-19.
 
-* `ast\Node\Decl` nodes are no longer generated. AST kinds `AST_FUNCTION`, `AST_METHOD`,
+* `ast\Node\Decl` nodes are no longer generated. AST kinds `AST_FUNC_DECL`, `AST_METHOD`,
   `AST_CLOSURE` and `AST_CLASS` now also use the normal `ast\Node` class. The `name` and
   `docComment` properties are now represented as children. The `endLineno` is still represented as
   an (undeclared) property.
