@@ -20,30 +20,32 @@ class A {
 }
 PHP;
 
-echo ast_dump(ast\parse_code($code, $version=40)), "\n";
+echo ast_dump(ast\parse_code($code, $version=50)), "\n";
 
 ?>
 --EXPECTF--
 AST_STMT_LIST
     0: AST_CLASS
         flags: 0
-        name: A
+        name: "A"
+        docComment: null
         extends: null
         implements: null
         stmts: AST_STMT_LIST
             0: AST_PROP_DECL
                 flags: MODIFIER_PUBLIC (%d)
                 0: AST_PROP_ELEM
-                    docComment: /** docComment $a */
                     name: "a"
                     default: null
+                    docComment: "/** docComment $a */"
             1: AST_PROP_DECL
                 flags: MODIFIER_PUBLIC (%d)
                 0: AST_PROP_ELEM
-                    docComment: /** docComment $b */
                     name: "b"
                     default: null
+                    docComment: "/** docComment $b */"
                 1: AST_PROP_ELEM
-                    docComment: /** docComment $c */
                     name: "c"
                     default: null
+                    docComment: "/** docComment $c */"
+        __declId: 0

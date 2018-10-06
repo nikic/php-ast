@@ -20,13 +20,13 @@ function test(Type $arg = XYZ) : Ret {
 }
 PHP;
 
-echo ast_dump(ast\parse_code($code, $version=40));
+echo ast_dump(ast\parse_code($code, $version=50));
 --EXPECT--
 AST_STMT_LIST
     0: AST_FUNC_DECL
         flags: 0
-        name: test
-        docComment: /** Test function */
+        name: "test"
+        docComment: "/** Test function */"
         params: AST_PARAM_LIST
             0: AST_PARAM
                 flags: 0
@@ -70,3 +70,4 @@ AST_STMT_LIST
         returnType: AST_NAME
             flags: NAME_NOT_FQ (1)
             name: "Ret"
+        __declId: 0

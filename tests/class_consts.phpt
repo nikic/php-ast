@@ -23,45 +23,50 @@ class Test {
 }
 PHP;
 
-echo ast_dump(ast\parse_code($code, $version=40));
+echo ast_dump(ast\parse_code($code, $version=50));
 
 ?>
 --EXPECTF--
 AST_STMT_LIST
     0: AST_CLASS
         flags: 0
-        name: Test
+        name: "Test"
+        docComment: null
         extends: null
         implements: null
         stmts: AST_STMT_LIST
             0: AST_CLASS_CONST_DECL
                 flags: MODIFIER_PUBLIC (%d)
                 0: AST_CONST_ELEM
-                    docComment: /** Doc A */
                     name: "A"
                     value: 1
+                    docComment: "/** Doc A */"
             1: AST_CLASS_CONST_DECL
                 flags: MODIFIER_PUBLIC (%d)
                 0: AST_CONST_ELEM
                     name: "B"
                     value: 2
+                    docComment: null
             2: AST_CLASS_CONST_DECL
                 flags: MODIFIER_PROTECTED (%d)
                 0: AST_CONST_ELEM
                     name: "C"
                     value: 3
+                    docComment: null
             3: AST_CLASS_CONST_DECL
                 flags: MODIFIER_PRIVATE (%d)
                 0: AST_CONST_ELEM
                     name: "D"
                     value: 4
+                    docComment: null
             4: AST_CLASS_CONST_DECL
                 flags: MODIFIER_PUBLIC (%d)
                 0: AST_CONST_ELEM
-                    docComment: /** Doc E */
                     name: "E"
                     value: 5
+                    docComment: "/** Doc E */"
                 1: AST_CONST_ELEM
-                    docComment: /** Doc F */
                     name: "F"
                     value: 6
+                    docComment: "/** Doc F */"
+        __declId: 0

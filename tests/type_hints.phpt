@@ -14,7 +14,7 @@ function test(
 PHP;
 
 echo ast_dump(ast\parse_code($code, $version=35)), "\n";
-echo ast_dump(ast\parse_code($code, $version=40)), "\n";
+echo ast_dump(ast\parse_code($code, $version=50)), "\n";
 
 ?>
 --EXPECTF--
@@ -86,7 +86,8 @@ AST_STMT_LIST
 AST_STMT_LIST
     0: AST_FUNC_DECL
         flags: 0
-        name: test
+        name: "test"
+        docComment: null
         params: AST_PARAM_LIST
             0: AST_PARAM
                 flags: 0
@@ -141,3 +142,4 @@ AST_STMT_LIST
         stmts: AST_STMT_LIST
         returnType: AST_TYPE
             flags: TYPE_VOID (%d)
+        __declId: 0

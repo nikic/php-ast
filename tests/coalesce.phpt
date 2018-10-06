@@ -11,7 +11,7 @@ $a ?? $b;
 PHP;
 
 echo ast_dump(ast\parse_code($code, $version=35)), "\n";
-echo ast_dump(ast\parse_code($code, $version=40)), "\n";
+echo ast_dump(ast\parse_code($code, $version=50)), "\n";
 
 ?>
 --EXPECTF--

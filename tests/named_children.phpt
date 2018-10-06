@@ -13,7 +13,7 @@ $fn = function() use(&$var) {
 };
 PHP;
 
-echo ast_dump(ast\parse_code($code, $version=40));
+echo ast_dump(ast\parse_code($code, $version=50));
 
 ?>
 --EXPECT--
@@ -23,7 +23,8 @@ AST_STMT_LIST
             name: "fn"
         expr: AST_CLOSURE
             flags: 0
-            name: {closure}
+            name: "{closure}"
+            docComment: null
             params: AST_PARAM_LIST
             uses: AST_CLOSURE_USES
                 0: AST_CLOSURE_VAR
@@ -40,3 +41,4 @@ AST_STMT_LIST
                             name: "func"
                         args: AST_ARG_LIST
             returnType: null
+            __declId: 0

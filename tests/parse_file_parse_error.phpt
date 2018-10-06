@@ -4,7 +4,7 @@ ast\parse_file() on file with parse error
 <?php
 
 try {
-    ast\parse_file(__DIR__ . '/invalid_file.php', $version=40);
+    ast\parse_file(__DIR__ . '/invalid_file.php', $version=50);
 } catch (ParseError $e) {
     echo $e, "\n";
 }

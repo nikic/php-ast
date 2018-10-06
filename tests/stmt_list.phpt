@@ -16,7 +16,7 @@ declare(ticks=1) {}
 PHP;
 
 echo ast_dump(ast\parse_code($code, $version=35)), "\n";
-echo ast_dump(ast\parse_code($code, $version=40)), "\n";
+echo ast_dump(ast\parse_code($code, $version=50)), "\n";
 
 ?>
 --EXPECTF--
@@ -71,10 +71,12 @@ AST_STMT_LIST
             0: AST_CONST_ELEM
                 name: "ticks"
                 value: 1
+                docComment: null
         stmts: null
     4: AST_DECLARE
         declares: AST_CONST_DECL
             0: AST_CONST_ELEM
                 name: "ticks"
                 value: 1
+                docComment: null
         stmts: AST_STMT_LIST

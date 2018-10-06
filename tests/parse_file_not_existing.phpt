@@ -4,7 +4,7 @@ ast\parse_file() on file that does not exist
 <?php
 
 try {
-    ast\parse_file(__DIR__ . '/non_existing_file.php', $version=40);
+    ast\parse_file(__DIR__ . '/non_existing_file.php', $version=50);
 } catch (RuntimeException $e) {
     echo $e, "\n";
 }

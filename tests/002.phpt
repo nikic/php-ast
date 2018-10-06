@@ -15,5 +15,7 @@ assert($fn->kind == ast\AST_FUNC_DECL);
 
 ?>
 ===DONE===
---EXPECT--
+--EXPECTF--
+
+Deprecated: ast\parse_code(): Version 40 is deprecated in %s on line %d
 ===DONE===

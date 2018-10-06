@@ -19,9 +19,13 @@ $file_50 = ast\parse_code('', $version=50);
 var_dump($file_50 instanceof ast\Node);
 echo ast_dump($file_50) . "\n";
 ?>
---EXPECT--
+--EXPECTF--
 Version 40
+
+Deprecated: ast\parse_file(): Version 40 is deprecated in %s on line %d
 NULL
+
+Deprecated: ast\parse_code(): Version 40 is deprecated in %s on line %d
 bool(true)
 AST_STMT_LIST
 Version 50

@@ -782,7 +782,7 @@ static const zend_long versions[] = {30, 35, 40, 45, 50};
 static const size_t versions_count = sizeof(versions)/sizeof(versions[0]);
 
 static inline zend_bool ast_version_deprecated(zend_long version) {
-	return version == 30 || version == 35;
+	return version == 30 || version == 35 || version == 40;
 }
 
 static zend_string *ast_version_info() {

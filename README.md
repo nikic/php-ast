@@ -535,9 +535,9 @@ This version normalizes the AST to PHP 7.2 format.
 * An `object` type annotation now returns an `AST_TYPE` with `TYPE_OBJECT` flag, rather than
   treating `object` as a class name.
 
-### 40 (supported)
+### 40 (deprecated)
 
-Supported since 2017-01-18.
+Supported since 2017-01-18. Deprecated since 2018-10-06.
 
 * `AST_COALESCE` is now represented as an `AST_BINARY_OP` with flag `BINARY_COALESCE`.
 * For `AST_NAME` nodes with `NAME_FQ` the leading backslash is now dropped if syntax like
