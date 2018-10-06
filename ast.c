@@ -191,6 +191,11 @@ static const char *array_flags[] = {
 	NULL
 };
 
+static const char *array_elem_flags[] = {
+	AST_FLAG(ARRAY_ELEM_REF),
+	NULL
+};
+
 static const char *closure_use_flags[] = {
 	AST_FLAG(CLOSURE_USE_REF),
 	NULL
@@ -239,6 +244,7 @@ static const ast_flag_info flag_info[] = {
 	{ ZEND_AST_USE_ELEM, 0, use_flags },
 	{ ZEND_AST_INCLUDE_OR_EVAL, 0, include_flags },
 	{ ZEND_AST_ARRAY, 0, array_flags },
+	{ ZEND_AST_ARRAY_ELEM, 0, array_elem_flags },
 	{ AST_CLOSURE_VAR, 0, closure_use_flags },
 	{ ZEND_AST_METHOD, 1, func_flags },
 	{ ZEND_AST_FUNC_DECL, 1, func_flags },
@@ -1152,7 +1158,8 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("FUNC_RETURNS_REF", ZEND_ACC_RETURN_REFERENCE);
 	ast_register_flag_constant("FUNC_GENERATOR", ZEND_ACC_GENERATOR);
 
-	ast_register_flag_constant("CLOSURE_USE_REF", 1);
+	ast_register_flag_constant("ARRAY_ELEM_REF", 1);
+	ast_register_flag_constant("CLOSURE_USE_REF", ZEND_BIND_REF);
 
 	ast_register_flag_constant("CLASS_ABSTRACT", ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 	ast_register_flag_constant("CLASS_FINAL", ZEND_ACC_FINAL);

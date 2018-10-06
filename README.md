@@ -373,6 +373,9 @@ ast\flags\EXEC_REQUIRE_ONCE
 ast\flags\ARRAY_SYNTAX_SHORT
 ast\flags\ARRAY_SYNTAX_LONG
 ast\flags\ARRAY_SYNTAX_LIST
+
+// Used by ast\AST_ARRAY_ELEM (exclusive)
+ast\flags\ARRAY_ELEM_REF
 ```
 
 AST node kinds
