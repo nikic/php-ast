@@ -515,7 +515,7 @@ are listed.
 
 ### 60 (current)
 
-Supported since 0.1.7 (XXX).
+Supported since 0.1.7 (2018-10-06).
 
 * `AST_FUNC_DECL` and `AST_METHOD` no longer generate a `uses` child. Previously this child was
   always `null`.
@@ -542,7 +542,7 @@ Supported since 0.1.5 (2017-07-19).
 
 ### 45 (deprecated)
 
-Supported since 0.1.5 (2017-07-19). Deprecated since 0.1.7 (XXX).
+Supported since 0.1.5 (2017-07-19). Deprecated since 0.1.7 (2018-10-06).
 
 This version normalizes the AST to PHP 7.2 format.
 
@@ -551,7 +551,7 @@ This version normalizes the AST to PHP 7.2 format.
 
 ### 40 (deprecated)
 
-Supported since 0.1.4 (2017-01-25). Deprecated since 0.1.7 (XXX).
+Supported since 0.1.4 (2017-01-25). Deprecated since 0.1.7 (2018-10-06).
 
 * `AST_COALESCE` is now represented as an `AST_BINARY_OP` with flag `BINARY_COALESCE`.
 * For `AST_NAME` nodes with `NAME_FQ` the leading backslash is now dropped if syntax like
