@@ -55,6 +55,7 @@
       <file name="assign_ops.phpt" role="test" />
       <file name="ast_dump_with_linenos.phpt" role="test" />
       <file name="binary_ops.phpt" role="test" />
+      <file name="by_ref_destructuring.phpt" role="test" />
       <file name="class_consts.phpt" role="test" />
       <file name="class.phpt" role="test" />
       <file name="class_types.phpt" role="test" />
@@ -66,6 +67,7 @@
       <file name="eval_include.phpt" role="test" />
       <file name="empty_file.php" role="test" />
       <file name="empty_file_parse.phpt" role="test" />
+      <file name="functions_dont_use.phpt" role="test" />
       <file name="generator_flag.phpt" role="test" />
       <file name="get_kind_name.phpt" role="test" />
       <file name="get_supported_versions.phpt" role="test" />
@@ -73,9 +75,10 @@
       <file name="magic_constants.phpt" role="test" />
       <file name="metadata.phpt" role="test" />
       <file name="multi_catch.phpt" role="test" />
+      <file name="multiple_final_modifiers.phpt" role="test" />
       <file name="named_children.phpt" role="test" />
       <file name="name_node.phpt" role="test" />
-      <file name="nested_stat_lists.phpt" role="test" />
+      <file name="nested_stmt_lists.phpt" role="test" />
       <file name="nop_statements.phpt" role="test" />
       <file name="nullable_types.phpt" role="test" />
       <file name="object_type.phpt" role="test" />
