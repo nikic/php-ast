@@ -17,5 +17,5 @@ try {
 
 ?>
 --EXPECTF--
-No version specified. Current version is %d. All versions (including experimental): {30, 35, %s}
-Unknown version 100. Current version is %d. All versions (including experimental): {30, 35, %s}
+No version specified. Current version is %d. All versions (including experimental): {35, %s}
+Unknown version 100. Current version is %d. All versions (including experimental): {35, %s}

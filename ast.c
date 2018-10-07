@@ -532,25 +532,17 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 			}
 		}
 
-		/* These two AST_CATCH checks should occur before ast_is_name() */
-#if PHP_VERSION_ID >= 70100
-		if (ast->kind == ZEND_AST_CATCH && state->version < 35
-				&& i == 0 && zend_ast_get_list(child)->children == 1) {
-			/* Emulate PHP 7.0 format (no list) */
-			zend_ast *first_child = zend_ast_get_list(child)->child[0];
-			ast_create_virtual_node(
-				&child_zv, AST_NAME, first_child->attr, first_child, state);
-		}
-#else
-		if (ast->kind == ZEND_AST_CATCH && state->version >= 35 && i == 0) {
+		/* This AST_CATCH check should occur before ast_is_name() */
+#if PHP_VERSION_ID < 70100
+		if (ast->kind == ZEND_AST_CATCH && i == 0) {
 			/* Emulate PHP 7.1 format (name list) */
 			zval tmp;
 			ast_create_virtual_node(&tmp, AST_NAME, child->attr, child, state);
 			ast_create_virtual_node_ex(
 				&child_zv, ZEND_AST_NAME_LIST, 0, zend_ast_get_lineno(child), state, 1, &tmp);
-		}
+		} else
 #endif
-		else if (ast_is_name(child, ast, i)) {
+		if (ast_is_name(child, ast, i)) {
 			zend_uchar type;
 			zend_bool is_nullable = 0;
 			if (child->attr & ZEND_TYPE_NULLABLE) {
@@ -619,7 +611,7 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 			/* Emulate simple variable list */
 			ast_to_zval(&child_zv, child->child[0], state);
 #else
-		} else if (state->version >= 35 && ast->kind == ZEND_AST_ARRAY
+		} else if (ast->kind == ZEND_AST_ARRAY
 				&& ast->attr == ZEND_ARRAY_SYNTAX_LIST && child != NULL) {
 			/* Emulate ARRAY_ELEM list */
 			zval ch0, ch1;
@@ -712,13 +704,9 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 			break;
 	}
 
-#if PHP_VERSION_ID >= 70100
-	if (state->version < 35 && ast->kind == ZEND_AST_ARRAY && ast_array_is_list(ast)) {
-		ast->kind = ZEND_AST_LIST;
-		ast->attr = 0;
-	}
-#else
-	if (state->version >= 35 && ast->kind == ZEND_AST_LIST) {
+#if PHP_VERSION_ID < 70100
+	/* Normalize to PHP 7.1 format */
+	if (ast->kind == ZEND_AST_LIST) {
 		ast->kind = ZEND_AST_ARRAY;
 		ast->attr = ZEND_ARRAY_SYNTAX_LIST;
 	}
@@ -791,11 +779,11 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 	ast_fill_children_ht(Z_ARRVAL(children_zv), ast, state);
 }
 
-static const zend_long versions[] = {30, 35, 40, 45, 50, 60};
+static const zend_long versions[] = {35, 40, 45, 50, 60};
 static const size_t versions_count = sizeof(versions)/sizeof(versions[0]);
 
 static inline zend_bool ast_version_deprecated(zend_long version) {
-	return version == 30 || version == 35 || version == 40 || version == 45;
+	return version == 35 || version == 40 || version == 45;
 }
 
 static zend_string *ast_version_info() {
