@@ -31,76 +31,12 @@ function f() {}
 function() {};
 PHP;
 
-$ast = ast\parse_code($code, $version=45);
-var_dump(array_map('get_class', $ast->children));
-echo ast_dump($ast) . "\n";
-
 $ast = ast\parse_code($code, $version=50);
 var_dump(array_map('get_class', $ast->children));
 echo ast_dump($ast) . "\n";
 
 ?>
 --EXPECTF--
-Deprecated: ast\parse_code(): Version 45 is deprecated in %s on line %d
-array(4) {
-  [0]=>
-  string(13) "ast\Node\Decl"
-  [1]=>
-  string(8) "ast\Node"
-  [2]=>
-  string(13) "ast\Node\Decl"
-  [3]=>
-  string(13) "ast\Node\Decl"
-}
-AST_STMT_LIST
-    0: AST_CLASS
-        flags: 0
-        name: A
-        docComment: /** A */
-        extends: null
-        implements: null
-        stmts: AST_STMT_LIST
-            0: AST_CLASS_CONST_DECL
-                flags: MODIFIER_PUBLIC (%d)
-                0: AST_CONST_ELEM
-                    docComment: /** B */
-                    name: "B"
-                    value: 0
-            1: AST_PROP_DECL
-                flags: MODIFIER_PUBLIC (%d)
-                0: AST_PROP_ELEM
-                    docComment: /** c */
-                    name: "c"
-                    default: null
-            2: AST_METHOD
-                flags: MODIFIER_PUBLIC (%d)
-                name: d
-                docComment: /** d */
-                params: AST_PARAM_LIST
-                uses: null
-                stmts: AST_STMT_LIST
-                returnType: null
-    1: AST_CONST_DECL
-        0: AST_CONST_ELEM
-            docComment: /** E */
-            name: "E"
-            value: 0
-    2: AST_FUNC_DECL
-        flags: 0
-        name: f
-        docComment: /** f */
-        params: AST_PARAM_LIST
-        uses: null
-        stmts: AST_STMT_LIST
-        returnType: null
-    3: AST_CLOSURE
-        flags: 0
-        name: {closure}
-        docComment: /** g */
-        params: AST_PARAM_LIST
-        uses: null
-        stmts: AST_STMT_LIST
-        returnType: null
 array(4) {
   [0]=>
   string(8) "ast\Node"

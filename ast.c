@@ -597,10 +597,6 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 				ast_create_virtual_node_ex(
 					&child_zv, ZEND_AST_STMT_LIST, 0, zend_ast_get_lineno(ast), state, 0);
 			}
-		} else if (state->version < 50 && i == 2
-				&& (ast->kind == ZEND_AST_PROP_ELEM || ast->kind == ZEND_AST_CONST_ELEM)) {
-			/* Skip docComment child -- It's handled separately */
-			continue;
 		} else if (state->version >= 60 && i == 1
 				&& (ast->kind == ZEND_AST_FUNC_DECL || ast->kind == ZEND_AST_METHOD)) {
 			/* Skip "uses" child, it is only relevant for closures */
@@ -641,7 +637,7 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 	}
 #endif
 
-	if (state->version >= 50 && ast_kind_is_decl(ast->kind)) {
+	if (ast_kind_is_decl(ast->kind)) {
 		zval id_zval;
 		ZVAL_LONG(&id_zval, state->declIdCounter);
 		state->declIdCounter++;
@@ -651,7 +647,6 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 
 static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 	zval tmp_zv, children_zv;
-	zend_bool is_decl;
 
 	if (ast == NULL) {
 		ZVAL_NULL(zv);
@@ -709,8 +704,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 	}
 #endif
 
-	is_decl = ast_kind_is_decl(ast->kind);
-	object_init_ex(zv, is_decl && state->version < 50 ? ast_decl_ce : ast_node_ce);
+	object_init_ex(zv, ast_node_ce);
 
 	ast_update_property_long(zv, AST_STR(str_kind), ast->kind, AST_CACHE_SLOT_KIND);
 
@@ -720,7 +714,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 	Z_DELREF(children_zv);
 	ast_update_property(zv, AST_STR(str_children), &children_zv, AST_CACHE_SLOT_CHILDREN);
 
-	if (is_decl) {
+	if (ast_kind_is_decl(ast->kind)) {
 		zend_ast_decl *decl = (zend_ast_decl *) ast;
 
 		ast_update_property_long(zv, AST_STR(str_flags), decl->flags, AST_CACHE_SLOT_FLAGS);
@@ -732,24 +726,18 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 		} else {
 			ZVAL_NULL(&tmp_zv);
 		}
-		if (state->version < 50) {
-			ast_update_property(zv, AST_STR(str_name), &tmp_zv, NULL);
-		} else {
-			Z_TRY_ADDREF(tmp_zv);
-			zend_hash_add_new(Z_ARRVAL(children_zv), AST_STR(str_name), &tmp_zv);
-		}
+
+		Z_TRY_ADDREF(tmp_zv);
+		zend_hash_add_new(Z_ARRVAL(children_zv), AST_STR(str_name), &tmp_zv);
 
 		if (decl->doc_comment) {
 			ZVAL_STR(&tmp_zv, decl->doc_comment);
 		} else {
 			ZVAL_NULL(&tmp_zv);
 		}
-		if (state->version < 50) {
-			ast_update_property(zv, AST_STR(str_docComment), &tmp_zv, NULL);
-		} else {
-			Z_TRY_ADDREF(tmp_zv);
-			zend_hash_add_new(Z_ARRVAL(children_zv), AST_STR(str_docComment), &tmp_zv);
-		}
+
+		Z_TRY_ADDREF(tmp_zv);
+		zend_hash_add_new(Z_ARRVAL(children_zv), AST_STR(str_docComment), &tmp_zv);
 	} else {
 #if PHP_VERSION_ID < 70100
 		if (ast->kind == ZEND_AST_CLASS_CONST_DECL) {
@@ -759,28 +747,15 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 		ast_update_property_long(zv, AST_STR(str_flags), ast->attr, AST_CACHE_SLOT_FLAGS);
 	}
 
-	if (state->version < 50) {
-		/* Convert doc comments on properties and constants into properties */
-		if (ast->kind == ZEND_AST_PROP_ELEM && ast->child[2]) {
-			ZVAL_STR(&tmp_zv, zend_ast_get_str(ast->child[2]));
-			ast_update_property(zv, AST_STR(str_docComment), &tmp_zv, NULL);
-		}
-#if PHP_VERSION_ID >= 70100
-		if (ast->kind == ZEND_AST_CONST_ELEM && ast->child[2]) {
-			ZVAL_STR(&tmp_zv, zend_ast_get_str(ast->child[2]));
-			ast_update_property(zv, AST_STR(str_docComment), &tmp_zv, NULL);
-		}
-#endif
-	}
-
 	ast_fill_children_ht(Z_ARRVAL(children_zv), ast, state);
 }
 
-static const zend_long versions[] = {45, 50, 60};
+static const zend_long versions[] = {50, 60};
 static const size_t versions_count = sizeof(versions)/sizeof(versions[0]);
 
 static inline zend_bool ast_version_deprecated(zend_long version) {
-	return version == 45;
+	/* Currently no deprecated versions */
+	return 0;
 }
 
 static zend_string *ast_version_info() {
@@ -862,13 +837,8 @@ PHP_FUNCTION(parse_file) {
 	zend_restore_error_handling(&error_handling);
 
 	if (!code) {
-		if (version >= 50) {
-			// php_stream_copy_to_mem will return NULL if the file is empty, strangely.
-			// Fix this in new versions, preserve old behavior for version < 50
-			code = ZSTR_EMPTY_ALLOC();
-		} else {
-			return;
-		}
+		/* php_stream_copy_to_mem will return NULL if the file is empty, strangely. */
+		code = ZSTR_EMPTY_ALLOC();
 	}
 
 	ast = get_ast(code, &arena, filename->val);
