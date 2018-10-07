@@ -44,7 +44,6 @@ API overview
 Defines:
 
  * `ast\Node` class
- * `ast\Node\Decl` class
  * `ast\Metadata` class
  * `ast\AST_*` kind constants
  * `ast\flags\*` flag constants
@@ -96,24 +95,6 @@ The `children` property contains an array of child-nodes. These children can be 
 which have a fixed set of named child nodes, as well as list nodes, which have a variable number
 of children. The [AST node kinds section](#ast-node-kinds) contains a list of the child names for
 the different node kinds.
-
-Prior to AST version 50, function and class declarations used `ast\Node\Decl` objects instead,
-which specify a number of additional properties:
-
-```php
-namespace ast\Node;
-use ast\Node;
-
-class Decl extends Node {
-    public $endLineno;
-    public $name;
-    public $docComment;
-}
-```
-
-As of AST version 50, `ast\Node\Decl` objects are no longer used. Instead the `name` and the
-`docComment` are provided as ordinary child nodes. The `endLineno` is provided as an (undeclared,
-dynamic) property on the node.
 
 Example
 -------
@@ -591,5 +572,5 @@ for code with syntax errors.
   [php-parser]: https://github.com/nikic/PHP-Parser
   [php-ast-reverter]: https://github.com/tpunt/php-ast-reverter
   [php-parser-to-php-ast]: https://github.com/tysonandre/php-parser-to-php-ast
-  [v0_1_x]: https://github.com/nikic/php-ast/tree/v0.1.x
+  [v0_1_x]: https://github.com/nikic/php-ast/tree/v0.1.x#php-ast
   [v0_1_x_versions]: https://github.com/nikic/php-ast/tree/v0.1.x#ast-versioning
