@@ -222,9 +222,6 @@ combined using bitwise or and should be checked by using `$ast->flags & ast\flag
 "exclusive" flags are used standalone and should be checked using `$ast->flags === ast\flags\BAR`.
 
 ```
-// Used by ast\AST_ARRAY_ELEM and ast\AST_CLOSURE_VAR (exclusive)
-1 = by-reference
-
 // Used by ast\AST_NAME (exclusive)
 ast\flags\NAME_FQ (= 0)    // example: \Foo\Bar
 ast\flags\NAME_NOT_FQ      // example: Foo\Bar
@@ -263,13 +260,13 @@ ast\flags\PARAM_VARIADIC
 // Used by ast\AST_TYPE (exclusive)
 ast\flags\TYPE_ARRAY
 ast\flags\TYPE_CALLABLE
-ast\flags\TYPE_VOID         // since version 40
-ast\flags\TYPE_BOOL         // since version 40
-ast\flags\TYPE_LONG         // since version 40
-ast\flags\TYPE_DOUBLE       // since version 40
-ast\flags\TYPE_STRING       // since version 40
-ast\flags\TYPE_ITERABLE     // since version 40
-ast\flags\TYPE_OBJECT       // since version 45
+ast\flags\TYPE_VOID
+ast\flags\TYPE_BOOL
+ast\flags\TYPE_LONG
+ast\flags\TYPE_DOUBLE
+ast\flags\TYPE_STRING
+ast\flags\TYPE_ITERABLE
+ast\flags\TYPE_OBJECT
 
 // Used by ast\AST_CAST (exclusive)
 ast\flags\TYPE_NULL
@@ -283,11 +280,11 @@ ast\flags\TYPE_OBJECT
 // Used by ast\AST_UNARY_OP (exclusive)
 ast\flags\UNARY_BOOL_NOT
 ast\flags\UNARY_BITWISE_NOT
-ast\flags\UNARY_MINUS       // since version 20
-ast\flags\UNARY_PLUS        // since version 20
-ast\flags\UNARY_SILENCE     // since version 20
+ast\flags\UNARY_MINUS
+ast\flags\UNARY_PLUS
+ast\flags\UNARY_SILENCE
 
-// Used by ast\AST_BINARY_OP and ast\AST_ASSIGN_OP in version >= 20 (exclusive)
+// Used by ast\AST_BINARY_OP and ast\AST_ASSIGN_OP (exclusive)
 ast\flags\BINARY_BITWISE_OR
 ast\flags\BINARY_BITWISE_AND
 ast\flags\BINARY_BITWISE_XOR
@@ -302,8 +299,8 @@ ast\flags\BINARY_SHIFT_LEFT
 ast\flags\BINARY_SHIFT_RIGHT
 
 // Used by ast\AST_BINARY_OP (exclusive)
-ast\flags\BINARY_BOOL_AND            // since version 20
-ast\flags\BINARY_BOOL_OR             // since version 20
+ast\flags\BINARY_BOOL_AND
+ast\flags\BINARY_BOOL_OR
 ast\flags\BINARY_BOOL_XOR
 ast\flags\BINARY_IS_IDENTICAL
 ast\flags\BINARY_IS_NOT_IDENTICAL
@@ -311,24 +308,10 @@ ast\flags\BINARY_IS_EQUAL
 ast\flags\BINARY_IS_NOT_EQUAL
 ast\flags\BINARY_IS_SMALLER
 ast\flags\BINARY_IS_SMALLER_OR_EQUAL
-ast\flags\BINARY_IS_GREATER          // since version 20
-ast\flags\BINARY_IS_GREATER_OR_EQUAL // since version 20
+ast\flags\BINARY_IS_GREATER
+ast\flags\BINARY_IS_GREATER_OR_EQUAL
 ast\flags\BINARY_SPACESHIP
-ast\flags\BINARY_COALESCE            // since version 40
-
-// Used by ast\AST_ASSIGN_OP in versions before 20 (exclusive)
-ast\flags\ASSIGN_BITWISE_OR
-ast\flags\ASSIGN_BITWISE_AND
-ast\flags\ASSIGN_BITWISE_XOR
-ast\flags\ASSIGN_CONCAT
-ast\flags\ASSIGN_ADD
-ast\flags\ASSIGN_SUB
-ast\flags\ASSIGN_MUL
-ast\flags\ASSIGN_DIV
-ast\flags\ASSIGN_MOD
-ast\flags\ASSIGN_POW
-ast\flags\ASSIGN_SHIFT_LEFT
-ast\flags\ASSIGN_SHIFT_RIGHT
+ast\flags\BINARY_COALESCE
 
 // Used by ast\AST_MAGIC_CONST (exclusive)
 ast\flags\MAGIC_LINE
