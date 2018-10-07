@@ -527,7 +527,7 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 				ast_fill_children_ht(ht, child, state);
 				continue;
 			}
-			if (state->version >= 40 && child == NULL) {
+			if (child == NULL) {
 				continue;
 			}
 		}
@@ -550,7 +550,7 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 				child->attr &= ~ZEND_TYPE_NULLABLE;
 			}
 
-			if (state->version >= 40 && child->attr == ZEND_NAME_FQ) {
+			if (child->attr == ZEND_NAME_FQ) {
 				/* Ensure there is no leading \ for fully-qualified names. This can happen if
 				 * something like ('\bar')() is used. */
 				zval *name = zend_ast_get_zval(child);
@@ -562,7 +562,7 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 				}
 			}
 
-			if (state->version >= 40 && child->attr == ZEND_NAME_NOT_FQ
+			if (child->attr == ZEND_NAME_NOT_FQ
 					&& ast_is_type(child, ast, i)
 					&& (type = lookup_builtin_type(zend_ast_get_str(child)))
 					&& (type != IS_OBJECT || state->version >= 45)
@@ -588,7 +588,7 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 			ast_create_virtual_node(&child_zv, AST_CLOSURE_VAR, child->attr, child, state);
 		} else if (ast_is_var_name(child, ast, i)) {
 			ast_create_virtual_node(&child_zv, ZEND_AST_VAR, 0, child, state);
-		} else if (state->version >= 40 && ast_should_normalize_list(child, ast, i)) {
+		} else if (ast_should_normalize_list(child, ast, i)) {
 			if (child) {
 				zval tmp;
 				ast_to_zval(&tmp, child, state);
@@ -685,10 +685,8 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 			ast->attr = AST_BINARY_BOOL_AND;
 			break;
 		case ZEND_AST_COALESCE:
-			if (state->version >= 40) {
-				ast->kind = ZEND_AST_BINARY_OP;
-				ast->attr = AST_BINARY_COALESCE;
-			}
+			ast->kind = ZEND_AST_BINARY_OP;
+			ast->attr = AST_BINARY_COALESCE;
 			break;
 		case ZEND_AST_SILENCE:
 			ast->kind = ZEND_AST_UNARY_OP;
@@ -779,11 +777,11 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 	ast_fill_children_ht(Z_ARRVAL(children_zv), ast, state);
 }
 
-static const zend_long versions[] = {35, 40, 45, 50, 60};
+static const zend_long versions[] = {40, 45, 50, 60};
 static const size_t versions_count = sizeof(versions)/sizeof(versions[0]);
 
 static inline zend_bool ast_version_deprecated(zend_long version) {
-	return version == 35 || version == 40 || version == 45;
+	return version == 40 || version == 45;
 }
 
 static zend_string *ast_version_info() {
