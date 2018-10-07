@@ -73,7 +73,6 @@ ZEND_DECLARE_MODULE_GLOBALS(ast)
 ast_str_globals str_globals;
 
 static zend_class_entry *ast_node_ce;
-static zend_class_entry *ast_decl_ce;
 static zend_class_entry *ast_metadata_ce;
 
 #define AST_FLAG(name) "ast\\flags\\" #name
@@ -1233,12 +1232,6 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_declare_property(ast_node_ce, AST_STR(str_flags), &zv_null);
 	ast_declare_property(ast_node_ce, AST_STR(str_lineno), &zv_null);
 	ast_declare_property(ast_node_ce, AST_STR(str_children), &zv_null);
-
-	INIT_CLASS_ENTRY(tmp_ce, "ast\\Node\\Decl", NULL);
-	ast_decl_ce = zend_register_internal_class_ex(&tmp_ce, ast_node_ce);
-	ast_declare_property(ast_decl_ce, AST_STR(str_endLineno), &zv_null);
-	ast_declare_property(ast_decl_ce, AST_STR(str_name), &zv_null);
-	ast_declare_property(ast_decl_ce, AST_STR(str_docComment), &zv_null);
 
 	INIT_CLASS_ENTRY(tmp_ce, "ast\\Metadata", NULL);
 	ast_metadata_ce = zend_register_internal_class(&tmp_ce);
