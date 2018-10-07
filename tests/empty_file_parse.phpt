@@ -4,10 +4,10 @@ ast\parse_file() with empty file
 <?php
 require __DIR__ . '/../util.php';
 
-echo "Version 40\n";
-$file = ast\parse_file(__DIR__ . '/empty_file.php', $version=40);
+echo "Version 45\n";
+$file = ast\parse_file(__DIR__ . '/empty_file.php', $version=45);
 var_dump($file);
-$file = ast\parse_code('', $version=40);
+$file = ast\parse_code('', $version=45);
 var_dump($file instanceof ast\Node);
 echo ast_dump($file) . "\n";
 
@@ -20,12 +20,12 @@ var_dump($file_50 instanceof ast\Node);
 echo ast_dump($file_50) . "\n";
 ?>
 --EXPECTF--
-Version 40
+Version 45
 
-Deprecated: ast\parse_file(): Version 40 is deprecated in %s on line %d
+Deprecated: ast\parse_file(): Version 45 is deprecated in %s on line %d
 NULL
 
-Deprecated: ast\parse_code(): Version 40 is deprecated in %s on line %d
+Deprecated: ast\parse_code(): Version 45 is deprecated in %s on line %d
 bool(true)
 AST_STMT_LIST
 Version 50

@@ -3,7 +3,7 @@ Decl nodes use ast\Node\Decl
 --FILE--
 <?php
 
-$ast = ast\parse_code('<?php function foo() {}', $version=40);
+$ast = ast\parse_code('<?php function foo() {}', $version=45);
 assert($ast instanceof ast\Node);
 assert(!$ast instanceof ast\Node\Decl);
 assert($ast->kind == ast\AST_STMT_LIST);
@@ -17,5 +17,5 @@ assert($fn->kind == ast\AST_FUNC_DECL);
 ===DONE===
 --EXPECTF--
 
-Deprecated: ast\parse_code(): Version 40 is deprecated in %s on line %d
+Deprecated: ast\parse_code(): Version 45 is deprecated in %s on line %d
 ===DONE===

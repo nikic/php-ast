@@ -565,7 +565,6 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 			if (child->attr == ZEND_NAME_NOT_FQ
 					&& ast_is_type(child, ast, i)
 					&& (type = lookup_builtin_type(zend_ast_get_str(child)))
-					&& (type != IS_OBJECT || state->version >= 45)
 			) {
 				/* Convert "int" etc typehints to TYPE nodes */
 				ast_create_virtual_node_ex(
@@ -777,11 +776,11 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 	ast_fill_children_ht(Z_ARRVAL(children_zv), ast, state);
 }
 
-static const zend_long versions[] = {40, 45, 50, 60};
+static const zend_long versions[] = {45, 50, 60};
 static const size_t versions_count = sizeof(versions)/sizeof(versions[0]);
 
 static inline zend_bool ast_version_deprecated(zend_long version) {
-	return version == 40 || version == 45;
+	return version == 45;
 }
 
 static zend_string *ast_version_info() {
