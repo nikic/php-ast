@@ -1,6 +1,6 @@
 #include "php_ast.h"
 
-const size_t ast_kinds_count = 99;
+const size_t ast_kinds_count = 91;
 
 const zend_ast_kind ast_kinds[] = {
 	ZEND_AST_ARG_LIST,
@@ -32,12 +32,9 @@ const zend_ast_kind ast_kinds[] = {
 	ZEND_AST_VAR,
 	ZEND_AST_CONST,
 	ZEND_AST_UNPACK,
-	ZEND_AST_UNARY_PLUS,
-	ZEND_AST_UNARY_MINUS,
 	ZEND_AST_CAST,
 	ZEND_AST_EMPTY,
 	ZEND_AST_ISSET,
-	ZEND_AST_SILENCE,
 	ZEND_AST_SHELL_EXEC,
 	ZEND_AST_CLONE,
 	ZEND_AST_EXIT,
@@ -69,15 +66,10 @@ const zend_ast_kind ast_kinds[] = {
 	ZEND_AST_ASSIGN_REF,
 	ZEND_AST_ASSIGN_OP,
 	ZEND_AST_BINARY_OP,
-	ZEND_AST_GREATER,
-	ZEND_AST_GREATER_EQUAL,
-	ZEND_AST_AND,
-	ZEND_AST_OR,
 	ZEND_AST_ARRAY_ELEM,
 	ZEND_AST_NEW,
 	ZEND_AST_INSTANCEOF,
 	ZEND_AST_YIELD,
-	ZEND_AST_COALESCE,
 	ZEND_AST_STATIC,
 	ZEND_AST_WHILE,
 	ZEND_AST_DO_WHILE,
@@ -135,12 +127,9 @@ const char *ast_kind_to_name(zend_ast_kind kind) {
 		case ZEND_AST_VAR: return "AST_VAR";
 		case ZEND_AST_CONST: return "AST_CONST";
 		case ZEND_AST_UNPACK: return "AST_UNPACK";
-		case ZEND_AST_UNARY_PLUS: return "AST_UNARY_PLUS";
-		case ZEND_AST_UNARY_MINUS: return "AST_UNARY_MINUS";
 		case ZEND_AST_CAST: return "AST_CAST";
 		case ZEND_AST_EMPTY: return "AST_EMPTY";
 		case ZEND_AST_ISSET: return "AST_ISSET";
-		case ZEND_AST_SILENCE: return "AST_SILENCE";
 		case ZEND_AST_SHELL_EXEC: return "AST_SHELL_EXEC";
 		case ZEND_AST_CLONE: return "AST_CLONE";
 		case ZEND_AST_EXIT: return "AST_EXIT";
@@ -172,15 +161,10 @@ const char *ast_kind_to_name(zend_ast_kind kind) {
 		case ZEND_AST_ASSIGN_REF: return "AST_ASSIGN_REF";
 		case ZEND_AST_ASSIGN_OP: return "AST_ASSIGN_OP";
 		case ZEND_AST_BINARY_OP: return "AST_BINARY_OP";
-		case ZEND_AST_GREATER: return "AST_GREATER";
-		case ZEND_AST_GREATER_EQUAL: return "AST_GREATER_EQUAL";
-		case ZEND_AST_AND: return "AST_AND";
-		case ZEND_AST_OR: return "AST_OR";
 		case ZEND_AST_ARRAY_ELEM: return "AST_ARRAY_ELEM";
 		case ZEND_AST_NEW: return "AST_NEW";
 		case ZEND_AST_INSTANCEOF: return "AST_INSTANCEOF";
 		case ZEND_AST_YIELD: return "AST_YIELD";
-		case ZEND_AST_COALESCE: return "AST_COALESCE";
 		case ZEND_AST_STATIC: return "AST_STATIC";
 		case ZEND_AST_WHILE: return "AST_WHILE";
 		case ZEND_AST_DO_WHILE: return "AST_DO_WHILE";
@@ -277,16 +261,6 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 				case 0: return AST_STR(str_expr);
 			}
 			return NULL;
-		case ZEND_AST_UNARY_PLUS:
-			switch (child) {
-				case 0: return AST_STR(str_expr);
-			}
-			return NULL;
-		case ZEND_AST_UNARY_MINUS:
-			switch (child) {
-				case 0: return AST_STR(str_expr);
-			}
-			return NULL;
 		case ZEND_AST_CAST:
 			switch (child) {
 				case 0: return AST_STR(str_expr);
@@ -300,11 +274,6 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 		case ZEND_AST_ISSET:
 			switch (child) {
 				case 0: return AST_STR(str_var);
-			}
-			return NULL;
-		case ZEND_AST_SILENCE:
-			switch (child) {
-				case 0: return AST_STR(str_expr);
 			}
 			return NULL;
 		case ZEND_AST_SHELL_EXEC:
@@ -471,30 +440,6 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 				case 1: return AST_STR(str_right);
 			}
 			return NULL;
-		case ZEND_AST_GREATER:
-			switch (child) {
-				case 0: return AST_STR(str_left);
-				case 1: return AST_STR(str_right);
-			}
-			return NULL;
-		case ZEND_AST_GREATER_EQUAL:
-			switch (child) {
-				case 0: return AST_STR(str_left);
-				case 1: return AST_STR(str_right);
-			}
-			return NULL;
-		case ZEND_AST_AND:
-			switch (child) {
-				case 0: return AST_STR(str_left);
-				case 1: return AST_STR(str_right);
-			}
-			return NULL;
-		case ZEND_AST_OR:
-			switch (child) {
-				case 0: return AST_STR(str_left);
-				case 1: return AST_STR(str_right);
-			}
-			return NULL;
 		case ZEND_AST_ARRAY_ELEM:
 			switch (child) {
 				case 0: return AST_STR(str_value);
@@ -517,12 +462,6 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 			switch (child) {
 				case 0: return AST_STR(str_value);
 				case 1: return AST_STR(str_key);
-			}
-			return NULL;
-		case ZEND_AST_COALESCE:
-			switch (child) {
-				case 0: return AST_STR(str_left);
-				case 1: return AST_STR(str_right);
 			}
 			return NULL;
 		case ZEND_AST_STATIC:
@@ -716,12 +655,9 @@ void ast_register_kind_constants(INIT_FUNC_ARGS) {
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_VAR", ZEND_AST_VAR, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_CONST", ZEND_AST_CONST, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_UNPACK", ZEND_AST_UNPACK, CONST_CS | CONST_PERSISTENT);
-	REGISTER_NS_LONG_CONSTANT("ast", "AST_UNARY_PLUS", ZEND_AST_UNARY_PLUS, CONST_CS | CONST_PERSISTENT);
-	REGISTER_NS_LONG_CONSTANT("ast", "AST_UNARY_MINUS", ZEND_AST_UNARY_MINUS, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_CAST", ZEND_AST_CAST, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_EMPTY", ZEND_AST_EMPTY, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_ISSET", ZEND_AST_ISSET, CONST_CS | CONST_PERSISTENT);
-	REGISTER_NS_LONG_CONSTANT("ast", "AST_SILENCE", ZEND_AST_SILENCE, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_SHELL_EXEC", ZEND_AST_SHELL_EXEC, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_CLONE", ZEND_AST_CLONE, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_EXIT", ZEND_AST_EXIT, CONST_CS | CONST_PERSISTENT);
@@ -753,15 +689,10 @@ void ast_register_kind_constants(INIT_FUNC_ARGS) {
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_ASSIGN_REF", ZEND_AST_ASSIGN_REF, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_ASSIGN_OP", ZEND_AST_ASSIGN_OP, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_BINARY_OP", ZEND_AST_BINARY_OP, CONST_CS | CONST_PERSISTENT);
-	REGISTER_NS_LONG_CONSTANT("ast", "AST_GREATER", ZEND_AST_GREATER, CONST_CS | CONST_PERSISTENT);
-	REGISTER_NS_LONG_CONSTANT("ast", "AST_GREATER_EQUAL", ZEND_AST_GREATER_EQUAL, CONST_CS | CONST_PERSISTENT);
-	REGISTER_NS_LONG_CONSTANT("ast", "AST_AND", ZEND_AST_AND, CONST_CS | CONST_PERSISTENT);
-	REGISTER_NS_LONG_CONSTANT("ast", "AST_OR", ZEND_AST_OR, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_ARRAY_ELEM", ZEND_AST_ARRAY_ELEM, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_NEW", ZEND_AST_NEW, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_INSTANCEOF", ZEND_AST_INSTANCEOF, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_YIELD", ZEND_AST_YIELD, CONST_CS | CONST_PERSISTENT);
-	REGISTER_NS_LONG_CONSTANT("ast", "AST_COALESCE", ZEND_AST_COALESCE, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_STATIC", ZEND_AST_STATIC, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_WHILE", ZEND_AST_WHILE, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_DO_WHILE", ZEND_AST_DO_WHILE, CONST_CS | CONST_PERSISTENT);

@@ -367,7 +367,6 @@ AST node kinds
 This section lists the AST node kinds that are supported and the names of their child nodes.
 
 ```
-AST_AND:              left, right            // prior to version 20
 AST_ARRAY_ELEM:       value, key
 AST_ASSIGN:           var, expr
 AST_ASSIGN_OP:        var, expr
@@ -377,18 +376,14 @@ AST_BREAK:            depth
 AST_CALL:             expr, args
 AST_CAST:             expr
 AST_CATCH:            class, var, stmts
-AST_CLASS:            extends, implements, stmts
-                      name, docComment       // since version 50
+AST_CLASS:            name, docComment, extends, implements, stmts
 AST_CLASS_CONST:      class, const
 AST_CLONE:            expr
-AST_CLOSURE:          params, uses, stmts, returnType
-                      name, docComment       // since version 50
+AST_CLOSURE:          name, docComment, params, uses, stmts, returnType
 AST_CLOSURE_VAR:      name
-AST_COALESCE:         left, right            // prior to version 40
 AST_CONDITIONAL:      cond, true, false
 AST_CONST:            name
-AST_CONST_ELEM:       name, value
-                      docComment             // since version 50
+AST_CONST_ELEM:       name, value, docComment
 AST_CONTINUE:         depth
 AST_DECLARE:          declares, stmts
 AST_DIM:              expr, dim
@@ -398,13 +393,10 @@ AST_EMPTY:            expr
 AST_EXIT:             expr
 AST_FOR:              init, cond, loop, stmts
 AST_FOREACH:          expr, value, key, stmts
-AST_FUNC_DECL:        params, stmts, returnType
+AST_FUNC_DECL:        name, docComment, params, stmts, returnType
                       uses                   // prior to version 60
-                      name, docComment       // since version 50
 AST_GLOBAL:           var
 AST_GOTO:             label
-AST_GREATER:          left, right            // prior to version 20
-AST_GREATER_EQUAL:    left, right            // prior to version 20
 AST_GROUP_USE:        prefix, uses
 AST_HALT_COMPILER:    offset
 AST_IF_ELEM:          cond, stmts
@@ -413,16 +405,14 @@ AST_INSTANCEOF:       expr, class
 AST_ISSET:            var
 AST_LABEL:            name
 AST_MAGIC_CONST:
-AST_METHOD:           params, stmts, returnType
+AST_METHOD:           name, docComment, params, stmts, returnType
                       uses                   // prior to version 60
-                      name, docComment       // since version 50
 AST_METHOD_CALL:      expr, method, args
 AST_METHOD_REFERENCE: class, method
 AST_NAME:             name
 AST_NAMESPACE:        name, stmts
 AST_NEW:              class, args
-AST_NULLABLE_TYPE:    type                   // Used only in PHP 7.1
-AST_OR:               left, right            // Prior to version 20
+AST_NULLABLE_TYPE:    type                   // Used only since PHP 7.1
 AST_PARAM:            type, name, default
 AST_POST_DEC:         var
 AST_POST_INC:         var
@@ -430,12 +420,10 @@ AST_PRE_DEC:          var
 AST_PRE_INC:          var
 AST_PRINT:            expr
 AST_PROP:             expr, prop
-AST_PROP_ELEM:        name, default
-                      docComment             // since version 50
+AST_PROP_ELEM:        name, default, docComment
 AST_REF:              var                    // only used in foreach ($a as &$v)
 AST_RETURN:           expr
 AST_SHELL_EXEC:       expr
-AST_SILENCE:          expr                   // prior to version 20
 AST_STATIC:           var, default
 AST_STATIC_CALL:      class, method, args
 AST_STATIC_PROP:      class, prop
@@ -446,9 +434,7 @@ AST_TRAIT_ALIAS:      method, alias
 AST_TRAIT_PRECEDENCE: method, insteadof
 AST_TRY:              try, catches, finally
 AST_TYPE:
-AST_UNARY_MINUS:      expr                   // prior to version 20
 AST_UNARY_OP:         expr
-AST_UNARY_PLUS:       expr                   // prior to version 20
 AST_UNPACK:           expr
 AST_UNSET:            var
 AST_USE_ELEM:         name, alias
