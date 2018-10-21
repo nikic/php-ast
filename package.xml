@@ -14,8 +14,8 @@
  </lead>
  <date>2018-10-21</date>
  <version>
-  <release>1.0.0</release>
-  <api>1.0.0</api>
+  <release>1.0.1dev</release>
+  <api>1.0.1dev</api>
  </version>
  <stability>
   <release>stable</release>
@@ -23,13 +23,7 @@
  </stability>
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
-This release is the same as version 0.1.7 with obsolete and deprecated functionality removed.
-
-- Removed AST versions prior to version 50.
-- Removed ast\Node\Decl class, which is no longer used.
-- Removed AST kinds AST_AND, AST_COALESCE, AST_GREATER, AST_GREATER_EQUAL, AST_OR, AST_SILENCE,
-  AST_UNARY_MINUS, and AST_UNARY_PLUS, which are no longer used.
-- Removed ASSIGN_* AST flags, which are no longer used.
+- TBD
  </notes>
  <contents>
   <dir name="/">
@@ -108,6 +102,27 @@ This release is the same as version 0.1.7 with obsolete and deprecated functiona
  <providesextension>ast</providesextension>
  <extsrcrelease />
  <changelog>
+  <release>
+   <date>2018-10-21</date>
+   <version>
+    <release>1.0.0</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
+   <notes>
+This release is the same as version 0.1.7 with obsolete and deprecated functionality removed.
+
+- Removed AST versions prior to version 50.
+- Removed ast\Node\Decl class, which is no longer used.
+- Removed AST kinds AST_AND, AST_COALESCE, AST_GREATER, AST_GREATER_EQUAL, AST_OR, AST_SILENCE,
+  AST_UNARY_MINUS, and AST_UNARY_PLUS, which are no longer used.
+- Removed ASSIGN_* AST flags, which are no longer used.
+   </notes>
+  </release>
   <release>
    <date>2018-10-06</date>
    <version>
