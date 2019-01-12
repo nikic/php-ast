@@ -21,6 +21,8 @@ extern zend_module_entry ast_module_entry;
 #include "TSRM.h"
 #endif
 
+// PHP 7.4 added a 3rd cache slot for property_info
+// and expects cache_slot[2] to be null.
 #define AST_NUM_CACHE_SLOTS (3 * 4)
 
 ZEND_BEGIN_MODULE_GLOBALS(ast)
@@ -46,6 +48,11 @@ extern ast_str_globals str_globals;
 #define AST_NAME          2048
 #define AST_CLOSURE_VAR   2049
 #define AST_NULLABLE_TYPE 2050
+
+// 544 is already taken by ZEND_AST_GROUP_USE
+#if PHP_VERSION_ID < 70400
+# define ZEND_AST_PROP_GROUP 0x2ff
+#endif
 
 /* Pretend it still exists */
 #if PHP_VERSION_ID >= 70100

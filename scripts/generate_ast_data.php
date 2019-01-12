@@ -6,11 +6,11 @@ $strDefsFile = __DIR__ . '/../ast_str_defs.h';
 $code = <<<EOC
 #include "php_ast.h"
 
-const size_t ast_kinds_count = {COUNT};
-
 const zend_ast_kind ast_kinds[] = {
 {KINDS}
 };
+
+const size_t ast_kinds_count = sizeof(ast_kinds) / sizeof(ast_kinds[0]);
 
 const char *ast_kind_to_name(zend_ast_kind kind) {
 \tswitch (kind) {
@@ -117,6 +117,7 @@ $names = [
     'ZEND_AST_SWITCH_CASE' => ['cond', 'stmts'],
     'ZEND_AST_DECLARE' => ['declares', 'stmts'],
     'ZEND_AST_PROP_ELEM' => ['name', 'default', 'docComment'],
+    'ZEND_AST_PROP_GROUP' => ['type', 'props'],
     'ZEND_AST_CONST_ELEM' => ['name', 'value', 'docComment'],
     'ZEND_AST_USE_TRAIT' => ['traits', 'adaptations'],
     'ZEND_AST_TRAIT_PRECEDENCE' => ['method', 'insteadof'],
@@ -210,7 +211,6 @@ foreach ($data as $zend_name => $name) {
         . " CONST_CS | CONST_PERSISTENT);";
 }
 
-$code = str_replace('{COUNT}', count($data), $code);
 $code = str_replace('{KINDS}', implode("\n", $kinds), $code);
 $code = str_replace('{STRS}', implode("\n", $strs), $code);
 $code = str_replace('{CONSTS}', implode("\n", $consts), $code);

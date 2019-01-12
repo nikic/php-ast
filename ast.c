@@ -253,6 +253,7 @@ static const ast_flag_info flag_info[] = {
 	{ ZEND_AST_FUNC_DECL, 1, func_flags },
 	{ ZEND_AST_CLOSURE, 1, func_flags },
 	{ ZEND_AST_PROP_DECL, 1, modifier_flags },
+	{ ZEND_AST_PROP_GROUP, 1, modifier_flags },
 	{ ZEND_AST_CLASS_CONST_DECL, 1, visibility_flags },
 	{ ZEND_AST_TRAIT_ALIAS, 1, modifier_flags },
 };
@@ -311,6 +312,9 @@ static inline zend_bool ast_kind_uses_attr(zend_ast_kind kind) {
 		|| kind == ZEND_AST_UNARY_OP || kind == ZEND_AST_BINARY_OP || kind == ZEND_AST_ASSIGN_OP
 		|| kind == ZEND_AST_CAST || kind == ZEND_AST_MAGIC_CONST || kind == ZEND_AST_ARRAY_ELEM
 		|| kind == ZEND_AST_INCLUDE_OR_EVAL || kind == ZEND_AST_USE || kind == ZEND_AST_PROP_DECL
+#if PHP_VERSION_ID >= 70400
+		|| kind == ZEND_AST_PROP_GROUP
+#endif
 		|| kind == ZEND_AST_GROUP_USE || kind == ZEND_AST_USE_ELEM
 		|| kind == AST_NAME || kind == AST_CLOSURE_VAR || kind == ZEND_AST_CLASS_CONST_DECL
 		|| kind == ZEND_AST_ARRAY;
@@ -336,6 +340,9 @@ static inline zend_bool ast_is_name(zend_ast *ast, zend_ast *parent, uint32_t i)
 			|| parent->kind == ZEND_AST_CALL || parent->kind == ZEND_AST_CONST
 			|| parent->kind == ZEND_AST_NEW || parent->kind == ZEND_AST_STATIC_CALL
 			|| parent->kind == ZEND_AST_CLASS_CONST || parent->kind == ZEND_AST_STATIC_PROP
+#if PHP_VERSION_ID >= 70400
+			|| parent->kind == ZEND_AST_PROP_GROUP
+#endif
 			;
 	}
 
@@ -354,7 +361,11 @@ static inline zend_bool ast_is_name(zend_ast *ast, zend_ast *parent, uint32_t i)
 /* Assumes that ast_is_name is already true */
 static inline zend_bool ast_is_type(zend_ast *ast, zend_ast *parent, uint32_t i) {
 	if (i == 0) {
-		return parent->kind == ZEND_AST_PARAM;
+		return parent->kind == ZEND_AST_PARAM
+#if PHP_VERSION_ID >= 70400
+			|| parent->kind == ZEND_AST_PROP_GROUP
+#endif
+			;
 	}
 	if (i == 3) {
 		return parent->kind == ZEND_AST_CLOSURE || parent->kind == ZEND_AST_FUNC_DECL
@@ -512,6 +523,46 @@ static void ast_create_virtual_node(
 		zv, kind, attr, zend_ast_get_lineno(child), state, 1, &child_zv);
 }
 
+static inline void ast_name_to_zval(zend_ast *child, zend_ast *ast, zval *child_zv, int i, ast_state_info_t *state) {
+	zend_uchar type;
+	zend_bool is_nullable = 0;
+	if (child->attr & ZEND_TYPE_NULLABLE) {
+		is_nullable = 1;
+		child->attr &= ~ZEND_TYPE_NULLABLE;
+	}
+
+	if (child->attr == ZEND_NAME_FQ) {
+		/* Ensure there is no leading \ for fully-qualified names. This can happen if
+		 * something like ('\bar')() is used. */
+		zval *name = zend_ast_get_zval(child);
+		if (Z_STRVAL_P(name)[0] == '\\') {
+			zend_string *new_name = zend_string_init(
+				Z_STRVAL_P(name) + 1, Z_STRLEN_P(name) - 1, 0);
+			zend_string_release(Z_STR_P(name));
+			Z_STR_P(name) = new_name;
+		}
+	}
+
+	if (child->attr == ZEND_NAME_NOT_FQ
+			&& ast_is_type(child, ast, i)
+			&& (type = lookup_builtin_type(zend_ast_get_str(child)))
+	) {
+		/* Convert "int" etc typehints to TYPE nodes */
+		ast_create_virtual_node_ex(
+			child_zv, ZEND_AST_TYPE, type, zend_ast_get_lineno(child), state, 0);
+	} else {
+		ast_create_virtual_node(child_zv, AST_NAME, child->attr, child, state);
+	}
+
+	if (is_nullable) {
+		/* Create explicit AST_NULLABLE_TYPE node */
+		zval tmp;
+		ZVAL_COPY_VALUE(&tmp, child_zv);
+		ast_create_virtual_node_ex(
+			child_zv, AST_NULLABLE_TYPE, 0, zend_ast_get_lineno(child), state, 1, &tmp);
+	}
+}
+
 static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t *state) {
 	uint32_t i, count;
 	zend_bool is_list = zend_ast_is_list(ast);
@@ -542,43 +593,7 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 		} else
 #endif
 		if (ast_is_name(child, ast, i)) {
-			zend_uchar type;
-			zend_bool is_nullable = 0;
-			if (child->attr & ZEND_TYPE_NULLABLE) {
-				is_nullable = 1;
-				child->attr &= ~ZEND_TYPE_NULLABLE;
-			}
-
-			if (child->attr == ZEND_NAME_FQ) {
-				/* Ensure there is no leading \ for fully-qualified names. This can happen if
-				 * something like ('\bar')() is used. */
-				zval *name = zend_ast_get_zval(child);
-				if (Z_STRVAL_P(name)[0] == '\\') {
-					zend_string *new_name = zend_string_init(
-						Z_STRVAL_P(name) + 1, Z_STRLEN_P(name) - 1, 0);
-					zend_string_release(Z_STR_P(name));
-					Z_STR_P(name) = new_name;
-				}
-			}
-
-			if (child->attr == ZEND_NAME_NOT_FQ
-					&& ast_is_type(child, ast, i)
-					&& (type = lookup_builtin_type(zend_ast_get_str(child)))
-			) {
-				/* Convert "int" etc typehints to TYPE nodes */
-				ast_create_virtual_node_ex(
-					&child_zv, ZEND_AST_TYPE, type, zend_ast_get_lineno(child), state, 0);
-			} else {
-				ast_create_virtual_node(&child_zv, AST_NAME, child->attr, child, state);
-			}
-
-			if (is_nullable) {
-				/* Create explicit AST_NULLABLE_TYPE node */
-				zval tmp;
-				ZVAL_COPY_VALUE(&tmp, &child_zv);
-				ast_create_virtual_node_ex(
-					&child_zv, AST_NULLABLE_TYPE, 0, zend_ast_get_lineno(child), state, 1, &tmp);
-			}
+			ast_name_to_zval(child, ast, &child_zv, i, state);
 		} else if (child && child->kind == ZEND_AST_TYPE && (child->attr & ZEND_TYPE_NULLABLE)) {
 			child->attr &= ~ZEND_TYPE_NULLABLE;
 			ast_create_virtual_node(&child_zv, AST_NULLABLE_TYPE, 0, child, state);
@@ -693,6 +708,19 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 			ast->kind = ZEND_AST_UNARY_OP;
 			ast->attr = AST_MINUS;
 			break;
+#if PHP_VERSION_ID >= 70400
+		case ZEND_AST_PROP_GROUP:
+			if (state->version < 70) {
+				// In versions less than 70, just omit property type information entirely.
+				// ast->child is [type_ast, prop_ast]
+				ast_to_zval(zv, ast->child[1], state);
+				// The property visibility is on the AST_PROP_GROUP node.
+				// Add it to the AST_PROP_DECL node for old
+				ast_update_property_long(zv, AST_STR(str_flags), ast->attr, AST_CACHE_SLOT_FLAGS);
+				return;
+			}
+			break;
+#endif
 	}
 
 #if PHP_VERSION_ID < 70100
@@ -747,9 +775,20 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 	}
 
 	ast_fill_children_ht(Z_ARRVAL(children_zv), ast, state);
+#if PHP_VERSION_ID < 70400
+	if (ast->kind == ZEND_AST_PROP_DECL && state->version >= 70) {
+		zval type_zval;
+		zval prop_group_zval = *zv;
+		ZVAL_NULL(&type_zval);
+		// For version 70, create an AST_PROP_GROUP wrapping the created AST_PROP_DECL.
+		ast_create_virtual_node_ex(
+				zv, ZEND_AST_PROP_GROUP, ast->attr, zend_ast_get_lineno(ast), state, 2, &type_zval, &prop_group_zval);
+		ast_update_property_long(&prop_group_zval, AST_STR(str_flags), 0, AST_CACHE_SLOT_FLAGS);
+	}
+#endif
 }
 
-static const zend_long versions[] = {50, 60};
+static const zend_long versions[] = {50, 60, 70};
 static const size_t versions_count = sizeof(versions)/sizeof(versions[0]);
 
 static inline zend_bool ast_version_deprecated(zend_long version) {

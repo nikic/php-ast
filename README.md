@@ -227,8 +227,8 @@ ast\flags\NAME_FQ (= 0)    // example: \Foo\Bar
 ast\flags\NAME_NOT_FQ      // example: Foo\Bar
 ast\flags\NAME_RELATIVE    // example: namespace\Foo\Bar
 
-// Used by ast\AST_METHOD, ast\AST_PROP_DECL, ast\AST_CLASS_CONST_DECL
-// and ast\AST_TRAIT_ALIAS (combinable)
+// Used by ast\AST_METHOD, ast\AST_PROP_DECL, ast\AST_CLASS_CONST_DECL,
+// ast\AST_PROP_GROUP and ast\AST_TRAIT_ALIAS (combinable)
 ast\flags\MODIFIER_PUBLIC
 ast\flags\MODIFIER_PROTECTED
 ast\flags\MODIFIER_PRIVATE
@@ -404,6 +404,7 @@ AST_PRE_INC:          var
 AST_PRINT:            expr
 AST_PROP:             expr, prop
 AST_PROP_ELEM:        name, default, docComment
+AST_PROP_GROUP:       type, props            // version 70+
 AST_REF:              var                    // only used in foreach ($a as &$v)
 AST_RETURN:           expr
 AST_SHELL_EXEC:       expr
@@ -464,6 +465,13 @@ function accepts a boolean argument that determines whether deprecated versions 
 
 In the following the changes in the respective AST versions, as well as their current support state,
 are listed.
+
+### 70 (experimental)
+
+* `AST_PROP_GROUP` was added to support PHP 7.4's typed properties.
+  The property visibility modifiers are now part of `AST_PROP_GROUP` instead of `AST_PROP_DECL`.
+
+  Note that property group type information is only available with AST versions 70+.
 
 ### 60 (current)
 
