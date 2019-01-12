@@ -1,6 +1,10 @@
 <?php
 
 $stubFile = __DIR__ . '/../ast_stub.php';
+if (!extension_loaded('ast')) {
+    fwrite(STDERR, __FILE__ . " requires that php-ast be enabled\n");
+    exit(1);
+}
 
 $stub = file_get_contents($stubFile);
 $stub = preg_replace_callback(

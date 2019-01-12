@@ -35,6 +35,7 @@
 	X(default) \
 	X(cond) \
 	X(declares) \
+	X(props) \
 	X(traits) \
 	X(adaptations) \
 	X(method) \

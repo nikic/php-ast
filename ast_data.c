@@ -1,7 +1,5 @@
 #include "php_ast.h"
 
-const size_t ast_kinds_count = 91;
-
 const zend_ast_kind ast_kinds[] = {
 	ZEND_AST_ARG_LIST,
 	ZEND_AST_LIST,
@@ -78,6 +76,7 @@ const zend_ast_kind ast_kinds[] = {
 	ZEND_AST_SWITCH_CASE,
 	ZEND_AST_DECLARE,
 	ZEND_AST_PROP_ELEM,
+	ZEND_AST_PROP_GROUP,
 	ZEND_AST_CONST_ELEM,
 	ZEND_AST_USE_TRAIT,
 	ZEND_AST_TRAIT_PRECEDENCE,
@@ -95,6 +94,8 @@ const zend_ast_kind ast_kinds[] = {
 	ZEND_AST_FOR,
 	ZEND_AST_FOREACH,
 };
+
+const size_t ast_kinds_count = sizeof(ast_kinds) / sizeof(ast_kinds[0]);
 
 const char *ast_kind_to_name(zend_ast_kind kind) {
 	switch (kind) {
@@ -173,6 +174,7 @@ const char *ast_kind_to_name(zend_ast_kind kind) {
 		case ZEND_AST_SWITCH_CASE: return "AST_SWITCH_CASE";
 		case ZEND_AST_DECLARE: return "AST_DECLARE";
 		case ZEND_AST_PROP_ELEM: return "AST_PROP_ELEM";
+		case ZEND_AST_PROP_GROUP: return "AST_PROP_GROUP";
 		case ZEND_AST_CONST_ELEM: return "AST_CONST_ELEM";
 		case ZEND_AST_USE_TRAIT: return "AST_USE_TRAIT";
 		case ZEND_AST_TRAIT_PRECEDENCE: return "AST_TRAIT_PRECEDENCE";
@@ -513,6 +515,12 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 				case 2: return AST_STR(str_docComment);
 			}
 			return NULL;
+		case ZEND_AST_PROP_GROUP:
+			switch (child) {
+				case 0: return AST_STR(str_type);
+				case 1: return AST_STR(str_props);
+			}
+			return NULL;
 		case ZEND_AST_CONST_ELEM:
 			switch (child) {
 				case 0: return AST_STR(str_name);
@@ -701,6 +709,7 @@ void ast_register_kind_constants(INIT_FUNC_ARGS) {
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_SWITCH_CASE", ZEND_AST_SWITCH_CASE, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_DECLARE", ZEND_AST_DECLARE, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_PROP_ELEM", ZEND_AST_PROP_ELEM, CONST_CS | CONST_PERSISTENT);
+	REGISTER_NS_LONG_CONSTANT("ast", "AST_PROP_GROUP", ZEND_AST_PROP_GROUP, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_CONST_ELEM", ZEND_AST_CONST_ELEM, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_USE_TRAIT", ZEND_AST_USE_TRAIT, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_TRAIT_PRECEDENCE", ZEND_AST_TRAIT_PRECEDENCE, CONST_CS | CONST_PERSISTENT);
