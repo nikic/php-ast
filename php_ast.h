@@ -21,7 +21,7 @@ extern zend_module_entry ast_module_entry;
 #include "TSRM.h"
 #endif
 
-#define AST_NUM_CACHE_SLOTS (2 * 4)
+#define AST_NUM_CACHE_SLOTS (3 * 4)
 
 ZEND_BEGIN_MODULE_GLOBALS(ast)
 	void *cache_slots[AST_NUM_CACHE_SLOTS];

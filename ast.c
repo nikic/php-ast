@@ -23,10 +23,10 @@
 #define ast_register_flag_constant(name, value) \
 	REGISTER_NS_LONG_CONSTANT("ast\\flags", name, value, CONST_CS | CONST_PERSISTENT)
 
-#define AST_CACHE_SLOT_KIND     &AST_G(cache_slots)[2 * 0]
-#define AST_CACHE_SLOT_FLAGS    &AST_G(cache_slots)[2 * 1]
-#define AST_CACHE_SLOT_LINENO   &AST_G(cache_slots)[2 * 2]
-#define AST_CACHE_SLOT_CHILDREN &AST_G(cache_slots)[2 * 3]
+#define AST_CACHE_SLOT_KIND     &AST_G(cache_slots)[3 * 0]
+#define AST_CACHE_SLOT_FLAGS    &AST_G(cache_slots)[3 * 1]
+#define AST_CACHE_SLOT_LINENO   &AST_G(cache_slots)[3 * 2]
+#define AST_CACHE_SLOT_CHILDREN &AST_G(cache_slots)[3 * 3]
 
 #define AST_CURRENT_VERSION 60
 
