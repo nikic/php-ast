@@ -138,7 +138,7 @@ This release is the same as version 0.1.7 with obsolete and deprecated functiona
 - Added AST version 60 with the following changes:
   - `AST_FUNC_DECL` and `AST_METHOD` no longer generate a `uses` child. Previously this child was
     always `null`.
-  - `AST_FUNC_CONST_ELEM` now always has a `docComment` child. Previously it was absent on PHP 7.0.
+  - `AST_CONST_ELEM` now always has a `docComment` child. Previously it was absent on PHP 7.0.
     On PHP 7.0 the value is always `null`.
 - Added `ARRAY_ELEM_REF` flag, which is used by `AST_ARRAY_ELEM` for by-reference array elements
   and (since PHP 7.3) for by-reference destructuring. Previously this flag was represented simply

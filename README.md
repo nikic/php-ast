@@ -471,7 +471,7 @@ Supported since 0.1.7 (2018-10-06).
 
 * `AST_FUNC_DECL` and `AST_METHOD` no longer generate a `uses` child. Previously this child was
   always `null`.
-* `AST_FUNC_CONST_ELEM` now always has a `docComment` child. Previously it was absent on PHP 7.0.
+* `AST_CONST_ELEM` now always has a `docComment` child. Previously it was absent on PHP 7.0.
   On PHP 7.0 the value is always `null`.
 
 ### 50 (stable)
