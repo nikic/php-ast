@@ -134,7 +134,8 @@ static const char *unary_op_flags[] = {
 	AST_FLAG(BINARY_MOD), \
 	AST_FLAG(BINARY_POW), \
 	AST_FLAG(BINARY_SHIFT_LEFT), \
-	AST_FLAG(BINARY_SHIFT_RIGHT) \
+	AST_FLAG(BINARY_SHIFT_RIGHT), \
+	AST_FLAG(BINARY_COALESCE) \
 
 static const char *binary_op_flags[] = {
 	AST_SHARED_BINARY_OP_FLAGS,
@@ -150,7 +151,6 @@ static const char *binary_op_flags[] = {
 	AST_FLAG(BINARY_IS_GREATER),
 	AST_FLAG(BINARY_IS_GREATER_OR_EQUAL),
 	AST_FLAG(BINARY_SPACESHIP),
-	AST_FLAG(BINARY_COALESCE),
 	NULL
 };
 
@@ -719,6 +719,10 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 				ast_update_property_long(zv, AST_STR(str_flags), ast->attr, AST_CACHE_SLOT_FLAGS);
 				return;
 			}
+			break;
+		case ZEND_AST_ASSIGN_COALESCE:
+			ast->kind = ZEND_AST_ASSIGN_OP;
+			ast->attr = AST_BINARY_COALESCE;
 			break;
 #endif
 	}

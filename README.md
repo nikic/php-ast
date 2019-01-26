@@ -297,6 +297,7 @@ ast\flags\BINARY_MOD
 ast\flags\BINARY_POW
 ast\flags\BINARY_SHIFT_LEFT
 ast\flags\BINARY_SHIFT_RIGHT
+ast\flags\BINARY_COALESCE
 
 // Used by ast\AST_BINARY_OP (exclusive)
 ast\flags\BINARY_BOOL_AND
@@ -311,7 +312,6 @@ ast\flags\BINARY_IS_SMALLER_OR_EQUAL
 ast\flags\BINARY_IS_GREATER
 ast\flags\BINARY_IS_GREATER_OR_EQUAL
 ast\flags\BINARY_SPACESHIP
-ast\flags\BINARY_COALESCE
 
 // Used by ast\AST_MAGIC_CONST (exclusive)
 ast\flags\MAGIC_LINE
