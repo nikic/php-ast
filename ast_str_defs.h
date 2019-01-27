@@ -23,9 +23,9 @@
 	X(offset) \
 	X(label) \
 	X(depth) \
+	X(class) \
 	X(dim) \
 	X(prop) \
-	X(class) \
 	X(args) \
 	X(const) \
 	X(left) \

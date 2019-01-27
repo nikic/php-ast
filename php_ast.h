@@ -51,6 +51,8 @@ extern ast_str_globals str_globals;
 
 // 544 is already taken by ZEND_AST_GROUP_USE
 #if PHP_VERSION_ID < 70400
+// NOTE: The first hex digit is the number of child nodes a given kind has
+# define ZEND_AST_CLASS_NAME 0x1ff
 # define ZEND_AST_PROP_GROUP 0x2ff
 #endif
 

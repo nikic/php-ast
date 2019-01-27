@@ -361,6 +361,7 @@ AST_CAST:             expr
 AST_CATCH:            class, var, stmts
 AST_CLASS:            name, docComment, extends, implements, stmts
 AST_CLASS_CONST:      class, const
+AST_CLASS_NAME:       class                  // version 70+
 AST_CLONE:            expr
 AST_CLOSURE:          name, docComment, params, uses, stmts, returnType
 AST_CLOSURE_VAR:      name
@@ -472,6 +473,7 @@ are listed.
   The property visibility modifiers are now part of `AST_PROP_GROUP` instead of `AST_PROP_DECL`.
 
   Note that property group type information is only available with AST versions 70+.
+* `AST_CLASS_NAME` is created instead of `AST_CLASS_CONST` for `SomeClass::class`.
 
 ### 60 (current)
 

@@ -93,6 +93,7 @@ $names = [
     'ZEND_AST_GOTO' => ['label'],
     'ZEND_AST_BREAK' => ['depth'],
     'ZEND_AST_CONTINUE' => ['depth'],
+    'ZEND_AST_CLASS_NAME' => ['class'],
 
     /* 2 child nodes */
     'ZEND_AST_DIM' => ['expr', 'dim'],
