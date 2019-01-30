@@ -24,8 +24,10 @@
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
 - Fix a segfault in PHP 7.4-dev after typed properties support was added.
-- Add AST version 70 (experimental): This adds AST_PROP_GROUP with type information for property groups.
 - Support BINARY_COALESCE as a flag of AST_ASSIGN_OP for the `??=` operator in PHP 7.4-dev.
+- Add AST version 70 (experimental):
+- Version 70 adds AST_PROP_GROUP with type information for property groups.
+- Version 70 adds AST_CLASS_CONST for `Foo::class`
  </notes>
  <contents>
   <dir name="/">

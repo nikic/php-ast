@@ -55,6 +55,7 @@ const zend_ast_kind ast_kinds[] = {
 	ZEND_AST_GOTO,
 	ZEND_AST_BREAK,
 	ZEND_AST_CONTINUE,
+	ZEND_AST_CLASS_NAME,
 	ZEND_AST_DIM,
 	ZEND_AST_PROP,
 	ZEND_AST_STATIC_PROP,
@@ -153,6 +154,7 @@ const char *ast_kind_to_name(zend_ast_kind kind) {
 		case ZEND_AST_GOTO: return "AST_GOTO";
 		case ZEND_AST_BREAK: return "AST_BREAK";
 		case ZEND_AST_CONTINUE: return "AST_CONTINUE";
+		case ZEND_AST_CLASS_NAME: return "AST_CLASS_NAME";
 		case ZEND_AST_DIM: return "AST_DIM";
 		case ZEND_AST_PROP: return "AST_PROP";
 		case ZEND_AST_STATIC_PROP: return "AST_STATIC_PROP";
@@ -386,6 +388,11 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 		case ZEND_AST_CONTINUE:
 			switch (child) {
 				case 0: return AST_STR(str_depth);
+			}
+			return NULL;
+		case ZEND_AST_CLASS_NAME:
+			switch (child) {
+				case 0: return AST_STR(str_class);
 			}
 			return NULL;
 		case ZEND_AST_DIM:
@@ -688,6 +695,7 @@ void ast_register_kind_constants(INIT_FUNC_ARGS) {
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_GOTO", ZEND_AST_GOTO, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_BREAK", ZEND_AST_BREAK, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_CONTINUE", ZEND_AST_CONTINUE, CONST_CS | CONST_PERSISTENT);
+	REGISTER_NS_LONG_CONSTANT("ast", "AST_CLASS_NAME", ZEND_AST_CLASS_NAME, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_DIM", ZEND_AST_DIM, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_PROP", ZEND_AST_PROP, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_STATIC_PROP", ZEND_AST_STATIC_PROP, CONST_CS | CONST_PERSISTENT);

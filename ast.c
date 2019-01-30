@@ -312,9 +312,7 @@ static inline zend_bool ast_kind_uses_attr(zend_ast_kind kind) {
 		|| kind == ZEND_AST_UNARY_OP || kind == ZEND_AST_BINARY_OP || kind == ZEND_AST_ASSIGN_OP
 		|| kind == ZEND_AST_CAST || kind == ZEND_AST_MAGIC_CONST || kind == ZEND_AST_ARRAY_ELEM
 		|| kind == ZEND_AST_INCLUDE_OR_EVAL || kind == ZEND_AST_USE || kind == ZEND_AST_PROP_DECL
-#if PHP_VERSION_ID >= 70400
 		|| kind == ZEND_AST_PROP_GROUP
-#endif
 		|| kind == ZEND_AST_GROUP_USE || kind == ZEND_AST_USE_ELEM
 		|| kind == AST_NAME || kind == AST_CLOSURE_VAR || kind == ZEND_AST_CLASS_CONST_DECL
 		|| kind == ZEND_AST_ARRAY;
@@ -340,9 +338,7 @@ static inline zend_bool ast_is_name(zend_ast *ast, zend_ast *parent, uint32_t i)
 			|| parent->kind == ZEND_AST_CALL || parent->kind == ZEND_AST_CONST
 			|| parent->kind == ZEND_AST_NEW || parent->kind == ZEND_AST_STATIC_CALL
 			|| parent->kind == ZEND_AST_CLASS_CONST || parent->kind == ZEND_AST_STATIC_PROP
-#if PHP_VERSION_ID >= 70400
-			|| parent->kind == ZEND_AST_PROP_GROUP
-#endif
+			|| parent->kind == ZEND_AST_PROP_GROUP || parent->kind == ZEND_AST_CLASS_NAME
 			;
 	}
 
@@ -723,6 +719,46 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 		case ZEND_AST_ASSIGN_COALESCE:
 			ast->kind = ZEND_AST_ASSIGN_OP;
 			ast->attr = AST_BINARY_COALESCE;
+			break;
+		case ZEND_AST_CLASS_NAME:
+			if (state->version < 70) {
+				zval name_zval;
+				ast_to_zval(&name_zval, ast->child[0], state);
+				zval class_name_zval;
+				ast_create_virtual_node_ex(
+						&class_name_zval, AST_NAME, ast->child[0]->attr, zend_ast_get_lineno(ast), state, 1, &name_zval);
+				zval const_zval;
+				ZVAL_STR_COPY(&const_zval, AST_STR(str_class));
+				ast_create_virtual_node_ex(
+						zv, ZEND_AST_CLASS_CONST, 0, zend_ast_get_lineno(ast), state, 2, &class_name_zval, &const_zval);
+				return;
+			}
+			break;
+#else
+		case ZEND_AST_CLASS_CONST:
+			if (state->version >= 70) {
+				// Convert to an AST_CLASS_NAME instead. This is the opposite of the work done in the ZEND_AST_CLASS_NAME case.
+				zend_ast *const_name_ast = ast->child[1];
+				zend_string *str = zend_ast_get_str(const_name_ast);
+				if (zend_string_equals_ci(AST_STR(str_class), str)) {
+					zend_ast *class_name_ast = ast->child[0];
+					zval class_name_zval;
+					if (class_name_ast->kind == ZEND_AST_ZVAL) {
+						// e.g. Foo::class
+						zval class_name_raw_zval;
+						ZVAL_COPY(&class_name_raw_zval, zend_ast_get_zval(class_name_ast));
+						ast_create_virtual_node_ex(
+								&class_name_zval, AST_NAME, class_name_ast->attr, zend_ast_get_lineno(class_name_ast), state, 1, &class_name_raw_zval);
+					} else {
+						// e.g. []::class (not a parse error, but a runtime error)
+						ast_to_zval(&class_name_zval, class_name_ast, state);
+					}
+
+					ast_create_virtual_node_ex(
+							zv, ZEND_AST_CLASS_NAME, 0, zend_ast_get_lineno(ast), state, 1, &class_name_zval);
+					return;
+				}
+			}
 			break;
 #endif
 	}

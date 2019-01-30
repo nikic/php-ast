@@ -1,5 +1,5 @@
 --TEST--
-Type hints in PHP 7.4
+Property type hints in PHP 7.4
 --SKIPIF--
 <?php if (PHP_VERSION_ID < 70400) die('skip PHP >= 7.4 only'); ?>
 --FILE--
