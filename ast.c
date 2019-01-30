@@ -739,14 +739,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 			if (state->version >= 70) {
 				// Convert to an AST_CLASS_NAME instead. This is the opposite of the work done in the ZEND_AST_CLASS_NAME case.
 				zend_ast *const_name_ast = ast->child[1];
-				if (const_name_ast->kind != ZEND_AST_ZVAL) {
-					break; // e.g. (new stdClass())::class is a runtime error, not a parse error
-				}
-				zval const_name_zv = *zend_ast_get_zval(const_name_ast);
-				if (Z_TYPE(const_name_zv) != IS_STRING) {
-					break; // e.g. (2)::class (with brackets)
-				}
-				zend_string *str = Z_STR(const_name_zv);
+				zend_string *str = zend_ast_get_str(const_name_ast);
 				if (zend_string_equals_ci(AST_STR(str_class), str)) {
 					zend_ast *class_name_ast = ast->child[0];
 					zval class_name_zval;
