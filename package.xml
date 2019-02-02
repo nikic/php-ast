@@ -23,7 +23,7 @@
  </stability>
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
-- Fix a segfault in PHP 7.4-dev after typed properties support was added.
+- Fix a segfault in PHP 7.4-dev. This crash started after typed properties support was added to PHP 7.4-dev.
 - Support BINARY_COALESCE as a flag of AST_ASSIGN_OP for the `??=` operator in PHP 7.4-dev.
 - Add AST version 70 (experimental):
 - Version 70 adds AST_PROP_GROUP with type information for property groups.
@@ -51,6 +51,8 @@
       <file name="binary_ops.phpt" role="test" />
       <file name="by_ref_destructuring.phpt" role="test" />
       <file name="class_consts.phpt" role="test" />
+      <file name="class_name_version_50.phpt" role="test" />
+      <file name="class_name_version_70.phpt" role="test" />
       <file name="class.phpt" role="test" />
       <file name="class_types.phpt" role="test" />
       <file name="closure_use_vars.phpt" role="test" />
@@ -58,9 +60,9 @@
       <file name="constructor.phpt" role="test" />
       <file name="decl_ids.phpt" role="test" />
       <file name="decl_normalization.phpt" role="test" />
-      <file name="eval_include.phpt" role="test" />
       <file name="empty_file.php" role="test" />
       <file name="empty_file_parse.phpt" role="test" />
+      <file name="eval_include.phpt" role="test" />
       <file name="functions_dont_use.phpt" role="test" />
       <file name="generator_flag.phpt" role="test" />
       <file name="get_kind_name.phpt" role="test" />
@@ -81,6 +83,7 @@
       <file name="parse_file_not_existing.phpt" role="test" />
       <file name="parse_file_parse_error.phpt" role="test" />
       <file name="parse_file.phpt" role="test" />
+      <file name="php74_ast_assign_coalesce.phpt" role="test" />
       <file name="php74_ordinary_class.phpt" role="test" />
       <file name="php74_type_hints.phpt" role="test" />
       <file name="prop_doc_comments.phpt" role="test" />
