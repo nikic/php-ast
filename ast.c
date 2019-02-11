@@ -1118,12 +1118,12 @@ PHP_METHOD(ast_Node, __construct) {
 	}
 }
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_parse_file, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_parse_file, 0, 0, 2)
 	ZEND_ARG_INFO(0, filename)
 	ZEND_ARG_INFO(0, version)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_parse_code, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_parse_code, 0, 0, 2)
 	ZEND_ARG_INFO(0, code)
 	ZEND_ARG_INFO(0, version)
 	ZEND_ARG_INFO(0, filename)
