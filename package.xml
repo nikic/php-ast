@@ -14,7 +14,7 @@
  </lead>
  <date>2019-02-11</date>
  <version>
-  <release>1.0.1</release>
+  <release>1.0.2dev</release>
   <api>1.0.1</api>
  </version>
  <stability>
@@ -111,6 +111,25 @@
  <providesextension>ast</providesextension>
  <extsrcrelease />
  <changelog>
+  <release>
+   <date>2019-02-11</date>
+   <version>
+    <release>1.0.2dev</release>
+    <api>1.0.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
+   <notes>
+- Fix compatibility with (currenty) PHP 7.4 and PHP 8.0.
+- Support BINARY_COALESCE as a flag of AST_ASSIGN_OP for the `??=` operator added in PHP 7.4.
+- Add AST version 70 (experimental):
+- Version 70 adds AST_PROP_GROUP with type information for property groups.
+- Version 70 adds AST_CLASS_NAME for `Foo::class`. Previously this used AST_CLASS_CONST
+   </notes>
+  </release>
   <release>
    <date>2018-10-21</date>
    <version>
