@@ -259,10 +259,13 @@ static const ast_flag_info flag_info[] = {
 };
 
 static inline void ast_update_property(zval *object, zend_string *name, zval *value, void **cache_slot) {
+#if PHP_VERSION_ID < 80000
 	zval name_zv;
 	ZVAL_STR(&name_zv, name);
-
 	Z_OBJ_HT_P(object)->write_property(object, &name_zv, value, cache_slot);
+#else
+	Z_OBJ_HT_P(object)->write_property(Z_OBJ_P(object), name, value, cache_slot);
+#endif
 }
 
 static inline void ast_update_property_long(zval *object, zend_string *name, zend_long value_raw, void **cache_slot) {
