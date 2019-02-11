@@ -1167,9 +1167,15 @@ const zend_function_entry ast_node_functions[] = {
 };
 
 PHP_MINFO_FUNCTION(ast) {
+	zend_string *info = ast_version_info();
+
 	php_info_print_table_start();
 	php_info_print_table_row(2, "ast support", "enabled");
+	php_info_print_table_row(2, "extension version", PHP_AST_VERSION);
+	php_info_print_table_row(2, "AST version", ZSTR_VAL(info));
 	php_info_print_table_end();
+
+	zend_string_release(info);
 }
 
 PHP_RINIT_FUNCTION(ast) {
