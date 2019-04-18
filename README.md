@@ -467,7 +467,7 @@ function accepts a boolean argument that determines whether deprecated versions 
 In the following the changes in the respective AST versions, as well as their current support state,
 are listed.
 
-### 70 (experimental)
+### 70 (current)
 
 * `AST_PROP_GROUP` was added to support PHP 7.4's typed properties.
   The property visibility modifiers are now part of `AST_PROP_GROUP` instead of `AST_PROP_DECL`.
@@ -475,7 +475,7 @@ are listed.
   Note that property group type information is only available with AST versions 70+.
 * `AST_CLASS_NAME` is created instead of `AST_CLASS_CONST` for `SomeClass::class`.
 
-### 60 (current)
+### 60 (stable)
 
 Supported since 0.1.7 (2018-10-06).
 
