@@ -469,6 +469,8 @@ are listed.
 
 ### 70 (current)
 
+Supported since 1.0.1 (2019-02-11).
+
 * `AST_PROP_GROUP` was added to support PHP 7.4's typed properties.
   The property visibility modifiers are now part of `AST_PROP_GROUP` instead of `AST_PROP_DECL`.
 
