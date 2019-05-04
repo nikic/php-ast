@@ -252,6 +252,7 @@ static const ast_flag_info flag_info[] = {
 	{ ZEND_AST_METHOD, 1, func_flags },
 	{ ZEND_AST_FUNC_DECL, 1, func_flags },
 	{ ZEND_AST_CLOSURE, 1, func_flags },
+	{ ZEND_AST_ARROW_FUNC, 1, func_flags },
 	{ ZEND_AST_PROP_DECL, 1, modifier_flags },
 	{ ZEND_AST_PROP_GROUP, 1, modifier_flags },
 	{ ZEND_AST_CLASS_CONST_DECL, 1, visibility_flags },
@@ -323,6 +324,9 @@ static inline zend_bool ast_kind_uses_attr(zend_ast_kind kind) {
 
 static inline zend_bool ast_kind_is_decl(zend_ast_kind kind) {
 	return kind == ZEND_AST_FUNC_DECL || kind == ZEND_AST_CLOSURE
+#if PHP_VERSION_ID >= 70400
+		|| kind == ZEND_AST_ARROW_FUNC
+#endif
 		|| kind == ZEND_AST_METHOD || kind == ZEND_AST_CLASS;
 }
 
@@ -614,6 +618,11 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 				&& (ast->kind == ZEND_AST_FUNC_DECL || ast->kind == ZEND_AST_METHOD)) {
 			/* Skip "uses" child, it is only relevant for closures */
 			continue;
+#if PHP_VERSION_ID >= 70400
+		} else if (i == 1 && ast->kind == ZEND_AST_ARROW_FUNC) {
+			/* Skip "uses" child since it is always empty */
+			continue;
+#endif
 #if PHP_VERSION_ID >= 70100
 		} else if (ast->kind == ZEND_AST_LIST && child != NULL) {
 			/* Emulate simple variable list */

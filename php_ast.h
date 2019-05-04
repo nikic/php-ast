@@ -54,6 +54,7 @@ extern ast_str_globals str_globals;
 // NOTE: The first hex digit is the number of child nodes a given kind has
 # define ZEND_AST_CLASS_NAME 0x1ff
 # define ZEND_AST_PROP_GROUP 0x2ff
+# define ZEND_AST_ARROW_FUNC 0x5ff
 #endif
 
 /* Pretend it still exists */

@@ -57,6 +57,7 @@ $names = [
     'ZEND_AST_FUNC_DECL' => $funcNames,
     'ZEND_AST_CLOSURE' => $funcNames,
     'ZEND_AST_METHOD' => $funcNames,
+    'ZEND_AST_ARROW_FUNC' => $funcNames,
     'ZEND_AST_CLASS' => ['extends', 'implements', 'stmts'],
 
     /* 0 child nodes */
