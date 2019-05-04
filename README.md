@@ -236,10 +236,10 @@ ast\flags\MODIFIER_STATIC
 ast\flags\MODIFIER_ABSTRACT
 ast\flags\MODIFIER_FINAL
 
-// Used by ast\AST_CLOSURE (combinable)
+// Used by ast\AST_CLOSURE, ast\AST_ARROW_FUNC (combinable)
 ast\flags\MODIFIER_STATIC
 
-// Used by ast\AST_FUNC_DECL, ast\AST_METHOD, ast\AST_CLOSURE (combinable)
+// Used by ast\AST_FUNC_DECL, ast\AST_METHOD, ast\AST_CLOSURE, ast\AST_ARROW_FUNC (combinable)
 ast\flags\FUNC_RETURNS_REF  // legacy alias: ast\flags\RETURNS_REF
 ast\flags\FUNC_GENERATOR    // used only in PHP >= 7.1
 
@@ -351,6 +351,7 @@ This section lists the AST node kinds that are supported and the names of their 
 
 ```
 AST_ARRAY_ELEM:       value, key
+AST_ARROW_FUNC:       name, docComment, params, stmts, returnType
 AST_ASSIGN:           var, expr
 AST_ASSIGN_OP:        var, expr
 AST_ASSIGN_REF:       var, expr

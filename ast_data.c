@@ -24,6 +24,7 @@ const zend_ast_kind ast_kinds[] = {
 	ZEND_AST_FUNC_DECL,
 	ZEND_AST_CLOSURE,
 	ZEND_AST_METHOD,
+	ZEND_AST_ARROW_FUNC,
 	ZEND_AST_CLASS,
 	ZEND_AST_MAGIC_CONST,
 	ZEND_AST_TYPE,
@@ -123,6 +124,7 @@ const char *ast_kind_to_name(zend_ast_kind kind) {
 		case ZEND_AST_FUNC_DECL: return "AST_FUNC_DECL";
 		case ZEND_AST_CLOSURE: return "AST_CLOSURE";
 		case ZEND_AST_METHOD: return "AST_METHOD";
+		case ZEND_AST_ARROW_FUNC: return "AST_ARROW_FUNC";
 		case ZEND_AST_CLASS: return "AST_CLASS";
 		case ZEND_AST_MAGIC_CONST: return "AST_MAGIC_CONST";
 		case ZEND_AST_TYPE: return "AST_TYPE";
@@ -232,6 +234,14 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 			}
 			return NULL;
 		case ZEND_AST_METHOD:
+			switch (child) {
+				case 0: return AST_STR(str_params);
+				case 1: return AST_STR(str_uses);
+				case 2: return AST_STR(str_stmts);
+				case 3: return AST_STR(str_returnType);
+			}
+			return NULL;
+		case ZEND_AST_ARROW_FUNC:
 			switch (child) {
 				case 0: return AST_STR(str_params);
 				case 1: return AST_STR(str_uses);
@@ -664,6 +674,7 @@ void ast_register_kind_constants(INIT_FUNC_ARGS) {
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_FUNC_DECL", ZEND_AST_FUNC_DECL, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_CLOSURE", ZEND_AST_CLOSURE, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_METHOD", ZEND_AST_METHOD, CONST_CS | CONST_PERSISTENT);
+	REGISTER_NS_LONG_CONSTANT("ast", "AST_ARROW_FUNC", ZEND_AST_ARROW_FUNC, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_CLASS", ZEND_AST_CLASS, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_MAGIC_CONST", ZEND_AST_MAGIC_CONST, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_TYPE", ZEND_AST_TYPE, CONST_CS | CONST_PERSISTENT);
