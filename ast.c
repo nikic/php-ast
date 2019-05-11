@@ -355,6 +355,9 @@ static inline zend_bool ast_is_name(zend_ast *ast, zend_ast *parent, uint32_t i)
 
 	if (i == 3) {
 		return parent->kind == ZEND_AST_FUNC_DECL || parent->kind == ZEND_AST_CLOSURE
+#if PHP_VERSION_ID >= 70400
+			|| parent->kind == ZEND_AST_ARROW_FUNC
+#endif
 			|| parent->kind == ZEND_AST_METHOD;
 	}
 
@@ -372,6 +375,9 @@ static inline zend_bool ast_is_type(zend_ast *ast, zend_ast *parent, uint32_t i)
 	}
 	if (i == 3) {
 		return parent->kind == ZEND_AST_CLOSURE || parent->kind == ZEND_AST_FUNC_DECL
+#if PHP_VERSION_ID >= 70400
+			|| parent->kind == ZEND_AST_ARROW_FUNC
+#endif
 			|| parent->kind == ZEND_AST_METHOD;
 	}
 	return 0;
