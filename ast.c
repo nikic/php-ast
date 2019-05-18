@@ -752,6 +752,13 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 				return;
 			}
 			break;
+#ifdef ZEND_PARENTHESIZED_CONCAT
+		case ZEND_AST_BINARY_OP:
+			if (ast->attr == ZEND_PARENTHESIZED_CONCAT) {
+				ast->attr = ZEND_CONCAT;
+			}
+			break;
+#endif
 #else
 		case ZEND_AST_CLASS_CONST:
 			if (state->version >= 70) {
