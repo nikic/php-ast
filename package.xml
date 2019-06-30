@@ -14,8 +14,8 @@
  </lead>
  <date>2019-06-30</date>
  <version>
-  <release>1.0.2</release>
-  <api>1.0.2</api>
+  <release>1.0.3dev</release>
+  <api>1.0.3</api>
  </version>
  <stability>
   <release>stable</release>
@@ -23,10 +23,7 @@
  </stability>
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
-- Fix compatibility with (currently) PHP 7.4 and PHP 8.0.
-- Support AST_ARROW_FUNC for PHP 7.4.
-- Make $version a required parameter for `ast\parse_*`. Previously, the absence would throw a LogicException.
-- Make AST version 70 the current version.
+- TBD.
  </notes>
  <contents>
   <dir name="/">
@@ -113,6 +110,24 @@
  <providesextension>ast</providesextension>
  <extsrcrelease />
  <changelog>
+  <release>
+   <date>2019-06-30</date>
+   <version>
+    <release>1.0.2</release>
+    <api>1.0.2</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
+   <notes>
+- Fix compatibility with (currently) PHP 7.4 and PHP 8.0.
+- Support AST_ARROW_FUNC for PHP 7.4.
+- Make $version a required parameter for `ast\parse_*`. Previously, the absence would throw a LogicException.
+- Make AST version 70 the current version.
+   </notes>
+  </release>
   <release>
    <date>2019-02-11</date>
    <version>
