@@ -12,10 +12,10 @@
   <email>nikic@php.net</email>
   <active>yes</active>
  </lead>
- <date>2019-02-11</date>
+ <date>2019-06-30</date>
  <version>
-  <release>1.0.2dev</release>
-  <api>1.0.1</api>
+  <release>1.0.2</release>
+  <api>1.0.2</api>
  </version>
  <stability>
   <release>stable</release>
@@ -23,11 +23,10 @@
  </stability>
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
-- Fix compatibility with (currenty) PHP 7.4 and PHP 8.0.
-- Support BINARY_COALESCE as a flag of AST_ASSIGN_OP for the `??=` operator added in PHP 7.4.
-- Add AST version 70 (experimental):
-- Version 70 adds AST_PROP_GROUP with type information for property groups.
-- Version 70 adds AST_CLASS_NAME for `Foo::class`. Previously this used AST_CLASS_CONST
+- Fix compatibility with (currently) PHP 7.4 and PHP 8.0.
+- Support AST_ARROW_FUNC for PHP 7.4.
+- Make $version a required parameter for `ast\parse_*`. Previously, the absence would throw a LogicException.
+- Make AST version 70 the current version.
  </notes>
  <contents>
   <dir name="/">
@@ -57,6 +56,7 @@
       <file name="class_types.phpt" role="test" />
       <file name="closure_use_vars.phpt" role="test" />
       <file name="coalesce.phpt" role="test" />
+      <file name="concat.phpt" role="test" />
       <file name="constructor.phpt" role="test" />
       <file name="decl_ids.phpt" role="test" />
       <file name="decl_normalization.phpt" role="test" />
@@ -87,6 +87,8 @@
       <file name="php74_ordinary_class.phpt" role="test" />
       <file name="php74_type_hints.phpt" role="test" />
       <file name="prop_doc_comments.phpt" role="test" />
+      <file name="short_arrow_function.phpt" role="test" />
+      <file name="short_arrow_function_return.phpt" role="test" />
       <file name="stmt_list.phpt" role="test" />
       <file name="try_catch_finally.phpt" role="test" />
       <file name="type_hints.phpt" role="test" />
@@ -114,7 +116,7 @@
   <release>
    <date>2019-02-11</date>
    <version>
-    <release>1.0.2dev</release>
+    <release>1.0.1</release>
     <api>1.0.1</api>
    </version>
    <stability>
@@ -123,7 +125,7 @@
    </stability>
    <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
    <notes>
-- Fix compatibility with (currenty) PHP 7.4 and PHP 8.0.
+- Fix compatibility with (currently) PHP 7.4 and PHP 8.0.
 - Support BINARY_COALESCE as a flag of AST_ASSIGN_OP for the `??=` operator added in PHP 7.4.
 - Add AST version 70 (experimental):
 - Version 70 adds AST_PROP_GROUP with type information for property groups.
