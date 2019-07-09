@@ -441,6 +441,7 @@ static inline zend_uchar lookup_builtin_type(const zend_string *name) {
 	return 0;
 }
 
+#if PHP_VERSION_ID < 70400
 static inline zend_ast_attr ast_assign_op_to_binary_op(zend_ast_attr attr) {
 	switch (attr) {
 		case ZEND_ASSIGN_BW_OR: return ZEND_BW_OR;
@@ -458,6 +459,7 @@ static inline zend_ast_attr ast_assign_op_to_binary_op(zend_ast_attr attr) {
 		EMPTY_SWITCH_DEFAULT_CASE()
 	}
 }
+#endif
 
 static inline zend_bool ast_array_is_list(zend_ast *ast) {
 	zend_ast_list *list = zend_ast_get_list(ast);
@@ -687,9 +689,11 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 	}
 
 	switch (ast->kind) {
+#if PHP_VERSION_ID < 70400
 		case ZEND_AST_ASSIGN_OP:
 			ast->attr = ast_assign_op_to_binary_op(ast->attr);
 			break;
+#endif
 		case ZEND_AST_GREATER:
 			ast->kind = ZEND_AST_BINARY_OP;
 			ast->attr = AST_BINARY_IS_GREATER;

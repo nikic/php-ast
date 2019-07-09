@@ -81,7 +81,7 @@ AST_STMT_LIST
         expr: AST_VAR
             name: "b"
     9: AST_ASSIGN_OP
-        flags: BINARY_POW (166)
+        flags: BINARY_POW (%d)
         var: AST_VAR
             name: "a"
         expr: AST_VAR
