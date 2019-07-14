@@ -23,7 +23,7 @@
  </stability>
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
-- TBD.
+- Fix build error in php 7.4.0alpha3.
  </notes>
  <contents>
   <dir name="/">
