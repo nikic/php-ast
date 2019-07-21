@@ -56,6 +56,10 @@
 # define ZEND_BIND_REF 1
 #endif
 
+#if PHP_VERSION_ID < 70400
+# define ZEND_DIM_ALTERNATIVE_SYNTAX (1<<1)
+#endif
+
 /* This contains state of the ast Node creator. */
 typedef struct ast_state_info {
 	zend_long version;
@@ -232,6 +236,12 @@ static const char *func_flags[] = {
 	NULL
 };
 
+// Flags of AST_DIM are marked as combinable in case any other flags get added in the future.
+static const char *dim_flags[] = {
+	AST_FLAG(DIM_ALTERNATIVE_SYNTAX),
+	NULL
+};
+
 static const ast_flag_info flag_info[] = {
 	{ AST_NAME, 0, name_flags },
 	{ ZEND_AST_CLASS, 0, class_flags },
@@ -257,6 +267,7 @@ static const ast_flag_info flag_info[] = {
 	{ ZEND_AST_PROP_GROUP, 1, modifier_flags },
 	{ ZEND_AST_CLASS_CONST_DECL, 1, visibility_flags },
 	{ ZEND_AST_TRAIT_ALIAS, 1, modifier_flags },
+	{ ZEND_AST_DIM, 1, dim_flags },
 };
 
 static inline void ast_update_property(zval *object, zend_string *name, zval *value, void **cache_slot) {
@@ -319,14 +330,12 @@ static inline zend_bool ast_kind_uses_attr(zend_ast_kind kind) {
 		|| kind == ZEND_AST_PROP_GROUP
 		|| kind == ZEND_AST_GROUP_USE || kind == ZEND_AST_USE_ELEM
 		|| kind == AST_NAME || kind == AST_CLOSURE_VAR || kind == ZEND_AST_CLASS_CONST_DECL
-		|| kind == ZEND_AST_ARRAY;
+		|| kind == ZEND_AST_ARRAY || kind == ZEND_AST_DIM;
 }
 
 static inline zend_bool ast_kind_is_decl(zend_ast_kind kind) {
 	return kind == ZEND_AST_FUNC_DECL || kind == ZEND_AST_CLOSURE
-#if PHP_VERSION_ID >= 70400
 		|| kind == ZEND_AST_ARROW_FUNC
-#endif
 		|| kind == ZEND_AST_METHOD || kind == ZEND_AST_CLASS;
 }
 
@@ -1326,6 +1335,8 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("ARRAY_SYNTAX_LIST", ZEND_ARRAY_SYNTAX_LIST);
 	ast_register_flag_constant("ARRAY_SYNTAX_LONG", ZEND_ARRAY_SYNTAX_LONG);
 	ast_register_flag_constant("ARRAY_SYNTAX_SHORT", ZEND_ARRAY_SYNTAX_SHORT);
+
+	ast_register_flag_constant("DIM_ALTERNATIVE_SYNTAX", ZEND_DIM_ALTERNATIVE_SYNTAX);
 
 	INIT_CLASS_ENTRY(tmp_ce, "ast\\Node", ast_node_functions);
 	ast_node_ce = zend_register_internal_class(&tmp_ce);
