@@ -9,6 +9,12 @@ foreach ($metadata as $data) {
     foreach ($data->flags as $flag) {
         $flags[] = substr($flag, strrpos($flag, '\\') + 1);
     }
+    $metadataHasFlags = count($flags) > 0;
+    $kindUsesFlags = ast\kind_uses_flags($data->kind);
+    if ($metadataHasFlags != $kindUsesFlags) {
+        echo "kind_uses_flags for $data->name is unexpectedly " . var_export($kindUsesFlags, true) . "\n";
+    }
+
     echo "$data->name: ";
     if ($data->flagsCombinable) {
         echo "(combinable) ";
@@ -74,7 +80,7 @@ AST_GOTO: []
 AST_BREAK: []
 AST_CONTINUE: []
 AST_CLASS_NAME: []
-AST_DIM: []
+AST_DIM: (combinable) [DIM_ALTERNATIVE_SYNTAX]
 AST_PROP: []
 AST_STATIC_PROP: []
 AST_CALL: []

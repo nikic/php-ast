@@ -342,6 +342,9 @@ ast\flags\ARRAY_SYNTAX_LIST
 
 // Used by ast\AST_ARRAY_ELEM (exclusive)
 ast\flags\ARRAY_ELEM_REF
+
+// Used by ast\AST_DIM (combinable), since PHP 7.4
+ast\flags\DIM_ALTERNATIVE_SYNTAX
 ```
 
 AST node kinds
