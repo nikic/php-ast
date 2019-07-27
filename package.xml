@@ -25,6 +25,7 @@
  <notes>
 - Fix build error in php 7.4.0alpha3.
 - Add `DIM_ALTERNATIVE_SYNTAX` as a flag of `AST_DIM` for `$x{'offset'}` (for php 7.4+)
+- Add `PARENTHESIZED_CONDITIONAL` as a flag of `AST_CONDITIONAL` for `($a ? $b : $c)` (for php 7.4+)
 - Bugfix: Make `ast\kind_uses_flags(ast\AST_ARROW_FUNC)` true in php 7.3 and lower.
  </notes>
  <contents>
@@ -85,6 +86,7 @@
       <file name="php74_ast_assign_coalesce.phpt" role="test" />
       <file name="php74_dim_alternative_syntax.phpt" role="test" />
       <file name="php74_ordinary_class.phpt" role="test" />
+      <file name="php74_parenthesized_conditional.phpt" role="test" />
       <file name="php74_type_hints.phpt" role="test" />
       <file name="prop_doc_comments.phpt" role="test" />
       <file name="short_arrow_function.phpt" role="test" />

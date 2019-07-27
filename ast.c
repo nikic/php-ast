@@ -58,6 +58,7 @@
 
 #if PHP_VERSION_ID < 70400
 # define ZEND_DIM_ALTERNATIVE_SYNTAX (1<<1)
+# define ZEND_PARENTHESIZED_CONDITIONAL 1
 #endif
 
 /* This contains state of the ast Node creator. */
@@ -242,6 +243,12 @@ static const char *dim_flags[] = {
 	NULL
 };
 
+// Flags of AST_CONDITIONAL are marked as combinable in case any other flags get added in the future.
+static const char *conditional_flags[] = {
+	AST_FLAG(PARENTHESIZED_CONDITIONAL),
+	NULL
+};
+
 static const ast_flag_info flag_info[] = {
 	{ AST_NAME, 0, name_flags },
 	{ ZEND_AST_CLASS, 0, class_flags },
@@ -268,6 +275,7 @@ static const ast_flag_info flag_info[] = {
 	{ ZEND_AST_CLASS_CONST_DECL, 1, visibility_flags },
 	{ ZEND_AST_TRAIT_ALIAS, 1, modifier_flags },
 	{ ZEND_AST_DIM, 1, dim_flags },
+	{ ZEND_AST_CONDITIONAL, 1, conditional_flags },
 };
 
 static inline void ast_update_property(zval *object, zend_string *name, zval *value, void **cache_slot) {
@@ -330,7 +338,7 @@ static inline zend_bool ast_kind_uses_attr(zend_ast_kind kind) {
 		|| kind == ZEND_AST_PROP_GROUP
 		|| kind == ZEND_AST_GROUP_USE || kind == ZEND_AST_USE_ELEM
 		|| kind == AST_NAME || kind == AST_CLOSURE_VAR || kind == ZEND_AST_CLASS_CONST_DECL
-		|| kind == ZEND_AST_ARRAY || kind == ZEND_AST_DIM;
+		|| kind == ZEND_AST_ARRAY || kind == ZEND_AST_DIM || kind == ZEND_AST_CONDITIONAL;
 }
 
 static inline zend_bool ast_kind_is_decl(zend_ast_kind kind) {
@@ -1337,6 +1345,8 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("ARRAY_SYNTAX_SHORT", ZEND_ARRAY_SYNTAX_SHORT);
 
 	ast_register_flag_constant("DIM_ALTERNATIVE_SYNTAX", ZEND_DIM_ALTERNATIVE_SYNTAX);
+
+	ast_register_flag_constant("PARENTHESIZED_CONDITIONAL", ZEND_PARENTHESIZED_CONDITIONAL);
 
 	INIT_CLASS_ENTRY(tmp_ce, "ast\\Node", ast_node_functions);
 	ast_node_ce = zend_register_internal_class(&tmp_ce);
