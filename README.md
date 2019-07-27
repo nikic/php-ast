@@ -345,6 +345,9 @@ ast\flags\ARRAY_ELEM_REF
 
 // Used by ast\AST_DIM (combinable), since PHP 7.4
 ast\flags\DIM_ALTERNATIVE_SYNTAX
+
+// Used by ast\AST_CONDITIONAL (combinable), since PHP 7.4
+ast\flags\PARENTHESIZED_CONDITIONAL
 ```
 
 AST node kinds
