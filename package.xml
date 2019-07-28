@@ -14,7 +14,7 @@
  </lead>
  <date>2019-07-27</date>
  <version>
-  <release>1.0.3</release>
+  <release>1.0.4dev</release>
   <api>1.0.3</api>
  </version>
  <stability>
@@ -23,10 +23,7 @@
  </stability>
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
-- Fix build error in php 7.4.0alpha3.
-- Add `DIM_ALTERNATIVE_SYNTAX` as a flag of `AST_DIM` for `$x{'offset'}` (for php 7.4+)
-- Add `PARENTHESIZED_CONDITIONAL` as a flag of `AST_CONDITIONAL` for `($a ? $b : $c)` (for php 7.4+)
-- Bugfix: Make `ast\kind_uses_flags(ast\AST_ARROW_FUNC)` true in php 7.3 and lower.
+- TBD.
  </notes>
  <contents>
   <dir name="/">
@@ -115,6 +112,24 @@
  <providesextension>ast</providesextension>
  <extsrcrelease />
  <changelog>
+  <release>
+   <date>2019-07-27</date>
+   <version>
+    <release>1.0.3</release>
+    <api>1.0.3</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
+   <notes>
+- Fix build error in php 7.4.0alpha3.
+- Add `DIM_ALTERNATIVE_SYNTAX` as a flag of `AST_DIM` for `$x{'offset'}` (for php 7.4+)
+- Add `PARENTHESIZED_CONDITIONAL` as a flag of `AST_CONDITIONAL` for `($a ? $b : $c)` (for php 7.4+)
+- Bugfix: Make `ast\kind_uses_flags(ast\AST_ARROW_FUNC)` true in php 7.3 and lower.
+   </notes>
+  </release>
   <release>
    <date>2019-06-30</date>
    <version>
