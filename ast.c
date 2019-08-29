@@ -478,22 +478,6 @@ static inline zend_ast_attr ast_assign_op_to_binary_op(zend_ast_attr attr) {
 }
 #endif
 
-static inline zend_bool ast_array_is_list(zend_ast *ast) {
-	zend_ast_list *list = zend_ast_get_list(ast);
-	uint32_t i;
-	if (ast->attr != ZEND_ARRAY_SYNTAX_LIST) {
-		return 0;
-	}
-
-	for (i = 0; i < list->children; i++) {
-		if (list->child[i] && (list->child[i]->child[1] != NULL || list->child[i]->attr)) {
-			return 0;
-		}
-	}
-
-	return 1;
-}
-
 static inline zend_ast **ast_get_children(zend_ast *ast, uint32_t *count) {
 	if (ast_kind_is_decl(ast->kind)) {
 		zend_ast_decl *decl = (zend_ast_decl *) ast;
