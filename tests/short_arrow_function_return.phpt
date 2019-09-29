@@ -24,7 +24,7 @@ echo "Same representation in version 50/70: ";
 var_export($version_50_repr == $version_70_repr);
 echo "\n";
 ?>
---EXPECT--
+--EXPECTF--
 AST_STMT_LIST
     0: AST_ARROW_FUNC
         flags: MODIFIER_STATIC (16)
@@ -44,7 +44,7 @@ AST_STMT_LIST
             0: AST_PARAM
                 flags: 0
                 type: AST_TYPE
-                    flags: TYPE_ITERABLE (18)
+                    flags: TYPE_ITERABLE (%d)
                 name: "i"
                 default: null
         stmts: AST_RETURN

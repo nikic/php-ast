@@ -125,7 +125,7 @@ AST_STMT_LIST
                 flags: MODIFIER_PRIVATE (%d)
                 type: AST_NULLABLE_TYPE
                     type: AST_TYPE
-                        flags: TYPE_ITERABLE (18)
+                        flags: TYPE_ITERABLE (%d)
                 props: AST_PROP_DECL
                     flags: 0
                     0: AST_PROP_ELEM
