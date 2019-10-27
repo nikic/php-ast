@@ -57,6 +57,11 @@ extern ast_str_globals str_globals;
 # define ZEND_AST_ARROW_FUNC 0x5ff
 #endif
 
+#if PHP_VERSION_ID < 80000
+/* NOTE: For list nodes, the first set bit is 0x80 */
+# define ZEND_AST_TYPE_UNION ((1 << (ZEND_AST_IS_LIST_SHIFT + 1)) - 2)
+#endif
+
 /* Pretend it still exists */
 #if PHP_VERSION_ID >= 70100
 # define ZEND_AST_LIST ((1 << (ZEND_AST_IS_LIST_SHIFT + 1)) - 1)

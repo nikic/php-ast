@@ -348,13 +348,21 @@ static inline zend_bool ast_kind_is_decl(zend_ast_kind kind) {
 }
 
 static inline zend_bool ast_is_name(zend_ast *ast, zend_ast *parent, uint32_t i) {
-	if (!ast || ast->kind != ZEND_AST_ZVAL || Z_TYPE_P(zend_ast_get_zval(ast)) != IS_STRING) {
+	if (!ast) {
+		return 0;
+	}
+	if (ast->kind != ZEND_AST_ZVAL || Z_TYPE_P(zend_ast_get_zval(ast)) != IS_STRING) {
 		return 0;
 	}
 
 	if (parent->kind == ZEND_AST_NAME_LIST) {
 		return 1;
 	}
+#if PHP_VERSION_ID >= 80000
+	if (parent->kind == ZEND_AST_TYPE_UNION) {
+		return 1;
+	}
+#endif
 
 	if (i == 0) {
 		return parent->kind == ZEND_AST_CATCH || parent->kind == ZEND_AST_CLASS
@@ -383,6 +391,11 @@ static inline zend_bool ast_is_name(zend_ast *ast, zend_ast *parent, uint32_t i)
 
 /* Assumes that ast_is_name is already true */
 static inline zend_bool ast_is_type(zend_ast *ast, zend_ast *parent, uint32_t i) {
+#if PHP_VERSION_ID >= 80000
+	if (parent->kind == ZEND_AST_TYPE_UNION) {
+		return 1;
+	}
+#endif
 	if (i == 0) {
 		return parent->kind == ZEND_AST_PARAM
 #if PHP_VERSION_ID >= 70400
@@ -444,6 +457,8 @@ static const builtin_type_info builtin_types[] = {
 	{ZEND_STRL("void"), IS_VOID},
 	{ZEND_STRL("iterable"), IS_ITERABLE},
 	{ZEND_STRL("object"), IS_OBJECT},
+	{ZEND_STRL("null"), IS_NULL},  /* Null and false for php 8.0 union types */
+	{ZEND_STRL("false"), IS_FALSE},
 	{NULL, 0, IS_UNDEF}
 };
 static inline zend_uchar lookup_builtin_type(const zend_string *name) {
@@ -579,12 +594,13 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 	uint32_t i, count;
 	zend_bool is_list = zend_ast_is_list(ast);
 	zend_ast **children = ast_get_children(ast, &count);
+	const zend_ast_kind ast_kind = ast->kind;
 	for (i = 0; i < count; ++i) {
 		zend_ast *child = children[i];
-		zend_string *child_name = !is_list ? ast_kind_child_name(ast->kind, i) : NULL;
+		zend_string *child_name = !is_list ? ast_kind_child_name(ast_kind, i) : NULL;
 		zval child_zv;
 
-		if (ast->kind == ZEND_AST_STMT_LIST) {
+		if (ast_kind == ZEND_AST_STMT_LIST) {
 			if (child != NULL && child->kind == ZEND_AST_STMT_LIST) {
 				ast_fill_children_ht(ht, child, state);
 				continue;
@@ -596,7 +612,7 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 
 		/* This AST_CATCH check should occur before ast_is_name() */
 #if PHP_VERSION_ID < 70100
-		if (ast->kind == ZEND_AST_CATCH && i == 0) {
+		if (ast_kind == ZEND_AST_CATCH && i == 0) {
 			/* Emulate PHP 7.1 format (name list) */
 			zval tmp;
 			ast_create_virtual_node(&tmp, AST_NAME, child->attr, child, state);
@@ -609,7 +625,7 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 		} else if (child && child->kind == ZEND_AST_TYPE && (child->attr & ZEND_TYPE_NULLABLE)) {
 			child->attr &= ~ZEND_TYPE_NULLABLE;
 			ast_create_virtual_node(&child_zv, AST_NULLABLE_TYPE, 0, child, state);
-		} else if (ast->kind == ZEND_AST_CLOSURE_USES) {
+		} else if (ast_kind == ZEND_AST_CLOSURE_USES) {
 			ast_create_virtual_node(&child_zv, AST_CLOSURE_VAR, child->attr, child, state);
 		} else if (ast_is_var_name(child, ast, i)) {
 			ast_create_virtual_node(&child_zv, ZEND_AST_VAR, 0, child, state);
@@ -624,20 +640,20 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 					&child_zv, ZEND_AST_STMT_LIST, 0, zend_ast_get_lineno(ast), state, 0);
 			}
 		} else if (state->version >= 60 && i == 1
-				&& (ast->kind == ZEND_AST_FUNC_DECL || ast->kind == ZEND_AST_METHOD)) {
+				&& (ast_kind == ZEND_AST_FUNC_DECL || ast_kind == ZEND_AST_METHOD)) {
 			/* Skip "uses" child, it is only relevant for closures */
 			continue;
 #if PHP_VERSION_ID >= 70400
-		} else if (i == 1 && ast->kind == ZEND_AST_ARROW_FUNC) {
+		} else if (i == 1 && ast_kind == ZEND_AST_ARROW_FUNC) {
 			/* Skip "uses" child since it is always empty */
 			continue;
 #endif
 #if PHP_VERSION_ID >= 70100
-		} else if (ast->kind == ZEND_AST_LIST && child != NULL) {
+		} else if (ast_kind == ZEND_AST_LIST && child != NULL) {
 			/* Emulate simple variable list */
 			ast_to_zval(&child_zv, child->child[0], state);
 #else
-		} else if (ast->kind == ZEND_AST_ARRAY
+		} else if (ast_kind == ZEND_AST_ARRAY
 				&& ast->attr == ZEND_ARRAY_SYNTAX_LIST && child != NULL) {
 			/* Emulate ARRAY_ELEM list */
 			zval ch0, ch1;
@@ -661,14 +677,14 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 
 #if PHP_VERSION_ID < 70100
 	/* Emulate docComment on constants, which is not available in PHP 7.0 */
-	if (state->version >= 60 && ast->kind == ZEND_AST_CONST_ELEM) {
+	if (state->version >= 60 && ast_kind == ZEND_AST_CONST_ELEM) {
 		zval tmp;
 		ZVAL_NULL(&tmp);
 		zend_hash_add_new(ht, AST_STR(str_docComment), &tmp);
 	}
 #endif
 
-	if (ast_kind_is_decl(ast->kind)) {
+	if (ast_kind_is_decl(ast_kind)) {
 		zval id_zval;
 		ZVAL_LONG(&id_zval, state->declIdCounter);
 		state->declIdCounter++;
