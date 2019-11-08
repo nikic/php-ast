@@ -23,6 +23,7 @@
  </stability>
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
+- Add AST_TYPE_UNION to support PHP 8.0 Union Types.
 - TBD.
  </notes>
  <contents>

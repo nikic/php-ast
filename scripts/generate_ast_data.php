@@ -161,6 +161,7 @@ $listNodes = [
 	'ZEND_AST_NAME_LIST',
 	'ZEND_AST_TRAIT_ADAPTATIONS',
 	'ZEND_AST_USE',
+	'ZEND_AST_TYPE_UNION',
 ];
 
 $data = [];

@@ -454,6 +454,7 @@ AST_STMT_LIST
 AST_SWITCH_LIST
 AST_TRAIT_ADAPTATIONS
 AST_USE
+AST_TYPE_UNION            // php 8.0+ union types
 ```
 
 AST Versioning
