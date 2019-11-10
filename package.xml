@@ -12,7 +12,13 @@
   <email>nikic@php.net</email>
   <active>yes</active>
  </lead>
- <date>2019-11-09</date>
+ <developer>
+  <name>Tyson Andre</name>
+  <user>tandre</user>
+  <email>tandre@php.net</email>
+  <active>yes</active>
+ </developer>
+ <date>2019-11-10</date>
  <version>
   <release>1.0.4</release>
   <api>1.0.4</api>
