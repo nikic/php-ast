@@ -12,10 +12,16 @@
   <email>nikic@php.net</email>
   <active>yes</active>
  </lead>
- <date>2019-07-27</date>
+ <developer>
+  <name>Tyson Andre</name>
+  <user>tandre</user>
+  <email>tandre@php.net</email>
+  <active>yes</active>
+ </developer>
+ <date>2019-11-10</date>
  <version>
-  <release>1.0.4dev</release>
-  <api>1.0.3</api>
+  <release>1.0.4</release>
+  <api>1.0.4</api>
  </version>
  <stability>
   <release>stable</release>
@@ -24,7 +30,6 @@
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
 - Add AST_TYPE_UNION to support PHP 8.0 Union Types.
-- TBD.
  </notes>
  <contents>
   <dir name="/">
@@ -86,6 +91,8 @@
       <file name="php74_ordinary_class.phpt" role="test" />
       <file name="php74_parenthesized_conditional.phpt" role="test" />
       <file name="php74_type_hints.phpt" role="test" />
+      <file name="php80_union_types.phpt" role="test" />
+      <file name="php80_union_types_nullable.phpt" role="test" />
       <file name="prop_doc_comments.phpt" role="test" />
       <file name="short_arrow_function.phpt" role="test" />
       <file name="short_arrow_function_return.phpt" role="test" />
