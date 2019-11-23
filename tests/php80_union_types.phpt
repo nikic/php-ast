@@ -65,7 +65,7 @@ AST_STMT_LIST
             0: AST_TYPE
                 flags: TYPE_STRING (%d)
             1: AST_TYPE
-                flags: 2
+                flags: TYPE_FALSE (%d)
         __declId: 0
     2: AST_CLASS
         flags: 0
@@ -119,7 +119,7 @@ AST_STMT_LIST
                 flags: NAME_RELATIVE (2)
                 name: "Xyz"
             1: AST_TYPE
-                flags: 2
+                flags: TYPE_FALSE (%d)
             2: AST_TYPE
                 flags: TYPE_NULL (%d)
         __declId: 2

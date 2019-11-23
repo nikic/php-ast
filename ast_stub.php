@@ -128,6 +128,7 @@ const CLASS_ANONYMOUS = 4;
 const PARAM_REF = 1;
 const PARAM_VARIADIC = 2;
 const TYPE_NULL = 1;
+const TYPE_FALSE = 2;
 const TYPE_BOOL = 18;
 const TYPE_LONG = 4;
 const TYPE_DOUBLE = 5;

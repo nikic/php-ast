@@ -106,6 +106,7 @@ static const char *param_flags[] = {
 
 static const char *type_flags[] = {
 	AST_FLAG(TYPE_NULL),
+	AST_FLAG(TYPE_FALSE),
 	AST_FLAG(TYPE_BOOL),
 	AST_FLAG(TYPE_LONG),
 	AST_FLAG(TYPE_DOUBLE),
@@ -1273,6 +1274,7 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("PARAM_VARIADIC", ZEND_PARAM_VARIADIC);
 
 	ast_register_flag_constant("TYPE_NULL", IS_NULL);
+	ast_register_flag_constant("TYPE_FALSE", IS_FALSE);
 	ast_register_flag_constant("TYPE_BOOL", _IS_BOOL);
 	ast_register_flag_constant("TYPE_LONG", IS_LONG);
 	ast_register_flag_constant("TYPE_DOUBLE", IS_DOUBLE);
