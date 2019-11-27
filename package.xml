@@ -20,7 +20,7 @@
  </lead>
  <date>2019-11-23</date>
  <version>
-  <release>1.0.5</release>
+  <release>1.0.6dev</release>
   <api>1.0.5</api>
  </version>
  <stability>
@@ -29,7 +29,7 @@
  </stability>
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
-- Add ast\flags\TYPE_FALSE to support PHP 8.0 Union Types.
+- TBD
  </notes>
  <contents>
   <dir name="/">
@@ -120,6 +120,21 @@
  <providesextension>ast</providesextension>
  <extsrcrelease />
  <changelog>
+  <release>
+   <date>2019-11-23</date>
+   <version>
+    <release>1.0.5</release>
+    <api>1.0.5</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
+   <notes>
+- Add ast\flags\TYPE_FALSE to support PHP 8.0 Union Types.
+   </notes>
+  </release>
   <release>
    <date>2019-11-10</date>
    <version>
