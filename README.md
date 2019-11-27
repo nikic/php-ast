@@ -58,13 +58,13 @@ Basic usage
 -----------
 
 Code can be parsed using either `ast\parse_code()`, which accepts a code string, or
-`ast\parse_file()`, which accepts a file path. Additionally both functions require a `$version`
-argument to ensure forward-compatibility. The current version is 50.
+`ast\parse_file()`, which accepts a file path. Additionally, both functions require a `$version`
+argument to ensure forward-compatibility. The current version is 70.
 
 ```php
-$ast = ast\parse_code('<?php ...', $version=50);
+$ast = ast\parse_code('<?php ...', $version=70);
 // or
-$ast = ast\parse_file('file.php', $version=50);
+$ast = ast\parse_file('file.php', $version=70);
 ```
 
 The abstract syntax tree returned by these functions consists of `ast\Node` objects.
@@ -109,7 +109,7 @@ $code = <<<'EOC'
 $var = 42;
 EOC;
 
-var_dump(ast\parse_code($code, $version=50));
+var_dump(ast\parse_code($code, $version=70));
 
 // Output:
 object(ast\Node)#1 (4) {
@@ -166,7 +166,7 @@ $code = <<<'EOC'
 $var = 42;
 EOC;
 
-echo ast_dump(ast\parse_code($code, $version=50)), "\n";
+echo ast_dump(ast\parse_code($code, $version=70)), "\n";
 
 // Output:
 AST_STMT_LIST
