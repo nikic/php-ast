@@ -267,6 +267,8 @@ ast\flags\TYPE_DOUBLE
 ast\flags\TYPE_STRING
 ast\flags\TYPE_ITERABLE
 ast\flags\TYPE_OBJECT
+ast\flags\TYPE_NULL   // php 8.0 union types
+ast\flags\TYPE_FALSE  // php 8.0 union types
 
 // Used by ast\AST_CAST (exclusive)
 ast\flags\TYPE_NULL
