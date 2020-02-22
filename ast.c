@@ -61,6 +61,11 @@
 # define ZEND_PARENTHESIZED_CONDITIONAL 1
 #endif
 
+/* Make IS_STATIC follow IS_ITERABLE in php 7.0 */
+#if PHP_VERSION_ID < 80000
+# define IS_STATIC 20
+#endif
+
 /* This contains state of the ast Node creator. */
 typedef struct ast_state_info {
 	zend_long version;
@@ -116,6 +121,7 @@ static const char *type_flags[] = {
 	AST_FLAG(TYPE_CALLABLE),
 	AST_FLAG(TYPE_VOID),
 	AST_FLAG(TYPE_ITERABLE),
+	AST_FLAG(TYPE_STATIC),
 	NULL
 };
 
@@ -1284,6 +1290,7 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("TYPE_CALLABLE", IS_CALLABLE);
 	ast_register_flag_constant("TYPE_VOID", IS_VOID);
 	ast_register_flag_constant("TYPE_ITERABLE", IS_ITERABLE);
+	ast_register_flag_constant("TYPE_STATIC", IS_STATIC);
 
 	ast_register_flag_constant("UNARY_BOOL_NOT", ZEND_BOOL_NOT);
 	ast_register_flag_constant("UNARY_BITWISE_NOT", ZEND_BW_NOT);

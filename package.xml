@@ -29,7 +29,7 @@
  </stability>
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
-- TBD
+- Support TYPE_STATIC for the php 8.0 static return type.
  </notes>
  <contents>
   <dir name="/">
@@ -53,6 +53,7 @@
       <file name="binary_ops.phpt" role="test" />
       <file name="by_ref_destructuring.phpt" role="test" />
       <file name="class_consts.phpt" role="test" />
+      <file name="class_on_objects.phpt" role="test" />
       <file name="class_name_version_50.phpt" role="test" />
       <file name="class_name_version_70.phpt" role="test" />
       <file name="class.phpt" role="test" />
@@ -93,6 +94,7 @@
       <file name="php74_type_hints.phpt" role="test" />
       <file name="php80_union_types.phpt" role="test" />
       <file name="php80_union_types_nullable.phpt" role="test" />
+      <file name="php80_static_type.phpt" role="test" />
       <file name="prop_doc_comments.phpt" role="test" />
       <file name="short_arrow_function.phpt" role="test" />
       <file name="short_arrow_function_return.phpt" role="test" />
