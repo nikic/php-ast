@@ -469,8 +469,7 @@ account for new features in newer PHP versions, or to improve it in other ways. 
 always be made under a new AST version, while previous formats continue to be supported for some
 time.
 
-Old AST versions may be deprecated and subsequently removed. However, AST versions will only be
-removed in conjunction with a version increase of the AST extension from 0.x to 0.(x+1).
+Old AST versions may be deprecated in minor versions and removed in major versions of the AST extension.
 
 A list of currently supported versions is available through `ast\get_supported_versions()`. The
 function accepts a boolean argument that determines whether deprecated versions should be excluded.
