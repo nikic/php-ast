@@ -64,6 +64,7 @@
 /* Make IS_STATIC follow IS_ITERABLE in php 7.0 */
 #if PHP_VERSION_ID < 80000
 # define IS_STATIC 20
+# define IS_MIXED 21
 #endif
 
 /* This contains state of the ast Node creator. */
@@ -122,6 +123,7 @@ static const char *type_flags[] = {
 	AST_FLAG(TYPE_VOID),
 	AST_FLAG(TYPE_ITERABLE),
 	AST_FLAG(TYPE_STATIC),
+	AST_FLAG(TYPE_MIXED),
 	NULL
 };
 
@@ -466,6 +468,8 @@ static const builtin_type_info builtin_types[] = {
 	{ZEND_STRL("object"), IS_OBJECT},
 	{ZEND_STRL("null"), IS_NULL},  /* Null and false for php 8.0 union types */
 	{ZEND_STRL("false"), IS_FALSE},
+	// {ZEND_STRL("static"), IS_STATIC},  /* Impossible to be parsed before php 8 */
+	{ZEND_STRL("mixed"), IS_MIXED},
 	{NULL, 0, IS_UNDEF}
 };
 static inline zend_uchar lookup_builtin_type(const zend_string *name) {
@@ -580,6 +584,7 @@ static inline void ast_name_to_zval(zend_ast *child, zend_ast *ast, zval *child_
 	if (child->attr == ZEND_NAME_NOT_FQ
 			&& ast_is_type(child, ast, i)
 			&& (type = lookup_builtin_type(zend_ast_get_str(child)))
+			&& (type != IS_MIXED || state->version >= 80)
 	) {
 		/* Convert "int" etc typehints to TYPE nodes */
 		ast_create_virtual_node_ex(
@@ -881,7 +886,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 #endif
 }
 
-static const zend_long versions[] = {50, 60, 70};
+static const zend_long versions[] = {50, 60, 70, 80};
 static const size_t versions_count = sizeof(versions)/sizeof(versions[0]);
 
 static inline zend_bool ast_version_deprecated(zend_long version) {
@@ -1291,6 +1296,7 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("TYPE_VOID", IS_VOID);
 	ast_register_flag_constant("TYPE_ITERABLE", IS_ITERABLE);
 	ast_register_flag_constant("TYPE_STATIC", IS_STATIC);
+	ast_register_flag_constant("TYPE_MIXED", IS_MIXED);
 
 	ast_register_flag_constant("UNARY_BOOL_NOT", ZEND_BOOL_NOT);
 	ast_register_flag_constant("UNARY_BITWISE_NOT", ZEND_BW_NOT);

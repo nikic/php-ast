@@ -270,6 +270,7 @@ ast\flags\TYPE_OBJECT
 ast\flags\TYPE_NULL    // php 8.0 union types
 ast\flags\TYPE_FALSE   // php 8.0 union types
 ast\flags\TYPE_STATIC  // php 8.0 static return type
+ast\flags\TYPE_MIXED   // php 8.0 mixed type
 
 // Used by ast\AST_CAST (exclusive)
 ast\flags\TYPE_NULL
@@ -476,6 +477,12 @@ function accepts a boolean argument that determines whether deprecated versions 
 
 In the following the changes in the respective AST versions, as well as their current support state,
 are listed.
+
+### 80 (experimental)
+
+Available since 1.0.7 (XXX).
+
+* `mixed` type hints are now reported as an `AST_TYPE` with type `TYPE_MIXED` instead of an `AST_NAME`.
 
 ### 70 (current)
 
