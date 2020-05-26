@@ -424,7 +424,7 @@ static inline zend_bool ast_is_type(zend_ast *ast, zend_ast *parent, uint32_t i)
 
 static inline zend_bool ast_is_var_name(zend_ast *ast, zend_ast *parent, uint32_t i) {
 	return (parent->kind == ZEND_AST_STATIC && i == 0)
-		|| (parent->kind == ZEND_AST_CATCH && i == 1);
+		|| (parent->kind == ZEND_AST_CATCH && i == 1 && ast != NULL);
 }
 
 /* Whether this node may need statement list normalization */
