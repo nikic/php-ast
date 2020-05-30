@@ -16,6 +16,7 @@
 	X(uses) \
 	X(stmts) \
 	X(returnType) \
+	X(attributes) \
 	X(extends) \
 	X(implements) \
 	X(expr) \
@@ -24,10 +25,10 @@
 	X(label) \
 	X(depth) \
 	X(class) \
+	X(const) \
 	X(dim) \
 	X(prop) \
 	X(args) \
-	X(const) \
 	X(left) \
 	X(right) \
 	X(value) \

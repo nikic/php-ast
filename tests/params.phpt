@@ -15,7 +15,7 @@ PHP;
 echo ast_dump(ast\parse_code($code, $version=50)), "\n";
 
 ?>
---EXPECT--
+--EXPECTF--
 AST_STMT_LIST
     0: AST_FUNC_DECL
         flags: 0
@@ -28,7 +28,7 @@ AST_STMT_LIST
                 name: "a"
                 default: null
             1: AST_PARAM
-                flags: PARAM_VARIADIC (2)
+                flags: PARAM_VARIADIC (%d)
                 type: null
                 name: "b"
                 default: null
@@ -42,12 +42,12 @@ AST_STMT_LIST
         docComment: null
         params: AST_PARAM_LIST
             0: AST_PARAM
-                flags: PARAM_REF (1)
+                flags: PARAM_REF (%d)
                 type: null
                 name: "a"
                 default: null
             1: AST_PARAM
-                flags: PARAM_REF | PARAM_VARIADIC (3)
+                flags: PARAM_REF | PARAM_VARIADIC (%d)
                 type: null
                 name: "b"
                 default: null
@@ -61,13 +61,13 @@ AST_STMT_LIST
         docComment: null
         params: AST_PARAM_LIST
             0: AST_PARAM
-                flags: PARAM_REF (1)
+                flags: PARAM_REF (%d)
                 type: AST_TYPE
                     flags: TYPE_ARRAY (7)
                 name: "a"
                 default: null
             1: AST_PARAM
-                flags: PARAM_REF | PARAM_VARIADIC (3)
+                flags: PARAM_REF | PARAM_VARIADIC (%d)
                 type: AST_TYPE
                     flags: TYPE_ARRAY (7)
                 name: "b"

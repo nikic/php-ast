@@ -9,6 +9,10 @@ php:
   - 7.4
   - nightly
 
+matrix:
+  allow_failures:
+    - php: master
+
 before_script:
   - phpize
   - ./configure
