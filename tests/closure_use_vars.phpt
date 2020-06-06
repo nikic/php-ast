@@ -29,7 +29,7 @@ AST_STMT_LIST
                     name: "a"
                     default: null
                 1: AST_PARAM
-                    flags: PARAM_REF (%d)
+                    flags: PARAM_REF (1)
                     type: null
                     name: "b"
                     default: null

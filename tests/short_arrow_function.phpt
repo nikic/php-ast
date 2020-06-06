@@ -74,7 +74,7 @@ AST_STMT_LIST
             docComment: "/** doc comment */"
             params: AST_PARAM_LIST
                 0: AST_PARAM
-                    flags: PARAM_VARIADIC (%d)
+                    flags: PARAM_VARIADIC (2)
                     type: AST_NULLABLE_TYPE
                         type: AST_TYPE
                             flags: TYPE_LONG (4)

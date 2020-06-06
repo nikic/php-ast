@@ -253,12 +253,9 @@ ast\flags\CLASS_TRAIT
 ast\flags\CLASS_INTERFACE
 ast\flags\CLASS_ANONYMOUS
 
-// Used by ast\AST_PARAM (combinable)
+// Used by ast\AST_PARAM (cominable)
 ast\flags\PARAM_REF
 ast\flags\PARAM_VARIADIC
-ast\flags\MODIFIER_PUBLIC
-ast\flags\MODIFIER_PROTECTED
-ast\flags\MODIFIER_PRIVATE
 
 // Used by ast\AST_TYPE (exclusive)
 ast\flags\TYPE_ARRAY
@@ -364,11 +361,10 @@ This section lists the AST node kinds that are supported and the names of their 
 
 ```
 AST_ARRAY_ELEM:       value, key
-AST_ARROW_FUNC:       name, docComment, params, stmts, returnType, attributes
+AST_ARROW_FUNC:       name, docComment, params, stmts, returnType
 AST_ASSIGN:           var, expr
 AST_ASSIGN_OP:        var, expr
 AST_ASSIGN_REF:       var, expr
-AST_ATTRIBUTE:        class, args            // php 8.0+ attributes
 AST_BINARY_OP:        left, right
 AST_BREAK:            depth
 AST_CALL:             expr, args
@@ -376,10 +372,9 @@ AST_CAST:             expr
 AST_CATCH:            class, var, stmts
 AST_CLASS:            name, docComment, extends, implements, stmts
 AST_CLASS_CONST:      class, const
-AST_CLASS_CONST_GROUP class, attributes      // version 80+
 AST_CLASS_NAME:       class                  // version 70+
 AST_CLONE:            expr
-AST_CLOSURE:          name, docComment, params, uses, stmts, returnType, attributes
+AST_CLOSURE:          name, docComment, params, uses, stmts, returnType
 AST_CLOSURE_VAR:      name
 AST_CONDITIONAL:      cond, true, false
 AST_CONST:            name
@@ -393,7 +388,7 @@ AST_EMPTY:            expr
 AST_EXIT:             expr
 AST_FOR:              init, cond, loop, stmts
 AST_FOREACH:          expr, value, key, stmts
-AST_FUNC_DECL:        name, docComment, params, stmts, returnType, attributes
+AST_FUNC_DECL:        name, docComment, params, stmts, returnType
                       uses                   // prior to version 60
 AST_GLOBAL:           var
 AST_GOTO:             label
@@ -405,7 +400,7 @@ AST_INSTANCEOF:       expr, class
 AST_ISSET:            var
 AST_LABEL:            name
 AST_MAGIC_CONST:
-AST_METHOD:           name, docComment, params, stmts, returnType, attributes
+AST_METHOD:           name, docComment, params, stmts, returnType
                       uses                   // prior to version 60
 AST_METHOD_CALL:      expr, method, args
 AST_METHOD_REFERENCE: class, method
@@ -413,7 +408,7 @@ AST_NAME:             name
 AST_NAMESPACE:        name, stmts
 AST_NEW:              class, args
 AST_NULLABLE_TYPE:    type                   // Used only since PHP 7.1
-AST_PARAM:            type, name, default, attributes, docComment
+AST_PARAM:            type, name, default
 AST_POST_DEC:         var
 AST_POST_INC:         var
 AST_PRE_DEC:          var
@@ -421,7 +416,7 @@ AST_PRE_INC:          var
 AST_PRINT:            expr
 AST_PROP:             expr, prop
 AST_PROP_ELEM:        name, default, docComment
-AST_PROP_GROUP:       type, props, attributes // version 70+
+AST_PROP_GROUP:       type, props            // version 70+
 AST_REF:              var                    // only used in foreach ($a as &$v)
 AST_RETURN:           expr
 AST_SHELL_EXEC:       expr
@@ -448,7 +443,6 @@ AST_YIELD_FROM:       expr
 // List nodes (numerically indexed children):
 AST_ARG_LIST
 AST_ARRAY
-AST_ATTRIBUTE_LIST        // php 8.0+ attributes
 AST_CATCH_LIST
 AST_CLASS_CONST_DECL
 AST_CLOSURE_USES
@@ -489,7 +483,6 @@ are listed.
 Available since 1.0.7 (XXX).
 
 * `mixed` type hints are now reported as an `AST_TYPE` with type `TYPE_MIXED` instead of an `AST_NAME`.
-* `AST_CLASS_CONST_GROUP` nodes are emitted for php 8.0 class constant declarations with a `const` and an optional `attributes` node.
 
 ### 70 (current)
 
