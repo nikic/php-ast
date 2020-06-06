@@ -1,6 +1,7 @@
 sudo: false
 language: php
 
+# The nightly builds are a week old. Wait until php 8.0 is stabilized?
 php:
   - 7.0
   - 7.1
@@ -11,7 +12,7 @@ php:
 
 matrix:
   allow_failures:
-    - php: master
+    - php: nightly
 
 before_script:
   - phpize
