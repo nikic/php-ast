@@ -45,7 +45,7 @@ $strDefsHeader = <<<EOC
 
 EOC;
 
-$funcNames = ['params', 'uses', 'stmts', 'returnType'];
+$funcNames = ['params', 'uses', 'stmts', 'returnType', 'attributes'];
 
 $names = [
     /* special nodes */
@@ -58,7 +58,7 @@ $names = [
     'ZEND_AST_CLOSURE' => $funcNames,
     'ZEND_AST_METHOD' => $funcNames,
     'ZEND_AST_ARROW_FUNC' => $funcNames,
-    'ZEND_AST_CLASS' => ['extends', 'implements', 'stmts'],
+    'ZEND_AST_CLASS' => ['extends', 'implements', 'stmts', 'attributes'],
 
     /* 0 child nodes */
     'ZEND_AST_MAGIC_CONST' => [],
@@ -97,6 +97,7 @@ $names = [
     'ZEND_AST_CLASS_NAME' => ['class'],
 
     /* 2 child nodes */
+    'ZEND_AST_CLASS_CONST_GROUP' => ['const', 'attributes'],
     'ZEND_AST_DIM' => ['expr', 'dim'],
     'ZEND_AST_PROP' => ['expr', 'prop'],
     'ZEND_AST_STATIC_PROP' => ['class', 'prop'],
@@ -119,7 +120,7 @@ $names = [
     'ZEND_AST_SWITCH_CASE' => ['cond', 'stmts'],
     'ZEND_AST_DECLARE' => ['declares', 'stmts'],
     'ZEND_AST_PROP_ELEM' => ['name', 'default', 'docComment'],
-    'ZEND_AST_PROP_GROUP' => ['type', 'props'],
+    'ZEND_AST_PROP_GROUP' => ['type', 'props', 'attributes'],
     'ZEND_AST_CONST_ELEM' => ['name', 'value', 'docComment'],
     'ZEND_AST_USE_TRAIT' => ['traits', 'adaptations'],
     'ZEND_AST_TRAIT_PRECEDENCE' => ['method', 'insteadof'],
@@ -128,6 +129,7 @@ $names = [
     'ZEND_AST_USE_ELEM' => ['name', 'alias'],
     'ZEND_AST_TRAIT_ALIAS' => ['method', 'alias'],
     'ZEND_AST_GROUP_USE' => ['prefix', 'uses'],
+    'ZEND_AST_ATTRIBUTE' => ['class', 'args'],
 
     /* 3 child nodes */
     'ZEND_AST_METHOD_CALL' => ['expr', 'method', 'args'],
@@ -136,11 +138,13 @@ $names = [
 
     'ZEND_AST_TRY' => ['try', 'catches', 'finally'],
     'ZEND_AST_CATCH' => ['class', 'var', 'stmts'],
-    'ZEND_AST_PARAM' => ['type', 'name', 'default'],
 
     /* 4 child nodes */
     'ZEND_AST_FOR' => ['init', 'cond', 'loop', 'stmts'],
     'ZEND_AST_FOREACH' => ['expr', 'value', 'key', 'stmts'],
+
+    /* 5 child nodes */
+    'ZEND_AST_PARAM' => ['type', 'name', 'default', 'attributes', 'docComment'],
 ];
 
 $listNodes = [
@@ -162,6 +166,7 @@ $listNodes = [
 	'ZEND_AST_TRAIT_ADAPTATIONS',
 	'ZEND_AST_USE',
 	'ZEND_AST_TYPE_UNION',
+	'ZEND_AST_ATTRIBUTE_LIST',
 ];
 
 $data = [];

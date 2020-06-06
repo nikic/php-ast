@@ -35,7 +35,7 @@ AST_STMT_LIST
                     0: AST_PARAM
                         flags: 0
                         type: AST_NAME
-                            flags: NAME_NOT_FQ (1)
+                            flags: NAME_NOT_FQ (%d)
                             name: "mixed"
                         name: "x"
                         default: null
@@ -44,7 +44,7 @@ AST_STMT_LIST
                         expr: AST_VAR
                             name: "this"
                 returnType: AST_NAME
-                    flags: NAME_NOT_FQ (1)
+                    flags: NAME_NOT_FQ (%d)
                     name: "mixed"
                 __declId: 0
         __declId: 1
@@ -67,11 +67,15 @@ AST_STMT_LIST
                             flags: TYPE_MIXED (%d)
                         name: "x"
                         default: null
+                        attributes: null
+                        docComment: null
                 stmts: AST_STMT_LIST
                     0: AST_RETURN
                         expr: AST_VAR
                             name: "this"
                 returnType: AST_TYPE
                     flags: TYPE_MIXED (%d)
+                attributes: null
                 __declId: 0
+        attributes: null
         __declId: 1
