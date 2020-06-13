@@ -376,7 +376,7 @@ static inline zend_bool ast_is_name(zend_ast *ast, zend_ast *parent, uint32_t i)
 		return 1;
 	}
 #if PHP_VERSION_ID >= 80000
-	if (parent->kind == ZEND_AST_TYPE_UNION || parent->kind == ZEND_AST_ATTRIBUTE) {
+	if (parent->kind == ZEND_AST_TYPE_UNION) {
 		return 1;
 	}
 #endif
@@ -388,6 +388,9 @@ static inline zend_bool ast_is_name(zend_ast *ast, zend_ast *parent, uint32_t i)
 			|| parent->kind == ZEND_AST_NEW || parent->kind == ZEND_AST_STATIC_CALL
 			|| parent->kind == ZEND_AST_CLASS_CONST || parent->kind == ZEND_AST_STATIC_PROP
 			|| parent->kind == ZEND_AST_PROP_GROUP || parent->kind == ZEND_AST_CLASS_NAME
+#if PHP_VERSION_ID >= 80000
+			|| parent->kind == ZEND_AST_ATTRIBUTE
+#endif
 			;
 	}
 
