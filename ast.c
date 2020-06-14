@@ -107,6 +107,11 @@ static const char *class_flags[] = {
 static const char *param_flags[] = {
 	AST_FLAG(PARAM_REF),
 	AST_FLAG(PARAM_VARIADIC),
+#if PHP_VERSION_ID >= 80000
+	AST_FLAG(MODIFIER_PUBLIC),
+	AST_FLAG(MODIFIER_PROTECTED),
+	AST_FLAG(MODIFIER_PRIVATE),
+#endif
 	NULL
 };
 
@@ -287,6 +292,8 @@ static const ast_flag_info flag_info[] = {
 	{ ZEND_AST_CONDITIONAL, 1, conditional_flags },
 };
 
+// NOTE(tandre) in php 8, to get a writeable pointer to a property, OBJ_PROP_NUM(AST_CACHE_SLOT_PROPNAME) can be used.
+
 static inline void ast_update_property(zval *object, zend_string *name, zval *value, void **cache_slot) {
 #if PHP_VERSION_ID < 80000
 	zval name_zv;
@@ -339,6 +346,7 @@ static zend_ast *get_ast(zend_string *code, zend_arena **ast_arena, char *filena
 	return ast;
 }
 
+/* Returns whether node->attr (i.e. flags) is used by this node kind. Not to be confused with php 8.0's attributes. */
 static inline zend_bool ast_kind_uses_attr(zend_ast_kind kind) {
 	return kind == ZEND_AST_PARAM || kind == ZEND_AST_TYPE || kind == ZEND_AST_TRAIT_ALIAS
 		|| kind == ZEND_AST_UNARY_OP || kind == ZEND_AST_BINARY_OP || kind == ZEND_AST_ASSIGN_OP
@@ -380,6 +388,9 @@ static inline zend_bool ast_is_name(zend_ast *ast, zend_ast *parent, uint32_t i)
 			|| parent->kind == ZEND_AST_NEW || parent->kind == ZEND_AST_STATIC_CALL
 			|| parent->kind == ZEND_AST_CLASS_CONST || parent->kind == ZEND_AST_STATIC_PROP
 			|| parent->kind == ZEND_AST_PROP_GROUP || parent->kind == ZEND_AST_CLASS_NAME
+#if PHP_VERSION_ID >= 80000
+			|| parent->kind == ZEND_AST_ATTRIBUTE
+#endif
 			;
 	}
 
@@ -507,7 +518,11 @@ static inline zend_ast_attr ast_assign_op_to_binary_op(zend_ast_attr attr) {
 static inline zend_ast **ast_get_children(zend_ast *ast, uint32_t *count) {
 	if (ast_kind_is_decl(ast->kind)) {
 		zend_ast_decl *decl = (zend_ast_decl *) ast;
+#if PHP_VERSION_ID >= 80000
+		*count = decl->kind == ZEND_AST_CLASS ? 4 : 5;
+#else
 		*count = decl->kind == ZEND_AST_CLASS ? 3 : 4;
+#endif
 		return decl->child;
 	} else if (zend_ast_is_list(ast)) {
 		zend_ast_list *list = zend_ast_get_list(ast);
@@ -622,6 +637,36 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 			}
 		}
 
+#if PHP_VERSION_ID >= 80000
+		if (state->version < 80) {
+			switch (ast_kind) {
+				case ZEND_AST_PARAM:
+					if (i >= 3) {
+						/* Skip attributes and doc comment */
+						continue;
+					}
+					break;
+				case ZEND_AST_METHOD:
+				case ZEND_AST_FUNC_DECL:
+				case ZEND_AST_CLOSURE:
+				case ZEND_AST_ARROW_FUNC:
+					if (i == 4) {
+						continue;
+					}
+					break;
+				case ZEND_AST_CLASS:
+					if (i == 3) {
+						continue;
+					}
+					break;
+				case ZEND_AST_PROP_GROUP:
+					if (i == 2) {
+						continue;
+					}
+					break;
+			}
+		}
+#endif
 		/* This AST_CATCH check should occur before ast_is_name() */
 #if PHP_VERSION_ID < 70100
 		if (ast_kind == ZEND_AST_CATCH && i == 0) {
@@ -629,7 +674,7 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 			zval tmp;
 			ast_create_virtual_node(&tmp, AST_NAME, child->attr, child, state);
 			ast_create_virtual_node_ex(
-				&child_zv, ZEND_AST_NAME_LIST, 0, zend_ast_get_lineno(child), state, 1, &tmp);
+					&child_zv, ZEND_AST_NAME_LIST, 0, zend_ast_get_lineno(child), state, 1, &tmp);
 		} else
 #endif
 		if (ast_is_name(child, ast, i)) {
@@ -693,11 +738,35 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 		zval tmp;
 		ZVAL_NULL(&tmp);
 		zend_hash_add_new(ht, AST_STR(str_docComment), &tmp);
+		return;
+	}
+#endif
+#if PHP_VERSION_ID < 80000
+	if (state->version >= 80) {
+		if (ast_kind == ZEND_AST_PARAM) {
+			zval tmp;
+			ZVAL_NULL(&tmp);
+			zend_hash_add_new(ht, AST_STR(str_attributes), &tmp);
+			zend_hash_add_new(ht, AST_STR(str_docComment), &tmp);
+			return;
+		} else if (ast_kind == ZEND_AST_PROP_GROUP) {
+			zval tmp;
+			ZVAL_NULL(&tmp);
+			zend_hash_add_new(ht, AST_STR(str_attributes), &tmp);
+			return;
+		}
 	}
 #endif
 
 	if (ast_kind_is_decl(ast_kind)) {
 		zval id_zval;
+#if PHP_VERSION_ID < 80000
+		if (state->version >= 80) {
+			zval tmp;
+			ZVAL_NULL(&tmp);
+			zend_hash_add_new(ht, AST_STR(str_attributes), &tmp);
+		}
+#endif
 		ZVAL_LONG(&id_zval, state->declIdCounter);
 		state->declIdCounter++;
 		zend_hash_add_new(ht, AST_STR(str___declId), &id_zval);
@@ -755,6 +824,15 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 			ast->kind = ZEND_AST_UNARY_OP;
 			ast->attr = AST_MINUS;
 			break;
+#if PHP_VERSION_ID >= 80000
+		case ZEND_AST_CLASS_CONST_GROUP:
+			// ast->child is [AST_CLASS_CONST_DECL, optional attributes_list]
+			if (state->version < 80) {
+				// Keep class constants as a list of numerically indexed values in php 8
+				ast_to_zval(zv, ast->child[0], state);
+				return;
+			}
+#endif
 #if PHP_VERSION_ID >= 70400
 		case ZEND_AST_PROP_GROUP:
 			if (state->version < 70) {
@@ -876,12 +954,30 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 #if PHP_VERSION_ID < 70400
 	if (ast->kind == ZEND_AST_PROP_DECL && state->version >= 70) {
 		zval type_zval;
-		zval prop_group_zval = *zv;
+		zval prop_group_zval;
+		ZVAL_COPY_VALUE(&prop_group_zval, zv);
 		ZVAL_NULL(&type_zval);
 		// For version 70, create an AST_PROP_GROUP wrapping the created AST_PROP_DECL.
-		ast_create_virtual_node_ex(
-				zv, ZEND_AST_PROP_GROUP, ast->attr, zend_ast_get_lineno(ast), state, 2, &type_zval, &prop_group_zval);
+		if (state->version >= 80) {
+			// For version 80, add a null attributes node.
+			ast_create_virtual_node_ex(
+					zv, ZEND_AST_PROP_GROUP, ast->attr, zend_ast_get_lineno(ast), state, 3, &type_zval, &prop_group_zval, &type_zval);
+		} else {
+			ast_create_virtual_node_ex(
+					zv, ZEND_AST_PROP_GROUP, ast->attr, zend_ast_get_lineno(ast), state, 2, &type_zval, &prop_group_zval);
+		}
 		ast_update_property_long(&prop_group_zval, AST_STR(str_flags), 0, AST_CACHE_SLOT_FLAGS);
+	}
+#endif
+#if PHP_VERSION_ID < 80000
+	if (ast->kind == ZEND_AST_CLASS_CONST_DECL && state->version >= 80) {
+		zval const_decl_zval;
+		zval attributes_zval;
+		ZVAL_COPY_VALUE(&const_decl_zval, zv);
+		ZVAL_NULL(&attributes_zval);
+		// For version 80, create an AST_CLASS_CONST_GROUP wrapping the created AST_CLASS_CONST_DECL
+		ast_create_virtual_node_ex(
+				zv, ZEND_AST_CLASS_CONST_GROUP, 0, zend_ast_get_lineno(ast), state, 2, &const_decl_zval, &attributes_zval);
 	}
 #endif
 }
