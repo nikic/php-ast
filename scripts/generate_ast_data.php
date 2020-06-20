@@ -130,6 +130,8 @@ $names = [
     'ZEND_AST_TRAIT_ALIAS' => ['method', 'alias'],
     'ZEND_AST_GROUP_USE' => ['prefix', 'uses'],
     'ZEND_AST_ATTRIBUTE' => ['class', 'args'],
+    'ZEND_AST_MATCH' => ['cond', 'stmts'],
+    'ZEND_AST_MATCH_ARM' => ['cond', 'expr'],
 
     /* 3 child nodes */
     'ZEND_AST_METHOD_CALL' => ['expr', 'method', 'args'],
@@ -167,6 +169,7 @@ $listNodes = [
 	'ZEND_AST_USE',
 	'ZEND_AST_TYPE_UNION',
 	'ZEND_AST_ATTRIBUTE_LIST',
+	'ZEND_AST_MATCH_ARM_LIST',
 ];
 
 $data = [];

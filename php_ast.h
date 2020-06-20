@@ -61,9 +61,12 @@ extern ast_str_globals str_globals;
 /* NOTE: For list nodes, the first set bit is 0x80 */
 # define ZEND_AST_TYPE_UNION ((1 << (ZEND_AST_IS_LIST_SHIFT + 1)) - 2)
 # define ZEND_AST_ATTRIBUTE_LIST ((1 << (ZEND_AST_IS_LIST_SHIFT + 1)) - 3)
-// NOTE: The first hex digit is the number of child nodes a given kind has
+# define ZEND_AST_MATCH_ARM_LIST ((1 << (ZEND_AST_IS_LIST_SHIFT + 1)) - 4)
 # define ZEND_AST_CLASS_CONST_GROUP 0x2fe
 # define ZEND_AST_ATTRIBUTE 0x2fd
+# define ZEND_AST_MATCH 0x2fc
+# define ZEND_AST_MATCH_ARM 0x2fb
+// NOTE: The first hex digit is the number of child nodes a given kind has
 #endif
 
 /* Pretend it still exists */
