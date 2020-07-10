@@ -287,6 +287,7 @@ static const ast_flag_info flag_info[] = {
 	{ ZEND_AST_PROP_DECL, 1, modifier_flags },
 	{ ZEND_AST_PROP_GROUP, 1, modifier_flags },
 	{ ZEND_AST_CLASS_CONST_DECL, 1, visibility_flags },
+	{ ZEND_AST_CLASS_CONST_GROUP, 1, visibility_flags },
 	{ ZEND_AST_TRAIT_ALIAS, 1, modifier_flags },
 	{ ZEND_AST_DIM, 1, dim_flags },
 	{ ZEND_AST_CONDITIONAL, 1, conditional_flags },
@@ -355,6 +356,7 @@ static inline zend_bool ast_kind_uses_attr(zend_ast_kind kind) {
 		|| kind == ZEND_AST_PROP_GROUP
 		|| kind == ZEND_AST_GROUP_USE || kind == ZEND_AST_USE_ELEM
 		|| kind == AST_NAME || kind == AST_CLOSURE_VAR || kind == ZEND_AST_CLASS_CONST_DECL
+        || kind == ZEND_AST_CLASS_CONST_GROUP
 		|| kind == ZEND_AST_ARRAY || kind == ZEND_AST_DIM || kind == ZEND_AST_CONDITIONAL;
 }
 
@@ -829,6 +831,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 			// ast->child is [AST_CLASS_CONST_DECL, optional attributes_list]
 			if (state->version < 80) {
 				// Keep class constants as a list of numerically indexed values in php 8
+                ast->child[0]->attr = ast->attr;
 				ast_to_zval(zv, ast->child[0], state);
 				return;
 			}
@@ -975,9 +978,10 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 		zval attributes_zval;
 		ZVAL_COPY_VALUE(&const_decl_zval, zv);
 		ZVAL_NULL(&attributes_zval);
+		ast_update_property_long(zv, AST_STR(str_flags), 0, AST_CACHE_SLOT_FLAGS);
 		// For version 80, create an AST_CLASS_CONST_GROUP wrapping the created AST_CLASS_CONST_DECL
 		ast_create_virtual_node_ex(
-				zv, ZEND_AST_CLASS_CONST_GROUP, 0, zend_ast_get_lineno(ast), state, 2, &const_decl_zval, &attributes_zval);
+				zv, ZEND_AST_CLASS_CONST_GROUP, ast->attr, zend_ast_get_lineno(ast), state, 2, &const_decl_zval, &attributes_zval);
 	}
 #endif
 }

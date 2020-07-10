@@ -14,6 +14,7 @@ $x = match($y) { 2 => 3, default => 5 };
 match(1) {};
 match(my_const) {
 	1, \other_const => $x,
+	default, => 123,
 };
 PHP;
 
@@ -53,3 +54,6 @@ AST_STMT_LIST
                             name: "other_const"
                 expr: AST_VAR
                     name: "x"
+            1: AST_MATCH_ARM
+                cond: null
+                expr: 123
