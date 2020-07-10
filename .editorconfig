@@ -1,0 +1,17 @@
+# https://editorconfig.org/
+root = true
+# 4 space indentation (no size specified)
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 4
+trim_trailing_whitespace = true
+insert_final_newline = true
+[*.{c,h}]
+indent_style = tab
+[*.xml]
+indent_size = 1
+indent_style = space
+[*.{md,php}]
+indent_size = 4
+indent_style = space
