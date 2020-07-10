@@ -356,7 +356,7 @@ static inline zend_bool ast_kind_uses_attr(zend_ast_kind kind) {
 		|| kind == ZEND_AST_PROP_GROUP
 		|| kind == ZEND_AST_GROUP_USE || kind == ZEND_AST_USE_ELEM
 		|| kind == AST_NAME || kind == AST_CLOSURE_VAR || kind == ZEND_AST_CLASS_CONST_DECL
-        || kind == ZEND_AST_CLASS_CONST_GROUP
+		|| kind == ZEND_AST_CLASS_CONST_GROUP
 		|| kind == ZEND_AST_ARRAY || kind == ZEND_AST_DIM || kind == ZEND_AST_CONDITIONAL;
 }
 
@@ -831,7 +831,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 			// ast->child is [AST_CLASS_CONST_DECL, optional attributes_list]
 			if (state->version < 80) {
 				// Keep class constants as a list of numerically indexed values in php 8
-                ast->child[0]->attr = ast->attr;
+				ast->child[0]->attr = ast->attr;
 				ast_to_zval(zv, ast->child[0], state);
 				return;
 			}
