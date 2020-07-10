@@ -12,6 +12,6 @@ indent_style = tab
 [*.xml]
 indent_size = 1
 indent_style = space
-[*.{md,php}]
+[*.{md,php,phpt}]
 indent_size = 4
 indent_style = space
