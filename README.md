@@ -256,9 +256,9 @@ ast\flags\CLASS_ANONYMOUS
 // Used by ast\AST_PARAM (combinable)
 ast\flags\PARAM_REF
 ast\flags\PARAM_VARIADIC
-ast\flags\MODIFIER_PUBLIC
-ast\flags\MODIFIER_PROTECTED
-ast\flags\MODIFIER_PRIVATE
+ast\flags\MODIFIER_PUBLIC (only in php 8.0+)
+ast\flags\MODIFIER_PROTECTED (only in php 8.0+)
+ast\flags\MODIFIER_PRIVATE (only in php 8.0+)
 
 // Used by ast\AST_TYPE (exclusive)
 ast\flags\TYPE_ARRAY

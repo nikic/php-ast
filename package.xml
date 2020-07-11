@@ -18,10 +18,10 @@
   <email>tandre@php.net</email>
   <active>yes</active>
  </lead>
- <date>2020-02-22</date>
+ <date>2020-07-11</date>
  <version>
-  <release>1.0.7dev</release>
-  <api>1.0.7dev</api>
+  <release>1.0.7</release>
+  <api>1.0.7</api>
  </version>
  <stability>
   <release>stable</release>
@@ -29,7 +29,13 @@
  </stability>
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
-- Add the experimental version 80, which returns `mixed` types as an `AST_TYPE` with type `TYPE_MIXED` instead of an `AST_NAME`.
+- Add the experimental AST version 80
+- In AST version 80, support returning `mixed` types as an `AST_TYPE` with type `TYPE_MIXED` instead of an `AST_NAME`.
+- In AST version 80, support PHP 8.0 attributes for declarations.
+- Support PHP 8.0's Match expressions.
+- Support PHP 8.0 constructor property promotion, and allow indicating visibility on AST nodes.
+  Note that `MODIFIER_PUBLIC` and `ast\AST_PARAM` modifiers had overlap in php 7.4,
+  so the `MODIFIER_*` modifiers are only included in the provided metadata for php 8.0+
  </notes>
  <contents>
   <dir name="/">
@@ -56,9 +62,9 @@
       <file name="by_ref_destructuring.phpt" role="test" />
       <file name="class_consts.phpt" role="test" />
       <file name="class_consts_80.phpt" role="test" />
-      <file name="class_on_objects.phpt" role="test" />
       <file name="class_name_version_50.phpt" role="test" />
       <file name="class_name_version_70.phpt" role="test" />
+      <file name="class_on_objects.phpt" role="test" />
       <file name="class.phpt" role="test" />
       <file name="class_types.phpt" role="test" />
       <file name="closure_use_vars.phpt" role="test" />
@@ -97,9 +103,12 @@
       <file name="php74_ordinary_class.phpt" role="test" />
       <file name="php74_parenthesized_conditional.phpt" role="test" />
       <file name="php74_type_hints.phpt" role="test" />
-      <file name="php80_union_types.phpt" role="test" />
-      <file name="php80_union_types_nullable.phpt" role="test" />
+      <file name="php80_noncapturing_catch.phpt" role="test" />
+      <file name="php80_promotion.phpt" role="test" />
       <file name="php80_static_type.phpt" role="test" />
+      <file name="php80_union_types.phpt" role="test" />
+      <file name="php80_union_types_false.phpt" role="test" />
+      <file name="php80_union_types_nullable.phpt" role="test" />
       <file name="prop_doc_comments.phpt" role="test" />
       <file name="short_arrow_function.phpt" role="test" />
       <file name="short_arrow_function_return.phpt" role="test" />
