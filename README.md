@@ -405,6 +405,8 @@ AST_INSTANCEOF:       expr, class
 AST_ISSET:            var
 AST_LABEL:            name
 AST_MAGIC_CONST:
+AST_MATCH:            cond, stmts            // php 8.0+ match
+AST_MATCH_ARM:        cond, expr             // php 8.0+ match
 AST_METHOD:           name, docComment, params, stmts, returnType, attributes
                       uses                   // prior to version 60
 AST_METHOD_CALL:      expr, method, args
@@ -457,6 +459,7 @@ AST_ENCAPS_LIST           // interpolated string: "foo$bar"
 AST_EXPR_LIST
 AST_IF
 AST_LIST
+AST_MATCH_ARM_LIST        // php 8.0+ match
 AST_NAME_LIST
 AST_PARAM_LIST
 AST_PROP_DECL

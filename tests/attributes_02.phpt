@@ -101,8 +101,9 @@ AST_STMT_LIST
                                     flags: NAME_NOT_FQ (%d)
                                     name: "true"
             1: AST_CLASS_CONST_GROUP
+                flags: MODIFIER_PUBLIC (%d)
                 const: AST_CLASS_CONST_DECL
-                    flags: MODIFIER_PUBLIC (%d)
+                    flags: 0
                     0: AST_CONST_ELEM
                         name: "CONST_WITH_ATTRIBUTE"
                         value: 123

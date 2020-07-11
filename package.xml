@@ -50,9 +50,12 @@
       <file name="array_destructuring.phpt" role="test" />
       <file name="assign_ops.phpt" role="test" />
       <file name="ast_dump_with_linenos.phpt" role="test" />
+      <file name="attributes_01.phpt" role="test" />
+      <file name="attributes_02.phpt" role="test" />
       <file name="binary_ops.phpt" role="test" />
       <file name="by_ref_destructuring.phpt" role="test" />
       <file name="class_consts.phpt" role="test" />
+      <file name="class_consts_80.phpt" role="test" />
       <file name="class_on_objects.phpt" role="test" />
       <file name="class_name_version_50.phpt" role="test" />
       <file name="class_name_version_70.phpt" role="test" />
@@ -73,7 +76,9 @@
       <file name="get_supported_versions.phpt" role="test" />
       <file name="invalid_file.php" role="test" />
       <file name="magic_constants.phpt" role="test" />
+      <file name="match_expression.phpt" role="test" />
       <file name="metadata.phpt" role="test" />
+      <file name="mixed_type.phpt" role="test" />
       <file name="multi_catch.phpt" role="test" />
       <file name="multiple_final_modifiers.phpt" role="test" />
       <file name="named_children.phpt" role="test" />
