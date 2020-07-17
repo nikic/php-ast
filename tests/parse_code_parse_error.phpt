@@ -18,11 +18,11 @@ try {
 
 ?>
 --EXPECTF--
-ParseError: syntax error, unexpected '&', expecting end of file in string code:1
+ParseError: syntax error, unexpected %s&%s expecting end of file in string code:1
 Stack trace:
 #0 %s(%d): ast\parse_code('%s', %d)
 #1 {main}
-ParseError: syntax error, unexpected '&', expecting end of file in file.php:1
+ParseError: syntax error, unexpected %s&%s expecting end of file in file.php:1
 Stack trace:
 #0 %s(%d): ast\parse_code('%s', %d, 'file.php')
 #1 {main}
