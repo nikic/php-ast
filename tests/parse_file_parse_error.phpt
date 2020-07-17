@@ -11,7 +11,7 @@ try {
 
 ?>
 --EXPECTF--
-ParseError: syntax error, unexpected ')' in %stests/invalid_file.php:3
+ParseError: syntax error, unexpected %s)%s in %stests/invalid_file.php:3
 Stack trace:
 #0 %s(%d): ast\parse_file('%s', %d)
 #1 {main}
