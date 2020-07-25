@@ -94,6 +94,7 @@ const zend_ast_kind ast_kinds[] = {
 	ZEND_AST_ATTRIBUTE,
 	ZEND_AST_MATCH,
 	ZEND_AST_MATCH_ARM,
+	ZEND_AST_NAMED_ARG,
 	ZEND_AST_METHOD_CALL,
 	ZEND_AST_STATIC_CALL,
 	ZEND_AST_CONDITIONAL,
@@ -201,6 +202,7 @@ const char *ast_kind_to_name(zend_ast_kind kind) {
 		case ZEND_AST_ATTRIBUTE: return "AST_ATTRIBUTE";
 		case ZEND_AST_MATCH: return "AST_MATCH";
 		case ZEND_AST_MATCH_ARM: return "AST_MATCH_ARM";
+		case ZEND_AST_NAMED_ARG: return "AST_NAMED_ARG";
 		case ZEND_AST_METHOD_CALL: return "AST_METHOD_CALL";
 		case ZEND_AST_STATIC_CALL: return "AST_STATIC_CALL";
 		case ZEND_AST_CONDITIONAL: return "AST_CONDITIONAL";
@@ -631,6 +633,12 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 				case 1: return AST_STR(str_expr);
 			}
 			return NULL;
+		case ZEND_AST_NAMED_ARG:
+			switch (child) {
+				case 0: return AST_STR(str_name);
+				case 1: return AST_STR(str_expr);
+			}
+			return NULL;
 		case ZEND_AST_METHOD_CALL:
 			switch (child) {
 				case 0: return AST_STR(str_expr);
@@ -790,6 +798,7 @@ void ast_register_kind_constants(INIT_FUNC_ARGS) {
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_ATTRIBUTE", ZEND_AST_ATTRIBUTE, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_MATCH", ZEND_AST_MATCH, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_MATCH_ARM", ZEND_AST_MATCH_ARM, CONST_CS | CONST_PERSISTENT);
+	REGISTER_NS_LONG_CONSTANT("ast", "AST_NAMED_ARG", ZEND_AST_NAMED_ARG, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_METHOD_CALL", ZEND_AST_METHOD_CALL, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_STATIC_CALL", ZEND_AST_STATIC_CALL, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_CONDITIONAL", ZEND_AST_CONDITIONAL, CONST_CS | CONST_PERSISTENT);

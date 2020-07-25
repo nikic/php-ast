@@ -11,16 +11,16 @@ $code = <<<'PHP'
 <?php
 namespace NS;
 
-<<\SomeAttribute()>>
+@@\SomeAttribute()
 class X {
-    <<Attr1>>
-    <<Attr2(true)>>
+    @@Attr1
+    @@Attr2(true)
     public $prop;
 
-    <<Attr3>>
+    @@Attr3
     public const CONST_WITH_ATTRIBUTE = 123;
 
-    <<Attr4>>
+    @@Attr4
     public static function hasAttribute() {}
 }
 PHP;
