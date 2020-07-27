@@ -65,6 +65,14 @@
 #if PHP_VERSION_ID < 80000
 # define IS_STATIC 20
 # define IS_MIXED 21
+/* In PHP 7.0-7.4, PARAM_REF and PARAM_VARIADIC were 1 and 2. */
+# define PARAM_MODIFIER_PUBLIC    (1 << 2)
+# define PARAM_MODIFIER_PROTECTED (1 << 3)
+# define PARAM_MODIFIER_PRIVATE   (1 << 4)
+#else
+# define PARAM_MODIFIER_PUBLIC    ZEND_ACC_PUBLIC
+# define PARAM_MODIFIER_PROTECTED ZEND_ACC_PROTECTED
+# define PARAM_MODIFIER_PRIVATE   ZEND_ACC_PRIVATE
 #endif
 
 /* This contains state of the ast Node creator. */
@@ -107,11 +115,9 @@ static const char *class_flags[] = {
 static const char *param_flags[] = {
 	AST_FLAG(PARAM_REF),
 	AST_FLAG(PARAM_VARIADIC),
-#if PHP_VERSION_ID >= 80000
-	AST_FLAG(MODIFIER_PUBLIC),
-	AST_FLAG(MODIFIER_PROTECTED),
-	AST_FLAG(MODIFIER_PRIVATE),
-#endif
+	AST_FLAG(PARAM_MODIFIER_PUBLIC),
+	AST_FLAG(PARAM_MODIFIER_PROTECTED),
+	AST_FLAG(PARAM_MODIFIER_PRIVATE),
 	NULL
 };
 
@@ -1367,6 +1373,10 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("MODIFIER_STATIC", ZEND_ACC_STATIC);
 	ast_register_flag_constant("MODIFIER_ABSTRACT", ZEND_ACC_ABSTRACT);
 	ast_register_flag_constant("MODIFIER_FINAL", ZEND_ACC_FINAL);
+
+	ast_register_flag_constant("PARAM_MODIFIER_PUBLIC", PARAM_MODIFIER_PUBLIC);
+	ast_register_flag_constant("PARAM_MODIFIER_PROTECTED", PARAM_MODIFIER_PROTECTED);
+	ast_register_flag_constant("PARAM_MODIFIER_PRIVATE", PARAM_MODIFIER_PRIVATE);
 
 	ast_register_flag_constant("RETURNS_REF", ZEND_ACC_RETURN_REFERENCE);
 	ast_register_flag_constant("FUNC_RETURNS_REF", ZEND_ACC_RETURN_REFERENCE);
