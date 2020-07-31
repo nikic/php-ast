@@ -38,13 +38,13 @@ AST_STMT_LIST
                 docComment: "/** Doc comment for __construct */"
                 params: AST_PARAM_LIST
                     0: AST_PARAM
-                        flags: MODIFIER_PUBLIC (%d)
+                        flags: PARAM_MODIFIER_PUBLIC (%d)
                         type: AST_TYPE
                             flags: TYPE_LONG (4)
                         name: "a"
                         default: null
                     1: AST_PARAM
-                        flags: PARAM_REF | MODIFIER_PRIVATE (%d)
+                        flags: PARAM_REF | PARAM_MODIFIER_PRIVATE (%d)
                         type: AST_NAME
                             flags: NAME_NOT_FQ (1)
                             name: "stdClass"
@@ -54,7 +54,7 @@ AST_STMT_LIST
                                 flags: NAME_NOT_FQ (1)
                                 name: "null"
                     2: AST_PARAM
-                        flags: MODIFIER_PROTECTED (%d)
+                        flags: PARAM_MODIFIER_PROTECTED (%d)
                         type: AST_TYPE
                             flags: TYPE_ITERABLE (13)
                         name: "c"
