@@ -412,6 +412,7 @@ AST_METHOD:           name, docComment, params, stmts, returnType, attributes
 AST_METHOD_CALL:      expr, method, args
 AST_METHOD_REFERENCE: class, method
 AST_NAME:             name
+AST_NAMED_ARG:        name, expr             // php 8.0 named parameters
 AST_NAMESPACE:        name, stmts
 AST_NEW:              class, args
 AST_NULLABLE_TYPE:    type                   // Used only since PHP 7.1

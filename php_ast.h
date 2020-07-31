@@ -66,6 +66,7 @@ extern ast_str_globals str_globals;
 # define ZEND_AST_ATTRIBUTE 0x2fd
 # define ZEND_AST_MATCH 0x2fc
 # define ZEND_AST_MATCH_ARM 0x2fb
+# define ZEND_AST_NAMED_ARG 0x2fa
 // NOTE: The first hex digit is the number of child nodes a given kind has
 #endif
 

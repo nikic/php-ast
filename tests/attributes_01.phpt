@@ -11,13 +11,13 @@ $code = <<<'PHP'
 <?php
 namespace NS;
 
-<<SomeAttribute>>
-function test(<<namespace\SomeAttribute(2+2)>> Type $arg) {
+@@SomeAttribute
+function test(@@namespace\SomeAttribute(2+2) Type $arg) {
 }
 
-$x = <<SomeAttribute>> function () {};
+$x = @@SomeAttribute function () {};
 
-$y = <<SomeAttribute>> fn (<<\SomeAttribute>> $a) => $x;
+$y = @@SomeAttribute fn (@@\SomeAttribute $a) => $x;
 PHP;
 
 echo ast_dump(ast\parse_code($code, $version=70));
