@@ -100,6 +100,7 @@ $names = [
     'ZEND_AST_CLASS_CONST_GROUP' => ['const', 'attributes'],
     'ZEND_AST_DIM' => ['expr', 'dim'],
     'ZEND_AST_PROP' => ['expr', 'prop'],
+    'ZEND_AST_NULLSAFE_PROP' => ['expr', 'prop'],
     'ZEND_AST_STATIC_PROP' => ['class', 'prop'],
     'ZEND_AST_CALL' => ['expr', 'args'],
     'ZEND_AST_CLASS_CONST' => ['class', 'const'],
@@ -136,6 +137,7 @@ $names = [
 
     /* 3 child nodes */
     'ZEND_AST_METHOD_CALL' => ['expr', 'method', 'args'],
+    'ZEND_AST_NULLSAFE_METHOD_CALL' => ['expr', 'method', 'args'],
     'ZEND_AST_STATIC_CALL' => ['class', 'method', 'args'],
     'ZEND_AST_CONDITIONAL' => ['cond', 'true', 'false'],
 

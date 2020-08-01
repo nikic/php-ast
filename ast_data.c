@@ -63,6 +63,7 @@ const zend_ast_kind ast_kinds[] = {
 	ZEND_AST_CLASS_CONST_GROUP,
 	ZEND_AST_DIM,
 	ZEND_AST_PROP,
+	ZEND_AST_NULLSAFE_PROP,
 	ZEND_AST_STATIC_PROP,
 	ZEND_AST_CALL,
 	ZEND_AST_CLASS_CONST,
@@ -96,6 +97,7 @@ const zend_ast_kind ast_kinds[] = {
 	ZEND_AST_MATCH_ARM,
 	ZEND_AST_NAMED_ARG,
 	ZEND_AST_METHOD_CALL,
+	ZEND_AST_NULLSAFE_METHOD_CALL,
 	ZEND_AST_STATIC_CALL,
 	ZEND_AST_CONDITIONAL,
 	ZEND_AST_TRY,
@@ -171,6 +173,7 @@ const char *ast_kind_to_name(zend_ast_kind kind) {
 		case ZEND_AST_CLASS_CONST_GROUP: return "AST_CLASS_CONST_GROUP";
 		case ZEND_AST_DIM: return "AST_DIM";
 		case ZEND_AST_PROP: return "AST_PROP";
+		case ZEND_AST_NULLSAFE_PROP: return "AST_NULLSAFE_PROP";
 		case ZEND_AST_STATIC_PROP: return "AST_STATIC_PROP";
 		case ZEND_AST_CALL: return "AST_CALL";
 		case ZEND_AST_CLASS_CONST: return "AST_CLASS_CONST";
@@ -204,6 +207,7 @@ const char *ast_kind_to_name(zend_ast_kind kind) {
 		case ZEND_AST_MATCH_ARM: return "AST_MATCH_ARM";
 		case ZEND_AST_NAMED_ARG: return "AST_NAMED_ARG";
 		case ZEND_AST_METHOD_CALL: return "AST_METHOD_CALL";
+		case ZEND_AST_NULLSAFE_METHOD_CALL: return "AST_NULLSAFE_METHOD_CALL";
 		case ZEND_AST_STATIC_CALL: return "AST_STATIC_CALL";
 		case ZEND_AST_CONDITIONAL: return "AST_CONDITIONAL";
 		case ZEND_AST_TRY: return "AST_TRY";
@@ -444,6 +448,12 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 				case 1: return AST_STR(str_prop);
 			}
 			return NULL;
+		case ZEND_AST_NULLSAFE_PROP:
+			switch (child) {
+				case 0: return AST_STR(str_expr);
+				case 1: return AST_STR(str_prop);
+			}
+			return NULL;
 		case ZEND_AST_STATIC_PROP:
 			switch (child) {
 				case 0: return AST_STR(str_class);
@@ -646,6 +656,13 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 				case 2: return AST_STR(str_args);
 			}
 			return NULL;
+		case ZEND_AST_NULLSAFE_METHOD_CALL:
+			switch (child) {
+				case 0: return AST_STR(str_expr);
+				case 1: return AST_STR(str_method);
+				case 2: return AST_STR(str_args);
+			}
+			return NULL;
 		case ZEND_AST_STATIC_CALL:
 			switch (child) {
 				case 0: return AST_STR(str_class);
@@ -767,6 +784,7 @@ void ast_register_kind_constants(INIT_FUNC_ARGS) {
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_CLASS_CONST_GROUP", ZEND_AST_CLASS_CONST_GROUP, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_DIM", ZEND_AST_DIM, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_PROP", ZEND_AST_PROP, CONST_CS | CONST_PERSISTENT);
+	REGISTER_NS_LONG_CONSTANT("ast", "AST_NULLSAFE_PROP", ZEND_AST_NULLSAFE_PROP, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_STATIC_PROP", ZEND_AST_STATIC_PROP, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_CALL", ZEND_AST_CALL, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_CLASS_CONST", ZEND_AST_CLASS_CONST, CONST_CS | CONST_PERSISTENT);
@@ -800,6 +818,7 @@ void ast_register_kind_constants(INIT_FUNC_ARGS) {
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_MATCH_ARM", ZEND_AST_MATCH_ARM, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_NAMED_ARG", ZEND_AST_NAMED_ARG, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_METHOD_CALL", ZEND_AST_METHOD_CALL, CONST_CS | CONST_PERSISTENT);
+	REGISTER_NS_LONG_CONSTANT("ast", "AST_NULLSAFE_METHOD_CALL", ZEND_AST_NULLSAFE_METHOD_CALL, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_STATIC_CALL", ZEND_AST_STATIC_CALL, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_CONDITIONAL", ZEND_AST_CONDITIONAL, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_TRY", ZEND_AST_TRY, CONST_CS | CONST_PERSISTENT);

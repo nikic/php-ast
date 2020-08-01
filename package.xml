@@ -34,6 +34,7 @@
   The new constants will have the same values as `ast\flags\MODIFIER_*` in PHP 8.0+, but different values in PHP 7
   (and these flags will never be set in php 7).
 - Support PHP 8.0's named arguments.
+- Support PHP 8.0's nullsafe operator (`?->`).
  </notes>
  <contents>
   <dir name="/">
@@ -103,6 +104,7 @@
       <file name="php74_type_hints.phpt" role="test" />
       <file name="php80_named_params.phpt" role="test" />
       <file name="php80_noncapturing_catch.phpt" role="test" />
+      <file name="php80_nullsafe_operator.phpt" role="test" />
       <file name="php80_promotion.phpt" role="test" />
       <file name="php80_static_type.phpt" role="test" />
       <file name="php80_union_types.phpt" role="test" />
