@@ -72,62 +72,62 @@ environment:
                 - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
                   ARCH: x64
                   VC: vc15
-                  PHP_VER: 7.2.26
+                  PHP_VER: 7.2.32
                   TS: 0
                 - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
                   ARCH: x64
                   VC: vc15
-                  PHP_VER: 7.2.26
+                  PHP_VER: 7.2.32
                   TS: 1
                 - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
                   ARCH: x86
                   VC: vc15
-                  PHP_VER: 7.2.26
+                  PHP_VER: 7.2.32
                   TS: 0
                 - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
                   ARCH: x86
                   VC: vc15
-                  PHP_VER: 7.2.26
-                  TS: 1
-                - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-                  ARCH: x64
-                  VC: vc15
-                  PHP_VER: 7.3.13
-                  TS: 0
-                - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-                  ARCH: x64
-                  VC: vc15
-                  PHP_VER: 7.3.13
-                  TS: 1
-                - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-                  ARCH: x86
-                  VC: vc15
-                  PHP_VER: 7.3.13
-                  TS: 0
-                - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-                  ARCH: x86
-                  VC: vc15
-                  PHP_VER: 7.3.13
+                  PHP_VER: 7.2.32
                   TS: 1
                 - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
                   ARCH: x64
                   VC: vc15
-                  PHP_VER: 7.4.1
+                  PHP_VER: 7.3.20
                   TS: 0
                 - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
                   ARCH: x64
                   VC: vc15
-                  PHP_VER: 7.4.1
+                  PHP_VER: 7.3.20
                   TS: 1
                 - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
                   ARCH: x86
                   VC: vc15
-                  PHP_VER: 7.4.1
+                  PHP_VER: 7.3.20
                   TS: 0
                 - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
                   ARCH: x86
                   VC: vc15
-                  PHP_VER: 7.4.1
+                  PHP_VER: 7.3.20
+                  TS: 1
+                - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+                  ARCH: x64
+                  VC: vc15
+                  PHP_VER: 7.4.8
+                  TS: 0
+                - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+                  ARCH: x64
+                  VC: vc15
+                  PHP_VER: 7.4.8
+                  TS: 1
+                - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+                  ARCH: x86
+                  VC: vc15
+                  PHP_VER: 7.4.8
+                  TS: 0
+                - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+                  ARCH: x86
+                  VC: vc15
+                  PHP_VER: 7.4.8
                   TS: 1
 
 build_script:
