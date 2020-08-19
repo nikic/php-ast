@@ -454,6 +454,7 @@ AST_YIELD_FROM:           expr
 AST_ARG_LIST
 AST_ARRAY
 AST_ATTRIBUTE_LIST        // php 8.0+ attributes (version 80+)
+AST_ATTRIBUTE_GROUP       // php 8.0+ attributes (version 80+)
 AST_CATCH_LIST
 AST_CLASS_CONST_DECL
 AST_CLOSURE_USES
