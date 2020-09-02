@@ -329,16 +329,15 @@ static zend_ast *get_ast(zend_string *code, zend_arena **ast_arena, char *filena
 	CG(in_compilation) = 1;
 
 	zend_save_lexical_state(&original_lex_state);
-	if (zend_prepare_string_for_scanning(&code_zv, filename) == SUCCESS) {
-		CG(ast) = NULL;
-		CG(ast_arena) = zend_arena_create(1024 * 32);
-		LANG_SCNG(yy_state) = yycINITIAL;
+	zend_prepare_string_for_scanning(&code_zv, filename);
+	CG(ast) = NULL;
+	CG(ast_arena) = zend_arena_create(1024 * 32);
+	LANG_SCNG(yy_state) = yycINITIAL;
 
-		if (zendparse() != 0) {
-			zend_ast_destroy(CG(ast));
-			zend_arena_destroy(CG(ast_arena));
-			CG(ast) = NULL;
-		}
+	if (zendparse() != 0) {
+		zend_ast_destroy(CG(ast));
+		zend_arena_destroy(CG(ast_arena));
+		CG(ast) = NULL;
 	}
 
 	/* restore_lexical_state changes CG(ast) and CG(ast_arena) */
