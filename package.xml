@@ -18,10 +18,10 @@
   <email>tandre@php.net</email>
   <active>yes</active>
  </lead>
- <date>2020-08-04</date>
+ <date>2020-09-02</date>
  <version>
-  <release>1.0.8</release>
-  <api>1.0.8</api>
+  <release>1.0.9</release>
+  <api>1.0.9</api>
  </version>
  <stability>
   <release>stable</release>
@@ -29,12 +29,7 @@
  </stability>
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
-- Recommend using the new constant `ast\flags\PARAM_MODIFIER_*` when checking if parameters use constructor property promotion.
-  The values of `ast\flags\MODIFIER_*` and `ast\flags\PARAM_VARIADIC` had some overlap in some php 7 versions.
-  The new constants will have the same values as `ast\flags\MODIFIER_*` in PHP 8.0+, but different values in PHP 7
-  (and these flags will never be set in php 7).
-- Support PHP 8.0's named arguments.
-- Support PHP 8.0's nullsafe operator (`?->`).
+- Support API change in php 8.0.0beta3.
  </notes>
  <contents>
   <dir name="/">
@@ -137,6 +132,26 @@
  <providesextension>ast</providesextension>
  <extsrcrelease />
  <changelog>
+  <release>
+   <date>2020-08-04</date>
+   <version>
+    <release>1.0.8</release>
+    <api>1.0.8</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
+   <notes>
+- Recommend using the new constant `ast\flags\PARAM_MODIFIER_*` when checking if parameters use constructor property promotion.
+  The values of `ast\flags\MODIFIER_*` and `ast\flags\PARAM_VARIADIC` had some overlap in some php 7 versions.
+  The new constants will have the same values as `ast\flags\MODIFIER_*` in PHP 8.0+, but different values in PHP 7
+  (and these flags will never be set in php 7).
+- Support PHP 8.0's named arguments.
+- Support PHP 8.0's nullsafe operator (`?->`).
+   </notes>
+  </release>
   <release>
    <date>2020-07-11</date>
    <version>
