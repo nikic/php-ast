@@ -363,90 +363,92 @@ AST node kinds
 This section lists the AST node kinds that are supported and the names of their child nodes.
 
 ```
-AST_ARRAY_ELEM:       value, key
-AST_ARROW_FUNC:       name, docComment, params, stmts, returnType, attributes
-AST_ASSIGN:           var, expr
-AST_ASSIGN_OP:        var, expr
-AST_ASSIGN_REF:       var, expr
-AST_ATTRIBUTE:        class, args            // php 8.0+ attributes (version 80+)
-AST_BINARY_OP:        left, right
-AST_BREAK:            depth
-AST_CALL:             expr, args
-AST_CAST:             expr
-AST_CATCH:            class, var, stmts
-AST_CLASS:            name, docComment, extends, implements, stmts
-AST_CLASS_CONST:      class, const
-AST_CLASS_CONST_GROUP class, attributes      // version 80+
-AST_CLASS_NAME:       class                  // version 70+
-AST_CLONE:            expr
-AST_CLOSURE:          name, docComment, params, uses, stmts, returnType, attributes
-AST_CLOSURE_VAR:      name
-AST_CONDITIONAL:      cond, true, false
-AST_CONST:            name
-AST_CONST_ELEM:       name, value, docComment
-AST_CONTINUE:         depth
-AST_DECLARE:          declares, stmts
-AST_DIM:              expr, dim
-AST_DO_WHILE:         stmts, cond
-AST_ECHO:             expr
-AST_EMPTY:            expr
-AST_EXIT:             expr
-AST_FOR:              init, cond, loop, stmts
-AST_FOREACH:          expr, value, key, stmts
-AST_FUNC_DECL:        name, docComment, params, stmts, returnType, attributes
-                      uses                   // prior to version 60
-AST_GLOBAL:           var
-AST_GOTO:             label
-AST_GROUP_USE:        prefix, uses
-AST_HALT_COMPILER:    offset
-AST_IF_ELEM:          cond, stmts
-AST_INCLUDE_OR_EVAL:  expr
-AST_INSTANCEOF:       expr, class
-AST_ISSET:            var
-AST_LABEL:            name
+AST_ARRAY_ELEM:           value, key
+AST_ARROW_FUNC:           name, docComment, params, stmts, returnType, attributes
+AST_ASSIGN:               var, expr
+AST_ASSIGN_OP:            var, expr
+AST_ASSIGN_REF:           var, expr
+AST_ATTRIBUTE:            class, args            // php 8.0+ attributes (version 80+)
+AST_BINARY_OP:            left, right
+AST_BREAK:                depth
+AST_CALL:                 expr, args
+AST_CAST:                 expr
+AST_CATCH:                class, var, stmts
+AST_CLASS:                name, docComment, extends, implements, stmts
+AST_CLASS_CONST:          class, const
+AST_CLASS_CONST_GROUP     class, attributes      // version 80+
+AST_CLASS_NAME:           class                  // version 70+
+AST_CLONE:                expr
+AST_CLOSURE:              name, docComment, params, uses, stmts, returnType, attributes
+AST_CLOSURE_VAR:          name
+AST_CONDITIONAL:          cond, true, false
+AST_CONST:                name
+AST_CONST_ELEM:           name, value, docComment
+AST_CONTINUE:             depth
+AST_DECLARE:              declares, stmts
+AST_DIM:                  expr, dim
+AST_DO_WHILE:             stmts, cond
+AST_ECHO:                 expr
+AST_EMPTY:                expr
+AST_EXIT:                 expr
+AST_FOR:                  init, cond, loop, stmts
+AST_FOREACH:              expr, value, key, stmts
+AST_FUNC_DECL:            name, docComment, params, stmts, returnType, attributes
+                          uses                   // prior to version 60
+AST_GLOBAL:               var
+AST_GOTO:                 label
+AST_GROUP_USE:            prefix, uses
+AST_HALT_COMPILER:        offset
+AST_IF_ELEM:              cond, stmts
+AST_INCLUDE_OR_EVAL:      expr
+AST_INSTANCEOF:           expr, class
+AST_ISSET:                var
+AST_LABEL:                name
 AST_MAGIC_CONST:
-AST_MATCH:            cond, stmts            // php 8.0+ match
-AST_MATCH_ARM:        cond, expr             // php 8.0+ match
-AST_METHOD:           name, docComment, params, stmts, returnType, attributes
-                      uses                   // prior to version 60
-AST_METHOD_CALL:      expr, method, args
-AST_METHOD_REFERENCE: class, method
-AST_NAME:             name
-AST_NAMED_ARG:        name, expr             // php 8.0 named parameters
-AST_NAMESPACE:        name, stmts
-AST_NEW:              class, args
-AST_NULLABLE_TYPE:    type                   // Used only since PHP 7.1
-AST_PARAM:            type, name, default, attributes, docComment
-AST_POST_DEC:         var
-AST_POST_INC:         var
-AST_PRE_DEC:          var
-AST_PRE_INC:          var
-AST_PRINT:            expr
-AST_PROP:             expr, prop
-AST_PROP_ELEM:        name, default, docComment
-AST_PROP_GROUP:       type, props, attributes // version 70+
-AST_REF:              var                    // only used in foreach ($a as &$v)
-AST_RETURN:           expr
-AST_SHELL_EXEC:       expr
-AST_STATIC:           var, default
-AST_STATIC_CALL:      class, method, args
-AST_STATIC_PROP:      class, prop
-AST_SWITCH:           cond, stmts
-AST_SWITCH_CASE:      cond, stmts
-AST_THROW:            expr
-AST_TRAIT_ALIAS:      method, alias
-AST_TRAIT_PRECEDENCE: method, insteadof
-AST_TRY:              try, catches, finally
+AST_MATCH:                cond, stmts            // php 8.0+ match
+AST_MATCH_ARM:            cond, expr             // php 8.0+ match
+AST_METHOD:               name, docComment, params, stmts, returnType, attributes
+                          uses                   // prior to version 60
+AST_METHOD_CALL:          expr, method, args
+AST_METHOD_REFERENCE:     class, method
+AST_NAME:                 name
+AST_NAMED_ARG:            name, expr             // php 8.0 named parameters
+AST_NAMESPACE:            name, stmts
+AST_NEW:                  class, args
+AST_NULLABLE_TYPE:        type                   // Used only since PHP 7.1
+AST_NULLSAFE_METHOD_CALL: expr, method, args     // php 8.0 null safe operator
+AST_NULLSAFE_PROP:        expr, prop             // php 8.0 null safe operator
+AST_PARAM:                type, name, default, attributes, docComment
+AST_POST_DEC:             var
+AST_POST_INC:             var
+AST_PRE_DEC:              var
+AST_PRE_INC:              var
+AST_PRINT:                expr
+AST_PROP:                 expr, prop
+AST_PROP_ELEM:            name, default, docComment
+AST_PROP_GROUP:           type, props, attributes // version 70+
+AST_REF:                  var                    // only used in foreach ($a as &$v)
+AST_RETURN:               expr
+AST_SHELL_EXEC:           expr
+AST_STATIC:               var, default
+AST_STATIC_CALL:          class, method, args
+AST_STATIC_PROP:          class, prop
+AST_SWITCH:               cond, stmts
+AST_SWITCH_CASE:          cond, stmts
+AST_THROW:                expr
+AST_TRAIT_ALIAS:          method, alias
+AST_TRAIT_PRECEDENCE:     method, insteadof
+AST_TRY:                  try, catches, finally
 AST_TYPE:
-AST_UNARY_OP:         expr
-AST_UNPACK:           expr
-AST_UNSET:            var
-AST_USE_ELEM:         name, alias
-AST_USE_TRAIT:        traits, adaptations
-AST_VAR:              name
-AST_WHILE:            cond, stmts
-AST_YIELD:            value, key
-AST_YIELD_FROM:       expr
+AST_UNARY_OP:             expr
+AST_UNPACK:               expr
+AST_UNSET:                var
+AST_USE_ELEM:             name, alias
+AST_USE_TRAIT:            traits, adaptations
+AST_VAR:                  name
+AST_WHILE:                cond, stmts
+AST_YIELD:                value, key
+AST_YIELD_FROM:           expr
 
 // List nodes (numerically indexed children):
 AST_ARG_LIST
