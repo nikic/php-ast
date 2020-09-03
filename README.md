@@ -114,7 +114,7 @@ var_dump(ast\parse_code($code, $version=70));
 // Output:
 object(ast\Node)#1 (4) {
   ["kind"]=>
-  int(133)
+  int(132)
   ["flags"]=>
   int(0)
   ["lineno"]=>
