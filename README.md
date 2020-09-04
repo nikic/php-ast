@@ -491,16 +491,17 @@ function accepts a boolean argument that determines whether deprecated versions 
 In the following the changes in the respective AST versions, as well as their current support state,
 are listed.
 
-### 80 (experimental)
+### 80 (current)
 
-Available since 1.0.7 (XXX).
+Supported since 1.0.10 (XXX).
 
 * `mixed` type hints are now reported as an `AST_TYPE` with type `TYPE_MIXED` instead of an `AST_NAME`.
-* `AST_CLASS_CONST_GROUP` nodes are emitted for all class constant declarations.
+* `AST_CLASS_CONST_GROUP` nodes are emitted for class constant declarations wrapping the `AST_CLASS_CONST_DECL` and any attributes.
+  Previously, `AST_CLASS_CONST_DECL` would be emitted.
 * `AST_PARAM`, `AST_CLASS_DECL`, `AST_METHOD`, `AST_PROP_DECL`, `AST_CLOSURE`, `AST_FUNC_DECL`, and `AST_ARROW_FUNC` nodes
   now contain an attributes child.
 
-### 70 (current)
+### 70 (stable)
 
 Supported since 1.0.1 (2019-02-11).
 
