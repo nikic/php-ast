@@ -7,7 +7,7 @@
 extern zend_module_entry ast_module_entry;
 #define phpext_ast_ptr &ast_module_entry
 
-#define PHP_AST_VERSION "1.0.9"
+#define PHP_AST_VERSION "1.0.10dev"
 
 #ifdef PHP_WIN32
 #	define PHP_AST_API __declspec(dllexport)
@@ -62,6 +62,7 @@ extern ast_str_globals str_globals;
 # define ZEND_AST_TYPE_UNION ((1 << (ZEND_AST_IS_LIST_SHIFT + 1)) - 2)
 # define ZEND_AST_ATTRIBUTE_LIST ((1 << (ZEND_AST_IS_LIST_SHIFT + 1)) - 3)
 # define ZEND_AST_MATCH_ARM_LIST ((1 << (ZEND_AST_IS_LIST_SHIFT + 1)) - 4)
+# define ZEND_AST_ATTRIBUTE_GROUP ((1 << (ZEND_AST_IS_LIST_SHIFT + 1)) - 5)
 /* 2 child nodes */
 # define ZEND_AST_CLASS_CONST_GROUP 0x2fe
 # define ZEND_AST_ATTRIBUTE 0x2fd
