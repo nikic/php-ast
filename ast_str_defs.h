@@ -19,6 +19,7 @@
 	X(attributes) \
 	X(extends) \
 	X(implements) \
+	X(__PLACEHOLDER__) \
 	X(expr) \
 	X(var) \
 	X(offset) \

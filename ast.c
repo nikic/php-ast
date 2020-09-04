@@ -526,7 +526,7 @@ static inline zend_ast **ast_get_children(zend_ast *ast, uint32_t *count) {
 	if (ast_kind_is_decl(ast->kind)) {
 		zend_ast_decl *decl = (zend_ast_decl *) ast;
 #if PHP_VERSION_ID >= 80000
-		*count = decl->kind == ZEND_AST_CLASS ? 4 : 5;
+		*count = 5;
 #else
 		*count = decl->kind == ZEND_AST_CLASS ? 3 : 4;
 #endif
@@ -662,7 +662,7 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 					}
 					break;
 				case ZEND_AST_CLASS:
-					if (i == 3) {
+					if (i >= 3) {
 						continue;
 					}
 					break;
@@ -671,6 +671,10 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 						continue;
 					}
 					break;
+			}
+		} else {
+			if (ast_kind == ZEND_AST_CLASS && i == 3) {
+				continue;
 			}
 		}
 #endif

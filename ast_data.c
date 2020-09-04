@@ -280,7 +280,8 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 				case 0: return AST_STR(str_extends);
 				case 1: return AST_STR(str_implements);
 				case 2: return AST_STR(str_stmts);
-				case 3: return AST_STR(str_attributes);
+				case 3: return AST_STR(str___PLACEHOLDER__);
+				case 4: return AST_STR(str_attributes);
 			}
 			return NULL;
 		case ZEND_AST_MAGIC_CONST:

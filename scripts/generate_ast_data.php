@@ -58,7 +58,9 @@ $names = [
     'ZEND_AST_CLOSURE' => $funcNames,
     'ZEND_AST_METHOD' => $funcNames,
     'ZEND_AST_ARROW_FUNC' => $funcNames,
-    'ZEND_AST_CLASS' => ['extends', 'implements', 'stmts', 'attributes'],
+    // In php 8.0, the 4th child of AST_CLASS is always null.
+    // (so that declarations always have attributes at index 4?)
+    'ZEND_AST_CLASS' => ['extends', 'implements', 'stmts', '__PLACEHOLDER__', 'attributes'],
 
     /* 0 child nodes */
     'ZEND_AST_MAGIC_CONST' => [],
