@@ -217,7 +217,7 @@ namespace ast;
  *
  * @see https://github.com/nikic/php-ast for version information
  */
-function parse_file($filename, $version)
+function parse_file(string $filename, int $version)
 {
 }
 
@@ -231,7 +231,7 @@ function parse_file($filename, $version)
  *
  * @see https://github.com/nikic/php-ast for version information
  */
-function parse_code($code, $version, $filename = "string code")
+function parse_code(string $code, int $version, string $filename = "string code")
 {
 }
 
@@ -239,7 +239,7 @@ function parse_code($code, $version, $filename = "string code")
  * @param int $kind AST_* constant value defining the kind of an AST node
  * @return string String representation of AST kind value
  */
-function get_kind_name($kind)
+function get_kind_name(int $kind): string
 {
 }
 
@@ -247,7 +247,7 @@ function get_kind_name($kind)
  * @param int $kind AST_* constant value defining the kind of an AST node
  * @return bool Returns true if AST kind uses flags
  */
-function kind_uses_flags($kind)
+function kind_uses_flags(int $kind): bool
 {
 }
 
@@ -258,7 +258,7 @@ function kind_uses_flags($kind)
  *
  * @return Metadata[] Metadata about AST kinds
  */
-function get_metadata()
+function get_metadata(): array
 {
 }
 
@@ -268,7 +268,7 @@ function get_metadata()
  * @param bool $exclude_deprecated Whether to exclude deprecated versions
  * @return int[] Array of supported AST versions
  */
-function get_supported_versions($exclude_deprecated = false)
+function get_supported_versions($exclude_deprecated = false): array
 {
 }
 

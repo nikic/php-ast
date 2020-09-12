@@ -31,6 +31,10 @@
  <notes>
 - Support attributes syntax change (`#[...]`) in php 8.0.0RC1.
 - Change the current AST version from 70 to 80. AST version 80 is no longer experimental.
+- Add `ReflectionParameter` defaults for `ast\parse_code` and `ast\get_supported_versions` in php 8.
+- Add parameter types and return types to reflection for various global functions.
+  php-ast was already throwing a `TypeError` when invalid parameter types were received.
+- Always throw instead of warning when invalid parameters are passed to the ast\Node constructor.
  </notes>
  <contents>
   <dir name="/">
@@ -39,6 +43,7 @@
     <file name="util.php" role="doc" />
     <file name="ast.c" role="src" />
     <file name="ast_data.c" role="src" />
+    <file name="ast_arginfo.h" role="src" />
     <file name="ast_str_defs.h" role="src" />
     <file name="ast_stub.php" role="doc" />
     <file name="LICENSE" role="doc" />
@@ -85,6 +90,7 @@
       <file name="named_children.phpt" role="test" />
       <file name="name_node.phpt" role="test" />
       <file name="nested_stmt_lists.phpt" role="test" />
+      <file name="node_constructor_throw.phpt" role="test" />
       <file name="nop_statements.phpt" role="test" />
       <file name="nullable_types.phpt" role="test" />
       <file name="object_type.phpt" role="test" />

@@ -14,6 +14,29 @@
 #include "zend_exceptions.h"
 #include "zend_smart_str.h"
 
+#ifndef ZEND_ARG_INFO_WITH_DEFAULT_VALUE
+#define ZEND_ARG_INFO_WITH_DEFAULT_VALUE(pass_by_ref, name, default_value) \
+	ZEND_ARG_INFO(pass_by_ref, name)
+#endif
+#if PHP_VERSION_ID < 70200
+#undef ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX
+#define ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(name, return_reference, required_num_args, class_name, allow_null) \
+	static const zend_internal_arg_info name[] = { \
+	   	{ (const char*)(zend_uintptr_t)(required_num_args), ( #class_name ), 0, return_reference, allow_null, 0 },
+#endif
+
+#ifndef ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX
+#define ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(name, return_reference, required_num_args, class_name, allow_null) \
+	ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(name, return_reference, required_num_args, class_name, allow_null)
+#endif
+
+#ifndef ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE
+#define ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(pass_by_ref, name, type_hint, allow_null, default_value) \
+	ZEND_ARG_TYPE_INFO(pass_by_ref, name, type_hint, allow_null)
+#endif
+
+#include "ast_arginfo.h"
+
 #define ast_throw_exception(exception_ce, ...) \
 	zend_throw_exception_ex(exception_ce, 0, __VA_ARGS__)
 
@@ -1242,7 +1265,7 @@ PHP_METHOD(ast_Node, __construct) {
 	zend_long lineno;
 	zend_bool kindNull, flagsNull, linenoNull;
 
-	ZEND_PARSE_PARAMETERS_START(0, 4)
+	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 0, 4)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_LONG_EX(kind, kindNull, 1, 0)
 		Z_PARAM_LONG_EX(flags, flagsNull, 1, 0)
@@ -1278,39 +1301,6 @@ PHP_METHOD(ast_Node, __construct) {
 	}
 }
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_parse_file, 0, 0, 2)
-	ZEND_ARG_INFO(0, filename)
-	ZEND_ARG_INFO(0, version)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_parse_code, 0, 0, 2)
-	ZEND_ARG_INFO(0, code)
-	ZEND_ARG_INFO(0, version)
-	ZEND_ARG_INFO(0, filename)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_get_kind_name, 0, 0, 1)
-	ZEND_ARG_INFO(0, kind)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_kind_uses_flags, 0, 0, 1)
-	ZEND_ARG_INFO(0, kind)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_get_metadata, 0, 0, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_get_supported_versions, 0, 0, 0)
-	ZEND_ARG_INFO(0, exclude_deprecated)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_node_construct, 0, 0, 0)
-	ZEND_ARG_INFO(0, kind)
-	ZEND_ARG_INFO(0, flags)
-	ZEND_ARG_ARRAY_INFO(0, children, 1)
-	ZEND_ARG_INFO(0, lineno)
-ZEND_END_ARG_INFO()
-
 const zend_function_entry ast_functions[] = {
 	ZEND_NS_FE("ast", parse_file, arginfo_parse_file)
 	ZEND_NS_FE("ast", parse_code, arginfo_parse_code)
@@ -1322,7 +1312,7 @@ const zend_function_entry ast_functions[] = {
 };
 
 const zend_function_entry ast_node_functions[] = {
-	PHP_ME(ast_Node, __construct, arginfo_node_construct, ZEND_ACC_PUBLIC)
+	PHP_ME(ast_Node, __construct, arginfo_class_Node___construct, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
