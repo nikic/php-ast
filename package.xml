@@ -34,6 +34,7 @@
 - Add `ReflectionParameter` defaults for `ast\parse_code` and `ast\get_supported_versions` in php 8.
 - Add parameter types and return types to reflection for various global functions.
   php-ast was already throwing a `TypeError` when invalid parameter types were received.
+- Always throw instead of warning when invalid parameters are passed to the ast\Node constructor.
  </notes>
  <contents>
   <dir name="/">
@@ -89,6 +90,7 @@
       <file name="named_children.phpt" role="test" />
       <file name="name_node.phpt" role="test" />
       <file name="nested_stmt_lists.phpt" role="test" />
+      <file name="node_constructor_throw.phpt" role="test" />
       <file name="nop_statements.phpt" role="test" />
       <file name="nullable_types.phpt" role="test" />
       <file name="object_type.phpt" role="test" />

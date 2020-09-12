@@ -68,7 +68,7 @@ class Node
      * @param array|null $children
      * @param int|null $lineno
      */
-    public function __construct($kind = null, $flags = null, $children = null, $lineno = null) {
+    public function __construct(?int $kind = null, ?int $flags = null, ?array $children = null, ?int $lineno = null) {
     }
 }
 

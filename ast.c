@@ -1265,7 +1265,7 @@ PHP_METHOD(ast_Node, __construct) {
 	zend_long lineno;
 	zend_bool kindNull, flagsNull, linenoNull;
 
-	ZEND_PARSE_PARAMETERS_START(0, 4)
+	ZEND_PARSE_PARAMETERS_START_EX(ZEND_PARSE_PARAMS_THROW, 0, 4)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_LONG_EX(kind, kindNull, 1, 0)
 		Z_PARAM_LONG_EX(flags, flagsNull, 1, 0)
