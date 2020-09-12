@@ -20,8 +20,8 @@
  </lead>
  <date>2020-09-12</date>
  <version>
-  <release>1.0.10</release>
-  <api>1.0.10</api>
+  <release>1.0.11dev</release>
+  <api>1.0.11dev</api>
  </version>
  <stability>
   <release>stable</release>
@@ -29,12 +29,6 @@
  </stability>
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
-- Support attributes syntax change (`#[...]`) in php 8.0.0RC1.
-- Change the current AST version from 70 to 80. AST version 80 is no longer experimental.
-- Add `ReflectionParameter` defaults for `ast\parse_code` and `ast\get_supported_versions` in php 8.
-- Add parameter types and return types to reflection for various global functions.
-  php-ast was already throwing a `TypeError` when invalid parameter types were received.
-- Always throw instead of warning when invalid parameters are passed to the ast\Node constructor.
  </notes>
  <contents>
   <dir name="/">
@@ -140,19 +134,39 @@
  <extsrcrelease />
  <changelog>
   <release>
-  <date>2020-09-02</date>
-  <version>
-   <release>1.0.9</release>
-   <api>1.0.9</api>
-  </version>
-  <stability>
-   <release>stable</release>
-   <api>stable</api>
-  </stability>
-  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
-  <notes>
+   <date>2020-09-12</date>
+   <version>
+    <release>1.0.10</release>
+    <api>1.0.10</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
+   <notes>
+- Support attributes syntax change (`#[...]`) in php 8.0.0RC1.
+- Change the current AST version from 70 to 80. AST version 80 is no longer experimental.
+- Add `ReflectionParameter` defaults for `ast\parse_code` and `ast\get_supported_versions` in php 8.
+- Add parameter types and return types to reflection for various global functions.
+  php-ast was already throwing a `TypeError` when invalid parameter types were received.
+- Always throw instead of warning when invalid parameters are passed to the ast\Node constructor.
+   </notes>
+  </release>
+  <release>
+   <date>2020-09-02</date>
+   <version>
+    <release>1.0.9</release>
+    <api>1.0.9</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
+   <notes>
 - Support API change in php 8.0.0beta3.
-  </notes>
+   </notes>
   </release>
   <release>
    <date>2020-08-04</date>
