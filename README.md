@@ -493,7 +493,7 @@ are listed.
 
 ### 80 (current)
 
-Supported since 1.0.10 (XXX).
+Supported since 1.0.10 (2020-09-12).
 
 * `mixed` type hints are now reported as an `AST_TYPE` with type `TYPE_MIXED` instead of an `AST_NAME`.
 * `AST_CLASS_CONST_GROUP` nodes are emitted for class constant declarations wrapping the `AST_CLASS_CONST_DECL` and any attributes.
