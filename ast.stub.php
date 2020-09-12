@@ -69,10 +69,6 @@ class Node
      * @param int|null $lineno
      */
     public function __construct($kind = null, $flags = null, $children = null, $lineno = null) {
-        $this->kind = $kind;
-        $this->flags = $flags;
-        $this->children = $children;
-        $this->lineno = $lineno;
     }
 }
 
