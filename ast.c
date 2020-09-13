@@ -863,6 +863,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 				ast_to_zval(zv, ast->child[0], state);
 				return;
 			}
+			break;
 #endif
 #if PHP_VERSION_ID >= 70400
 		case ZEND_AST_PROP_GROUP:
