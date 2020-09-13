@@ -15,7 +15,7 @@ declare(ticks=1);
 declare(ticks=1) {}
 PHP;
 
-echo ast_dump(ast\parse_code($code, $version=60)), "\n";
+echo ast_dump(ast\parse_code($code, $version=70)), "\n";
 
 ?>
 --EXPECT--

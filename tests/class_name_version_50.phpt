@@ -17,6 +17,7 @@ $node = ast\parse_code($code, $version=50);
 echo ast_dump($node), "\n";
 ?>
 --EXPECTF--
+Deprecated: ast\parse_code(): Version 50 is deprecated in %s.php on line 13
 AST_STMT_LIST
     0: AST_NAMESPACE
         name: "Foo"

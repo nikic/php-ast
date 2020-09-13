@@ -37,6 +37,7 @@ echo ast_dump($ast) . "\n";
 
 ?>
 --EXPECTF--
+Deprecated: ast\parse_code(): Version 50 is deprecated in %s.php on line 26
 array(4) {
   [0]=>
   string(8) "ast\Node"

@@ -11,7 +11,7 @@ list($a, $b) = $x;
 list(, $b) = $x;
 PHP;
 
-echo ast_dump(ast\parse_code($code, $version=50));
+echo ast_dump(ast\parse_code($code, $version=70));
 
 ?>
 --EXPECTF--
