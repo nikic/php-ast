@@ -175,7 +175,13 @@ AST_STMT_LIST
                                 name: "Attr5"
                             args: AST_ARG_LIST
                 __declId: 0
-        attributes: null
+        attributes: AST_ATTRIBUTE_LIST
+            0: AST_ATTRIBUTE_GROUP
+                0: AST_ATTRIBUTE
+                    class: AST_NAME
+                        flags: NAME_FQ (%d)
+                        name: "SomeAttribute"
+                    args: AST_ARG_LIST
         __declId: 1
     2: AST_FUNC_DECL
         flags: 0
