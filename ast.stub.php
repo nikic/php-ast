@@ -1,5 +1,7 @@
 <?php
 
+/** @generate-function-entries */
+
 /**
  * USE ast_stub.php INSTEAD IF YOU ARE LOOKING FOR DOCUMENTATION OR STUBS FOR YOUR IDE.
  *
@@ -7,10 +9,7 @@
  * to generate Reflection information (ReflectionParameter, ReflectionFunction, ReflectionMethod, etc.)
  */
 
-// XXX: build/gen_stub.php does not support namespace nodes at the time of writing.
-// The namespace is thus deliberately omitted so that ast_arginfo.h can be successfully built.
-// namespace ast;
-
+namespace ast;
 
 /**
  * Parses code file and returns AST root node.

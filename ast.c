@@ -1253,7 +1253,7 @@ PHP_FUNCTION(get_supported_versions) {
 	}
 }
 
-PHP_METHOD(ast_Node, __construct) {
+PHP_METHOD(Node, __construct) {
 	int num_args = ZEND_NUM_ARGS();
 	if (num_args == 0) {
 		/* If arguments aren't passed, leave them as their default values. */
@@ -1301,21 +1301,6 @@ PHP_METHOD(ast_Node, __construct) {
 			break;
 	}
 }
-
-const zend_function_entry ast_functions[] = {
-	ZEND_NS_FE("ast", parse_file, arginfo_parse_file)
-	ZEND_NS_FE("ast", parse_code, arginfo_parse_code)
-	ZEND_NS_FE("ast", get_kind_name, arginfo_get_kind_name)
-	ZEND_NS_FE("ast", kind_uses_flags, arginfo_kind_uses_flags)
-	ZEND_NS_FE("ast", get_metadata, arginfo_get_metadata)
-	ZEND_NS_FE("ast", get_supported_versions, arginfo_get_supported_versions)
-	PHP_FE_END
-};
-
-const zend_function_entry ast_node_functions[] = {
-	PHP_ME(ast_Node, __construct, arginfo_class_Node___construct, ZEND_ACC_PUBLIC)
-	PHP_FE_END
-};
 
 PHP_MINFO_FUNCTION(ast) {
 	zend_string *info = ast_version_info();
@@ -1463,7 +1448,7 @@ PHP_MINIT_FUNCTION(ast) {
 
 	ast_register_flag_constant("PARENTHESIZED_CONDITIONAL", ZEND_PARENTHESIZED_CONDITIONAL);
 
-	INIT_CLASS_ENTRY(tmp_ce, "ast\\Node", ast_node_functions);
+	INIT_CLASS_ENTRY(tmp_ce, "ast\\Node", class_Node_methods);
 	ast_node_ce = zend_register_internal_class(&tmp_ce);
 	ast_declare_property(ast_node_ce, AST_STR(str_kind), &zv_null);
 	ast_declare_property(ast_node_ce, AST_STR(str_flags), &zv_null);
@@ -1491,7 +1476,7 @@ PHP_MSHUTDOWN_FUNCTION(ast) {
 zend_module_entry ast_module_entry = {
 	STANDARD_MODULE_HEADER,
 	"ast",
-	ast_functions,
+	ext_functions,
 	PHP_MINIT(ast),
 	PHP_MSHUTDOWN(ast),
 	PHP_RINIT(ast),
