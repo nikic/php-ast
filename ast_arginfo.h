@@ -27,7 +27,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_ast_get_supported_versions, 0, 0
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, exclude_deprecated, _IS_BOOL, 0, "false")
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_class_Node___construct, 0, 0, 0)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_class_ast_Node___construct, 0, 0, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, kind, IS_LONG, 1, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, flags, IS_LONG, 1, "null")
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, children, IS_ARRAY, 1, "null")
@@ -41,7 +41,7 @@ ZEND_FUNCTION(get_kind_name);
 ZEND_FUNCTION(kind_uses_flags);
 ZEND_FUNCTION(get_metadata);
 ZEND_FUNCTION(get_supported_versions);
-ZEND_METHOD(Node, __construct);
+ZEND_METHOD(ast_Node, __construct);
 
 
 static const zend_function_entry ext_functions[] = {
@@ -55,7 +55,7 @@ static const zend_function_entry ext_functions[] = {
 };
 
 
-static const zend_function_entry class_Node_methods[] = {
-	ZEND_ME(Node, __construct, arginfo_class_Node___construct, ZEND_ACC_PUBLIC)
+static const zend_function_entry class_ast_Node_methods[] = {
+	ZEND_ME(ast_Node, __construct, arginfo_class_ast_Node___construct, ZEND_ACC_PUBLIC)
 	ZEND_FE_END
 };

@@ -1253,7 +1253,7 @@ PHP_FUNCTION(get_supported_versions) {
 	}
 }
 
-PHP_METHOD(Node, __construct) {
+PHP_METHOD(ast_Node, __construct) {
 	int num_args = ZEND_NUM_ARGS();
 	if (num_args == 0) {
 		/* If arguments aren't passed, leave them as their default values. */
@@ -1448,7 +1448,7 @@ PHP_MINIT_FUNCTION(ast) {
 
 	ast_register_flag_constant("PARENTHESIZED_CONDITIONAL", ZEND_PARENTHESIZED_CONDITIONAL);
 
-	INIT_CLASS_ENTRY(tmp_ce, "ast\\Node", class_Node_methods);
+	INIT_CLASS_ENTRY(tmp_ce, "ast\\Node", class_ast_Node_methods);
 	ast_node_ce = zend_register_internal_class(&tmp_ce);
 	ast_declare_property(ast_node_ce, AST_STR(str_kind), &zv_null);
 	ast_declare_property(ast_node_ce, AST_STR(str_flags), &zv_null);
