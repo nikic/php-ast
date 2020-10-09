@@ -155,13 +155,16 @@ build_script:
                 $ts_part = ''
                 if ('0' -eq $env:TS) { $ts_part = '-nts' }
                 $bname = 'php-devel-pack-' + $env:PHP_VER + $ts_part + '-Win32-' + $env:VC.toUpper() + '-' + $env:ARCH + '.zip'
-                if (-not (Test-Path c:\build-cache\$bname)) {
-                        Invoke-WebRequest "https://windows.php.net/downloads/releases/archives/$bname" -OutFile "c:\build-cache\$bname"
-                        if (-not (Test-Path c:\build-cache\$bname)) {
-                                Invoke-WebRequest "https://windows.php.net/downloads/releases/$bname" -OutFile "c:\build-cache\$bname"
-                                if (-not (Test-Path c:\build-cache\$bname)) {
-                                        Invoke-WebRequest "https://windows.php.net/downloads/qa/$bname" -OutFile "c:\build-cache\$bname"
-                                }
+                $urls = @(
+                        "https://windows.php.net/downloads/releases/archives/$bname",
+                        "https://windows.php.net/downloads/releases/$bname",
+                        "https://windows.php.net/downloads/qa/$bname",
+                        "https://windows.php.net/downloads/qa/archives/$bname"
+                )
+                foreach ($url in $urls) {
+                        Invoke-WebRequest $url -OutFile "c:\build-cache\$bname"
+                        if (Test-Path c:\build-cache\$bname) {
+                                break;
                         }
                 }
                 $dname0 = 'php-' + $env:PHP_VER + '-devel-' + $env:VC.toUpper() + '-' + $env:ARCH
@@ -203,13 +206,16 @@ test_script:
                 $ts_part = ''
                 if ('0' -eq $env:TS) { $ts_part = '-nts' }
                 $bname = 'php-' + $env:PHP_VER + $ts_part + '-Win32-' + $env:VC.toUpper() + '-' + $env:ARCH + '.zip'
-                if (-not (Test-Path c:\build-cache\$bname)) {
-                        Invoke-WebRequest "https://windows.php.net/downloads/releases/archives/$bname" -OutFile "c:\build-cache\$bname"
-                        if (-not (Test-Path c:\build-cache\$bname)) {
-                                Invoke-WebRequest "https://windows.php.net/downloads/releases/$bname" -OutFile "c:\build-cache\$bname"
-                                if (-not (Test-Path c:\build-cache\$bname)) {
-                                        Invoke-WebRequest "https://windows.php.net/downloads/qa/$bname" -OutFile "c:\build-cache\$bname"
-                                }
+                $urls = @(
+                        "https://windows.php.net/downloads/releases/archives/$bname",
+                        "https://windows.php.net/downloads/releases/$bname",
+                        "https://windows.php.net/downloads/qa/$bname",
+                        "https://windows.php.net/downloads/qa/archives/$bname"
+                )
+                foreach ($url in $urls) {
+                        Invoke-WebRequest $url -OutFile "c:\build-cache\$bname"
+                        if (Test-Path c:\build-cache\$bname) {
+                                break;
                         }
                 }
                 $dname = 'php-' + $env:PHP_VER + $ts_part + '-' + $env:VC.toUpper() + '-' + $env:ARCH
