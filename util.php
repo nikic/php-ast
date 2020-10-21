@@ -3,6 +3,7 @@
 use ast\flags;
 
 const AST_DUMP_LINENOS = 1;
+const AST_DUMP_EXCLUDE_DOC = 2;
 
 function get_flag_info() : array {
     static $info;
@@ -71,13 +72,16 @@ function ast_dump($ast, int $options = 0) : string {
             $result .= "\n    docComment: $ast->docComment";
         }
         foreach ($ast->children as $i => $child) {
+            if (($options & AST_DUMP_EXCLUDE_DOC) && $i === 'docComment') {
+                continue;
+            }
             $result .= "\n    $i: " . str_replace("\n", "\n    ", ast_dump($child, $options));
         }
         return $result;
     } else if ($ast === null) {
         return 'null';
     } else if (is_string($ast)) {
-        return "\"$ast\""; 
+        return "\"$ast\"";
     } else {
         return (string) $ast;
     }
