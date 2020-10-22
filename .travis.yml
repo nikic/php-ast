@@ -7,9 +7,14 @@ php:
   - 7.2
   - 7.3
   - 7.4
+  # https://travis-ci.community/t/php-8-0-missing/10132
+  # - 8.0snapshot
   - nightly
 
 before_script:
+  # Disable Xdebug because it should be unrelated to the functionality of php-ast being tested.
+  # Xdebug will have issues as PHP 8.1.0-dev/nightly's internal functionality changes.
+  - phpenv config-rm xdebug.ini || true
   - phpize
   - ./configure
   - make

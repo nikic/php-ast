@@ -15,3 +15,6 @@ indent_style = space
 [*.{md,php,phpt}]
 indent_size = 4
 indent_style = space
+[*.yml]
+indent_size = 2
+indent_style = space
