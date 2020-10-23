@@ -64,12 +64,6 @@ function ast_dump($ast, int $options = 0) : string {
         if (ast\kind_uses_flags($ast->kind) || $ast->flags != 0) {
             $result .= "\n    flags: " . format_flags($ast->kind, $ast->flags);
         }
-        if (isset($ast->name)) {
-            $result .= "\n    name: $ast->name";
-        }
-        if (isset($ast->docComment)) {
-            $result .= "\n    docComment: $ast->docComment";
-        }
         foreach ($ast->children as $i => $child) {
             $result .= "\n    $i: " . str_replace("\n", "\n    ", ast_dump($child, $options));
         }
