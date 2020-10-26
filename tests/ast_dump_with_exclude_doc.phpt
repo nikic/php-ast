@@ -1,11 +1,5 @@
 --TEST--
 ast_dump() with AST_DUMP_EXCLUDE_DOC
---SKIPIF--
-<?php
-if (!extension_loaded("ast")) print "skip";
-if (PHP_VERSION_ID >= 70000 && PHP_VERSION_ID < 70018) print "skip buggy PHP version";
-if (PHP_VERSION_ID >= 70100 && PHP_VERSION_ID < 70104) print "skip buggy PHP version";
-?>
 --FILE--
 <?php
 
