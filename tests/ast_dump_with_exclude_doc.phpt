@@ -12,13 +12,7 @@ $code = <<<'PHP'
  * @param mixed $foo
  * @return void
  */
-function
-test
-($foo)
-{
-    var_dump(
-        $foo
-    );
+function test($foo) {
 }
 PHP;
 
