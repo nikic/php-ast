@@ -16,7 +16,7 @@ function test($foo) {
 }
 PHP;
 
-$ast = ast\parse_code($code, $version=50);
+$ast = ast\parse_code($code, $version=80);
 echo ast_dump($ast, AST_DUMP_EXCLUDE_DOC);
 
 ?>
