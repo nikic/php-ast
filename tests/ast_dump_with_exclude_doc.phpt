@@ -1,5 +1,5 @@
 --TEST--
-ast_dump() with AST_DUMP_EXCLUDE_DOC
+ast_dump() with AST_DUMP_EXCLUDE_DOC_COMMENT
 --FILE--
 <?php
 
@@ -17,7 +17,7 @@ function test($foo) {
 PHP;
 
 $ast = ast\parse_code($code, $version=80);
-echo ast_dump($ast, AST_DUMP_EXCLUDE_DOC);
+echo ast_dump($ast, AST_DUMP_EXCLUDE_DOC_COMMENT);
 
 ?>
 --EXPECT--
