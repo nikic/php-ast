@@ -31,14 +31,8 @@ AST_STMT_LIST
                 type: null
                 name: "foo"
                 default: null
-        uses: null
+                attributes: null
         stmts: AST_STMT_LIST
-            0: AST_CALL
-                expr: AST_NAME
-                    flags: NAME_NOT_FQ (1)
-                    name: "var_dump"
-                args: AST_ARG_LIST
-                    0: AST_VAR
-                        name: "foo"
         returnType: null
+        attributes: null
         __declId: 0
