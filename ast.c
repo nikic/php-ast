@@ -340,7 +340,18 @@ static inline void ast_update_property_long(zval *object, zend_string *name, zen
 	ast_update_property(object, name, &value_zv, cache_slot);
 }
 
-static zend_ast *get_ast(zend_string *code, zend_arena **ast_arena, char *filename) {
+static zend_ast *get_ast(zend_string *code, zend_arena **ast_arena, zend_string *filename) {
+#if PHP_VERSION_ID >= 80100
+	if (filename) {
+		return zend_compile_string_to_ast(code, ast_arena, filename);
+	} else {
+		zend_ast *ast;
+		filename = zend_string_init("string code", sizeof("string code") - 1, 0);
+		ast = zend_compile_string_to_ast(code, ast_arena, filename);
+		zend_string_release_ex(filename, 0);
+		return ast;
+	}
+#else
 	zval code_zv;
 	zend_bool original_in_compilation;
 	zend_lex_state original_lex_state;
@@ -352,7 +363,7 @@ static zend_ast *get_ast(zend_string *code, zend_arena **ast_arena, char *filena
 	CG(in_compilation) = 1;
 
 	zend_save_lexical_state(&original_lex_state);
-	zend_prepare_string_for_scanning(&code_zv, filename);
+	zend_prepare_string_for_scanning(&code_zv, filename ? filename->val : "string code");
 	CG(ast) = NULL;
 	CG(ast_arena) = zend_arena_create(1024 * 32);
 	LANG_SCNG(yy_state) = yycINITIAL;
@@ -373,6 +384,7 @@ static zend_ast *get_ast(zend_string *code, zend_arena **ast_arena, char *filena
 	zval_dtor(&code_zv);
 
 	return ast;
+#endif
 }
 
 /* Returns whether node->attr (i.e. flags) is used by this node kind. Not to be confused with php 8.0's attributes. */
@@ -1106,7 +1118,7 @@ PHP_FUNCTION(parse_file) {
 		code = ZSTR_EMPTY_ALLOC();
 	}
 
-	ast = get_ast(code, &arena, filename->val);
+	ast = get_ast(code, &arena, filename);
 	if (!ast) {
 		zend_string_free(code);
 		return;
@@ -1136,7 +1148,7 @@ PHP_FUNCTION(parse_code) {
 		return;
 	}
 
-	ast = get_ast(code, &arena, filename ? filename->val : "string code");
+	ast = get_ast(code, &arena, filename);
 	if (!ast) {
 		return;
 	}
