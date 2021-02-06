@@ -58,7 +58,7 @@ $names = [
     'ZEND_AST_CLOSURE' => $funcNames,
     'ZEND_AST_METHOD' => $funcNames,
     'ZEND_AST_ARROW_FUNC' => $funcNames,
-    'ZEND_AST_CLASS' => ['extends', 'implements', 'stmts', 'attributes'],
+    'ZEND_AST_CLASS' => ['extends', 'implements', 'stmts', 'attributes', 'type'],
 
     /* 0 child nodes */
     'ZEND_AST_MAGIC_CONST' => [],
@@ -134,6 +134,7 @@ $names = [
     'ZEND_AST_MATCH' => ['cond', 'stmts'],
     'ZEND_AST_MATCH_ARM' => ['cond', 'expr'],
     'ZEND_AST_NAMED_ARG' => ['name', 'expr'],
+    'ZEND_AST_ENUM_CASE' => ['name', 'expr'],
 
     /* 3 child nodes */
     'ZEND_AST_METHOD_CALL' => ['expr', 'method', 'args'],

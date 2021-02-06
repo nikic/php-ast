@@ -75,6 +75,12 @@ extern ast_str_globals str_globals;
 // NOTE: The first hex digit is the number of child nodes a given kind has
 #endif
 
+#if PHP_VERSION_ID < 80100
+# define ZEND_ACC_ENUM (1 << 22)
+/* 2 child nodes */
+# define ZEND_AST_ENUM_CASE 0x2f8
+#endif
+
 /* Pretend it still exists */
 #if PHP_VERSION_ID >= 70100
 # define ZEND_AST_LIST ((1 << (ZEND_AST_IS_LIST_SHIFT + 1)) - 1)
