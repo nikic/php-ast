@@ -23,7 +23,7 @@ test
 }
 PHP;
 
-$ast = ast\parse_code($code, $version=50);
+$ast = ast\parse_code($code, $version=70);
 echo ast_dump($ast, AST_DUMP_LINENOS);
 
 ?>
@@ -34,7 +34,6 @@ AST_STMT_LIST @ 1
         name: "test"
         docComment: null
         params: AST_PARAM_LIST @ 4
-        uses: null
         stmts: AST_STMT_LIST @ 5
             0: AST_CALL @ 6
                 expr: AST_NAME @ 6

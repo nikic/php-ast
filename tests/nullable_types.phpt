@@ -17,7 +17,7 @@ function test(?array $foo) : ?array {
 }
 PHP;
 
-echo ast_dump(ast\parse_code($code, $version=50));
+echo ast_dump(ast\parse_code($code, $version=70));
 
 ?>
 --EXPECT--
@@ -35,7 +35,6 @@ AST_STMT_LIST
                         name: "Foo"
                 name: "foo"
                 default: null
-        uses: null
         stmts: AST_STMT_LIST
         returnType: AST_NULLABLE_TYPE
             type: AST_NAME
@@ -54,7 +53,6 @@ AST_STMT_LIST
                         flags: TYPE_LONG (4)
                 name: "foo"
                 default: null
-        uses: null
         stmts: AST_STMT_LIST
         returnType: AST_NULLABLE_TYPE
             type: AST_TYPE
@@ -72,7 +70,6 @@ AST_STMT_LIST
                         flags: TYPE_ARRAY (7)
                 name: "foo"
                 default: null
-        uses: null
         stmts: AST_STMT_LIST
         returnType: AST_NULLABLE_TYPE
             type: AST_TYPE

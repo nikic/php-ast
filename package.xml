@@ -20,8 +20,8 @@
  </lead>
  <date>2020-09-12</date>
  <version>
-  <release>1.0.11dev</release>
-  <api>1.0.11dev</api>
+  <release>1.1.0dev</release>
+  <api>1.1.0dev</api>
  </version>
  <stability>
   <release>stable</release>
@@ -29,6 +29,7 @@
  </stability>
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
+- Deprecated AST versions 50 and 60.
  </notes>
  <contents>
   <dir name="/">

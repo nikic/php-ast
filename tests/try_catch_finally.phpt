@@ -18,7 +18,7 @@ try {
 }
 PHP;
 
-echo ast_dump(ast\parse_code($code, $version=50)), "\n";
+echo ast_dump(ast\parse_code($code, $version=70)), "\n";
 
 ?>
 --EXPECT--

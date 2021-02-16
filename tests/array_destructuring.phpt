@@ -15,7 +15,7 @@ list('foo' => $a, 'bar' => $b) = $x;
 [, [$a]] = $x;
 PHP;
 
-echo ast_dump(ast\parse_code($code, $version=50));
+echo ast_dump(ast\parse_code($code, $version=70));
 
 ?>
 --EXPECT--

@@ -12,7 +12,7 @@ $code = <<<'PHP'
 PHP;
 
 try {
-    ast\parse_code($code, $version=50);
+    ast\parse_code($code, $version=70);
 } catch (CompileError $e) {
     echo $e->getMessage(), "\n";
 }

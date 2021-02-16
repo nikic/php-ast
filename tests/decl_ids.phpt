@@ -12,10 +12,11 @@ function test() {} function test() {}
 class Test {} class Test{}
 PHP;
 echo ast_dump(ast\parse_code($code, $version=50)) . "\n";
-echo ast_dump(ast\parse_code($code, $version=50)) . "\n";
+echo ast_dump(ast\parse_code($code, $version=80)) . "\n";
 
 ?>
---EXPECT--
+--EXPECTF--
+Deprecated: ast\parse_code(): Version 50 is deprecated in %s.php on line 11
 AST_STMT_LIST
     0: AST_CLOSURE
         flags: 0
@@ -78,6 +79,7 @@ AST_STMT_LIST
         uses: null
         stmts: AST_STMT_LIST
         returnType: null
+        attributes: null
         __declId: 0
     1: AST_CLOSURE
         flags: 0
@@ -87,24 +89,25 @@ AST_STMT_LIST
         uses: null
         stmts: AST_STMT_LIST
         returnType: null
+        attributes: null
         __declId: 1
     2: AST_FUNC_DECL
         flags: 0
         name: "test"
         docComment: null
         params: AST_PARAM_LIST
-        uses: null
         stmts: AST_STMT_LIST
         returnType: null
+        attributes: null
         __declId: 2
     3: AST_FUNC_DECL
         flags: 0
         name: "test"
         docComment: null
         params: AST_PARAM_LIST
-        uses: null
         stmts: AST_STMT_LIST
         returnType: null
+        attributes: null
         __declId: 3
     4: AST_CLASS
         flags: 0
@@ -113,6 +116,7 @@ AST_STMT_LIST
         extends: null
         implements: null
         stmts: AST_STMT_LIST
+        attributes: null
         __declId: 4
     5: AST_CLASS
         flags: 0
@@ -121,4 +125,5 @@ AST_STMT_LIST
         extends: null
         implements: null
         stmts: AST_STMT_LIST
+        attributes: null
         __declId: 5

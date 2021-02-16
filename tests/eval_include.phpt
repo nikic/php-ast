@@ -14,7 +14,7 @@ require 'foo.php';
 require_once 'foo.php';
 PHP;
 
-echo ast_dump(ast\parse_code($code, $version=50));
+echo ast_dump(ast\parse_code($code, $version=70));
 
 ?>
 --EXPECT--

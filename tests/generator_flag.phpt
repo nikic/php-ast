@@ -16,7 +16,7 @@ function gen() {
 }
 PHP;
 
-echo ast_dump(ast\parse_code($code, $version=50)), "\n";
+echo ast_dump(ast\parse_code($code, $version=70)), "\n";
 
 ?>
 --EXPECTF--
@@ -26,7 +26,6 @@ AST_STMT_LIST
         name: "gen"
         docComment: null
         params: AST_PARAM_LIST
-        uses: null
         stmts: AST_STMT_LIST
             0: AST_YIELD
                 value: null

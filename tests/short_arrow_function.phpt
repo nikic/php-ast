@@ -100,4 +100,6 @@ AST_STMT_LIST
                     key: null
             returnType: null
             __declId: 3
+
+Deprecated: ast\parse_code(): Version 50 is deprecated in %s.php on line 17
 Same representation in version 50/70: true

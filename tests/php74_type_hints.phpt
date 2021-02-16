@@ -28,6 +28,7 @@ $node = ast\parse_code($code, $version=70);
 echo ast_dump($node), "\n";
 ?>
 --EXPECTF--
+Deprecated: ast\parse_code(): Version 60 is deprecated in %s.php on line 18
 The type property should not be set in version 60
 AST_STMT_LIST
     0: AST_NAMESPACE
