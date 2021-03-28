@@ -14,7 +14,9 @@ enum HasValue: int {
     const FOO_ALIAS = self::FOO;
 }
 
+#[MyAttribute(1)]
 enum NoValue {
+    #[OtherAttribute()]
     case FOO;
 }
 PHP;
@@ -37,7 +39,7 @@ AST_STMT_LIST
             0: AST_ENUM_CASE
                 name: "FOO"
                 expr: 42
-                0: null
+                attributes: null
             1: AST_CLASS_CONST_DECL
                 flags: MODIFIER_PUBLIC (%d)
                 0: AST_CONST_ELEM
@@ -59,7 +61,13 @@ AST_STMT_LIST
             0: AST_ENUM_CASE
                 name: "FOO"
                 expr: null
-                0: null
+                attributes: AST_ATTRIBUTE_LIST
+                    0: AST_ATTRIBUTE_GROUP
+                        0: AST_ATTRIBUTE
+                            class: AST_NAME
+                                flags: NAME_NOT_FQ (%d)
+                                name: "OtherAttribute"
+                            args: AST_ARG_LIST
         __declId: 1
 AST_STMT_LIST
     0: AST_CLASS
@@ -72,7 +80,7 @@ AST_STMT_LIST
             0: AST_ENUM_CASE
                 name: "FOO"
                 expr: 42
-                0: null
+                attributes: null
             1: AST_CLASS_CONST_GROUP
                 flags: MODIFIER_PUBLIC (%d)
                 const: AST_CLASS_CONST_DECL
@@ -98,8 +106,21 @@ AST_STMT_LIST
             0: AST_ENUM_CASE
                 name: "FOO"
                 expr: null
-                0: null
-        attributes: null
+                attributes: AST_ATTRIBUTE_LIST
+                    0: AST_ATTRIBUTE_GROUP
+                        0: AST_ATTRIBUTE
+                            class: AST_NAME
+                                flags: NAME_NOT_FQ (%d)
+                                name: "OtherAttribute"
+                            args: AST_ARG_LIST
+        attributes: AST_ATTRIBUTE_LIST
+            0: AST_ATTRIBUTE_GROUP
+                0: AST_ATTRIBUTE
+                    class: AST_NAME
+                        flags: NAME_NOT_FQ (%d)
+                        name: "MyAttribute"
+                    args: AST_ARG_LIST
+                        0: 1
         __declId: 1
 AST_STMT_LIST
     0: AST_CLASS
@@ -112,7 +133,7 @@ AST_STMT_LIST
             0: AST_ENUM_CASE
                 name: "FOO"
                 expr: 42
-                0: null
+                attributes: null
             1: AST_CLASS_CONST_GROUP
                 flags: MODIFIER_PUBLIC (%d)
                 const: AST_CLASS_CONST_DECL
@@ -140,6 +161,19 @@ AST_STMT_LIST
             0: AST_ENUM_CASE
                 name: "FOO"
                 expr: null
-                0: null
-        attributes: null
+                attributes: AST_ATTRIBUTE_LIST
+                    0: AST_ATTRIBUTE_GROUP
+                        0: AST_ATTRIBUTE
+                            class: AST_NAME
+                                flags: NAME_NOT_FQ (%d)
+                                name: "OtherAttribute"
+                            args: AST_ARG_LIST
+        attributes: AST_ATTRIBUTE_LIST
+            0: AST_ATTRIBUTE_GROUP
+                0: AST_ATTRIBUTE
+                    class: AST_NAME
+                        flags: NAME_NOT_FQ (%d)
+                        name: "MyAttribute"
+                    args: AST_ARG_LIST
+                        0: 1
         __declId: 1

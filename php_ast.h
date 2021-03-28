@@ -77,8 +77,8 @@ extern ast_str_globals str_globals;
 
 #if PHP_VERSION_ID < 80100
 # define ZEND_ACC_ENUM (1 << 22)
-/* 2 child nodes */
-# define ZEND_AST_ENUM_CASE 0x2f8
+/* 3 child nodes - name, expr, attributes */
+# define ZEND_AST_ENUM_CASE 0x3fe
 #endif
 
 /* Pretend it still exists */

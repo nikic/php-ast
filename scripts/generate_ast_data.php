@@ -134,7 +134,7 @@ $names = [
     'ZEND_AST_MATCH' => ['cond', 'stmts'],
     'ZEND_AST_MATCH_ARM' => ['cond', 'expr'],
     'ZEND_AST_NAMED_ARG' => ['name', 'expr'],
-    'ZEND_AST_ENUM_CASE' => ['name', 'expr'],
+    'ZEND_AST_ENUM_CASE' => ['name', 'expr', 'attributes'],
 
     /* 3 child nodes */
     'ZEND_AST_METHOD_CALL' => ['expr', 'method', 'args'],
