@@ -176,4 +176,5 @@ AST_STMT_LIST
                         name: "MyAttribute"
                     args: AST_ARG_LIST
                         0: 1
+        type: null
         __declId: 1

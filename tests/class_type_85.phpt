@@ -26,6 +26,7 @@ AST_STMT_LIST
         implements: null
         stmts: AST_STMT_LIST
         attributes: null
+        type: null
         __declId: 0
     1: AST_CLASS
         flags: CLASS_INTERFACE (%d)
@@ -35,4 +36,5 @@ AST_STMT_LIST
         implements: null
         stmts: AST_STMT_LIST
         attributes: null
+        type: null
         __declId: 1

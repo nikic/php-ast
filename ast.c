@@ -569,11 +569,11 @@ static inline zend_ast_attr ast_assign_op_to_binary_op(zend_ast_attr attr) {
 }
 #endif
 
-static inline zend_ast **ast_get_children(zend_ast *ast, uint32_t *count) {
+static inline zend_ast **ast_get_children(zend_ast *ast, ast_state_info_t *state, uint32_t *count) {
 	if (ast_kind_is_decl(ast->kind)) {
 		zend_ast_decl *decl = (zend_ast_decl *) ast;
 #if PHP_VERSION_ID >= 80100
-		*count = decl->kind == ZEND_AST_CLASS ? (decl->child[4] != NULL ? 5 : 4) : 5;
+		*count = decl->kind == ZEND_AST_CLASS ? (state->version >= 85 ? 5 : 4) : 5;
 #elif PHP_VERSION_ID >= 80000
 		*count = decl->kind == ZEND_AST_CLASS ? 4 : 5;
 #else
@@ -676,7 +676,7 @@ static inline void ast_name_to_zval(zend_ast *child, zend_ast *ast, zval *child_
 static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t *state) {
 	uint32_t i, count;
 	zend_bool is_list = zend_ast_is_list(ast);
-	zend_ast **children = ast_get_children(ast, &count);
+	zend_ast **children = ast_get_children(ast, state, &count);
 	const zend_ast_kind ast_kind = ast->kind;
 	for (i = 0; i < count; ++i) {
 		zend_ast *child = children[i];
