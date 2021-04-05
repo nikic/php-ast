@@ -830,6 +830,17 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 			zend_hash_add_new(ht, AST_STR(str_attributes), &tmp);
 		}
 #endif
+
+#if PHP_VERSION_ID < 80100
+		if (ast_kind == ZEND_AST_CLASS) {
+			if (state->version >= 85) {
+				zval tmp;
+				ZVAL_NULL(&tmp);
+				zend_hash_add_new(ht, AST_STR(str_type), &tmp);
+			}
+		}
+#endif
+
 		ZVAL_LONG(&id_zval, state->declIdCounter);
 		state->declIdCounter++;
 		zend_hash_add_new(ht, AST_STR(str___declId), &id_zval);
