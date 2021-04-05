@@ -7,8 +7,7 @@ php:
   - 7.2
   - 7.3
   - 7.4
-  # https://travis-ci.community/t/php-8-0-missing/10132
-  # - 8.0snapshot
+  - 8.0
   - nightly
 
 before_script:

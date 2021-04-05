@@ -97,6 +97,7 @@ const zend_ast_kind ast_kinds[] = {
 	ZEND_AST_MATCH,
 	ZEND_AST_MATCH_ARM,
 	ZEND_AST_NAMED_ARG,
+	ZEND_AST_ENUM_CASE,
 	ZEND_AST_METHOD_CALL,
 	ZEND_AST_NULLSAFE_METHOD_CALL,
 	ZEND_AST_STATIC_CALL,
@@ -208,6 +209,7 @@ const char *ast_kind_to_name(zend_ast_kind kind) {
 		case ZEND_AST_MATCH: return "AST_MATCH";
 		case ZEND_AST_MATCH_ARM: return "AST_MATCH_ARM";
 		case ZEND_AST_NAMED_ARG: return "AST_NAMED_ARG";
+		case ZEND_AST_ENUM_CASE: return "AST_ENUM_CASE";
 		case ZEND_AST_METHOD_CALL: return "AST_METHOD_CALL";
 		case ZEND_AST_NULLSAFE_METHOD_CALL: return "AST_NULLSAFE_METHOD_CALL";
 		case ZEND_AST_STATIC_CALL: return "AST_STATIC_CALL";
@@ -281,6 +283,7 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 				case 1: return AST_STR(str_implements);
 				case 2: return AST_STR(str_stmts);
 				case 3: return AST_STR(str_attributes);
+				case 4: return AST_STR(str_type);
 			}
 			return NULL;
 		case ZEND_AST_MAGIC_CONST:
@@ -651,6 +654,13 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 				case 1: return AST_STR(str_expr);
 			}
 			return NULL;
+		case ZEND_AST_ENUM_CASE:
+			switch (child) {
+				case 0: return AST_STR(str_name);
+				case 1: return AST_STR(str_expr);
+				case 2: return AST_STR(str_attributes);
+			}
+			return NULL;
 		case ZEND_AST_METHOD_CALL:
 			switch (child) {
 				case 0: return AST_STR(str_expr);
@@ -820,6 +830,7 @@ void ast_register_kind_constants(INIT_FUNC_ARGS) {
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_MATCH", ZEND_AST_MATCH, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_MATCH_ARM", ZEND_AST_MATCH_ARM, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_NAMED_ARG", ZEND_AST_NAMED_ARG, CONST_CS | CONST_PERSISTENT);
+	REGISTER_NS_LONG_CONSTANT("ast", "AST_ENUM_CASE", ZEND_AST_ENUM_CASE, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_METHOD_CALL", ZEND_AST_METHOD_CALL, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_NULLSAFE_METHOD_CALL", ZEND_AST_NULLSAFE_METHOD_CALL, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_STATIC_CALL", ZEND_AST_STATIC_CALL, CONST_CS | CONST_PERSISTENT);

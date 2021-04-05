@@ -132,6 +132,7 @@ static const char *class_flags[] = {
 	AST_FLAG(CLASS_TRAIT),
 	AST_FLAG(CLASS_INTERFACE),
 	AST_FLAG(CLASS_ANONYMOUS),
+	AST_FLAG(CLASS_ENUM),
 	NULL
 };
 
@@ -294,7 +295,7 @@ static const char *conditional_flags[] = {
 
 static const ast_flag_info flag_info[] = {
 	{ AST_NAME, 0, name_flags },
-	{ ZEND_AST_CLASS, 0, class_flags },
+	{ ZEND_AST_CLASS, 1, class_flags },
 	{ ZEND_AST_PARAM, 1, param_flags },
 	{ ZEND_AST_TYPE, 0, type_flags },
 	{ ZEND_AST_CAST, 0, type_flags },
@@ -448,6 +449,12 @@ static inline zend_bool ast_is_name(zend_ast *ast, zend_ast *parent, uint32_t i)
 			|| parent->kind == ZEND_AST_METHOD;
 	}
 
+#if PHP_VERSION_ID >= 80100
+	if (i == 4) {
+		return parent->kind == ZEND_AST_CLASS;
+	}
+#endif
+
 	return 0;
 }
 
@@ -472,6 +479,11 @@ static inline zend_bool ast_is_type(zend_ast *ast, zend_ast *parent, uint32_t i)
 #endif
 			|| parent->kind == ZEND_AST_METHOD;
 	}
+#if PHP_VERSION_ID >= 80100
+	if (i == 4) {
+		return parent->kind == ZEND_AST_CLASS;
+	}
+#endif
 	return 0;
 }
 
@@ -557,10 +569,12 @@ static inline zend_ast_attr ast_assign_op_to_binary_op(zend_ast_attr attr) {
 }
 #endif
 
-static inline zend_ast **ast_get_children(zend_ast *ast, uint32_t *count) {
+static inline zend_ast **ast_get_children(zend_ast *ast, ast_state_info_t *state, uint32_t *count) {
 	if (ast_kind_is_decl(ast->kind)) {
 		zend_ast_decl *decl = (zend_ast_decl *) ast;
-#if PHP_VERSION_ID >= 80000
+#if PHP_VERSION_ID >= 80100
+		*count = decl->kind == ZEND_AST_CLASS ? (state->version >= 85 ? 5 : 4) : 5;
+#elif PHP_VERSION_ID >= 80000
 		*count = decl->kind == ZEND_AST_CLASS ? 4 : 5;
 #else
 		*count = decl->kind == ZEND_AST_CLASS ? 3 : 4;
@@ -662,7 +676,7 @@ static inline void ast_name_to_zval(zend_ast *child, zend_ast *ast, zval *child_
 static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t *state) {
 	uint32_t i, count;
 	zend_bool is_list = zend_ast_is_list(ast);
-	zend_ast **children = ast_get_children(ast, &count);
+	zend_ast **children = ast_get_children(ast, state, &count);
 	const zend_ast_kind ast_kind = ast->kind;
 	for (i = 0; i < count; ++i) {
 		zend_ast *child = children[i];
@@ -697,7 +711,7 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 					}
 					break;
 				case ZEND_AST_CLASS:
-					if (i == 3) {
+					if (i >= 3) {
 						continue;
 					}
 					break;
@@ -708,6 +722,13 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 					break;
 			}
 		}
+#if PHP_VERSION_ID >= 80100
+		if (ast_kind == ZEND_AST_CLASS && i == 4) {
+			if (state->version < 85)  {
+				continue;
+			}
+		}
+#endif
 #endif
 		/* This AST_CATCH check should occur before ast_is_name() */
 #if PHP_VERSION_ID < 70100
@@ -809,6 +830,17 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 			zend_hash_add_new(ht, AST_STR(str_attributes), &tmp);
 		}
 #endif
+
+#if PHP_VERSION_ID < 80100
+		if (ast_kind == ZEND_AST_CLASS) {
+			if (state->version >= 85) {
+				zval tmp;
+				ZVAL_NULL(&tmp);
+				zend_hash_add_new(ht, AST_STR(str_type), &tmp);
+			}
+		}
+#endif
+
 		ZVAL_LONG(&id_zval, state->declIdCounter);
 		state->declIdCounter++;
 		zend_hash_add_new(ht, AST_STR(str___declId), &id_zval);
@@ -1027,7 +1059,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 #endif
 }
 
-static const zend_long versions[] = {50, 60, 70, 80};
+static const zend_long versions[] = {50, 60, 70, 80, 85};
 static const size_t versions_count = sizeof(versions)/sizeof(versions[0]);
 
 static inline zend_bool ast_version_deprecated(zend_long version) {
@@ -1377,6 +1409,7 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("CLASS_TRAIT", ZEND_ACC_TRAIT);
 	ast_register_flag_constant("CLASS_INTERFACE", ZEND_ACC_INTERFACE);
 	ast_register_flag_constant("CLASS_ANONYMOUS", ZEND_ACC_ANON_CLASS);
+	ast_register_flag_constant("CLASS_ENUM", ZEND_ACC_ENUM);
 
 	ast_register_flag_constant("PARAM_REF", ZEND_PARAM_REF);
 	ast_register_flag_constant("PARAM_VARIADIC", ZEND_PARAM_VARIADIC);

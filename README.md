@@ -246,12 +246,13 @@ ast\flags\FUNC_GENERATOR    // used only in PHP >= 7.1
 // Used by ast\AST_CLOSURE_VAR
 ast\flags\CLOSURE_USE_REF
 
-// Used by ast\AST_CLASS (exclusive)
+// Used by ast\AST_CLASS (combinable since PHP 8.1 enums)
 ast\flags\CLASS_ABSTRACT
 ast\flags\CLASS_FINAL
 ast\flags\CLASS_TRAIT
 ast\flags\CLASS_INTERFACE
 ast\flags\CLASS_ANONYMOUS
+ast\flags\CLASS_ENUM
 
 // Used by ast\AST_PARAM (combinable)
 ast\flags\PARAM_REF
@@ -374,7 +375,7 @@ AST_BREAK:                depth
 AST_CALL:                 expr, args
 AST_CAST:                 expr
 AST_CATCH:                class, var, stmts
-AST_CLASS:                name, docComment, extends, implements, stmts
+AST_CLASS:                name, docComment, extends, implements, stmts, (for enums) type
 AST_CLASS_CONST:          class, const
 AST_CLASS_CONST_GROUP     class, attributes      // version 80+
 AST_CLASS_NAME:           class                  // version 70+
@@ -390,6 +391,7 @@ AST_DIM:                  expr, dim
 AST_DO_WHILE:             stmts, cond
 AST_ECHO:                 expr
 AST_EMPTY:                expr
+AST_ENUM_CASE:            name, expr, attributes // php 8.1+ enums
 AST_EXIT:                 expr
 AST_FOR:                  init, cond, loop, stmts
 AST_FOREACH:              expr, value, key, stmts
