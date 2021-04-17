@@ -1331,22 +1331,22 @@ PHP_METHOD(ast_Node, __construct) {
 			if (!linenoNull) {
 				ast_update_property_long(zv, AST_STR(str_lineno), lineno, AST_CACHE_SLOT_LINENO);
 			}
-			/* break missing intentionally */
+			/* Falls through - break missing intentionally */
 		case 3:
 			if (children != NULL) {
 				ast_update_property(zv, AST_STR(str_children), children, AST_CACHE_SLOT_CHILDREN);
 			}
-			/* break missing intentionally */
+			/* Falls through - break missing intentionally */
 		case 2:
 			if (!flagsNull) {
 				ast_update_property_long(zv, AST_STR(str_flags), flags, AST_CACHE_SLOT_FLAGS);
 			}
-			/* break missing intentionally */
+			/* Falls through - break missing intentionally */
 		case 1:
 			if (!kindNull) {
 				ast_update_property_long(zv, AST_STR(str_kind), kind, AST_CACHE_SLOT_KIND);
 			}
-			/* break missing intentionally */
+			/* Falls through - break missing intentionally */
 		case 0:
 			break;
 	}

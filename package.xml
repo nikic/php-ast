@@ -51,6 +51,7 @@
       <file name="array_destructuring_old.phpt" role="test" />
       <file name="array_destructuring.phpt" role="test" />
       <file name="assign_ops.phpt" role="test" />
+      <file name="ast_dump_with_exclude_doc.phpt" role="test" />
       <file name="ast_dump_with_linenos.phpt" role="test" />
       <file name="attributes_01.phpt" role="test" />
       <file name="attributes_02.phpt" role="test" />
@@ -62,6 +63,7 @@
       <file name="class_name_version_70.phpt" role="test" />
       <file name="class_on_objects.phpt" role="test" />
       <file name="class.phpt" role="test" />
+      <file name="class_type_85.phpt" role="test" />
       <file name="class_types.phpt" role="test" />
       <file name="closure_use_vars.phpt" role="test" />
       <file name="coalesce.phpt" role="test" />
@@ -86,6 +88,7 @@
       <file name="named_children.phpt" role="test" />
       <file name="name_node.phpt" role="test" />
       <file name="nested_stmt_lists.phpt" role="test" />
+      <file name="never_return_type.phpt" role="test" />
       <file name="node_constructor_throw.phpt" role="test" />
       <file name="nop_statements.phpt" role="test" />
       <file name="nullable_types.phpt" role="test" />
@@ -105,9 +108,10 @@
       <file name="php80_nullsafe_operator.phpt" role="test" />
       <file name="php80_promotion.phpt" role="test" />
       <file name="php80_static_type.phpt" role="test" />
-      <file name="php80_union_types.phpt" role="test" />
       <file name="php80_union_types_false.phpt" role="test" />
       <file name="php80_union_types_nullable.phpt" role="test" />
+      <file name="php80_union_types.phpt" role="test" />
+      <file name="php81_enums.phpt" role="test" />
       <file name="prop_doc_comments.phpt" role="test" />
       <file name="short_arrow_function.phpt" role="test" />
       <file name="short_arrow_function_return.phpt" role="test" />
