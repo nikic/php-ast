@@ -98,6 +98,10 @@
 # define PARAM_MODIFIER_PRIVATE   ZEND_ACC_PRIVATE
 #endif
 
+#if PHP_VERSION_ID < 80100
+# define IS_NEVER 22
+#endif
+
 /* This contains state of the ast Node creator. */
 typedef struct ast_state_info {
 	zend_long version;
@@ -159,6 +163,7 @@ static const char *type_flags[] = {
 	AST_FLAG(TYPE_ITERABLE),
 	AST_FLAG(TYPE_STATIC),
 	AST_FLAG(TYPE_MIXED),
+	AST_FLAG(TYPE_NEVER),
 	NULL
 };
 
@@ -535,6 +540,7 @@ static const builtin_type_info builtin_types[] = {
 	{ZEND_STRL("false"), IS_FALSE},
 	// {ZEND_STRL("static"), IS_STATIC},  /* Impossible to be parsed before php 8 */
 	{ZEND_STRL("mixed"), IS_MIXED},
+	{ZEND_STRL("never"), IS_NEVER},
 	{NULL, 0, IS_UNDEF}
 };
 static inline zend_uchar lookup_builtin_type(const zend_string *name) {
@@ -1427,6 +1433,7 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("TYPE_ITERABLE", IS_ITERABLE);
 	ast_register_flag_constant("TYPE_STATIC", IS_STATIC);
 	ast_register_flag_constant("TYPE_MIXED", IS_MIXED);
+	ast_register_flag_constant("TYPE_NEVER", IS_NEVER);
 
 	ast_register_flag_constant("UNARY_BOOL_NOT", ZEND_BOOL_NOT);
 	ast_register_flag_constant("UNARY_BITWISE_NOT", ZEND_BW_NOT);
