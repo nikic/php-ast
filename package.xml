@@ -30,6 +30,7 @@
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
 - Support php 8.1 enums, add 'type' (for enum type) to AST_CLASS nodes in AST version 85+.
+- Support php 8.1 'never' return type.
  </notes>
  <contents>
   <dir name="/">
