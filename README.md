@@ -494,6 +494,10 @@ function accepts a boolean argument that determines whether deprecated versions 
 In the following the changes in the respective AST versions, as well as their current support state,
 are listed.
 
+### 85 (experimental)
+
+* Add a `type` child node (for enum type) for all AST_CLASS nodes.
+
 ### 80 (current)
 
 Supported since 1.0.10 (2020-09-12).
