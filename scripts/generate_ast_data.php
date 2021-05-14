@@ -231,10 +231,10 @@ $code = str_replace('{KINDS}', implode("\n", $kinds), $code);
 $code = str_replace('{STRS}', implode("\n", $strs), $code);
 $code = str_replace('{CONSTS}', implode("\n", $consts), $code);
 
-$childNames = [];
+$implementations = [];
 foreach ($names as $kind => $children) {
     if (empty($children)) {
-        $childNames[] = "\t\tcase $kind:\n\t\t\treturn NULL;";
+        $implementations["\t\t\treturn NULL;"][] = $kind;
         continue;
     }
 
@@ -242,9 +242,20 @@ foreach ($names as $kind => $children) {
     foreach ($children as $index => $name) {
         $kindChildNames[] = "\t\t\t\tcase $index: return AST_STR(str_$name);";
     }
-    $childNames[] = "\t\tcase $kind:\n\t\t\tswitch (child) {\n"
+    $body = "\t\t\tswitch (child) {\n"
         . implode("\n", $kindChildNames) . "\n\t\t\t}\n\t\t\treturn NULL;";
+    $implementations[$body][] = $kind;
 }
+$childNames = [];
+foreach ($implementations as $body => $kindList) {
+    $codeForGroup = '';
+    foreach ($kindList as $kind) {
+        $codeForGroup .= "\t\tcase $kind:\n";
+    }
+    $codeForGroup .= $body;
+    $childNames[] = $codeForGroup;
+}
+
 $code = str_replace('{CHILD_NAMES}', implode("\n", $childNames), $code);
 
 file_put_contents($outCodeFile, $code);
