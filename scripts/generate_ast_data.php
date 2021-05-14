@@ -134,7 +134,6 @@ $names = [
     'ZEND_AST_MATCH' => ['cond', 'stmts'],
     'ZEND_AST_MATCH_ARM' => ['cond', 'expr'],
     'ZEND_AST_NAMED_ARG' => ['name', 'expr'],
-    'ZEND_AST_ENUM_CASE' => ['name', 'expr', 'attributes'],
 
     /* 3 child nodes */
     'ZEND_AST_METHOD_CALL' => ['expr', 'method', 'args'],
@@ -148,6 +147,7 @@ $names = [
     /* 4 child nodes */
     'ZEND_AST_FOR' => ['init', 'cond', 'loop', 'stmts'],
     'ZEND_AST_FOREACH' => ['expr', 'value', 'key', 'stmts'],
+    'ZEND_AST_ENUM_CASE' => ['name', 'expr', 'docComment', 'attributes'],
 
     /* 5 child nodes */
     'ZEND_AST_PARAM' => ['type', 'name', 'default', 'attributes', 'docComment'],
@@ -231,10 +231,10 @@ $code = str_replace('{KINDS}', implode("\n", $kinds), $code);
 $code = str_replace('{STRS}', implode("\n", $strs), $code);
 $code = str_replace('{CONSTS}', implode("\n", $consts), $code);
 
-$childNames = [];
+$implementations = [];
 foreach ($names as $kind => $children) {
     if (empty($children)) {
-        $childNames[] = "\t\tcase $kind:\n\t\t\treturn NULL;";
+        $implementations["\t\t\treturn NULL;"][] = $kind;
         continue;
     }
 
@@ -242,9 +242,20 @@ foreach ($names as $kind => $children) {
     foreach ($children as $index => $name) {
         $kindChildNames[] = "\t\t\t\tcase $index: return AST_STR(str_$name);";
     }
-    $childNames[] = "\t\tcase $kind:\n\t\t\tswitch (child) {\n"
+    $body = "\t\t\tswitch (child) {\n"
         . implode("\n", $kindChildNames) . "\n\t\t\t}\n\t\t\treturn NULL;";
+    $implementations[$body][] = $kind;
 }
+$childNames = [];
+foreach ($implementations as $body => $kindList) {
+    $codeForGroup = '';
+    foreach ($kindList as $kind) {
+        $codeForGroup .= "\t\tcase $kind:\n";
+    }
+    $codeForGroup .= $body;
+    $childNames[] = $codeForGroup;
+}
+
 $code = str_replace('{CHILD_NAMES}', implode("\n", $childNames), $code);
 
 file_put_contents($outCodeFile, $code);

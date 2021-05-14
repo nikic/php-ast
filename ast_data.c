@@ -97,7 +97,6 @@ const zend_ast_kind ast_kinds[] = {
 	ZEND_AST_MATCH,
 	ZEND_AST_MATCH_ARM,
 	ZEND_AST_NAMED_ARG,
-	ZEND_AST_ENUM_CASE,
 	ZEND_AST_METHOD_CALL,
 	ZEND_AST_NULLSAFE_METHOD_CALL,
 	ZEND_AST_STATIC_CALL,
@@ -106,6 +105,7 @@ const zend_ast_kind ast_kinds[] = {
 	ZEND_AST_CATCH,
 	ZEND_AST_FOR,
 	ZEND_AST_FOREACH,
+	ZEND_AST_ENUM_CASE,
 	ZEND_AST_PARAM,
 };
 
@@ -209,7 +209,6 @@ const char *ast_kind_to_name(zend_ast_kind kind) {
 		case ZEND_AST_MATCH: return "AST_MATCH";
 		case ZEND_AST_MATCH_ARM: return "AST_MATCH_ARM";
 		case ZEND_AST_NAMED_ARG: return "AST_NAMED_ARG";
-		case ZEND_AST_ENUM_CASE: return "AST_ENUM_CASE";
 		case ZEND_AST_METHOD_CALL: return "AST_METHOD_CALL";
 		case ZEND_AST_NULLSAFE_METHOD_CALL: return "AST_NULLSAFE_METHOD_CALL";
 		case ZEND_AST_STATIC_CALL: return "AST_STATIC_CALL";
@@ -218,6 +217,7 @@ const char *ast_kind_to_name(zend_ast_kind kind) {
 		case ZEND_AST_CATCH: return "AST_CATCH";
 		case ZEND_AST_FOR: return "AST_FOR";
 		case ZEND_AST_FOREACH: return "AST_FOREACH";
+		case ZEND_AST_ENUM_CASE: return "AST_ENUM_CASE";
 		case ZEND_AST_PARAM: return "AST_PARAM";
 	}
 
@@ -227,11 +227,10 @@ const char *ast_kind_to_name(zend_ast_kind kind) {
 zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 	switch (kind) {
 		case AST_NAME:
-			switch (child) {
-				case 0: return AST_STR(str_name);
-			}
-			return NULL;
 		case AST_CLOSURE_VAR:
+		case ZEND_AST_VAR:
+		case ZEND_AST_CONST:
+		case ZEND_AST_LABEL:
 			switch (child) {
 				case 0: return AST_STR(str_name);
 			}
@@ -242,32 +241,8 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 			}
 			return NULL;
 		case ZEND_AST_FUNC_DECL:
-			switch (child) {
-				case 0: return AST_STR(str_params);
-				case 1: return AST_STR(str_uses);
-				case 2: return AST_STR(str_stmts);
-				case 3: return AST_STR(str_returnType);
-				case 4: return AST_STR(str_attributes);
-			}
-			return NULL;
 		case ZEND_AST_CLOSURE:
-			switch (child) {
-				case 0: return AST_STR(str_params);
-				case 1: return AST_STR(str_uses);
-				case 2: return AST_STR(str_stmts);
-				case 3: return AST_STR(str_returnType);
-				case 4: return AST_STR(str_attributes);
-			}
-			return NULL;
 		case ZEND_AST_METHOD:
-			switch (child) {
-				case 0: return AST_STR(str_params);
-				case 1: return AST_STR(str_uses);
-				case 2: return AST_STR(str_stmts);
-				case 3: return AST_STR(str_returnType);
-				case 4: return AST_STR(str_attributes);
-			}
-			return NULL;
 		case ZEND_AST_ARROW_FUNC:
 			switch (child) {
 				case 0: return AST_STR(str_params);
@@ -287,114 +262,32 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 			}
 			return NULL;
 		case ZEND_AST_MAGIC_CONST:
-			return NULL;
 		case ZEND_AST_TYPE:
 			return NULL;
-		case ZEND_AST_VAR:
-			switch (child) {
-				case 0: return AST_STR(str_name);
-			}
-			return NULL;
-		case ZEND_AST_CONST:
-			switch (child) {
-				case 0: return AST_STR(str_name);
-			}
-			return NULL;
 		case ZEND_AST_UNPACK:
-			switch (child) {
-				case 0: return AST_STR(str_expr);
-			}
-			return NULL;
 		case ZEND_AST_CAST:
-			switch (child) {
-				case 0: return AST_STR(str_expr);
-			}
-			return NULL;
 		case ZEND_AST_EMPTY:
+		case ZEND_AST_SHELL_EXEC:
+		case ZEND_AST_CLONE:
+		case ZEND_AST_EXIT:
+		case ZEND_AST_PRINT:
+		case ZEND_AST_INCLUDE_OR_EVAL:
+		case ZEND_AST_UNARY_OP:
+		case ZEND_AST_YIELD_FROM:
+		case ZEND_AST_RETURN:
+		case ZEND_AST_ECHO:
+		case ZEND_AST_THROW:
 			switch (child) {
 				case 0: return AST_STR(str_expr);
 			}
 			return NULL;
 		case ZEND_AST_ISSET:
-			switch (child) {
-				case 0: return AST_STR(str_var);
-			}
-			return NULL;
-		case ZEND_AST_SHELL_EXEC:
-			switch (child) {
-				case 0: return AST_STR(str_expr);
-			}
-			return NULL;
-		case ZEND_AST_CLONE:
-			switch (child) {
-				case 0: return AST_STR(str_expr);
-			}
-			return NULL;
-		case ZEND_AST_EXIT:
-			switch (child) {
-				case 0: return AST_STR(str_expr);
-			}
-			return NULL;
-		case ZEND_AST_PRINT:
-			switch (child) {
-				case 0: return AST_STR(str_expr);
-			}
-			return NULL;
-		case ZEND_AST_INCLUDE_OR_EVAL:
-			switch (child) {
-				case 0: return AST_STR(str_expr);
-			}
-			return NULL;
-		case ZEND_AST_UNARY_OP:
-			switch (child) {
-				case 0: return AST_STR(str_expr);
-			}
-			return NULL;
 		case ZEND_AST_PRE_INC:
-			switch (child) {
-				case 0: return AST_STR(str_var);
-			}
-			return NULL;
 		case ZEND_AST_PRE_DEC:
-			switch (child) {
-				case 0: return AST_STR(str_var);
-			}
-			return NULL;
 		case ZEND_AST_POST_INC:
-			switch (child) {
-				case 0: return AST_STR(str_var);
-			}
-			return NULL;
 		case ZEND_AST_POST_DEC:
-			switch (child) {
-				case 0: return AST_STR(str_var);
-			}
-			return NULL;
-		case ZEND_AST_YIELD_FROM:
-			switch (child) {
-				case 0: return AST_STR(str_expr);
-			}
-			return NULL;
 		case ZEND_AST_GLOBAL:
-			switch (child) {
-				case 0: return AST_STR(str_var);
-			}
-			return NULL;
 		case ZEND_AST_UNSET:
-			switch (child) {
-				case 0: return AST_STR(str_var);
-			}
-			return NULL;
-		case ZEND_AST_RETURN:
-			switch (child) {
-				case 0: return AST_STR(str_expr);
-			}
-			return NULL;
-		case ZEND_AST_LABEL:
-			switch (child) {
-				case 0: return AST_STR(str_name);
-			}
-			return NULL;
 		case ZEND_AST_REF:
 			switch (child) {
 				case 0: return AST_STR(str_var);
@@ -405,26 +298,12 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 				case 0: return AST_STR(str_offset);
 			}
 			return NULL;
-		case ZEND_AST_ECHO:
-			switch (child) {
-				case 0: return AST_STR(str_expr);
-			}
-			return NULL;
-		case ZEND_AST_THROW:
-			switch (child) {
-				case 0: return AST_STR(str_expr);
-			}
-			return NULL;
 		case ZEND_AST_GOTO:
 			switch (child) {
 				case 0: return AST_STR(str_label);
 			}
 			return NULL;
 		case ZEND_AST_BREAK:
-			switch (child) {
-				case 0: return AST_STR(str_depth);
-			}
-			return NULL;
 		case ZEND_AST_CONTINUE:
 			switch (child) {
 				case 0: return AST_STR(str_depth);
@@ -448,11 +327,6 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 			}
 			return NULL;
 		case ZEND_AST_PROP:
-			switch (child) {
-				case 0: return AST_STR(str_expr);
-				case 1: return AST_STR(str_prop);
-			}
-			return NULL;
 		case ZEND_AST_NULLSAFE_PROP:
 			switch (child) {
 				case 0: return AST_STR(str_expr);
@@ -478,17 +352,7 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 			}
 			return NULL;
 		case ZEND_AST_ASSIGN:
-			switch (child) {
-				case 0: return AST_STR(str_var);
-				case 1: return AST_STR(str_expr);
-			}
-			return NULL;
 		case ZEND_AST_ASSIGN_REF:
-			switch (child) {
-				case 0: return AST_STR(str_var);
-				case 1: return AST_STR(str_expr);
-			}
-			return NULL;
 		case ZEND_AST_ASSIGN_OP:
 			switch (child) {
 				case 0: return AST_STR(str_var);
@@ -502,12 +366,14 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 			}
 			return NULL;
 		case ZEND_AST_ARRAY_ELEM:
+		case ZEND_AST_YIELD:
 			switch (child) {
 				case 0: return AST_STR(str_value);
 				case 1: return AST_STR(str_key);
 			}
 			return NULL;
 		case ZEND_AST_NEW:
+		case ZEND_AST_ATTRIBUTE:
 			switch (child) {
 				case 0: return AST_STR(str_class);
 				case 1: return AST_STR(str_args);
@@ -519,12 +385,6 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 				case 1: return AST_STR(str_class);
 			}
 			return NULL;
-		case ZEND_AST_YIELD:
-			switch (child) {
-				case 0: return AST_STR(str_value);
-				case 1: return AST_STR(str_key);
-			}
-			return NULL;
 		case ZEND_AST_STATIC:
 			switch (child) {
 				case 0: return AST_STR(str_var);
@@ -532,6 +392,10 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 			}
 			return NULL;
 		case ZEND_AST_WHILE:
+		case ZEND_AST_IF_ELEM:
+		case ZEND_AST_SWITCH:
+		case ZEND_AST_SWITCH_CASE:
+		case ZEND_AST_MATCH:
 			switch (child) {
 				case 0: return AST_STR(str_cond);
 				case 1: return AST_STR(str_stmts);
@@ -541,24 +405,6 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 			switch (child) {
 				case 0: return AST_STR(str_stmts);
 				case 1: return AST_STR(str_cond);
-			}
-			return NULL;
-		case ZEND_AST_IF_ELEM:
-			switch (child) {
-				case 0: return AST_STR(str_cond);
-				case 1: return AST_STR(str_stmts);
-			}
-			return NULL;
-		case ZEND_AST_SWITCH:
-			switch (child) {
-				case 0: return AST_STR(str_cond);
-				case 1: return AST_STR(str_stmts);
-			}
-			return NULL;
-		case ZEND_AST_SWITCH_CASE:
-			switch (child) {
-				case 0: return AST_STR(str_cond);
-				case 1: return AST_STR(str_stmts);
 			}
 			return NULL;
 		case ZEND_AST_DECLARE:
@@ -630,18 +476,6 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 				case 1: return AST_STR(str_uses);
 			}
 			return NULL;
-		case ZEND_AST_ATTRIBUTE:
-			switch (child) {
-				case 0: return AST_STR(str_class);
-				case 1: return AST_STR(str_args);
-			}
-			return NULL;
-		case ZEND_AST_MATCH:
-			switch (child) {
-				case 0: return AST_STR(str_cond);
-				case 1: return AST_STR(str_stmts);
-			}
-			return NULL;
 		case ZEND_AST_MATCH_ARM:
 			switch (child) {
 				case 0: return AST_STR(str_cond);
@@ -654,20 +488,7 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 				case 1: return AST_STR(str_expr);
 			}
 			return NULL;
-		case ZEND_AST_ENUM_CASE:
-			switch (child) {
-				case 0: return AST_STR(str_name);
-				case 1: return AST_STR(str_expr);
-				case 2: return AST_STR(str_attributes);
-			}
-			return NULL;
 		case ZEND_AST_METHOD_CALL:
-			switch (child) {
-				case 0: return AST_STR(str_expr);
-				case 1: return AST_STR(str_method);
-				case 2: return AST_STR(str_args);
-			}
-			return NULL;
 		case ZEND_AST_NULLSAFE_METHOD_CALL:
 			switch (child) {
 				case 0: return AST_STR(str_expr);
@@ -717,6 +538,14 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 				case 1: return AST_STR(str_value);
 				case 2: return AST_STR(str_key);
 				case 3: return AST_STR(str_stmts);
+			}
+			return NULL;
+		case ZEND_AST_ENUM_CASE:
+			switch (child) {
+				case 0: return AST_STR(str_name);
+				case 1: return AST_STR(str_expr);
+				case 2: return AST_STR(str_docComment);
+				case 3: return AST_STR(str_attributes);
 			}
 			return NULL;
 		case ZEND_AST_PARAM:
@@ -830,7 +659,6 @@ void ast_register_kind_constants(INIT_FUNC_ARGS) {
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_MATCH", ZEND_AST_MATCH, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_MATCH_ARM", ZEND_AST_MATCH_ARM, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_NAMED_ARG", ZEND_AST_NAMED_ARG, CONST_CS | CONST_PERSISTENT);
-	REGISTER_NS_LONG_CONSTANT("ast", "AST_ENUM_CASE", ZEND_AST_ENUM_CASE, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_METHOD_CALL", ZEND_AST_METHOD_CALL, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_NULLSAFE_METHOD_CALL", ZEND_AST_NULLSAFE_METHOD_CALL, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_STATIC_CALL", ZEND_AST_STATIC_CALL, CONST_CS | CONST_PERSISTENT);
@@ -839,5 +667,6 @@ void ast_register_kind_constants(INIT_FUNC_ARGS) {
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_CATCH", ZEND_AST_CATCH, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_FOR", ZEND_AST_FOR, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_FOREACH", ZEND_AST_FOREACH, CONST_CS | CONST_PERSISTENT);
+	REGISTER_NS_LONG_CONSTANT("ast", "AST_ENUM_CASE", ZEND_AST_ENUM_CASE, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_PARAM", ZEND_AST_PARAM, CONST_CS | CONST_PERSISTENT);
 }
