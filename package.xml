@@ -18,20 +18,18 @@
   <email>tandre@php.net</email>
   <active>yes</active>
  </lead>
- <date>2021-04-20</date>
+ <date>2021-05-14</date>
  <version>
-  <release>1.0.11</release>
-  <api>1.0.11</api>
+  <release>1.0.12dev</release>
+  <api>1.0.12dev</api>
  </version>
  <stability>
-  <release>stable</release>
+  <release>alpha</release>
   <api>stable</api>
  </stability>
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
-- Add the experimental AST version 85.
-- Support php 8.1 enums, add 'type' (for enum type) to AST_CLASS nodes in AST version 85+.
-- Support php 8.1 'never' return type.
+- Support parsing 'docComment' on php 8.1 enums
  </notes>
  <contents>
   <dir name="/">
@@ -140,6 +138,23 @@
  <providesextension>ast</providesextension>
  <extsrcrelease />
  <changelog>
+  <release>
+   <date>2021-04-20</date>
+   <version>
+    <release>1.0.11</release>
+    <api>1.0.11</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
+   <notes>
+- Add the experimental AST version 85.
+- Support php 8.1 enums, add 'type' (for enum type) to AST_CLASS nodes in AST version 85+.
+- Support php 8.1 'never' return type.
+   </notes>
+  </release>
   <release>
    <date>2020-09-12</date>
    <version>

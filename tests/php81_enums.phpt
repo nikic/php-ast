@@ -16,6 +16,7 @@ enum HasValue: int {
 
 #[MyAttribute(1)]
 enum NoValue {
+    /** Case doc comment */
     #[OtherAttribute()]
     case FOO;
 }
@@ -39,6 +40,7 @@ AST_STMT_LIST
             0: AST_ENUM_CASE
                 name: "FOO"
                 expr: 42
+                docComment: null
                 attributes: null
             1: AST_CLASS_CONST_DECL
                 flags: MODIFIER_PUBLIC (%d)
@@ -61,6 +63,7 @@ AST_STMT_LIST
             0: AST_ENUM_CASE
                 name: "FOO"
                 expr: null
+                docComment: "/** Case doc comment */"
                 attributes: AST_ATTRIBUTE_LIST
                     0: AST_ATTRIBUTE_GROUP
                         0: AST_ATTRIBUTE
@@ -80,6 +83,7 @@ AST_STMT_LIST
             0: AST_ENUM_CASE
                 name: "FOO"
                 expr: 42
+                docComment: null
                 attributes: null
             1: AST_CLASS_CONST_GROUP
                 flags: MODIFIER_PUBLIC (%d)
@@ -106,6 +110,7 @@ AST_STMT_LIST
             0: AST_ENUM_CASE
                 name: "FOO"
                 expr: null
+                docComment: "/** Case doc comment */"
                 attributes: AST_ATTRIBUTE_LIST
                     0: AST_ATTRIBUTE_GROUP
                         0: AST_ATTRIBUTE
@@ -133,6 +138,7 @@ AST_STMT_LIST
             0: AST_ENUM_CASE
                 name: "FOO"
                 expr: 42
+                docComment: null
                 attributes: null
             1: AST_CLASS_CONST_GROUP
                 flags: MODIFIER_PUBLIC (%d)
@@ -161,6 +167,7 @@ AST_STMT_LIST
             0: AST_ENUM_CASE
                 name: "FOO"
                 expr: null
+                docComment: "/** Case doc comment */"
                 attributes: AST_ATTRIBUTE_LIST
                     0: AST_ATTRIBUTE_GROUP
                         0: AST_ATTRIBUTE
