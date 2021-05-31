@@ -274,6 +274,12 @@ static const char *visibility_flags[] = {
 	NULL
 };
 
+static const char *class_const_flags[] = {
+	AST_VISIBILITY_FLAGS,
+	AST_FLAG(MODIFIER_FINAL),
+	NULL
+};
+
 static const char *modifier_flags[] = {
 	AST_MODIFIER_FLAGS,
 	NULL
@@ -321,8 +327,8 @@ static const ast_flag_info flag_info[] = {
 	{ ZEND_AST_ARROW_FUNC, 1, func_flags },
 	{ ZEND_AST_PROP_DECL, 1, modifier_flags },
 	{ ZEND_AST_PROP_GROUP, 1, modifier_flags },
-	{ ZEND_AST_CLASS_CONST_DECL, 1, visibility_flags },
-	{ ZEND_AST_CLASS_CONST_GROUP, 1, visibility_flags },
+	{ ZEND_AST_CLASS_CONST_DECL, 1, class_const_flags },
+	{ ZEND_AST_CLASS_CONST_GROUP, 1, class_const_flags },
 	{ ZEND_AST_TRAIT_ALIAS, 1, modifier_flags },
 	{ ZEND_AST_DIM, 1, dim_flags },
 	{ ZEND_AST_CONDITIONAL, 1, conditional_flags },
