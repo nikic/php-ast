@@ -429,6 +429,11 @@ static inline zend_bool ast_is_name(zend_ast *ast, zend_ast *parent, uint32_t i)
 	if (parent->kind == ZEND_AST_NAME_LIST) {
 		return 1;
 	}
+#if PHP_VERSION_ID >= 80100
+	if (parent->kind == ZEND_AST_TYPE_INTERSECTION) {
+		return 1;
+	}
+#endif
 #if PHP_VERSION_ID >= 80000
 	if (parent->kind == ZEND_AST_TYPE_UNION) {
 		return 1;
@@ -471,6 +476,11 @@ static inline zend_bool ast_is_name(zend_ast *ast, zend_ast *parent, uint32_t i)
 
 /* Assumes that ast_is_name is already true */
 static inline zend_bool ast_is_type(zend_ast *ast, zend_ast *parent, uint32_t i) {
+#if PHP_VERSION_ID >= 80100
+	if (parent->kind == ZEND_AST_TYPE_INTERSECTION) {
+		return 1;
+	}
+#endif
 #if PHP_VERSION_ID >= 80000
 	if (parent->kind == ZEND_AST_TYPE_UNION) {
 		return 1;

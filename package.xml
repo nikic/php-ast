@@ -30,6 +30,7 @@
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
 - Indicate in metadata that 'AST_CLASS_CONST_GROUP' and 'AST_CLASS_CONST_DECL' can have MODIFIER_FINAL
+- Support php 8.1 intersection types, add node kind `AST_TYPE_INTERSECTION`
  </notes>
  <contents>
   <dir name="/">
