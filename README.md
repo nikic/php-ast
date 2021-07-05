@@ -227,8 +227,8 @@ ast\flags\NAME_FQ (= 0)    // example: \Foo\Bar
 ast\flags\NAME_NOT_FQ      // example: Foo\Bar
 ast\flags\NAME_RELATIVE    // example: namespace\Foo\Bar
 
-// Used by ast\AST_METHOD, ast\AST_PROP_DECL, ast\AST_CLASS_CONST_DECL,
-// ast\AST_PROP_GROUP and ast\AST_TRAIT_ALIAS (combinable)
+// Used by ast\AST_METHOD, ast\AST_PROP_DECL, ast\AST_PROP_GROUP,
+// ast\AST_CLASS_CONST_DECL, ast\AST_CLASS_CONST_GROUP, and ast\AST_TRAIT_ALIAS (combinable)
 ast\flags\MODIFIER_PUBLIC
 ast\flags\MODIFIER_PROTECTED
 ast\flags\MODIFIER_PRIVATE
