@@ -77,6 +77,10 @@ extern ast_str_globals str_globals;
 
 #if PHP_VERSION_ID < 80100
 # define ZEND_ACC_ENUM (1 << 22)
+# define ZEND_ACC_READONLY (1 << 7)
+
+/* 0 child nodes */
+# define ZEND_AST_CALLABLE_CONVERT 3
 /* 3 child nodes - name, expr, attributes */
 # define ZEND_AST_ENUM_CASE 0x3fe
 # define ZEND_AST_TYPE_INTERSECTION ((1 << (ZEND_AST_IS_LIST_SHIFT + 1)) - 6)
