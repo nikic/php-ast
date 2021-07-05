@@ -22,6 +22,7 @@ jobs:
 
     # See https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#using-environment-variables-in-a-matrix
     strategy:
+      fail-fast: false
       matrix:
        include:
          # NOTE: If this is not quoted, the yaml parser will convert 7.0 to the number 7,

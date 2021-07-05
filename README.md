@@ -235,6 +235,7 @@ ast\flags\MODIFIER_PRIVATE
 ast\flags\MODIFIER_STATIC
 ast\flags\MODIFIER_ABSTRACT
 ast\flags\MODIFIER_FINAL
+ast\flags\MODIFIER_READONLY
 
 // Used by ast\AST_CLOSURE, ast\AST_ARROW_FUNC (combinable)
 ast\flags\MODIFIER_STATIC
@@ -374,6 +375,7 @@ AST_ATTRIBUTE:            class, args            // php 8.0+ attributes (version
 AST_BINARY_OP:            left, right
 AST_BREAK:                depth
 AST_CALL:                 expr, args
+AST_CALLABLE_CONVERT:                            // php 8.1+ first-class callable syntax
 AST_CAST:                 expr
 AST_CATCH:                class, var, stmts
 AST_CLASS:                name, docComment, extends, implements, stmts, (for enums) type
@@ -495,11 +497,13 @@ function accepts a boolean argument that determines whether deprecated versions 
 In the following the changes in the respective AST versions, as well as their current support state,
 are listed.
 
-### 85 (experimental)
+### 85 (current)
+
+Supported since 1.0.14 (2021-07-21)
 
 * Add a `type` child node (for enum type) for all AST_CLASS nodes.
 
-### 80 (current)
+### 80 (stable)
 
 Supported since 1.0.10 (2020-09-12).
 

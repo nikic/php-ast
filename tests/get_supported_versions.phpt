@@ -8,7 +8,7 @@ var_dump(ast\get_supported_versions(true));
 
 ?>
 --EXPECT--
-array(5) {
+array(6) {
   [0]=>
   int(50)
   [1]=>
@@ -19,8 +19,10 @@ array(5) {
   int(80)
   [4]=>
   int(85)
+  [5]=>
+  int(90)
 }
-array(5) {
+array(6) {
   [0]=>
   int(50)
   [1]=>
@@ -31,4 +33,6 @@ array(5) {
   int(80)
   [4]=>
   int(85)
+  [5]=>
+  int(90)
 }
