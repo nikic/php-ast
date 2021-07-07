@@ -20,16 +20,18 @@
  </lead>
  <date>2021-05-16</date>
  <version>
-  <release>1.0.12</release>
-  <api>1.0.12</api>
+  <release>1.0.13dev</release>
+  <api>1.0.13dev</api>
  </version>
  <stability>
-  <release>stable</release>
-  <api>stable</api>
+  <release>alpha</release>
+  <api>alpha</api>
  </stability>
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
-- Support parsing 'docComment' on php 8.1 enums
+- Indicate in metadata that 'AST_CLASS_CONST_GROUP' and 'AST_CLASS_CONST_DECL' can have MODIFIER_FINAL
+  (and any modifier a class element can have, to reflect what the parser can actually parse)
+- Support php 8.1 intersection types, add node kind 'AST_TYPE_INTERSECTION'
  </notes>
  <contents>
   <dir name="/">
@@ -111,6 +113,8 @@
       <file name="php80_union_types_nullable.phpt" role="test" />
       <file name="php80_union_types.phpt" role="test" />
       <file name="php81_enums.phpt" role="test" />
+      <file name="php81_final_class_const.phpt" role="test" />
+      <file name="php81_intersection_types.phpt" role="test" />
       <file name="prop_doc_comments.phpt" role="test" />
       <file name="short_arrow_function.phpt" role="test" />
       <file name="short_arrow_function_return.phpt" role="test" />
@@ -138,6 +142,22 @@
  <providesextension>ast</providesextension>
  <extsrcrelease />
  <changelog>
+  <release>
+   <date>2021-05-16</date>
+   <version>
+    <release>1.0.12</release>
+    <api>1.0.12</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
+   <notes>
+- Support parsing 'docComment' on php 8.1 enums
+- Indicate in metadata that 'AST_CLASS_CONST_GROUP' and 'AST_CLASS_CONST_DECL' can have MODIFIER_FINAL
+   </notes>
+  </release>
   <release>
    <date>2021-04-20</date>
    <version>

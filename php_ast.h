@@ -7,7 +7,7 @@
 extern zend_module_entry ast_module_entry;
 #define phpext_ast_ptr &ast_module_entry
 
-#define PHP_AST_VERSION "1.0.12"
+#define PHP_AST_VERSION "1.0.13dev"
 
 #ifdef PHP_WIN32
 #	define PHP_AST_API __declspec(dllexport)
@@ -79,6 +79,7 @@ extern ast_str_globals str_globals;
 # define ZEND_ACC_ENUM (1 << 22)
 /* 3 child nodes - name, expr, attributes */
 # define ZEND_AST_ENUM_CASE 0x3fe
+# define ZEND_AST_TYPE_INTERSECTION ((1 << (ZEND_AST_IS_LIST_SHIFT + 1)) - 6)
 #endif
 
 /* Pretend it still exists */
