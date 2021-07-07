@@ -392,7 +392,7 @@ AST_DIM:                  expr, dim
 AST_DO_WHILE:             stmts, cond
 AST_ECHO:                 expr
 AST_EMPTY:                expr
-AST_ENUM_CASE:            name, expr, attributes // php 8.1+ enums
+AST_ENUM_CASE:            name, expr, docComment, attributes // php 8.1+ enums
 AST_EXIT:                 expr
 AST_FOR:                  init, cond, loop, stmts
 AST_FOREACH:              expr, value, key, stmts
