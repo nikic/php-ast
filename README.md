@@ -235,6 +235,7 @@ ast\flags\MODIFIER_PRIVATE
 ast\flags\MODIFIER_STATIC
 ast\flags\MODIFIER_ABSTRACT
 ast\flags\MODIFIER_FINAL
+ast\flags\MODIFIER_READONLY
 
 // Used by ast\AST_CLOSURE, ast\AST_ARROW_FUNC (combinable)
 ast\flags\MODIFIER_STATIC
@@ -374,6 +375,7 @@ AST_ATTRIBUTE:            class, args            // php 8.0+ attributes (version
 AST_BINARY_OP:            left, right
 AST_BREAK:                depth
 AST_CALL:                 expr, args
+AST_CALLABLE_CONVERT:                            // php 8.1+ first-class callable syntax
 AST_CAST:                 expr
 AST_CATCH:                class, var, stmts
 AST_CLASS:                name, docComment, extends, implements, stmts, (for enums) type

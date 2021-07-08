@@ -267,7 +267,8 @@ static const char *closure_use_flags[] = {
 	AST_VISIBILITY_FLAGS, \
 	AST_FLAG(MODIFIER_STATIC), \
 	AST_FLAG(MODIFIER_ABSTRACT), \
-	AST_FLAG(MODIFIER_FINAL)
+	AST_FLAG(MODIFIER_FINAL), \
+	AST_FLAG(MODIFIER_READONLY)
 
 static const char *visibility_flags[] = {
 	AST_VISIBILITY_FLAGS,
@@ -1408,6 +1409,7 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("MODIFIER_STATIC", ZEND_ACC_STATIC);
 	ast_register_flag_constant("MODIFIER_ABSTRACT", ZEND_ACC_ABSTRACT);
 	ast_register_flag_constant("MODIFIER_FINAL", ZEND_ACC_FINAL);
+	ast_register_flag_constant("MODIFIER_READONLY", ZEND_ACC_READONLY);
 
 	ast_register_flag_constant("PARAM_MODIFIER_PUBLIC", PARAM_MODIFIER_PUBLIC);
 	ast_register_flag_constant("PARAM_MODIFIER_PROTECTED", PARAM_MODIFIER_PROTECTED);
