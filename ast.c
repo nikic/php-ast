@@ -51,7 +51,7 @@
 #define AST_CACHE_SLOT_LINENO   &AST_G(cache_slots)[3 * 2]
 #define AST_CACHE_SLOT_CHILDREN &AST_G(cache_slots)[3 * 3]
 
-#define AST_CURRENT_VERSION 85
+#define AST_CURRENT_VERSION 90
 
 /* Additional flags for BINARY_OP */
 #define AST_BINARY_IS_GREATER 256
@@ -1076,8 +1076,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 #endif
 }
 
-/* NOTE: experimental versions should always end in 0 in the future. */
-static const zend_long versions[] = {50, 60, 70, 80, 85};
+static const zend_long versions[] = {50, 60, 70, 80, 85, 90};
 static const size_t versions_count = sizeof(versions)/sizeof(versions[0]);
 
 static inline zend_bool ast_version_deprecated(zend_long version) {

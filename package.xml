@@ -18,7 +18,7 @@
   <email>tandre@php.net</email>
   <active>yes</active>
  </lead>
- <date>2021-07-21</date>
+ <date>2021-07-22</date>
  <version>
   <release>1.0.14</release>
   <api>1.0.14</api>
@@ -31,7 +31,7 @@
  <notes>
 - Support php 8.1 readonly properties with the flag 'MODIFIER_READONLY'
 - Support php 8.1 first-class callable syntax, add the node kind 'AST_CALLABLE_CONVERT'
-- Change the current AST version from 80 to 85. AST version 85 is no longer experimental.
+- Change the current AST version from 80 to the new version 90. AST version 85 is no longer experimental.
  </notes>
  <contents>
   <dir name="/">
@@ -173,7 +173,7 @@
    </stability>
    <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
    <notes>
-- Support parsing 'docComment' on php 8.1 enums
+- Support parsing 'docComment' on php 8.1 enum cases
 - Indicate in metadata that 'AST_CLASS_CONST_GROUP' and 'AST_CLASS_CONST_DECL' can have MODIFIER_FINAL
    </notes>
   </release>
