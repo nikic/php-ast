@@ -16,6 +16,7 @@ PHP;
 
 $node = ast\parse_code($code, $version=80);
 echo ast_dump($node), "\n";
+?>
 --EXPECTF--
 AST_STMT_LIST
     0: AST_ASSIGN
