@@ -497,9 +497,9 @@ function accepts a boolean argument that determines whether deprecated versions 
 In the following the changes in the respective AST versions, as well as their current support state,
 are listed.
 
-### 90 (stable)
+### 90 (current)
 
-Supported since 1.0.14 (2021-07-22)
+Supported since 1.0.14 (2021-07-24)
 
 * Same as AST version 85.
 
