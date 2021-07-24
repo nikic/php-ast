@@ -18,10 +18,10 @@
   <email>tandre@php.net</email>
   <active>yes</active>
  </lead>
- <date>2021-07-08</date>
+ <date>2021-07-24</date>
  <version>
-  <release>1.0.13</release>
-  <api>1.0.13</api>
+  <release>1.0.14</release>
+  <api>1.0.14</api>
  </version>
  <stability>
   <release>stable</release>
@@ -29,9 +29,9 @@
  </stability>
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
-- Indicate in metadata that 'AST_CLASS_CONST_GROUP' and 'AST_CLASS_CONST_DECL' can have MODIFIER_FINAL
-  (and any modifier a class element can have, to reflect what the parser can actually parse)
-- Support php 8.1 intersection types, add node kind 'AST_TYPE_INTERSECTION'
+- Support php 8.1 readonly properties with the flag 'MODIFIER_READONLY'
+- Support php 8.1 first-class callable syntax, add the node kind 'AST_CALLABLE_CONVERT'
+- Change the current AST version from 80 to the new version 90. AST version 85 is no longer experimental.
  </notes>
  <contents>
   <dir name="/">
@@ -113,8 +113,10 @@
       <file name="php80_union_types_nullable.phpt" role="test" />
       <file name="php80_union_types.phpt" role="test" />
       <file name="php81_enums.phpt" role="test" />
+      <file name="php81_first_class_callable_support.phpt" role="test" />
       <file name="php81_final_class_const.phpt" role="test" />
       <file name="php81_intersection_types.phpt" role="test" />
+      <file name="php81_readonly.phpt" role="test" />
       <file name="prop_doc_comments.phpt" role="test" />
       <file name="short_arrow_function.phpt" role="test" />
       <file name="short_arrow_function_return.phpt" role="test" />
@@ -143,6 +145,23 @@
  <extsrcrelease />
  <changelog>
   <release>
+   <date>2021-07-08</date>
+   <version>
+    <release>1.0.13</release>
+    <api>1.0.13</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
+   <notes>
+  - Indicate in metadata that 'AST_CLASS_CONST_GROUP' and 'AST_CLASS_CONST_DECL' can have 'MODIFIER_FINAL'
+    (and any modifier a class element can have, to reflect what the parser can actually parse)
+  - Support php 8.1 intersection types, add the node kind 'AST_TYPE_INTERSECTION'
+   </notes>
+  </release>
+  <release>
    <date>2021-05-16</date>
    <version>
     <release>1.0.12</release>
@@ -154,7 +173,7 @@
    </stability>
    <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
    <notes>
-- Support parsing 'docComment' on php 8.1 enums
+- Support parsing 'docComment' on php 8.1 enum cases
 - Indicate in metadata that 'AST_CLASS_CONST_GROUP' and 'AST_CLASS_CONST_DECL' can have MODIFIER_FINAL
    </notes>
   </release>

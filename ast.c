@@ -51,7 +51,7 @@
 #define AST_CACHE_SLOT_LINENO   &AST_G(cache_slots)[3 * 2]
 #define AST_CACHE_SLOT_CHILDREN &AST_G(cache_slots)[3 * 3]
 
-#define AST_CURRENT_VERSION 80
+#define AST_CURRENT_VERSION 90
 
 /* Additional flags for BINARY_OP */
 #define AST_BINARY_IS_GREATER 256
@@ -267,7 +267,8 @@ static const char *closure_use_flags[] = {
 	AST_VISIBILITY_FLAGS, \
 	AST_FLAG(MODIFIER_STATIC), \
 	AST_FLAG(MODIFIER_ABSTRACT), \
-	AST_FLAG(MODIFIER_FINAL)
+	AST_FLAG(MODIFIER_FINAL), \
+	AST_FLAG(MODIFIER_READONLY)
 
 static const char *visibility_flags[] = {
 	AST_VISIBILITY_FLAGS,
@@ -1075,7 +1076,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 #endif
 }
 
-static const zend_long versions[] = {50, 60, 70, 80, 85};
+static const zend_long versions[] = {50, 60, 70, 80, 85, 90};
 static const size_t versions_count = sizeof(versions)/sizeof(versions[0]);
 
 static inline zend_bool ast_version_deprecated(zend_long version) {
@@ -1408,6 +1409,7 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("MODIFIER_STATIC", ZEND_ACC_STATIC);
 	ast_register_flag_constant("MODIFIER_ABSTRACT", ZEND_ACC_ABSTRACT);
 	ast_register_flag_constant("MODIFIER_FINAL", ZEND_ACC_FINAL);
+	ast_register_flag_constant("MODIFIER_READONLY", ZEND_ACC_READONLY);
 
 	ast_register_flag_constant("PARAM_MODIFIER_PUBLIC", PARAM_MODIFIER_PUBLIC);
 	ast_register_flag_constant("PARAM_MODIFIER_PROTECTED", PARAM_MODIFIER_PROTECTED);
