@@ -638,7 +638,7 @@ static void ast_create_virtual_node_ex(
 
 	object_init_ex(zv, ast_node_ce);
 
-	zend_object *const obj = Z_OBJ_P(zv);
+	zend_object *obj = Z_OBJ_P(zv);
 
 	AST_NODE_SET_PROP_KIND(obj, kind);
 	AST_NODE_SET_PROP_FLAGS(obj, attr);
