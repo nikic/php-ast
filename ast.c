@@ -13,6 +13,10 @@
 #include "zend_language_parser.h"
 #include "zend_exceptions.h"
 #include "zend_smart_str.h"
+#if PHP_VERSION_ID >= 80200
+/* Used for AllowDynamicProperties */
+#include "zend_attributes.h"
+#endif
 
 #ifndef ZEND_ARG_INFO_WITH_DEFAULT_VALUE
 #define ZEND_ARG_INFO_WITH_DEFAULT_VALUE(pass_by_ref, name, default_value) \
@@ -1518,6 +1522,10 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_declare_property(ast_node_ce, AST_STR(str_flags), &zv_null);
 	ast_declare_property(ast_node_ce, AST_STR(str_lineno), &zv_null);
 	ast_declare_property(ast_node_ce, AST_STR(str_children), &zv_null);
+#ifdef ZEND_ACC_ALLOW_DYNAMIC_PROPERTIES
+	zend_add_class_attribute(ast_node_ce, zend_ce_allow_dynamic_properties->name, 0);
+	ast_node_ce->ce_flags |= ZEND_ACC_ALLOW_DYNAMIC_PROPERTIES;
+#endif
 
 	INIT_CLASS_ENTRY(tmp_ce, "ast\\Metadata", NULL);
 	ast_metadata_ce = zend_register_internal_class(&tmp_ce);
