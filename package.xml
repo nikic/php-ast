@@ -18,10 +18,10 @@
   <email>tandre@php.net</email>
   <active>yes</active>
  </lead>
- <date>2021-07-24</date>
+ <date>2021-11-27</date>
  <version>
-  <release>1.0.15dev</release>
-  <api>1.0.15dev</api>
+  <release>1.0.15</release>
+  <api>1.0.15</api>
  </version>
  <stability>
   <release>devel</release>
