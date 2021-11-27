@@ -30,6 +30,7 @@
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
 - Optimize instantiating properties of ast\Node and ast\Metadata.
+- Document that ast\Node implements `#[AllowDynamicProperties]` in php 8.2
  </notes>
  <contents>
   <dir name="/">
@@ -156,7 +157,6 @@
    <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
    <notes>
 - Allow ast\Node to have dynamic properties without emitting a notice in PHP 8.2.
-- Document that ast\Node implements `#[AllowDynamicProperties]` in php 8.2
    </notes>
   </release>
   <release>

@@ -634,7 +634,6 @@ static void ast_create_virtual_node_ex(
 		ast_state_info_t *state, uint32_t num_children, ...) {
 	va_list va;
 	uint32_t i;
-	HashTable *children;
 
 	object_init_ex(zv, ast_node_ce);
 
@@ -645,7 +644,7 @@ static void ast_create_virtual_node_ex(
 	AST_NODE_SET_PROP_LINENO(obj, lineno);
 
 	array_init_size(AST_NODE_PROP_CHILDREN(obj), num_children);
-	children = Z_ARRVAL_P(AST_NODE_PROP_CHILDREN(obj));
+	HashTable *children = Z_ARRVAL_P(AST_NODE_PROP_CHILDREN(obj));
 
 	va_start(va, num_children);
 	for (i = 0; i < num_children; i++) {
@@ -885,9 +884,6 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 
 static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 	zval tmp_zv;
-	zend_array *children;
-	zend_object *obj;
-	zend_bool is_decl;
 
 	if (ast == NULL) {
 		ZVAL_NULL(zv);
@@ -1024,14 +1020,14 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 
 	object_init_ex(zv, ast_node_ce);
 
-	obj = Z_OBJ_P(zv);
+	zend_object *obj = Z_OBJ_P(zv);
 
 	AST_NODE_SET_PROP_KIND(obj, ast->kind);
 
 	AST_NODE_SET_PROP_LINENO(obj, zend_ast_get_lineno(ast));
 
 	array_init(AST_NODE_PROP_CHILDREN(obj));
-	children = Z_ARRVAL_P(AST_NODE_PROP_CHILDREN(obj));
+	HashTable *children = Z_ARRVAL_P(AST_NODE_PROP_CHILDREN(obj));
 
 	if (ast_kind_is_decl(ast->kind)) {
 		zend_ast_decl *decl = (zend_ast_decl *) ast;
