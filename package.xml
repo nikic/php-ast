@@ -20,8 +20,8 @@
  </lead>
  <date>2021-11-27</date>
  <version>
-  <release>1.0.15</release>
-  <api>1.0.15</api>
+  <release>1.0.16</release>
+  <api>1.0.16</api>
  </version>
  <stability>
   <release>devel</release>
@@ -29,7 +29,7 @@
  </stability>
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
-- Allow ast\Node to have dynamic properties without emitting a notice in PHP 8.2.
+- Optimize instantiating properties of ast\Node and ast\Metadata.
  </notes>
  <contents>
   <dir name="/">
@@ -143,6 +143,22 @@
  <providesextension>ast</providesextension>
  <extsrcrelease />
  <changelog>
+  <release>
+   <date>2021-11-27</date>
+   <version>
+    <release>1.0.15</release>
+    <api>1.0.15</api>
+   </version>
+   <stability>
+    <release>devel</release>
+    <api>stable</api>
+   </stability>
+   <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
+   <notes>
+- Allow ast\Node to have dynamic properties without emitting a notice in PHP 8.2.
+- Document that ast\Node implements `#[AllowDynamicProperties]` in php 8.2
+   </notes>
+  </release>
   <release>
    <date>2021-07-24</date>
    <version>
