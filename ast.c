@@ -624,7 +624,7 @@ static void ast_create_virtual_node_ex(
 
 	ast_update_property_long(zv, AST_STR(str_lineno), lineno, AST_CACHE_SLOT_LINENO);
 
-	array_init(&tmp_zv);
+	array_init_size(&tmp_zv, num_children);
 	Z_DELREF(tmp_zv);
 	ast_update_property(zv, AST_STR(str_children), &tmp_zv, AST_CACHE_SLOT_CHILDREN);
 
