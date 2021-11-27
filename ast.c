@@ -12,10 +12,15 @@
 #include "zend_language_scanner_defs.h"
 #include "zend_language_parser.h"
 #include "zend_exceptions.h"
+#include "zend_hash.h"
 #include "zend_smart_str.h"
 #if PHP_VERSION_ID >= 80200
 /* Used for AllowDynamicProperties */
 #include "zend_attributes.h"
+#endif
+
+#ifndef ZEND_THIS
+#define ZEND_THIS getThis()
 #endif
 
 #ifndef ZEND_ARG_INFO_WITH_DEFAULT_VALUE
@@ -50,11 +55,23 @@
 #define ast_register_flag_constant(name, value) \
 	REGISTER_NS_LONG_CONSTANT("ast\\flags", name, value, CONST_CS | CONST_PERSISTENT)
 
-// The number of cache slots there are must be the same as AST_NUM_CACHE_SLOTS in php_ast.h
-#define AST_CACHE_SLOT_KIND     &AST_G(cache_slots)[3 * 0]
-#define AST_CACHE_SLOT_FLAGS    &AST_G(cache_slots)[3 * 1]
-#define AST_CACHE_SLOT_LINENO   &AST_G(cache_slots)[3 * 2]
-#define AST_CACHE_SLOT_CHILDREN &AST_G(cache_slots)[3 * 3]
+// These are in the order the properties were declared with ast_declare_property.
+#define AST_NODE_PROP_KIND(object) OBJ_PROP_NUM((object), 0)
+#define AST_NODE_PROP_FLAGS(object) OBJ_PROP_NUM((object), 1)
+#define AST_NODE_PROP_LINENO(object) OBJ_PROP_NUM((object), 2)
+#define AST_NODE_PROP_CHILDREN(object) OBJ_PROP_NUM((object), 3)
+
+#define AST_NODE_SET_PROP_KIND(object, num)       ZVAL_LONG(AST_NODE_PROP_KIND((object)), (num))
+#define AST_NODE_SET_PROP_FLAGS(object, num)      ZVAL_LONG(AST_NODE_PROP_FLAGS((object)), (num))
+#define AST_NODE_SET_PROP_LINENO(object, num)     ZVAL_LONG(AST_NODE_PROP_LINENO((object)), (num))
+// Set the ast\Node->children array to the given reference-counted array without incrementing the reference count of the array.
+// Do not use this macro with immutable arrays.
+#define AST_NODE_SET_PROP_CHILDREN_ARRAY(object, array) ZVAL_ARR(AST_NODE_PROP_CHILDREN((object)), (array))
+
+#define AST_METADATA_PROP_KIND(object) OBJ_PROP_NUM((object), 0)
+#define AST_METADATA_PROP_NAME(object) OBJ_PROP_NUM((object), 1)
+#define AST_METADATA_PROP_FLAGS(object) OBJ_PROP_NUM((object), 2)
+#define AST_METADATA_PROP_FLAGS_COMBINABLE(object) OBJ_PROP_NUM((object), 3)
 
 #define AST_CURRENT_VERSION 90
 
@@ -334,22 +351,20 @@ static const ast_flag_info flag_info[] = {
 	{ ZEND_AST_CONDITIONAL, 1, conditional_flags },
 };
 
-// NOTE(tandre) in php 8, to get a writeable pointer to a property, OBJ_PROP_NUM(AST_CACHE_SLOT_PROPNAME) can be used.
-
-static inline void ast_update_property(zval *object, zend_string *name, zval *value, void **cache_slot) {
+static inline void ast_update_property(zval *object, zend_string *name, zval *value) {
 #if PHP_VERSION_ID < 80000
 	zval name_zv;
 	ZVAL_STR(&name_zv, name);
-	Z_OBJ_HT_P(object)->write_property(object, &name_zv, value, cache_slot);
+	Z_OBJ_HT_P(object)->write_property(object, &name_zv, value, NULL);
 #else
-	Z_OBJ_HT_P(object)->write_property(Z_OBJ_P(object), name, value, cache_slot);
+	Z_OBJ_HT_P(object)->write_property(Z_OBJ_P(object), name, value, NULL);
 #endif
 }
 
-static inline void ast_update_property_long(zval *object, zend_string *name, zend_long value_raw, void **cache_slot) {
+static inline void ast_update_property_long(zval *object, zend_string *name, zend_long value_raw) {
 	zval value_zv;
 	ZVAL_LONG(&value_zv, value_raw);
-	ast_update_property(object, name, &value_zv, cache_slot);
+	ast_update_property(object, name, &value_zv);
 }
 
 static zend_ast *get_ast(zend_string *code, zend_arena **ast_arena, zend_string *filename) {
@@ -617,30 +632,28 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state);
 static void ast_create_virtual_node_ex(
 		zval *zv, zend_ast_kind kind, zend_ast_attr attr, uint32_t lineno,
 		ast_state_info_t *state, uint32_t num_children, ...) {
-	zval tmp_zv;
 	va_list va;
 	uint32_t i;
 
 	object_init_ex(zv, ast_node_ce);
 
-	ast_update_property_long(zv, AST_STR(str_kind), kind, AST_CACHE_SLOT_KIND);
+	zend_object *obj = Z_OBJ_P(zv);
 
-	ast_update_property_long(zv, AST_STR(str_flags), attr, AST_CACHE_SLOT_FLAGS);
+	AST_NODE_SET_PROP_KIND(obj, kind);
+	AST_NODE_SET_PROP_FLAGS(obj, attr);
+	AST_NODE_SET_PROP_LINENO(obj, lineno);
 
-	ast_update_property_long(zv, AST_STR(str_lineno), lineno, AST_CACHE_SLOT_LINENO);
-
-	array_init_size(&tmp_zv, num_children);
-	Z_DELREF(tmp_zv);
-	ast_update_property(zv, AST_STR(str_children), &tmp_zv, AST_CACHE_SLOT_CHILDREN);
+	array_init_size(AST_NODE_PROP_CHILDREN(obj), num_children);
+	HashTable *children = Z_ARRVAL_P(AST_NODE_PROP_CHILDREN(obj));
 
 	va_start(va, num_children);
 	for (i = 0; i < num_children; i++) {
 		zval *child_zv = va_arg(va, zval *);
 		zend_string *child_name = ast_kind_child_name(kind, i);
 		if (child_name) {
-			zend_hash_add_new(Z_ARRVAL(tmp_zv), child_name, child_zv);
+			zend_hash_add_new(children, child_name, child_zv);
 		} else {
-			zend_hash_next_index_insert(Z_ARRVAL(tmp_zv), child_zv);
+			zend_hash_next_index_insert(children, child_zv);
 		}
 	}
 	va_end(va);
@@ -870,7 +883,7 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 }
 
 static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
-	zval tmp_zv, children_zv;
+	zval tmp_zv;
 
 	if (ast == NULL) {
 		ZVAL_NULL(zv);
@@ -939,7 +952,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 				ast_to_zval(zv, ast->child[1], state);
 				// The property visibility is on the AST_PROP_GROUP node.
 				// Add it to the AST_PROP_DECL node for old
-				ast_update_property_long(zv, AST_STR(str_flags), ast->attr, AST_CACHE_SLOT_FLAGS);
+				AST_NODE_SET_PROP_FLAGS(Z_OBJ_P(zv), ast->attr);
 				return;
 			}
 			break;
@@ -1007,48 +1020,50 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 
 	object_init_ex(zv, ast_node_ce);
 
-	ast_update_property_long(zv, AST_STR(str_kind), ast->kind, AST_CACHE_SLOT_KIND);
+	zend_object *obj = Z_OBJ_P(zv);
 
-	ast_update_property_long(zv, AST_STR(str_lineno), zend_ast_get_lineno(ast), AST_CACHE_SLOT_LINENO);
+	AST_NODE_SET_PROP_KIND(obj, ast->kind);
 
-	array_init(&children_zv);
-	Z_DELREF(children_zv);
-	ast_update_property(zv, AST_STR(str_children), &children_zv, AST_CACHE_SLOT_CHILDREN);
+	AST_NODE_SET_PROP_LINENO(obj, zend_ast_get_lineno(ast));
+
+	array_init(AST_NODE_PROP_CHILDREN(obj));
+	HashTable *children = Z_ARRVAL_P(AST_NODE_PROP_CHILDREN(obj));
 
 	if (ast_kind_is_decl(ast->kind)) {
 		zend_ast_decl *decl = (zend_ast_decl *) ast;
 
-		ast_update_property_long(zv, AST_STR(str_flags), decl->flags, AST_CACHE_SLOT_FLAGS);
+		AST_NODE_SET_PROP_FLAGS(obj, decl->flags);
 
-		ast_update_property_long(zv, AST_STR(str_endLineno), decl->end_lineno, NULL);
+		// This is an undeclared dynamic property and has no cache slot.
+		ast_update_property_long(zv, AST_STR(str_endLineno), decl->end_lineno);
 
 		if (decl->name) {
 			ZVAL_STR(&tmp_zv, decl->name);
+			Z_TRY_ADDREF(tmp_zv);
 		} else {
 			ZVAL_NULL(&tmp_zv);
 		}
 
-		Z_TRY_ADDREF(tmp_zv);
-		zend_hash_add_new(Z_ARRVAL(children_zv), AST_STR(str_name), &tmp_zv);
+		zend_hash_add_new(children, AST_STR(str_name), &tmp_zv);
 
 		if (decl->doc_comment) {
 			ZVAL_STR(&tmp_zv, decl->doc_comment);
+			Z_TRY_ADDREF(tmp_zv);
 		} else {
 			ZVAL_NULL(&tmp_zv);
 		}
 
-		Z_TRY_ADDREF(tmp_zv);
-		zend_hash_add_new(Z_ARRVAL(children_zv), AST_STR(str_docComment), &tmp_zv);
+		zend_hash_add_new(children, AST_STR(str_docComment), &tmp_zv);
 	} else {
 #if PHP_VERSION_ID < 70100
 		if (ast->kind == ZEND_AST_CLASS_CONST_DECL) {
 			ast->attr = ZEND_ACC_PUBLIC;
 		}
 #endif
-		ast_update_property_long(zv, AST_STR(str_flags), ast->attr, AST_CACHE_SLOT_FLAGS);
+		AST_NODE_SET_PROP_FLAGS(obj, ast->attr);
 	}
 
-	ast_fill_children_ht(Z_ARRVAL(children_zv), ast, state);
+	ast_fill_children_ht(children, ast, state);
 #if PHP_VERSION_ID < 70400
 	if (ast->kind == ZEND_AST_PROP_DECL && state->version >= 70) {
 		zval type_zval;
@@ -1064,7 +1079,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 			ast_create_virtual_node_ex(
 					zv, ZEND_AST_PROP_GROUP, ast->attr, zend_ast_get_lineno(ast), state, 2, &type_zval, &prop_group_zval);
 		}
-		ast_update_property_long(&prop_group_zval, AST_STR(str_flags), 0, AST_CACHE_SLOT_FLAGS);
+		AST_NODE_SET_PROP_FLAGS(obj, 0);
 	}
 #endif
 #if PHP_VERSION_ID < 80000
@@ -1073,7 +1088,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 		zval attributes_zval;
 		ZVAL_COPY_VALUE(&const_decl_zval, zv);
 		ZVAL_NULL(&attributes_zval);
-		ast_update_property_long(zv, AST_STR(str_flags), 0, AST_CACHE_SLOT_FLAGS);
+		AST_NODE_SET_PROP_FLAGS(obj, 0);
 		// For version 80, create an AST_CLASS_CONST_GROUP wrapping the created AST_CLASS_CONST_DECL
 		ast_create_virtual_node_ex(
 				zv, ZEND_AST_CLASS_CONST_GROUP, ast->attr, zend_ast_get_lineno(ast), state, 2, &const_decl_zval, &attributes_zval);
@@ -1255,21 +1270,21 @@ static inline const ast_flag_info *ast_get_flag_info(uint16_t ast_kind) {
 
 static void ast_build_metadata(zval *result) {
 	size_t i;
-	array_init(result);
+	array_init_size(result, ast_kinds_count);
 	for (i = 0; i < ast_kinds_count; i++) {
 		zend_ast_kind kind = ast_kinds[i];
 		const ast_flag_info *flag_info = ast_get_flag_info(kind);
 		zval info_zv, tmp_zv;
+		zend_object *obj;
 
 		object_init_ex(&info_zv, ast_metadata_ce);
+		obj = Z_OBJ(info_zv);
 
 		/* kind */
-		ast_update_property_long(&info_zv, AST_STR(str_kind), kind, NULL);
+		ZVAL_LONG(AST_METADATA_PROP_KIND(obj), kind);
 
 		/* name */
-		ZVAL_STRING(&tmp_zv, ast_kind_to_name(kind));
-		Z_TRY_DELREF(tmp_zv);
-		ast_update_property(&info_zv, AST_STR(str_name), &tmp_zv, NULL);
+		ZVAL_STRING(AST_METADATA_PROP_NAME(obj), ast_kind_to_name(kind));
 
 		/* flags */
 		array_init(&tmp_zv);
@@ -1279,12 +1294,10 @@ static void ast_build_metadata(zval *result) {
 				add_next_index_string(&tmp_zv, *flag);
 			}
 		}
-		Z_TRY_DELREF(tmp_zv);
-		ast_update_property(&info_zv, AST_STR(str_flags), &tmp_zv, NULL);
+		ZVAL_ARR(AST_METADATA_PROP_FLAGS(obj), Z_ARRVAL(tmp_zv));
 
 		/* flagsCombinable */
-		ZVAL_BOOL(&tmp_zv, flag_info && flag_info->combinable);
-		ast_update_property(&info_zv, AST_STR(str_flagsCombinable), &tmp_zv, NULL);
+		ZVAL_BOOL(AST_METADATA_PROP_FLAGS_COMBINABLE(obj), flag_info && flag_info->combinable);
 
 		add_index_zval(result, kind, &info_zv);
 	}
@@ -1340,27 +1353,27 @@ PHP_METHOD(ast_Node, __construct) {
 		Z_PARAM_LONG_EX(lineno, linenoNull, 1, 0)
 	ZEND_PARSE_PARAMETERS_END();
 
-	zval *zv = getThis();
+	zend_object *obj = Z_OBJ_P(ZEND_THIS);
 
 	switch (num_args) {
 		case 4:
 			if (!linenoNull) {
-				ast_update_property_long(zv, AST_STR(str_lineno), lineno, AST_CACHE_SLOT_LINENO);
+				AST_NODE_SET_PROP_LINENO(obj, lineno);
 			}
 			/* Falls through - break missing intentionally */
 		case 3:
 			if (children != NULL) {
-				ast_update_property(zv, AST_STR(str_children), children, AST_CACHE_SLOT_CHILDREN);
+				ZVAL_COPY(AST_NODE_PROP_CHILDREN(obj), children);
 			}
 			/* Falls through - break missing intentionally */
 		case 2:
 			if (!flagsNull) {
-				ast_update_property_long(zv, AST_STR(str_flags), flags, AST_CACHE_SLOT_FLAGS);
+				AST_NODE_SET_PROP_FLAGS(obj, flags);
 			}
 			/* Falls through - break missing intentionally */
 		case 1:
 			if (!kindNull) {
-				ast_update_property_long(zv, AST_STR(str_kind), kind, AST_CACHE_SLOT_KIND);
+				AST_NODE_SET_PROP_KIND(obj, kind);
 			}
 			/* Falls through - break missing intentionally */
 		case 0:
@@ -1381,7 +1394,6 @@ PHP_MINFO_FUNCTION(ast) {
 }
 
 PHP_RINIT_FUNCTION(ast) {
-	memset(AST_G(cache_slots), 0, sizeof(void *) * AST_NUM_CACHE_SLOTS);
 	ZVAL_UNDEF(&AST_G(metadata));
 	return SUCCESS;
 }

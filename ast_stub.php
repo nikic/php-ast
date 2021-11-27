@@ -278,9 +278,11 @@ function get_supported_versions($exclude_deprecated = false): array
 {
 }
 
+// In php 8.2+, this class has the attribute AllowDynamicProperties
 /**
  * This class describes a single node in a PHP AST.
  */
+#[AllowDynamicProperties]
 class Node
 {
     /** @var int AST Node Kind. Values are one of ast\AST_* constants. */

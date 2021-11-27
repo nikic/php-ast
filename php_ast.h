@@ -7,7 +7,7 @@
 extern zend_module_entry ast_module_entry;
 #define phpext_ast_ptr &ast_module_entry
 
-#define PHP_AST_VERSION "1.0.15"
+#define PHP_AST_VERSION "1.0.16"
 
 #ifdef PHP_WIN32
 #	define PHP_AST_API __declspec(dllexport)
@@ -21,13 +21,7 @@ extern zend_module_entry ast_module_entry;
 #include "TSRM.h"
 #endif
 
-// PHP 7.4 added a 3rd cache slot for property_info
-// and expects cache_slot[2] to be null.
-// There are 4 entries in ast.c in `AST_CACHE_SLOT_*`
-#define AST_NUM_CACHE_SLOTS (3 * 4)
-
 ZEND_BEGIN_MODULE_GLOBALS(ast)
-	void *cache_slots[AST_NUM_CACHE_SLOTS];
 	zval metadata;
 ZEND_END_MODULE_GLOBALS(ast)
 
