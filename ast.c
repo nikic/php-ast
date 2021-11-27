@@ -50,6 +50,7 @@
 #define ast_register_flag_constant(name, value) \
 	REGISTER_NS_LONG_CONSTANT("ast\\flags", name, value, CONST_CS | CONST_PERSISTENT)
 
+// The number of cache slots there are must be the same as AST_NUM_CACHE_SLOTS in php_ast.h
 #define AST_CACHE_SLOT_KIND     &AST_G(cache_slots)[3 * 0]
 #define AST_CACHE_SLOT_FLAGS    &AST_G(cache_slots)[3 * 1]
 #define AST_CACHE_SLOT_LINENO   &AST_G(cache_slots)[3 * 2]

@@ -10,6 +10,7 @@ fi
 # -u fail for undefined variables
 set -xeu
 PHP_VERSION=$1
-DOCKER_IMAGE=php-ast-$PHP_VERSION-test-runner
+# uppercase is not allowed in image names, only in tags
+DOCKER_IMAGE=php-ast-test-runner:$PHP_VERSION
 docker build --build-arg="PHP_VERSION=$PHP_VERSION" --tag="$DOCKER_IMAGE" -f ci/Dockerfile .
 docker run --rm $DOCKER_IMAGE ci/test_inner.sh
