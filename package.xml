@@ -31,6 +31,7 @@
  <notes>
 - Change documentation files to properly namespace attributes as `#[\AllowDynamicProperties]`. The reflection attributes are already correct.
 - Deprecated AST versions 50 and 60.
+- Drop support for php &lt;= 7.1
  </notes>
  <contents>
   <dir name="/">
@@ -134,7 +135,7 @@
  <dependencies>
   <required>
    <php>
-    <min>7.0.0</min>
+    <min>7.2.0</min>
    </php>
    <pearinstaller>
     <min>1.10.0</min>

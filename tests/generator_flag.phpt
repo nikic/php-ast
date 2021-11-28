@@ -1,9 +1,5 @@
 --TEST--
-Flag on generator functions in PHP 7.1
---SKIPIF--
-<?php
-if (PHP_VERSION_ID < 70100) die('skip requires PHP 7.1');
-?>
+Flag on generator functions
 --FILE--
 <?php
 

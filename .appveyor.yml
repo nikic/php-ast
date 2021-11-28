@@ -69,46 +69,6 @@ environment:
                   VC: vs16
                   PHP_VER: 8.0.13
                   TS: 0
-                - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-                  ARCH: x64
-                  VC: vc14
-                  PHP_VER: 7.0.33
-                  TS: 0
-                - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-                  ARCH: x64
-                  VC: vc14
-                  PHP_VER: 7.0.33
-                  TS: 1
-                - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-                  ARCH: x86
-                  VC: vc14
-                  PHP_VER: 7.0.33
-                  TS: 0
-                - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-                  ARCH: x86
-                  VC: vc14
-                  PHP_VER: 7.0.33
-                  TS: 1
-                - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-                  ARCH: x64
-                  VC: vc14
-                  PHP_VER: 7.1.33
-                  TS: 0
-                - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-                  ARCH: x64
-                  VC: vc14
-                  PHP_VER: 7.1.33
-                  TS: 1
-                - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-                  ARCH: x86
-                  VC: vc14
-                  PHP_VER: 7.1.33
-                  TS: 0
-                - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-                  ARCH: x86
-                  VC: vc14
-                  PHP_VER: 7.1.33
-                  TS: 1
                 - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
                   ARCH: x64
                   VC: vc15

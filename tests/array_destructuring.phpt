@@ -1,7 +1,5 @@
 --TEST--
 Array destructuring
---SKIPIF--
-<?php if (PHP_VERSION_ID < 70100) die('skip PHP >= 7.1 only'); ?>
 --FILE--
 <?php
 
