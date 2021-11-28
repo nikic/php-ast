@@ -19,6 +19,7 @@ echo ast_dump($node), "\n";
 $node = ast\parse_code($code, $version=85);
 echo ast_dump($node), "\n";
 --EXPECTF--
+    Deprecated: ast\parse_code(): Version 60 is deprecated in %sphp81_readonly.php on line 12
 AST_STMT_LIST
     0: AST_CLASS
         flags: 0
