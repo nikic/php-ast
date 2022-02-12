@@ -32,7 +32,7 @@ function get_supported_versions(bool $exclude_deprecated = false): array {}
 /**
  * This class describes a single node in a PHP AST.
  */
-#[AllowDynamicProperties]
+#[\AllowDynamicProperties]
 class Node
 {
     public function __construct(?int $kind = null, ?int $flags = null, ?array $children = null, ?int $lineno = null) {
