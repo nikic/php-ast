@@ -1154,6 +1154,30 @@ static int ast_check_version(zend_long version) {
 	return FAILURE;
 }
 
+static void parse_code_common(
+		zval *return_value, zend_string *code, zend_string *filename, zend_long version, zend_class_entry *node_class)
+{
+	ast_state_info_t state;
+	zend_ast *ast;
+	zend_arena *arena;
+
+	if (ast_check_version(version) == FAILURE) {
+		return;
+	}
+
+	ast = get_ast(code, &arena, filename);
+	if (!ast) {
+		return;
+	}
+
+	state.version = version;
+	state.declIdCounter = 0;
+	ast_to_zval(return_value, node_class, ast, &state);
+
+	zend_ast_destroy(ast);
+	zend_arena_destroy(arena);
+}
+
 PHP_FUNCTION(parse_file) {
 	zend_string *filename, *code;
 	zend_long version = -1;
@@ -1205,29 +1229,12 @@ PHP_FUNCTION(parse_file) {
 PHP_FUNCTION(parse_code) {
 	zend_string *code, *filename = NULL;
 	zend_long version = -1;
-	ast_state_info_t state;
-	zend_ast *ast;
-	zend_arena *arena;
 
 	if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "S|lP", &code, &version, &filename) == FAILURE) {
 		return;
 	}
 
-	if (ast_check_version(version) == FAILURE) {
-		return;
-	}
-
-	ast = get_ast(code, &arena, filename);
-	if (!ast) {
-		return;
-	}
-
-	state.version = version;
-	state.declIdCounter = 0;
-	ast_to_zval(return_value, ast_node_ce, ast, &state);
-
-	zend_ast_destroy(ast);
-	zend_arena_destroy(arena);
+	parse_code_common(return_value, code, filename, version, ast_node_ce);
 }
 
 PHP_FUNCTION(get_kind_name) {
@@ -1385,9 +1392,6 @@ PHP_METHOD(ast_Node, parseCode) {
 	zend_string *code, *filename = NULL;
 	zend_long version = -1;
 	zend_class_entry *node_class;
-	ast_state_info_t state;
-	zend_ast *ast;
-	zend_arena *arena;
 
 	ZEND_PARSE_PARAMETERS_START(2, 3)
 		Z_PARAM_STR(code)
@@ -1411,17 +1415,7 @@ PHP_METHOD(ast_Node, parseCode) {
 		RETURN_THROWS();
 	}
 
-	ast = get_ast(code, &arena, filename);
-	if (!ast) {
-		return;
-	}
-
-	state.version = version;
-	state.declIdCounter = 0;
-	ast_to_zval(return_value, node_class, ast, &state);
-
-	zend_ast_destroy(ast);
-	zend_arena_destroy(arena);
+	parse_code_common(return_value, code, filename, version, node_class);
 }
 
 PHP_MINFO_FUNCTION(ast) {
