@@ -37,5 +37,9 @@ class Node
 {
     public function __construct(?int $kind = null, ?int $flags = null, ?array $children = null, ?int $lineno = null) {
     }
+
+    public static function parseCode(string $code, int $version, string $filename = 'string code'): static {
+
+    }
 }
 
