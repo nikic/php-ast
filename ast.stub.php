@@ -39,7 +39,9 @@ class Node
     }
 
     public static function parseCode(string $code, int $version, string $filename = 'string code'): static {
+    }
 
+    public static function parseFile(string $filename, int $version): static {
     }
 }
 
