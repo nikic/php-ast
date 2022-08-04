@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: ee607cbbad2f3414a7cbd756e9db54054c29023c */
+ * Stub hash: 3e43ae41473e7ac0111f3c1a8a7df724e1d60232 */
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_ast_parse_code, 0, 2, ast\\Node, 0)
 	ZEND_ARG_TYPE_INFO(0, code, IS_STRING, 0)

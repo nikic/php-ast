@@ -1,6 +1,9 @@
 <?php
 
-/** @generate-function-entries */
+/**
+ * @generate-function-entries
+ * @generate-legacy-arginfo 70000
+ **/
 
 /**
  * ========================================================================================
@@ -10,7 +13,6 @@
  * This is a stub file meant only for use with https://github.com/php/php-src/blob/master/build/gen_stub.php
  * to generate Reflection information (ReflectionParameter, ReflectionFunction, ReflectionMethod, etc.)
  */
-
 namespace ast;
 
 // XXX: @param in doc comments will cause build/gen_stub.php to emit an error if there is already a real type in the latest php versions.
