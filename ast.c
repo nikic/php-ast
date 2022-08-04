@@ -44,6 +44,10 @@
 	ZEND_ARG_TYPE_INFO(pass_by_ref, name, type_hint, allow_null)
 #endif
 
+#ifndef RETURN_THROWS
+#define RETURN_THROWS() do { ZEND_ASSERT(EG(exception)); (void) return_value; return; } while (0)
+#endif
+
 #include "ast_arginfo.h"
 
 #define ast_throw_exception(exception_ce, ...) \
