@@ -48,7 +48,11 @@
 #define RETURN_THROWS() do { ZEND_ASSERT(EG(exception)); (void) return_value; return; } while (0)
 #endif
 
+#if PHP_VERSION_ID < 80000
+#include "ast_legacy_arginfo.h"
+#else
 #include "ast_arginfo.h"
+#endif
 
 #define ast_throw_exception(exception_ce, ...) \
 	zend_throw_exception_ex(exception_ce, 0, __VA_ARGS__)
