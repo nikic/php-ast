@@ -821,8 +821,18 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 		} else {
 			ast_to_zval(&child_zv, child, state);
 		}
-
 		if (child_name) {
+#if PHP_VERSION_ID >= 80200
+			if (ast_kind == ZEND_AST_ARROW_FUNC && i == 2) {
+				/* Imitate the native arrow function ast structure used in php 7.4-8.1 for stmts */
+				/* (This is still different from regular functions, which have AST_STMT_LIST) */
+				/* TODO: In a new node type, remove the ZEND_AST_RETURN node instead. */
+				zval tmp;
+				ast_to_zval(&tmp, child, state);
+				ast_create_virtual_node_ex(
+					&child_zv, ZEND_AST_RETURN, 0, zend_ast_get_lineno(child), state, 1, &tmp);
+			}
+#endif
 			zend_hash_add_new(ht, child_name, &child_zv);
 		} else {
 			zend_hash_next_index_insert(ht, &child_zv);

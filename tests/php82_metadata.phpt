@@ -28,7 +28,7 @@ dump($metadata);
 dump_attributes(ast\Node::class);
 dump_attributes(ast\Metadata::class);
 --EXPECTF--
-ast\Node::__set_state(array(
+%Sast\Node::__set_state(array(
    'kind' => NULL,
    'flags' => NULL,
    'lineno' => NULL,
@@ -36,7 +36,7 @@ ast\Node::__set_state(array(
    'undeclaredDynamic' => 123,
 ))
 Deprecated: Creation of dynamic property ast\Metadata::$undeclaredDynamic is deprecated in %sphp82_metadata.php on line 21
-ast\Metadata::__set_state(array(
+%Sast\Metadata::__set_state(array(
    'kind' => NULL,
    'name' => NULL,
    'flags' => NULL,
