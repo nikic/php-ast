@@ -1232,7 +1232,7 @@ static void parse_file_common(
 }
 
 PHP_FUNCTION(parse_file) {
-	zend_string *filename, *code;
+	zend_string *filename;
 	zend_long version = -1;
 
 	if (zend_parse_parameters_throw(ZEND_NUM_ARGS(), "P|l", &filename, &version) == FAILURE) {
