@@ -96,4 +96,6 @@ AST_STMT_LIST
             flags: NAME_NOT_FQ (1)
             name: "stdClass"
         __declId: 3
+
+Deprecated: ast\parse_code(): Version 50 is deprecated in %s.php on line 16
 Same representation in version 50/70: true

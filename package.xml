@@ -20,8 +20,8 @@
  </lead>
  <date>2022-02-12</date>
  <version>
-  <release>1.0.17dev</release>
-  <api>1.0.17dev</api>
+  <release>1.1.0dev</release>
+  <api>1.1.0dev</api>
  </version>
  <stability>
   <release>stable</release>
@@ -30,6 +30,8 @@
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
 - Change documentation files to properly namespace attributes as `#[\AllowDynamicProperties]`. The reflection attributes are already correct.
+- Deprecated AST versions 50 and 60.
+- Drop support for php &lt;= 7.1
  </notes>
  <contents>
   <dir name="/">
@@ -133,7 +135,7 @@
  <dependencies>
   <required>
    <php>
-    <min>7.0.0</min>
+    <min>7.2.0</min>
    </php>
    <pearinstaller>
     <min>1.10.0</min>
@@ -157,6 +159,7 @@
    <notes>
 - Optimize instantiating properties of ast\Node and ast\Metadata.
 - Document that ast\Node implements `#[AllowDynamicProperties]` in php 8.2
+- Allow ast\Node to have dynamic properties without emitting a notice in PHP 8.2.
    </notes>
   </release>
   <release>

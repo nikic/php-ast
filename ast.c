@@ -19,6 +19,10 @@
 #include "zend_attributes.h"
 #endif
 
+#if PHP_VERSION_ID < 70200
+#error "The php-ast 1.1 release dropped support for php 7.0-7.1. Use php-ast 1.0.16 instead."
+#endif
+
 #ifndef ZEND_THIS
 #define ZEND_THIS getThis()
 #endif
@@ -26,12 +30,6 @@
 #ifndef ZEND_ARG_INFO_WITH_DEFAULT_VALUE
 #define ZEND_ARG_INFO_WITH_DEFAULT_VALUE(pass_by_ref, name, default_value) \
 	ZEND_ARG_INFO(pass_by_ref, name)
-#endif
-#if PHP_VERSION_ID < 70200
-#undef ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX
-#define ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(name, return_reference, required_num_args, class_name, allow_null) \
-	static const zend_internal_arg_info name[] = { \
-	   	{ (const char*)(zend_uintptr_t)(required_num_args), ( #class_name ), 0, return_reference, allow_null, 0 },
 #endif
 
 #ifndef ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX
@@ -86,16 +84,6 @@
 #define AST_SILENCE 260
 #define AST_PLUS 261
 #define AST_MINUS 262
-
-/* Define some compatibility constants */
-#if PHP_VERSION_ID < 70100
-# define IS_VOID 18
-# define IS_ITERABLE 19
-# define ZEND_TYPE_NULLABLE (1<<8)
-# define ZEND_ARRAY_SYNTAX_LIST 1
-# define ZEND_ARRAY_SYNTAX_LONG 2
-# define ZEND_ARRAY_SYNTAX_SHORT 3
-#endif
 
 #if PHP_VERSION_ID < 70300
 # define ZEND_BIND_REF 1
@@ -765,16 +753,6 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 		}
 #endif
 #endif
-		/* This AST_CATCH check should occur before ast_is_name() */
-#if PHP_VERSION_ID < 70100
-		if (ast_kind == ZEND_AST_CATCH && i == 0) {
-			/* Emulate PHP 7.1 format (name list) */
-			zval tmp;
-			ast_create_virtual_node(&tmp, AST_NAME, child->attr, child, state);
-			ast_create_virtual_node_ex(
-					&child_zv, ZEND_AST_NAME_LIST, 0, zend_ast_get_lineno(child), state, 1, &tmp);
-		} else
-#endif
 		if (ast_is_name(child, ast, i)) {
 			ast_name_to_zval(child, ast, &child_zv, i, state);
 		} else if (child && child->kind == ZEND_AST_TYPE && (child->attr & ZEND_TYPE_NULLABLE)) {
@@ -803,21 +781,9 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 			/* Skip "uses" child since it is always empty */
 			continue;
 #endif
-#if PHP_VERSION_ID >= 70100
 		} else if (ast_kind == ZEND_AST_LIST && child != NULL) {
 			/* Emulate simple variable list */
 			ast_to_zval(&child_zv, child->child[0], state);
-#else
-		} else if (ast_kind == ZEND_AST_ARRAY
-				&& ast->attr == ZEND_ARRAY_SYNTAX_LIST && child != NULL) {
-			/* Emulate ARRAY_ELEM list */
-			zval ch0, ch1;
-			ast_to_zval(&ch0, child, state);
-			ZVAL_NULL(&ch1);
-			ast_create_virtual_node_ex(
-				&child_zv, ZEND_AST_ARRAY_ELEM, 0, zend_ast_get_lineno(child), state,
-				2, &ch0, &ch1);
-#endif
 		} else {
 			ast_to_zval(&child_zv, child, state);
 		}
@@ -840,15 +806,6 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 
 	}
 
-#if PHP_VERSION_ID < 70100
-	/* Emulate docComment on constants, which is not available in PHP 7.0 */
-	if (state->version >= 60 && ast_kind == ZEND_AST_CONST_ELEM) {
-		zval tmp;
-		ZVAL_NULL(&tmp);
-		zend_hash_add_new(ht, AST_STR(str_docComment), &tmp);
-		return;
-	}
-#endif
 #if PHP_VERSION_ID < 80000
 	if (state->version >= 80) {
 		if (ast_kind == ZEND_AST_PARAM) {
@@ -1020,14 +977,6 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 #endif
 	}
 
-#if PHP_VERSION_ID < 70100
-	/* Normalize to PHP 7.1 format */
-	if (ast->kind == ZEND_AST_LIST) {
-		ast->kind = ZEND_AST_ARRAY;
-		ast->attr = ZEND_ARRAY_SYNTAX_LIST;
-	}
-#endif
-
 	object_init_ex(zv, ast_node_ce);
 
 	zend_object *obj = Z_OBJ_P(zv);
@@ -1065,11 +1014,6 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 
 		zend_hash_add_new(children, AST_STR(str_docComment), &tmp_zv);
 	} else {
-#if PHP_VERSION_ID < 70100
-		if (ast->kind == ZEND_AST_CLASS_CONST_DECL) {
-			ast->attr = ZEND_ACC_PUBLIC;
-		}
-#endif
 		AST_NODE_SET_PROP_FLAGS(obj, ast->attr);
 	}
 
@@ -1110,8 +1054,7 @@ static const zend_long versions[] = {50, 60, 70, 80, 85, 90};
 static const size_t versions_count = sizeof(versions)/sizeof(versions[0]);
 
 static inline zend_bool ast_version_deprecated(zend_long version) {
-	/* Currently no deprecated versions */
-	return 0;
+	return version < 70;
 }
 
 static zend_string *ast_version_info() {
@@ -1512,15 +1455,9 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("EXEC_REQUIRE", ZEND_REQUIRE);
 	ast_register_flag_constant("EXEC_REQUIRE_ONCE", ZEND_REQUIRE_ONCE);
 
-#if PHP_VERSION_ID >= 70200
 	ast_register_flag_constant("USE_NORMAL", ZEND_SYMBOL_CLASS);
 	ast_register_flag_constant("USE_FUNCTION", ZEND_SYMBOL_FUNCTION);
 	ast_register_flag_constant("USE_CONST", ZEND_SYMBOL_CONST);
-#else
-	ast_register_flag_constant("USE_NORMAL", T_CLASS);
-	ast_register_flag_constant("USE_FUNCTION", T_FUNCTION);
-	ast_register_flag_constant("USE_CONST", T_CONST);
-#endif
 
 	ast_register_flag_constant("MAGIC_LINE", T_LINE);
 	ast_register_flag_constant("MAGIC_FILE", T_FILE);

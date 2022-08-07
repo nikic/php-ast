@@ -7,7 +7,7 @@
 extern zend_module_entry ast_module_entry;
 #define phpext_ast_ptr &ast_module_entry
 
-#define PHP_AST_VERSION "1.0.17dev"
+#define PHP_AST_VERSION "1.1.0dev"
 
 #ifdef PHP_WIN32
 #	define PHP_AST_API __declspec(dllexport)
@@ -82,9 +82,7 @@ extern ast_str_globals str_globals;
 #endif
 
 /* Pretend it still exists */
-#if PHP_VERSION_ID >= 70100
 # define ZEND_AST_LIST ((1 << (ZEND_AST_IS_LIST_SHIFT + 1)) - 1)
-#endif
 
 extern const size_t ast_kinds_count;
 extern const zend_ast_kind ast_kinds[];

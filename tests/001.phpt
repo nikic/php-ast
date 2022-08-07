@@ -20,7 +20,7 @@ function test(Type $arg = XYZ) : Ret {
 }
 PHP;
 
-echo ast_dump(ast\parse_code($code, $version=50));
+echo ast_dump(ast\parse_code($code, $version=70));
 --EXPECT--
 AST_STMT_LIST
     0: AST_FUNC_DECL
@@ -38,7 +38,6 @@ AST_STMT_LIST
                     name: AST_NAME
                         flags: NAME_NOT_FQ (1)
                         name: "XYZ"
-        uses: null
         stmts: AST_STMT_LIST
             0: AST_IF
                 0: AST_IF_ELEM

@@ -1,7 +1,5 @@
 --TEST--
 Multi catch
---SKIPIF--
-<?php if (PHP_VERSION_ID < 70100) die('skip PHP >= 7.1 only'); ?>
 --FILE--
 <?php
 
@@ -14,7 +12,7 @@ try {
 }
 PHP;
 
-echo ast_dump(ast\parse_code($code, $version=50)), "\n";
+echo ast_dump(ast\parse_code($code, $version=70)), "\n";
 
 ?>
 --EXPECT--

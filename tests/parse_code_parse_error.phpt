@@ -6,12 +6,12 @@ ast\parse_code() throwing a ParseError
 $code = '<?php &$(")$/)!"';
 
 try {
-    ast\parse_code($code, 50);
+    ast\parse_code($code, 70);
 } catch (ParseError $e) {
     echo $e, "\n";
 }
 try {
-    ast\parse_code($code, 50, 'file.php');
+    ast\parse_code($code, 70, 'file.php');
 } catch (ParseError $e) {
     echo $e, "\n";
 }

@@ -1,7 +1,5 @@
 --TEST--
-Final class constants in php 8.1
---SKIPIF--
-<?php if (PHP_VERSION_ID < 70100) { echo "skip parsing class const modifiers requires php 7.1+\n"; } ?>
+Final class constants
 --FILE--
 <?php
 

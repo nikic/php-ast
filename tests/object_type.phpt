@@ -10,10 +10,10 @@ $code = <<<'PHP'
 function test(object $obj) : object {}
 PHP;
 
-echo ast_dump(ast\parse_code($code, $version=60));
+echo ast_dump(ast\parse_code($code, $version=70));
 
 ?>
---EXPECT--
+--EXPECTF--
 AST_STMT_LIST
     0: AST_FUNC_DECL
         flags: 0
@@ -23,10 +23,10 @@ AST_STMT_LIST
             0: AST_PARAM
                 flags: 0
                 type: AST_TYPE
-                    flags: TYPE_OBJECT (8)
+                    flags: TYPE_OBJECT (%d)
                 name: "obj"
                 default: null
         stmts: AST_STMT_LIST
         returnType: AST_TYPE
-            flags: TYPE_OBJECT (8)
+            flags: TYPE_OBJECT (%d)
         __declId: 0

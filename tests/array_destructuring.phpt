@@ -1,7 +1,5 @@
 --TEST--
 Array destructuring
---SKIPIF--
-<?php if (PHP_VERSION_ID < 70100) die('skip PHP >= 7.1 only'); ?>
 --FILE--
 <?php
 
@@ -15,7 +13,7 @@ list('foo' => $a, 'bar' => $b) = $x;
 [, [$a]] = $x;
 PHP;
 
-echo ast_dump(ast\parse_code($code, $version=50));
+echo ast_dump(ast\parse_code($code, $version=70));
 
 ?>
 --EXPECT--

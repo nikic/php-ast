@@ -13,7 +13,7 @@ function test(
 }
 PHP;
 
-echo ast_dump(ast\parse_code($code, $version=50)), "\n";
+echo ast_dump(ast\parse_code($code, $version=70)), "\n";
 
 ?>
 --EXPECTF--
@@ -72,7 +72,6 @@ AST_STMT_LIST
                     flags: TYPE_ITERABLE (%d)
                 name: "h"
                 default: null
-        uses: null
         stmts: AST_STMT_LIST
         returnType: AST_TYPE
             flags: TYPE_VOID (%d)
