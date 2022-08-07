@@ -1,6 +1,9 @@
 <?php
 
-/** @generate-function-entries */
+/**
+ * @generate-function-entries
+ * @generate-legacy-arginfo 70000
+ **/
 
 /**
  * ========================================================================================
@@ -10,7 +13,6 @@
  * This is a stub file meant only for use with https://github.com/php/php-src/blob/master/build/gen_stub.php
  * to generate Reflection information (ReflectionParameter, ReflectionFunction, ReflectionMethod, etc.)
  */
-
 namespace ast;
 
 // XXX: @param in doc comments will cause build/gen_stub.php to emit an error if there is already a real type in the latest php versions.
@@ -36,6 +38,12 @@ function get_supported_versions(bool $exclude_deprecated = false): array {}
 class Node
 {
     public function __construct(?int $kind = null, ?int $flags = null, ?array $children = null, ?int $lineno = null) {
+    }
+
+    public static function parseCode(string $code, int $version, string $filename = 'string code'): static {
+    }
+
+    public static function parseFile(string $filename, int $version): static {
     }
 }
 
