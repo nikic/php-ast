@@ -53,6 +53,7 @@ extern ast_str_globals str_globals;
 #endif
 
 #if PHP_VERSION_ID < 80000
+# define ZEND_ACC_NO_DYNAMIC_PROPERTIES (1 << 13)
 /* NOTE: For list nodes, the first set bit is 0x80 */
 # define ZEND_AST_TYPE_UNION ((1 << (ZEND_AST_IS_LIST_SHIFT + 1)) - 2)
 # define ZEND_AST_ATTRIBUTE_LIST ((1 << (ZEND_AST_IS_LIST_SHIFT + 1)) - 3)
@@ -79,6 +80,10 @@ extern ast_str_globals str_globals;
 /* 3 child nodes - name, expr, attributes */
 # define ZEND_AST_ENUM_CASE 0x3fe
 # define ZEND_AST_TYPE_INTERSECTION ((1 << (ZEND_AST_IS_LIST_SHIFT + 1)) - 6)
+#endif
+
+#if PHP_VERSION_ID < 80200
+# define ZEND_ACC_READONLY_CLASS (1 << 23)
 #endif
 
 /* Pretend it still exists */
