@@ -1,7 +1,7 @@
 --TEST--
 readonly class support in php 8.2+
 --SKIPIF--
-<?php if (!class_exists('AllowDynamicProperties')) die('skip PHP >=8.2 only'); ?>
+<?php if (PHP_VERSION_ID < 80200) die('skip PHP >=8.2 only'); ?>
 --FILE--
 <?php
 require __DIR__ . '/../util.php';
