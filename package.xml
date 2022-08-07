@@ -32,6 +32,7 @@
 - Change documentation files to properly namespace attributes as `#[\AllowDynamicProperties]`. The reflection attributes are already correct.
 - Deprecated AST versions 50 and 60.
 - Drop support for php &lt;= 7.1
+- Add support for php 8.2 readonly classes. Add `ast\flags\CLASS_READONLY` constant.
  </notes>
  <contents>
   <dir name="/">

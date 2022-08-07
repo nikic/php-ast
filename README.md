@@ -253,7 +253,8 @@ ast\flags\CLASS_FINAL
 ast\flags\CLASS_TRAIT
 ast\flags\CLASS_INTERFACE
 ast\flags\CLASS_ANONYMOUS
-ast\flags\CLASS_ENUM
+ast\flags\CLASS_ENUM      // php 8.1 enums
+ast\flags\CLASS_READONLY  // php 8.2 readonly classes
 
 // Used by ast\AST_PARAM (combinable)
 ast\flags\PARAM_REF

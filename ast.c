@@ -147,6 +147,7 @@ static const char *class_flags[] = {
 	AST_FLAG(CLASS_INTERFACE),
 	AST_FLAG(CLASS_ANONYMOUS),
 	AST_FLAG(CLASS_ENUM),
+	AST_FLAG(CLASS_READONLY),
 	NULL
 };
 
@@ -842,7 +843,6 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 			}
 		}
 #endif
-
 		ZVAL_LONG(&id_zval, state->declIdCounter);
 		state->declIdCounter++;
 		zend_hash_add_new(ht, AST_STR(str___declId), &id_zval);
@@ -990,8 +990,14 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 
 	if (ast_kind_is_decl(ast->kind)) {
 		zend_ast_decl *decl = (zend_ast_decl *) ast;
+		uint32_t flags = decl->flags;
+#if PHP_VERSION_ID >= 80200
+		if (ast->kind == ZEND_AST_CLASS) {
+			flags &= ~ZEND_ACC_NO_DYNAMIC_PROPERTIES;
+		}
+#endif
 
-		AST_NODE_SET_PROP_FLAGS(obj, decl->flags);
+		AST_NODE_SET_PROP_FLAGS(obj, flags);
 
 		// This is an undeclared dynamic property and has no cache slot.
 		ast_update_property_long(zv, AST_STR(str_endLineno), decl->end_lineno);
@@ -1398,6 +1404,7 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("CLASS_INTERFACE", ZEND_ACC_INTERFACE);
 	ast_register_flag_constant("CLASS_ANONYMOUS", ZEND_ACC_ANON_CLASS);
 	ast_register_flag_constant("CLASS_ENUM", ZEND_ACC_ENUM);
+	ast_register_flag_constant("CLASS_READONLY", ZEND_ACC_READONLY_CLASS);
 
 	ast_register_flag_constant("PARAM_REF", ZEND_PARAM_REF);
 	ast_register_flag_constant("PARAM_VARIADIC", ZEND_PARAM_VARIADIC);

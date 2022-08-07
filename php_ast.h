@@ -81,6 +81,10 @@ extern ast_str_globals str_globals;
 # define ZEND_AST_TYPE_INTERSECTION ((1 << (ZEND_AST_IS_LIST_SHIFT + 1)) - 6)
 #endif
 
+#if PHP_VERSION_ID < 80200
+# define ZEND_ACC_READONLY_CLASS (1 << 23)
+#endif
+
 /* Pretend it still exists */
 # define ZEND_AST_LIST ((1 << (ZEND_AST_IS_LIST_SHIFT + 1)) - 1)
 
