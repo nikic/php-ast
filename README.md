@@ -275,6 +275,7 @@ ast\flags\TYPE_ITERABLE
 ast\flags\TYPE_OBJECT
 ast\flags\TYPE_NULL    // php 8.0 union types
 ast\flags\TYPE_FALSE   // php 8.0 union types
+ast\flags\TYPE_TRUE    // php 8.2 true type
 ast\flags\TYPE_STATIC  // php 8.0 static return type
 ast\flags\TYPE_MIXED   // php 8.0 mixed type
 ast\flags\TYPE_NEVER   // php 8.1 never type
