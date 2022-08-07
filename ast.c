@@ -795,7 +795,7 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 				/* (This is still different from regular functions, which have AST_STMT_LIST) */
 				/* TODO: In a new node type, remove the ZEND_AST_RETURN node instead. */
 				zval tmp;
-				ast_to_zval(&tmp, child, state);
+				ZVAL_COPY_VALUE(&tmp, &child_zv);
 				ast_create_virtual_node_ex(
 					&child_zv, ZEND_AST_RETURN, 0, zend_ast_get_lineno(child), state, 1, &tmp);
 			}
