@@ -72,6 +72,7 @@ AST_STMT_LIST
                 stmts: AST_STMT_LIST
                     0: AST_THROW
                         expr: AST_VAR
+                            flags: 0
                             name: "tc"
                 returnType: AST_TYPE_INTERSECTION
                     0: AST_NAME

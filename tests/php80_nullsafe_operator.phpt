@@ -20,23 +20,28 @@ echo ast_dump($node), "\n";
 AST_STMT_LIST
     0: AST_NULLSAFE_METHOD_CALL
         expr: AST_VAR
+            flags: 0
             name: "foo"
         method: "bar"
         args: AST_ARG_LIST
             0: 2
     1: AST_ASSIGN
         var: AST_VAR
+            flags: 0
             name: "a"
         expr: AST_NULLSAFE_PROP
             expr: AST_VAR
+                flags: 0
                 name: "b"
             prop: "c"
     2: AST_ASSIGN
         var: AST_VAR
+            flags: 0
             name: "a"
         expr: AST_NEW
             class: AST_NULLSAFE_PROP
                 expr: AST_VAR
+                    flags: 0
                     name: "b"
                 prop: "c"
             args: AST_ARG_LIST

@@ -35,7 +35,7 @@ dump_attributes(ast\Metadata::class);
    'children' => NULL,
    'undeclaredDynamic' => 123,
 ))
-Deprecated: Creation of dynamic property ast\Metadata::$undeclaredDynamic is deprecated in %sphp82_metadata.php on line 21
+Deprecated: Creation of dynamic property ast\Metadata::$undeclaredDynamic is deprecated in %sphp82_dynamic_property_attribute.php on line 21
 %Sast\Metadata::__set_state(array(
    'kind' => NULL,
    'name' => NULL,

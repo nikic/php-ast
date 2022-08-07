@@ -34,6 +34,7 @@ AST_STMT_LIST
                         flags: NAME_NOT_FQ (1)
                         name: "Exception"
                 var: AST_VAR
+                    flags: 0
                     name: "e"
                 stmts: AST_STMT_LIST
                     0: AST_ECHO
@@ -44,6 +45,7 @@ AST_STMT_LIST
                         flags: NAME_NOT_FQ (1)
                         name: "bar\FooException"
                 var: AST_VAR
+                    flags: 0
                     name: "e2"
                 stmts: AST_STMT_LIST
                     0: AST_ECHO

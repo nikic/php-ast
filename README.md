@@ -357,6 +357,11 @@ ast\flags\ARRAY_ELEM_REF
 
 // Used by ast\AST_DIM (combinable), since PHP 7.4
 ast\flags\DIM_ALTERNATIVE_SYNTAX
+ast\flags\ENCAPS_VAR_DOLLAR_CURLY  // php 8.2 deprecation, only available in php 8.2+
+
+// Used by ast\AST_VAR (combinable), since PHP 8.2
+ast\flags\ENCAPS_VAR_DOLLAR_CURLY
+ast\flags\ENCAPS_VAR_DOLLAR_CURLY_VAR_VAR
 
 // Used by ast\AST_CONDITIONAL (combinable), since PHP 7.4
 ast\flags\PARENTHESIZED_CONDITIONAL

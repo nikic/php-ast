@@ -21,6 +21,7 @@ AST_STMT_LIST
     0: AST_ASSIGN_OP
         flags: BINARY_COALESCE (%d)
         var: AST_VAR
+            flags: 0
             name: "x"
         expr: 2
     1: AST_ASSIGN_OP
@@ -36,5 +37,6 @@ AST_STMT_LIST
         expr: AST_ASSIGN_OP
             flags: BINARY_COALESCE (%d)
             var: AST_VAR
+                flags: 0
                 name: "other"
             expr: "value"

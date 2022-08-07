@@ -29,6 +29,7 @@ AST_STMT_LIST
                         flags: NAME_NOT_FQ (1)
                         name: "B"
                 var: AST_VAR
+                    flags: 0
                     name: "b"
                 stmts: AST_STMT_LIST
         finally: null

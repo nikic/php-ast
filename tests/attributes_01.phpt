@@ -43,6 +43,7 @@ AST_STMT_LIST
         __declId: 0
     2: AST_ASSIGN
         var: AST_VAR
+            flags: 0
             name: "x"
         expr: AST_CLOSURE
             flags: 0
@@ -55,6 +56,7 @@ AST_STMT_LIST
             __declId: 1
     3: AST_ASSIGN
         var: AST_VAR
+            flags: 0
             name: "y"
         expr: AST_ARROW_FUNC
             flags: 0
@@ -68,6 +70,7 @@ AST_STMT_LIST
                     default: null
             stmts: AST_RETURN
                 expr: AST_VAR
+                    flags: 0
                     name: "x"
             returnType: null
             __declId: 2

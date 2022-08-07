@@ -42,6 +42,7 @@ AST_STMT_LIST
                 stmts: AST_STMT_LIST
                     0: AST_RETURN
                         expr: AST_VAR
+                            flags: 0
                             name: "this"
                 returnType: AST_NAME
                     flags: NAME_NOT_FQ (%d)
@@ -72,6 +73,7 @@ AST_STMT_LIST
                 stmts: AST_STMT_LIST
                     0: AST_RETURN
                         expr: AST_VAR
+                            flags: 0
                             name: "this"
                 returnType: AST_TYPE
                     flags: TYPE_MIXED (%d)

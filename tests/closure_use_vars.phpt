@@ -17,6 +17,7 @@ echo ast_dump(ast\parse_code($code, $version=70));
 AST_STMT_LIST
     0: AST_ASSIGN
         var: AST_VAR
+            flags: 0
             name: "fn"
         expr: AST_CLOSURE
             flags: MODIFIER_STATIC | FUNC_RETURNS_REF (%d)
@@ -38,7 +39,7 @@ AST_STMT_LIST
                     flags: 0
                     name: "c"
                 1: AST_CLOSURE_VAR
-                    flags: CLOSURE_USE_REF (1)
+                    flags: CLOSURE_USE_REF (%d)
                     name: "d"
             stmts: AST_STMT_LIST
             returnType: null

@@ -46,6 +46,7 @@ AST_STMT_LIST
         __declId: 0
     1: AST_ASSIGN
         var: AST_VAR
+            flags: 0
             name: "f"
         expr: AST_ARROW_FUNC
             flags: 0
@@ -63,12 +64,14 @@ AST_STMT_LIST
                     default: null
             stmts: AST_RETURN
                 expr: AST_VAR
+                    flags: 0
                     name: "a"
             returnType: AST_TYPE
                 flags: TYPE_FALSE (%d)
             __declId: 1
     2: AST_ASSIGN
         var: AST_VAR
+            flags: 0
             name: "g"
         expr: AST_CLOSURE
             flags: 0

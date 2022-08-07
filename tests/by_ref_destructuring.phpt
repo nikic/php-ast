@@ -24,14 +24,17 @@ AST_STMT_LIST
             0: AST_ARRAY_ELEM
                 flags: 0
                 value: AST_VAR
+                    flags: 0
                     name: "a"
                 key: null
             1: AST_ARRAY_ELEM
                 flags: ARRAY_ELEM_REF (1)
                 value: AST_VAR
+                    flags: 0
                     name: "b"
                 key: null
         expr: AST_VAR
+            flags: 0
             name: "c"
     1: AST_ASSIGN
         var: AST_ARRAY
@@ -39,27 +42,33 @@ AST_STMT_LIST
             0: AST_ARRAY_ELEM
                 flags: 0
                 value: AST_VAR
+                    flags: 0
                     name: "a"
                 key: null
             1: AST_ARRAY_ELEM
                 flags: ARRAY_ELEM_REF (1)
                 value: AST_VAR
+                    flags: 0
                     name: "b"
                 key: null
         expr: AST_VAR
+            flags: 0
             name: "c"
     2: AST_ASSIGN
         var: AST_VAR
+            flags: 0
             name: "c"
         expr: AST_ARRAY
             flags: ARRAY_SYNTAX_SHORT (3)
             0: AST_ARRAY_ELEM
                 flags: 0
                 value: AST_VAR
+                    flags: 0
                     name: "a"
                 key: null
             1: AST_ARRAY_ELEM
                 flags: ARRAY_ELEM_REF (1)
                 value: AST_VAR
+                    flags: 0
                     name: "b"
                 key: null

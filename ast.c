@@ -112,6 +112,11 @@
 # define IS_NEVER 22
 #endif
 
+#if PHP_VERSION_ID < 80200
+# define ZEND_ENCAPS_VAR_DOLLAR_CURLY (1<<0)
+# define ZEND_ENCAPS_VAR_DOLLAR_CURLY_VAR_VAR (1<<1)
+#endif
+
 /* This contains state of the ast Node creator. */
 typedef struct ast_state_info {
 	zend_long version;
@@ -299,15 +304,21 @@ static const char *func_flags[] = {
 	NULL
 };
 
-// Flags of AST_DIM are marked as combinable in case any other flags get added in the future.
 static const char *dim_flags[] = {
 	AST_FLAG(DIM_ALTERNATIVE_SYNTAX),
+	AST_FLAG(ENCAPS_VAR_DOLLAR_CURLY),
 	NULL
 };
 
 // Flags of AST_CONDITIONAL are marked as combinable in case any other flags get added in the future.
 static const char *conditional_flags[] = {
 	AST_FLAG(PARENTHESIZED_CONDITIONAL),
+	NULL
+};
+
+static const char *var_flags[] = {
+	AST_FLAG(ENCAPS_VAR_DOLLAR_CURLY_VAR_VAR),
+	AST_FLAG(ENCAPS_VAR_DOLLAR_CURLY),
 	NULL
 };
 
@@ -339,6 +350,7 @@ static const ast_flag_info flag_info[] = {
 	{ ZEND_AST_TRAIT_ALIAS, 1, modifier_flags },
 	{ ZEND_AST_DIM, 1, dim_flags },
 	{ ZEND_AST_CONDITIONAL, 1, conditional_flags },
+	{ ZEND_AST_VAR, 1, var_flags },
 };
 
 static inline void ast_update_property(zval *object, zend_string *name, zval *value) {
@@ -414,7 +426,8 @@ static inline zend_bool ast_kind_uses_attr(zend_ast_kind kind) {
 		|| kind == ZEND_AST_GROUP_USE || kind == ZEND_AST_USE_ELEM
 		|| kind == AST_NAME || kind == AST_CLOSURE_VAR || kind == ZEND_AST_CLASS_CONST_DECL
 		|| kind == ZEND_AST_CLASS_CONST_GROUP
-		|| kind == ZEND_AST_ARRAY || kind == ZEND_AST_DIM || kind == ZEND_AST_CONDITIONAL;
+		|| kind == ZEND_AST_ARRAY || kind == ZEND_AST_DIM || kind == ZEND_AST_CONDITIONAL
+		|| kind == ZEND_AST_VAR;
 }
 
 static inline zend_bool ast_kind_is_decl(zend_ast_kind kind) {
@@ -1485,6 +1498,9 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("DIM_ALTERNATIVE_SYNTAX", ZEND_DIM_ALTERNATIVE_SYNTAX);
 
 	ast_register_flag_constant("PARENTHESIZED_CONDITIONAL", ZEND_PARENTHESIZED_CONDITIONAL);
+
+	ast_register_flag_constant("ENCAPS_VAR_DOLLAR_CURLY", ZEND_ENCAPS_VAR_DOLLAR_CURLY);
+	ast_register_flag_constant("ENCAPS_VAR_DOLLAR_CURLY_VAR_VAR", ZEND_ENCAPS_VAR_DOLLAR_CURLY_VAR_VAR);
 
 	INIT_CLASS_ENTRY(tmp_ce, "ast\\Node", class_ast_Node_methods);
 	ast_node_ce = zend_register_internal_class(&tmp_ce);

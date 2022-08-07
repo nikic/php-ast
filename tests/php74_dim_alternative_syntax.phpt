@@ -19,11 +19,12 @@ echo ast_dump($node), "\n";
 AST_STMT_LIST
     0: AST_CALL
         expr: AST_NAME
-            flags: NAME_NOT_FQ (1)
+            flags: NAME_NOT_FQ (%d)
             name: "var_export"
         args: AST_ARG_LIST
             0: AST_DIM
-                flags: DIM_ALTERNATIVE_SYNTAX (2)
+                flags: DIM_ALTERNATIVE_SYNTAX (%d)
                 expr: AST_VAR
+                    flags: 0
                     name: "x"
                 dim: "offset"

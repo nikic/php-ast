@@ -56,10 +56,11 @@ AST_STMT_LIST
             0: AST_RETURN
                 expr: AST_CALL
                     expr: AST_NAME
-                        flags: NAME_NOT_FQ (1)
+                        flags: NAME_NOT_FQ (%d)
                         name: "json_encode"
                     args: AST_ARG_LIST
                         0: AST_VAR
+                            flags: 0
                             name: "a"
         returnType: AST_TYPE_UNION
             0: AST_TYPE
@@ -75,12 +76,12 @@ AST_STMT_LIST
         implements: null
         stmts: AST_STMT_LIST
             0: AST_PROP_GROUP
-                flags: MODIFIER_PUBLIC (1)
+                flags: MODIFIER_PUBLIC (%d)
                 type: AST_TYPE_UNION
                     0: AST_TYPE
                         flags: TYPE_BOOL (%d)
                     1: AST_NAME
-                        flags: NAME_NOT_FQ (1)
+                        flags: NAME_NOT_FQ (%d)
                         name: "stdClass"
                 props: AST_PROP_DECL
                     flags: 0
@@ -100,10 +101,10 @@ AST_STMT_LIST
                     0: AST_TYPE
                         flags: TYPE_ITERABLE (%d)
                     1: AST_NAME
-                        flags: NAME_FQ (0)
+                        flags: NAME_FQ (%d)
                         name: "stdClass"
                     2: AST_NAME
-                        flags: NAME_NOT_FQ (1)
+                        flags: NAME_NOT_FQ (%d)
                         name: "Xyz"
                 name: "s"
                 default: null
@@ -111,12 +112,12 @@ AST_STMT_LIST
             0: AST_RETURN
                 expr: AST_NEW
                     class: AST_NAME
-                        flags: NAME_NOT_FQ (1)
+                        flags: NAME_NOT_FQ (%d)
                         name: "X"
                     args: AST_ARG_LIST
         returnType: AST_TYPE_UNION
             0: AST_NAME
-                flags: NAME_RELATIVE (2)
+                flags: NAME_RELATIVE (%d)
                 name: "Xyz"
             1: AST_TYPE
                 flags: TYPE_FALSE (%d)
@@ -125,18 +126,18 @@ AST_STMT_LIST
         __declId: 2
     4: AST_CALL
         expr: AST_NAME
-            flags: NAME_NOT_FQ (1)
+            flags: NAME_NOT_FQ (%d)
             name: "test"
         args: AST_ARG_LIST
             0: AST_ARRAY
-                flags: ARRAY_SYNTAX_SHORT (3)
+                flags: ARRAY_SYNTAX_SHORT (%d)
     5: AST_CALL
         expr: AST_NAME
-            flags: NAME_NOT_FQ (1)
+            flags: NAME_NOT_FQ (%d)
             name: "testClasses"
         args: AST_ARG_LIST
             0: AST_ARRAY
-                flags: ARRAY_SYNTAX_SHORT (3)
+                flags: ARRAY_SYNTAX_SHORT (%d)
                 0: AST_ARRAY_ELEM
                     flags: 0
                     value: 2

@@ -32,8 +32,10 @@
 - Change documentation files to properly namespace attributes as `#[\AllowDynamicProperties]`. The reflection attributes are already correct.
 - Deprecated AST versions 50 and 60.
 - Drop support for php &lt;= 7.1
+- Fix test failures seen in php 8.2.0beta2 due to change to var_export's output format.
 - Add support for php 8.2 readonly classes. Add `ast\flags\CLASS_READONLY` constant.
 - Add support for php 8.2 `true` type. Add `ast\flags\TYPE_TRUE` constant.
+- Fix bug in php 8.2 where ZEND_AST_ARROW_FUNC output did not include the stub `AST_RETURN` node that was included in php 8.1 and below.
  </notes>
  <contents>
   <dir name="/">
@@ -119,7 +121,9 @@
       <file name="php81_final_class_const.phpt" role="test" />
       <file name="php81_intersection_types.phpt" role="test" />
       <file name="php81_readonly.phpt" role="test" />
-      <file name="php82_metadata.phpt" role="test" />
+      <file name="php82_dynamic_property_attribute.phpt" role="test" />
+      <file name="php82_encaps_list.phpt" role="test" />
+      <file name="php82_readonly_class.phpt" role="test" />
       <file name="prop_doc_comments.phpt" role="test" />
       <file name="short_arrow_function.phpt" role="test" />
       <file name="short_arrow_function_return.phpt" role="test" />

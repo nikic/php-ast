@@ -29,10 +29,12 @@ echo "\n";
 AST_STMT_LIST
     0: AST_ASSIGN
         var: AST_VAR
+            flags: 0
             name: "y"
         expr: 1
     1: AST_ASSIGN
         var: AST_VAR
+            flags: 0
             name: "a"
         expr: AST_ARROW_FUNC
             flags: 0
@@ -46,18 +48,21 @@ AST_STMT_LIST
                     default: null
             stmts: AST_RETURN
                 expr: AST_BINARY_OP
-                    flags: BINARY_MUL (3)
+                    flags: BINARY_MUL (%d)
                     left: AST_VAR
+                        flags: 0
                         name: "x"
                     right: AST_VAR
+                        flags: 0
                         name: "y"
             returnType: null
             __declId: 0
     2: AST_ASSIGN
         var: AST_VAR
+            flags: 0
             name: "b"
         expr: AST_ARROW_FUNC
-            flags: MODIFIER_STATIC (16)
+            flags: MODIFIER_STATIC (%d)
             name: "{closure}"
             docComment: null
             params: AST_PARAM_LIST
@@ -67,9 +72,10 @@ AST_STMT_LIST
             __declId: 1
     3: AST_ASSIGN
         var: AST_VAR
+            flags: 0
             name: "c"
         expr: AST_ARROW_FUNC
-            flags: MODIFIER_STATIC (16)
+            flags: MODIFIER_STATIC (%d)
             name: "{closure}"
             docComment: "/** doc comment */"
             params: AST_PARAM_LIST
@@ -77,20 +83,22 @@ AST_STMT_LIST
                     flags: PARAM_VARIADIC (%d)
                     type: AST_NULLABLE_TYPE
                         type: AST_TYPE
-                            flags: TYPE_LONG (4)
+                            flags: TYPE_LONG (%d)
                     name: "args"
                     default: null
             stmts: AST_RETURN
                 expr: AST_VAR
+                    flags: 0
                     name: "args"
             returnType: AST_TYPE
-                flags: TYPE_ARRAY (7)
+                flags: TYPE_ARRAY (%d)
             __declId: 2
     4: AST_ASSIGN
         var: AST_VAR
+            flags: 0
             name: "fn"
         expr: AST_ARROW_FUNC
-            flags: FUNC_GENERATOR (16777216)
+            flags: FUNC_GENERATOR (%d)
             name: "{closure}"
             docComment: null
             params: AST_PARAM_LIST

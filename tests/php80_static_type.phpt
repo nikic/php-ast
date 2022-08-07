@@ -31,25 +31,27 @@ AST_STMT_LIST
         implements: null
         stmts: AST_STMT_LIST
             0: AST_METHOD
-                flags: MODIFIER_PUBLIC (1)
+                flags: MODIFIER_PUBLIC (%d)
                 name: "test"
                 docComment: null
                 params: AST_PARAM_LIST
                 stmts: AST_STMT_LIST
                     0: AST_RETURN
                         expr: AST_VAR
+                            flags: 0
                             name: "this"
                 returnType: AST_TYPE
                     flags: TYPE_STATIC (%d)
                 __declId: 0
             1: AST_METHOD
-                flags: MODIFIER_PUBLIC (1)
+                flags: MODIFIER_PUBLIC (%d)
                 name: "test2"
                 docComment: null
                 params: AST_PARAM_LIST
                 stmts: AST_STMT_LIST
                     0: AST_RETURN
                         expr: AST_VAR
+                            flags: 0
                             name: "this"
                 returnType: AST_TYPE_UNION
                     0: AST_TYPE

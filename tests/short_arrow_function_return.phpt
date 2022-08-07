@@ -27,14 +27,14 @@ echo "\n";
 --EXPECTF--
 AST_STMT_LIST
     0: AST_ARROW_FUNC
-        flags: MODIFIER_STATIC (16)
+        flags: MODIFIER_STATIC (%d)
         name: "{closure}"
         docComment: null
         params: AST_PARAM_LIST
         stmts: AST_RETURN
             expr: 1
         returnType: AST_TYPE
-            flags: TYPE_LONG (4)
+            flags: TYPE_LONG (%d)
         __declId: 0
     1: AST_ARROW_FUNC
         flags: 0
@@ -49,14 +49,15 @@ AST_STMT_LIST
                 default: null
         stmts: AST_RETURN
             expr: AST_ARRAY
-                flags: ARRAY_SYNTAX_SHORT (3)
+                flags: ARRAY_SYNTAX_SHORT (%d)
                 0: AST_ARRAY_ELEM
                     flags: 0
                     value: AST_VAR
+                        flags: 0
                         name: "i"
                     key: null
         returnType: AST_TYPE
-            flags: TYPE_ARRAY (7)
+            flags: TYPE_ARRAY (%d)
         __declId: 1
     2: AST_ARROW_FUNC
         flags: 0
@@ -66,15 +67,16 @@ AST_STMT_LIST
             0: AST_PARAM
                 flags: 0
                 type: AST_NAME
-                    flags: NAME_NOT_FQ (1)
+                    flags: NAME_NOT_FQ (%d)
                     name: "stdClass"
                 name: "param"
                 default: null
         stmts: AST_RETURN
             expr: AST_VAR
+                flags: 0
                 name: "param"
         returnType: AST_NAME
-            flags: NAME_FQ (0)
+            flags: NAME_FQ (%d)
             name: "stdClass"
         __declId: 2
     3: AST_ARROW_FUNC
@@ -85,15 +87,16 @@ AST_STMT_LIST
             0: AST_PARAM
                 flags: 0
                 type: AST_NAME
-                    flags: NAME_FQ (0)
+                    flags: NAME_FQ (%d)
                     name: "stdClass"
                 name: "param"
                 default: null
         stmts: AST_RETURN
             expr: AST_VAR
+                flags: 0
                 name: "param"
         returnType: AST_NAME
-            flags: NAME_NOT_FQ (1)
+            flags: NAME_NOT_FQ (%d)
             name: "stdClass"
         __declId: 3
 
