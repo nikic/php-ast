@@ -122,6 +122,7 @@
       <file name="prop_doc_comments.phpt" role="test" />
       <file name="short_arrow_function.phpt" role="test" />
       <file name="short_arrow_function_return.phpt" role="test" />
+      <file name="short_arrow_function_decl_id.phpt" role="test" />
       <file name="stmt_list.phpt" role="test" />
       <file name="try_catch_finally.phpt" role="test" />
       <file name="type_hints.phpt" role="test" />
