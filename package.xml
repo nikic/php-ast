@@ -33,6 +33,7 @@
 - Deprecated AST versions 50 and 60.
 - Drop support for php &lt;= 7.1
 - Add support for php 8.2 readonly classes. Add `ast\flags\CLASS_READONLY` constant.
+- Add support for php 8.2 `true` type. Add `ast\flags\TYPE_TRUE` constant.
  </notes>
  <contents>
   <dir name="/">
@@ -124,6 +125,7 @@
       <file name="short_arrow_function_return.phpt" role="test" />
       <file name="short_arrow_function_decl_id.phpt" role="test" />
       <file name="stmt_list.phpt" role="test" />
+      <file name="true_type.phpt" role="test" />
       <file name="try_catch_finally.phpt" role="test" />
       <file name="type_hints.phpt" role="test" />
       <file name="unary_ops.phpt" role="test" />

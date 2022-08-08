@@ -163,6 +163,7 @@ static const char *param_flags[] = {
 static const char *type_flags[] = {
 	AST_FLAG(TYPE_NULL),
 	AST_FLAG(TYPE_FALSE),
+	AST_FLAG(TYPE_TRUE),
 	AST_FLAG(TYPE_BOOL),
 	AST_FLAG(TYPE_LONG),
 	AST_FLAG(TYPE_DOUBLE),
@@ -561,6 +562,7 @@ static const builtin_type_info builtin_types[] = {
 	// {ZEND_STRL("static"), IS_STATIC},  /* Impossible to be parsed before php 8 */
 	{ZEND_STRL("mixed"), IS_MIXED},
 	{ZEND_STRL("never"), IS_NEVER},
+	{ZEND_STRL("true"), IS_TRUE}, /* PHP 8.2 added the true type */
 	{NULL, 0, IS_UNDEF}
 };
 static inline zend_uchar lookup_builtin_type(const zend_string *name) {
@@ -1411,6 +1413,7 @@ PHP_MINIT_FUNCTION(ast) {
 
 	ast_register_flag_constant("TYPE_NULL", IS_NULL);
 	ast_register_flag_constant("TYPE_FALSE", IS_FALSE);
+	ast_register_flag_constant("TYPE_TRUE", IS_TRUE);
 	ast_register_flag_constant("TYPE_BOOL", _IS_BOOL);
 	ast_register_flag_constant("TYPE_LONG", IS_LONG);
 	ast_register_flag_constant("TYPE_DOUBLE", IS_DOUBLE);
