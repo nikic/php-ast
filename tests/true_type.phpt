@@ -1,5 +1,5 @@
 --TEST--
-'never' return type parsing
+'true' type parsing
 --FILE--
 <?php
 
