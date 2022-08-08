@@ -21,7 +21,6 @@ echo ast_dump($node), "\n";
 AST_STMT_LIST
     0: AST_ASSIGN
         var: AST_VAR
-            flags: 0
             name: "c1"
         expr: AST_CALL
             expr: AST_NAME
@@ -30,7 +29,6 @@ AST_STMT_LIST
             args: AST_CALLABLE_CONVERT
     1: AST_ASSIGN
         var: AST_VAR
-            flags: 0
             name: "c2"
         expr: AST_STATIC_CALL
             class: AST_NAME
@@ -40,11 +38,9 @@ AST_STMT_LIST
             args: AST_CALLABLE_CONVERT
     2: AST_ASSIGN
         var: AST_VAR
-            flags: 0
             name: "c2"
         expr: AST_METHOD_CALL
             expr: AST_VAR
-                flags: 0
                 name: "x"
             method: "foo"
             args: AST_CALLABLE_CONVERT

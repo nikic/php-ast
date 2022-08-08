@@ -24,7 +24,6 @@ echo ast_dump($node), "\n";
 --EXPECTF--
 AST_STMT_LIST
     0: AST_CLASS
-        flags: 0
         name: "Xyz"
         docComment: null
         extends: null
@@ -38,7 +37,6 @@ AST_STMT_LIST
                 stmts: AST_STMT_LIST
                     0: AST_RETURN
                         expr: AST_VAR
-                            flags: 0
                             name: "this"
                 returnType: AST_TYPE
                     flags: TYPE_STATIC (%d)
@@ -51,7 +49,6 @@ AST_STMT_LIST
                 stmts: AST_STMT_LIST
                     0: AST_RETURN
                         expr: AST_VAR
-                            flags: 0
                             name: "this"
                 returnType: AST_TYPE_UNION
                     0: AST_TYPE

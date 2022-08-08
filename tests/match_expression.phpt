@@ -24,11 +24,9 @@ echo ast_dump($node), "\n";
 AST_STMT_LIST
     0: AST_ASSIGN
         var: AST_VAR
-            flags: 0
             name: "x"
         expr: AST_MATCH
             cond: AST_VAR
-                flags: 0
                 name: "y"
             stmts: AST_MATCH_ARM_LIST
                 0: AST_MATCH_ARM
@@ -55,7 +53,6 @@ AST_STMT_LIST
                             flags: NAME_FQ (%d)
                             name: "other_const"
                 expr: AST_VAR
-                    flags: 0
                     name: "x"
             1: AST_MATCH_ARM
                 cond: null

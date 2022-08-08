@@ -41,7 +41,6 @@ AST_STMT_LIST
         name: "NS"
         stmts: null
     1: AST_CLASS
-        flags: 0
         name: "X"
         docComment: null
         extends: null
@@ -51,7 +50,6 @@ AST_STMT_LIST
                 flags: MODIFIER_PUBLIC (%d)
                 type: null
                 props: AST_PROP_DECL
-                    flags: 0
                     0: AST_PROP_ELEM
                         name: "prop"
                         default: null
@@ -68,7 +66,6 @@ AST_STMT_LIST
                 docComment: null
                 params: AST_PARAM_LIST
                     0: AST_PARAM
-                        flags: 0
                         type: null
                         name: "parameter"
                         default: null
@@ -77,7 +74,6 @@ AST_STMT_LIST
                 __declId: 0
         __declId: 1
     2: AST_FUNC_DECL
-        flags: 0
         name: "myGlobal"
         docComment: null
         params: AST_PARAM_LIST
@@ -90,7 +86,6 @@ AST_STMT_LIST
         name: "NS"
         stmts: null
     1: AST_CLASS
-        flags: 0
         name: "X"
         docComment: null
         extends: null
@@ -100,7 +95,6 @@ AST_STMT_LIST
                 flags: MODIFIER_PUBLIC (%d)
                 type: null
                 props: AST_PROP_DECL
-                    flags: 0
                     0: AST_PROP_ELEM
                         name: "prop"
                         default: null
@@ -125,7 +119,6 @@ AST_STMT_LIST
             1: AST_CLASS_CONST_GROUP
                 flags: MODIFIER_PUBLIC (%d)
                 const: AST_CLASS_CONST_DECL
-                    flags: 0
                     0: AST_CONST_ELEM
                         name: "CONST_WITH_ATTRIBUTE"
                         value: 123
@@ -143,7 +136,6 @@ AST_STMT_LIST
                 docComment: null
                 params: AST_PARAM_LIST
                     0: AST_PARAM
-                        flags: 0
                         type: null
                         name: "parameter"
                         default: null
@@ -184,7 +176,6 @@ AST_STMT_LIST
                     args: AST_ARG_LIST
         __declId: 1
     2: AST_FUNC_DECL
-        flags: 0
         name: "myGlobal"
         docComment: null
         params: AST_PARAM_LIST

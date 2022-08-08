@@ -16,12 +16,10 @@ echo ast_dump(ast\parse_code($code, $version=70));
 --EXPECTF--
 AST_STMT_LIST
     0: AST_FUNC_DECL
-        flags: 0
         name: "test"
         docComment: null
         params: AST_PARAM_LIST
             0: AST_PARAM
-                flags: 0
                 type: AST_TYPE
                     flags: TYPE_OBJECT (%d)
                 name: "obj"

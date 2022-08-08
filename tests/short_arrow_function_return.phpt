@@ -37,12 +37,10 @@ AST_STMT_LIST
             flags: TYPE_LONG (%d)
         __declId: 0
     1: AST_ARROW_FUNC
-        flags: 0
         name: "{closure}"
         docComment: null
         params: AST_PARAM_LIST
             0: AST_PARAM
-                flags: 0
                 type: AST_TYPE
                     flags: TYPE_ITERABLE (%d)
                 name: "i"
@@ -53,19 +51,16 @@ AST_STMT_LIST
                 0: AST_ARRAY_ELEM
                     flags: 0
                     value: AST_VAR
-                        flags: 0
                         name: "i"
                     key: null
         returnType: AST_TYPE
             flags: TYPE_ARRAY (%d)
         __declId: 1
     2: AST_ARROW_FUNC
-        flags: 0
         name: "{closure}"
         docComment: null
         params: AST_PARAM_LIST
             0: AST_PARAM
-                flags: 0
                 type: AST_NAME
                     flags: NAME_NOT_FQ (%d)
                     name: "stdClass"
@@ -73,19 +68,16 @@ AST_STMT_LIST
                 default: null
         stmts: AST_RETURN
             expr: AST_VAR
-                flags: 0
                 name: "param"
         returnType: AST_NAME
             flags: NAME_FQ (%d)
             name: "stdClass"
         __declId: 2
     3: AST_ARROW_FUNC
-        flags: 0
         name: "{closure}"
         docComment: null
         params: AST_PARAM_LIST
             0: AST_PARAM
-                flags: 0
                 type: AST_NAME
                     flags: NAME_FQ (%d)
                     name: "stdClass"
@@ -93,12 +85,11 @@ AST_STMT_LIST
                 default: null
         stmts: AST_RETURN
             expr: AST_VAR
-                flags: 0
                 name: "param"
         returnType: AST_NAME
             flags: NAME_NOT_FQ (%d)
             name: "stdClass"
         __declId: 3
 
-Deprecated: ast\parse_code(): Version 50 is deprecated in %s.php on line 16
+Deprecated: ast\parse_code(): Version 50 is deprecated in %sshort_arrow_function_return.php on line 16
 Same representation in version 50/70: true

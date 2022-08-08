@@ -17,5 +17,4 @@ AST_STMT_LIST
     0: AST_ECHO
         expr: AST_CLASS_NAME
             class: AST_VAR
-                flags: 0
                 name: "x"

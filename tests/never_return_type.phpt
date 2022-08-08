@@ -16,7 +16,6 @@ echo ast_dump($node), "\n";
 --EXPECTF--
 AST_STMT_LIST
     0: AST_FUNC_DECL
-        flags: 0
         name: "up"
         docComment: null
         params: AST_PARAM_LIST

@@ -27,19 +27,16 @@ echo ast_dump($node), "\n";
 Deprecated: ast\parse_code(): Version 50 is deprecated in %s.php on line 17
 AST_STMT_LIST
     0: AST_FUNC_DECL
-        flags: 0
         name: "test"
         docComment: null
         params: AST_PARAM_LIST
             0: AST_PARAM
-                flags: 0
                 type: AST_NULLABLE_TYPE
                     type: AST_TYPE
                         flags: TYPE_ARRAY (7)
                 name: "a"
                 default: null
             1: AST_PARAM
-                flags: 0
                 type: AST_NULLABLE_TYPE
                     type: AST_TYPE
                         flags: TYPE_OBJECT (8)
@@ -58,7 +55,6 @@ AST_STMT_LIST
                 name: "stdClass"
         __declId: 0
     1: AST_CLASS
-        flags: 0
         name: "X"
         docComment: null
         extends: null
@@ -79,19 +75,16 @@ AST_STMT_LIST
         __declId: 1
 AST_STMT_LIST
     0: AST_FUNC_DECL
-        flags: 0
         name: "test"
         docComment: null
         params: AST_PARAM_LIST
             0: AST_PARAM
-                flags: 0
                 type: AST_NULLABLE_TYPE
                     type: AST_TYPE
                         flags: TYPE_ARRAY (7)
                 name: "a"
                 default: null
             1: AST_PARAM
-                flags: 0
                 type: AST_NULLABLE_TYPE
                     type: AST_TYPE
                         flags: TYPE_OBJECT (8)
@@ -109,7 +102,6 @@ AST_STMT_LIST
                 name: "stdClass"
         __declId: 0
     1: AST_CLASS
-        flags: 0
         name: "X"
         docComment: null
         extends: null
@@ -121,7 +113,6 @@ AST_STMT_LIST
                     type: AST_TYPE
                         flags: TYPE_ARRAY (7)
                 props: AST_PROP_DECL
-                    flags: 0
                     0: AST_PROP_ELEM
                         name: "arr"
                         default: null
@@ -133,7 +124,6 @@ AST_STMT_LIST
                         flags: NAME_FQ (0)
                         name: "ArrayObject"
                 props: AST_PROP_DECL
-                    flags: 0
                     0: AST_PROP_ELEM
                         name: "obj"
                         default: null

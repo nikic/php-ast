@@ -24,12 +24,10 @@ echo ast_dump(ast\parse_code($code, $version=70));
 --EXPECT--
 AST_STMT_LIST
     0: AST_FUNC_DECL
-        flags: 0
         name: "test"
         docComment: "/** Test function */"
         params: AST_PARAM_LIST
             0: AST_PARAM
-                flags: 0
                 type: AST_NAME
                     flags: NAME_NOT_FQ (1)
                     name: "Type"
@@ -43,7 +41,6 @@ AST_STMT_LIST
                 0: AST_IF_ELEM
                     cond: AST_INSTANCEOF
                         expr: AST_VAR
-                            flags: 0
                             name: "arg"
                         class: AST_NAME
                             flags: NAME_NOT_FQ (1)
@@ -57,7 +54,6 @@ AST_STMT_LIST
                                 args: AST_ARG_LIST
                                     0: AST_PROP
                                         expr: AST_VAR
-                                            flags: 0
                                             name: "arg"
                                         prop: "foo"
                 1: AST_IF_ELEM
@@ -66,7 +62,6 @@ AST_STMT_LIST
                         0: AST_RETURN
                             expr: AST_PROP
                                 expr: AST_VAR
-                                    flags: 0
                                     name: "arg"
                                 prop: "bar"
         returnType: AST_NAME

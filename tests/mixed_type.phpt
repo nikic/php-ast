@@ -21,7 +21,6 @@ echo ast_dump($node), "\n";
 --EXPECTF--
 AST_STMT_LIST
     0: AST_CLASS
-        flags: 0
         name: "Xyz"
         docComment: null
         extends: null
@@ -33,7 +32,6 @@ AST_STMT_LIST
                 docComment: null
                 params: AST_PARAM_LIST
                     0: AST_PARAM
-                        flags: 0
                         type: AST_NAME
                             flags: NAME_NOT_FQ (%d)
                             name: "mixed"
@@ -42,7 +40,6 @@ AST_STMT_LIST
                 stmts: AST_STMT_LIST
                     0: AST_RETURN
                         expr: AST_VAR
-                            flags: 0
                             name: "this"
                 returnType: AST_NAME
                     flags: NAME_NOT_FQ (%d)
@@ -51,7 +48,6 @@ AST_STMT_LIST
         __declId: 1
 AST_STMT_LIST
     0: AST_CLASS
-        flags: 0
         name: "Xyz"
         docComment: null
         extends: null
@@ -63,7 +59,6 @@ AST_STMT_LIST
                 docComment: null
                 params: AST_PARAM_LIST
                     0: AST_PARAM
-                        flags: 0
                         type: AST_TYPE
                             flags: TYPE_MIXED (%d)
                         name: "x"
@@ -73,7 +68,6 @@ AST_STMT_LIST
                 stmts: AST_STMT_LIST
                     0: AST_RETURN
                         expr: AST_VAR
-                            flags: 0
                             name: "this"
                 returnType: AST_TYPE
                     flags: TYPE_MIXED (%d)

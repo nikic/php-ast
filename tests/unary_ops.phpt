@@ -20,7 +20,6 @@ AST_STMT_LIST
     0: AST_UNARY_OP
         flags: UNARY_SILENCE (260)
         expr: AST_VAR
-            flags: 0
             name: "a"
     1: AST_UNARY_OP
         flags: UNARY_PLUS (261)

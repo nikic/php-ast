@@ -23,7 +23,6 @@ echo ast_dump(ast\parse_code($code, $version=70)), "\n";
 Deprecated: ast\parse_code(): Version 60 is deprecated in %sclass.php on line 15
 AST_STMT_LIST
     0: AST_CLASS
-        flags: 0
         name: "A"
         docComment: null
         extends: AST_NAME
@@ -77,7 +76,6 @@ AST_STMT_LIST
         __declId: 1
 AST_STMT_LIST
     0: AST_CLASS
-        flags: 0
         name: "A"
         docComment: null
         extends: AST_NAME
@@ -114,7 +112,6 @@ AST_STMT_LIST
                 flags: MODIFIER_PUBLIC (%d)
                 type: null
                 props: AST_PROP_DECL
-                    flags: 0
                     0: AST_PROP_ELEM
                         name: "foo"
                         default: null

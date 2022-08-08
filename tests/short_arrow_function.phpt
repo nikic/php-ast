@@ -29,20 +29,16 @@ echo "\n";
 AST_STMT_LIST
     0: AST_ASSIGN
         var: AST_VAR
-            flags: 0
             name: "y"
         expr: 1
     1: AST_ASSIGN
         var: AST_VAR
-            flags: 0
             name: "a"
         expr: AST_ARROW_FUNC
-            flags: 0
             name: "{closure}"
             docComment: null
             params: AST_PARAM_LIST
                 0: AST_PARAM
-                    flags: 0
                     type: null
                     name: "x"
                     default: null
@@ -50,16 +46,13 @@ AST_STMT_LIST
                 expr: AST_BINARY_OP
                     flags: BINARY_MUL (%d)
                     left: AST_VAR
-                        flags: 0
                         name: "x"
                     right: AST_VAR
-                        flags: 0
                         name: "y"
             returnType: null
             __declId: 0
     2: AST_ASSIGN
         var: AST_VAR
-            flags: 0
             name: "b"
         expr: AST_ARROW_FUNC
             flags: MODIFIER_STATIC (%d)
@@ -72,7 +65,6 @@ AST_STMT_LIST
             __declId: 1
     3: AST_ASSIGN
         var: AST_VAR
-            flags: 0
             name: "c"
         expr: AST_ARROW_FUNC
             flags: MODIFIER_STATIC (%d)
@@ -88,14 +80,12 @@ AST_STMT_LIST
                     default: null
             stmts: AST_RETURN
                 expr: AST_VAR
-                    flags: 0
                     name: "args"
             returnType: AST_TYPE
                 flags: TYPE_ARRAY (%d)
             __declId: 2
     4: AST_ASSIGN
         var: AST_VAR
-            flags: 0
             name: "fn"
         expr: AST_ARROW_FUNC
             flags: FUNC_GENERATOR (%d)

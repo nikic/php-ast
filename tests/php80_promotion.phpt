@@ -26,7 +26,6 @@ echo ast_dump($node), "\n";
 --EXPECTF--
 AST_STMT_LIST
     0: AST_CLASS
-        flags: 0
         name: "Promotion"
         docComment: null
         extends: null

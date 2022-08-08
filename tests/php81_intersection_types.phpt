@@ -26,7 +26,6 @@ echo ast_dump($node), "\n";
 --EXPECTF--
 AST_STMT_LIST
     0: AST_CLASS
-        flags: 0
         name: "X"
         docComment: null
         extends: null
@@ -45,7 +44,6 @@ AST_STMT_LIST
                         flags: NAME_NOT_FQ (%d)
                         name: "Traversable"
                 props: AST_PROP_DECL
-                    flags: 0
                     0: AST_PROP_ELEM
                         name: "arrayLike"
                         default: null
@@ -57,7 +55,6 @@ AST_STMT_LIST
                 docComment: null
                 params: AST_PARAM_LIST
                     0: AST_PARAM
-                        flags: 0
                         type: AST_TYPE_INTERSECTION
                             0: AST_NAME
                                 flags: NAME_NOT_FQ (%d)
@@ -72,7 +69,6 @@ AST_STMT_LIST
                 stmts: AST_STMT_LIST
                     0: AST_THROW
                         expr: AST_VAR
-                            flags: 0
                             name: "tc"
                 returnType: AST_TYPE_INTERSECTION
                     0: AST_NAME
@@ -86,7 +82,6 @@ AST_STMT_LIST
         attributes: null
         __declId: 1
     1: AST_FUNC_DECL
-        flags: 0
         name: "this_is_a_compile_error"
         docComment: null
         params: AST_PARAM_LIST

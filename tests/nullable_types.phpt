@@ -21,12 +21,10 @@ echo ast_dump(ast\parse_code($code, $version=70));
 --EXPECT--
 AST_STMT_LIST
     0: AST_FUNC_DECL
-        flags: 0
         name: "test"
         docComment: null
         params: AST_PARAM_LIST
             0: AST_PARAM
-                flags: 0
                 type: AST_NULLABLE_TYPE
                     type: AST_NAME
                         flags: NAME_NOT_FQ (1)
@@ -40,12 +38,10 @@ AST_STMT_LIST
                 name: "Bar"
         __declId: 0
     1: AST_FUNC_DECL
-        flags: 0
         name: "test"
         docComment: null
         params: AST_PARAM_LIST
             0: AST_PARAM
-                flags: 0
                 type: AST_NULLABLE_TYPE
                     type: AST_TYPE
                         flags: TYPE_LONG (4)
@@ -57,12 +53,10 @@ AST_STMT_LIST
                 flags: TYPE_LONG (4)
         __declId: 1
     2: AST_FUNC_DECL
-        flags: 0
         name: "test"
         docComment: null
         params: AST_PARAM_LIST
             0: AST_PARAM
-                flags: 0
                 type: AST_NULLABLE_TYPE
                     type: AST_TYPE
                         flags: TYPE_ARRAY (7)

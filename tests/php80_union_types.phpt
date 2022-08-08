@@ -31,12 +31,10 @@ AST_STMT_LIST
         name: "NS"
         stmts: null
     1: AST_FUNC_DECL
-        flags: 0
         name: "test"
         docComment: null
         params: AST_PARAM_LIST
             0: AST_PARAM
-                flags: 0
                 type: AST_TYPE_UNION
                     0: AST_TYPE
                         flags: TYPE_OBJECT (%d)
@@ -60,7 +58,6 @@ AST_STMT_LIST
                         name: "json_encode"
                     args: AST_ARG_LIST
                         0: AST_VAR
-                            flags: 0
                             name: "a"
         returnType: AST_TYPE_UNION
             0: AST_TYPE
@@ -69,7 +66,6 @@ AST_STMT_LIST
                 flags: TYPE_FALSE (%d)
         __declId: 0
     2: AST_CLASS
-        flags: 0
         name: "Xyz"
         docComment: null
         extends: null
@@ -84,19 +80,16 @@ AST_STMT_LIST
                         flags: NAME_NOT_FQ (%d)
                         name: "stdClass"
                 props: AST_PROP_DECL
-                    flags: 0
                     0: AST_PROP_ELEM
                         name: "x"
                         default: null
                         docComment: null
         __declId: 1
     3: AST_FUNC_DECL
-        flags: 0
         name: "testClasses"
         docComment: null
         params: AST_PARAM_LIST
             0: AST_PARAM
-                flags: 0
                 type: AST_TYPE_UNION
                     0: AST_TYPE
                         flags: TYPE_ITERABLE (%d)

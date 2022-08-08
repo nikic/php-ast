@@ -19,22 +19,18 @@ echo ast_dump($node) . "\n";
 AST_STMT_LIST
     0: AST_ASSIGN
         var: AST_VAR
-            flags: 0
             name: "cb"
         expr: AST_ARROW_FUNC
-            flags: 0
             name: "{closure}"
             docComment: null
             params: AST_PARAM_LIST
             stmts: AST_RETURN
                 expr: AST_ARROW_FUNC
-                    flags: 0
                     name: "{closure}"
                     docComment: null
                     params: AST_PARAM_LIST
                     stmts: AST_RETURN
                         expr: AST_VAR
-                            flags: 0
                             name: "undef"
                     returnType: null
                     attributes: null

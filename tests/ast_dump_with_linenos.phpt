@@ -28,7 +28,6 @@ echo ast_dump($ast, AST_DUMP_LINENOS);
 --EXPECTF--
 AST_STMT_LIST @ 1
     0: AST_FUNC_DECL @ 2-9
-        flags: 0
         name: "test"
         docComment: null
         params: AST_PARAM_LIST @ 4
@@ -39,7 +38,6 @@ AST_STMT_LIST @ 1
                     name: "var_dump"
                 args: AST_ARG_LIST @ 7
                     0: AST_VAR @ 7
-                        flags: 0
                         name: "foo"
         returnType: null
         __declId: 0

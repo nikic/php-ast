@@ -17,7 +17,6 @@ echo ast_dump(ast\parse_code($code, $version=70));
 AST_STMT_LIST
     0: AST_ASSIGN
         var: AST_VAR
-            flags: 0
             name: "fn"
         expr: AST_CLOSURE
             flags: MODIFIER_STATIC | FUNC_RETURNS_REF (%d)
@@ -25,7 +24,6 @@ AST_STMT_LIST
             docComment: null
             params: AST_PARAM_LIST
                 0: AST_PARAM
-                    flags: 0
                     type: null
                     name: "a"
                     default: null

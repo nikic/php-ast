@@ -25,6 +25,5 @@ AST_STMT_LIST
             0: AST_DIM
                 flags: DIM_ALTERNATIVE_SYNTAX (%d)
                 expr: AST_VAR
-                    flags: 0
                     name: "x"
                 dim: "offset"

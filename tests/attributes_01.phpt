@@ -27,12 +27,10 @@ AST_STMT_LIST
         name: "NS"
         stmts: null
     1: AST_FUNC_DECL
-        flags: 0
         name: "test"
         docComment: null
         params: AST_PARAM_LIST
             0: AST_PARAM
-                flags: 0
                 type: AST_NAME
                     flags: NAME_NOT_FQ (%d)
                     name: "Type"
@@ -43,10 +41,8 @@ AST_STMT_LIST
         __declId: 0
     2: AST_ASSIGN
         var: AST_VAR
-            flags: 0
             name: "x"
         expr: AST_CLOSURE
-            flags: 0
             name: "{closure}"
             docComment: null
             params: AST_PARAM_LIST
@@ -56,21 +52,17 @@ AST_STMT_LIST
             __declId: 1
     3: AST_ASSIGN
         var: AST_VAR
-            flags: 0
             name: "y"
         expr: AST_ARROW_FUNC
-            flags: 0
             name: "{closure}"
             docComment: null
             params: AST_PARAM_LIST
                 0: AST_PARAM
-                    flags: 0
                     type: null
                     name: "a"
                     default: null
             stmts: AST_RETURN
                 expr: AST_VAR
-                    flags: 0
                     name: "x"
             returnType: null
             __declId: 2

@@ -21,13 +21,11 @@ AST_STMT_LIST
     0: AST_ASSIGN_OP
         flags: BINARY_COALESCE (%d)
         var: AST_VAR
-            flags: 0
             name: "x"
         expr: 2
     1: AST_ASSIGN_OP
         flags: BINARY_COALESCE (%d)
         var: AST_DIM
-            flags: 0
             expr: AST_STATIC_PROP
                 class: AST_NAME
                     flags: NAME_NOT_FQ (%d)
@@ -37,6 +35,5 @@ AST_STMT_LIST
         expr: AST_ASSIGN_OP
             flags: BINARY_COALESCE (%d)
             var: AST_VAR
-                flags: 0
                 name: "other"
             expr: "value"

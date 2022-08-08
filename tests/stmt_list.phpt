@@ -22,24 +22,19 @@ echo ast_dump(ast\parse_code($code, $version=70)), "\n";
 AST_STMT_LIST
     0: AST_WHILE
         cond: AST_VAR
-            flags: 0
             name: "a"
         stmts: AST_STMT_LIST
     1: AST_WHILE
         cond: AST_VAR
-            flags: 0
             name: "a"
         stmts: AST_STMT_LIST
             0: AST_VAR
-                flags: 0
                 name: "b"
     2: AST_WHILE
         cond: AST_VAR
-            flags: 0
             name: "a"
         stmts: AST_STMT_LIST
             0: AST_VAR
-                flags: 0
                 name: "b"
     3: AST_DECLARE
         declares: AST_CONST_DECL

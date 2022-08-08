@@ -19,12 +19,10 @@ echo ast_dump(ast\parse_code($code, $version=80)), "\n";
 --EXPECTF--
 AST_STMT_LIST
     0: AST_FUNC_DECL
-        flags: 0
         name: "test"
         docComment: null
         params: AST_PARAM_LIST
             0: AST_PARAM
-                flags: 0
                 type: null
                 name: "a"
                 default: null
@@ -37,7 +35,6 @@ AST_STMT_LIST
         returnType: null
         __declId: 0
     1: AST_FUNC_DECL
-        flags: 0
         name: "test2"
         docComment: null
         params: AST_PARAM_LIST
@@ -55,7 +52,6 @@ AST_STMT_LIST
         returnType: null
         __declId: 1
     2: AST_FUNC_DECL
-        flags: 0
         name: "test3"
         docComment: null
         params: AST_PARAM_LIST
@@ -76,12 +72,10 @@ AST_STMT_LIST
         __declId: 2
 AST_STMT_LIST
     0: AST_FUNC_DECL
-        flags: 0
         name: "test"
         docComment: null
         params: AST_PARAM_LIST
             0: AST_PARAM
-                flags: 0
                 type: null
                 name: "a"
                 default: null
@@ -99,7 +93,6 @@ AST_STMT_LIST
         attributes: null
         __declId: 0
     1: AST_FUNC_DECL
-        flags: 0
         name: "test2"
         docComment: null
         params: AST_PARAM_LIST
@@ -122,7 +115,6 @@ AST_STMT_LIST
         attributes: null
         __declId: 1
     2: AST_FUNC_DECL
-        flags: 0
         name: "test3"
         docComment: null
         params: AST_PARAM_LIST

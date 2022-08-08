@@ -17,12 +17,10 @@ echo ast_dump($node), "\n";
 --EXPECTF--
 AST_STMT_LIST
     0: AST_FUNC_DECL
-        flags: 0
         name: "test"
         docComment: null
         params: AST_PARAM_LIST
             0: AST_PARAM
-                flags: 0
                 type: AST_TYPE
                     flags: TYPE_TRUE (%d)
                 name: "x"
@@ -32,7 +30,6 @@ AST_STMT_LIST
         stmts: AST_STMT_LIST
             0: AST_RETURN
                 expr: AST_VAR
-                    flags: 0
                     name: "x"
         returnType: AST_TYPE
             flags: TYPE_TRUE (%d)

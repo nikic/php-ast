@@ -20,10 +20,8 @@ echo ast_dump(ast\parse_code($code, $version=70));
 AST_STMT_LIST
     0: AST_ASSIGN
         var: AST_VAR
-            flags: 0
             name: "fn"
         expr: AST_CLOSURE
-            flags: 0
             name: "{closure}"
             docComment: null
             params: AST_PARAM_LIST
@@ -35,7 +33,6 @@ AST_STMT_LIST
                 0: AST_ASSIGN_OP
                     flags: BINARY_ADD (1)
                     var: AST_VAR
-                        flags: 0
                         name: "var"
                     expr: AST_CALL
                         expr: AST_NAME

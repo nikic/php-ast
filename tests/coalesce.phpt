@@ -18,8 +18,6 @@ AST_STMT_LIST
     0: AST_BINARY_OP
         flags: BINARY_COALESCE (%d)
         left: AST_VAR
-            flags: 0
             name: "a"
         right: AST_VAR
-            flags: 0
             name: "b"

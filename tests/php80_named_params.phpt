@@ -20,7 +20,6 @@ echo ast_dump($node), "\n";
 AST_STMT_LIST
     0: AST_CALL
         expr: AST_VAR
-            flags: 0
             name: "foo"
         args: AST_ARG_LIST
             0: AST_NAMED_ARG
@@ -37,11 +36,9 @@ AST_STMT_LIST
             0: AST_NAMED_ARG
                 name: "var"
                 expr: AST_VAR
-                    flags: 0
                     name: "argv"
     2: AST_METHOD_CALL
         expr: AST_VAR
-            flags: 0
             name: "other"
         method: "count"
         args: AST_ARG_LIST
@@ -49,7 +46,6 @@ AST_STMT_LIST
             1: AST_NAMED_ARG
                 name: "myVar"
                 expr: AST_VAR
-                    flags: 0
                     name: "foo"
             2: AST_NAMED_ARG
                 name: "myVar"

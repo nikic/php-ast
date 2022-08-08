@@ -20,41 +20,28 @@ echo ast_dump($node), "\n";
 AST_STMT_LIST
     0: AST_RETURN
         expr: AST_CONDITIONAL
-            flags: 0
             cond: AST_CONDITIONAL
-                flags: 0
                 cond: AST_VAR
-                    flags: 0
                     name: "a"
                 true: AST_VAR
-                    flags: 0
                     name: "b"
                 false: AST_VAR
-                    flags: 0
                     name: "c"
             true: AST_VAR
-                flags: 0
                 name: "d"
             false: AST_VAR
-                flags: 0
                 name: "e"
     1: AST_RETURN
         expr: AST_CONDITIONAL
-            flags: 0
             cond: AST_VAR
-                flags: 0
                 name: "a"
             true: AST_VAR
-                flags: 0
                 name: "b"
             false: AST_CONDITIONAL
                 flags: PARENTHESIZED_CONDITIONAL (1)
                 cond: AST_VAR
-                    flags: 0
                     name: "c"
                 true: AST_VAR
-                    flags: 0
                     name: "d"
                 false: AST_VAR
-                    flags: 0
                     name: "e"

@@ -25,25 +25,20 @@ AST_STMT_LIST
                         name: "b"
                 prop: "c"
         2: AST_VAR
-            flags: 0
             name: "d"
         3: AST_VAR
             flags: ENCAPS_VAR_DOLLAR_CURLY_VAR_VAR (%d)
             name: AST_DIM
-                flags: 0
                 expr: AST_VAR
-                    flags: 0
                     name: "e"
                 dim: "f"
         4: AST_DIM
             flags: ENCAPS_VAR_DOLLAR_CURLY (%d)
             expr: AST_VAR
-                flags: 0
                 name: "g"
             dim: "h"
         5: AST_DIM
             flags: DIM_ALTERNATIVE_SYNTAX (%d)
             expr: AST_VAR
-                flags: 0
                 name: "i"
             dim: "j"

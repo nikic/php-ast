@@ -20,7 +20,6 @@ echo ast_dump($node), "\n";
 --EXPECTF--
 AST_STMT_LIST
     0: AST_CLASS
-        flags: 0
         name: "X"
         docComment: null
         extends: null
@@ -35,7 +34,6 @@ AST_STMT_LIST
         __declId: 0
 AST_STMT_LIST
     0: AST_CLASS
-        flags: 0
         name: "X"
         docComment: null
         extends: null
@@ -44,7 +42,6 @@ AST_STMT_LIST
             0: AST_CLASS_CONST_GROUP
                 flags: MODIFIER_PRIVATE | MODIFIER_FINAL (%d)
                 const: AST_CLASS_CONST_DECL
-                    flags: 0
                     0: AST_CONST_ELEM
                         name: "Y"
                         value: 1

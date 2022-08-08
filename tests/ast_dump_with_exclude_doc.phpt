@@ -23,11 +23,9 @@ echo ast_dump($ast, AST_DUMP_EXCLUDE_DOC_COMMENT);
 --EXPECT--
 AST_STMT_LIST
     0: AST_FUNC_DECL
-        flags: 0
         name: "test"
         params: AST_PARAM_LIST
             0: AST_PARAM
-                flags: 0
                 type: null
                 name: "foo"
                 default: null
