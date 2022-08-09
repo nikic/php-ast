@@ -26,7 +26,6 @@ AST_STMT_LIST
     1: AST_ASSIGN_OP
         flags: BINARY_COALESCE (%d)
         var: AST_DIM
-            flags: 0
             expr: AST_STATIC_PROP
                 class: AST_NAME
                     flags: NAME_NOT_FQ (%d)

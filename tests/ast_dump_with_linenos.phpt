@@ -25,17 +25,16 @@ $ast = ast\parse_code($code, $version=70);
 echo ast_dump($ast, AST_DUMP_LINENOS);
 
 ?>
---EXPECT--
+--EXPECTF--
 AST_STMT_LIST @ 1
     0: AST_FUNC_DECL @ 2-9
-        flags: 0
         name: "test"
         docComment: null
         params: AST_PARAM_LIST @ 4
         stmts: AST_STMT_LIST @ 5
             0: AST_CALL @ 6
                 expr: AST_NAME @ 6
-                    flags: NAME_NOT_FQ (1)
+                    flags: NAME_NOT_FQ (%d)
                     name: "var_dump"
                 args: AST_ARG_LIST @ 7
                     0: AST_VAR @ 7

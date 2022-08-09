@@ -24,7 +24,6 @@ AST_STMT_LIST
             docComment: null
             params: AST_PARAM_LIST
                 0: AST_PARAM
-                    flags: 0
                     type: null
                     name: "a"
                     default: null
@@ -38,7 +37,7 @@ AST_STMT_LIST
                     flags: 0
                     name: "c"
                 1: AST_CLOSURE_VAR
-                    flags: CLOSURE_USE_REF (1)
+                    flags: CLOSURE_USE_REF (%d)
                     name: "d"
             stmts: AST_STMT_LIST
             returnType: null

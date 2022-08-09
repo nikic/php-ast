@@ -22,7 +22,6 @@ echo ast_dump($node), "\n";
 Deprecated: ast\parse_code(): Version 60 is deprecated in %sphp81_readonly.php on line 12
 AST_STMT_LIST
     0: AST_CLASS
-        flags: 0
         name: "X"
         docComment: null
         extends: null
@@ -37,7 +36,6 @@ AST_STMT_LIST
         __declId: 0
 AST_STMT_LIST
     0: AST_CLASS
-        flags: 0
         name: "X"
         docComment: null
         extends: null
@@ -48,7 +46,6 @@ AST_STMT_LIST
                 type: AST_TYPE
                     flags: TYPE_LONG (%d)
                 props: AST_PROP_DECL
-                    flags: 0
                     0: AST_PROP_ELEM
                         name: "var"
                         default: null

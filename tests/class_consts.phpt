@@ -27,7 +27,6 @@ echo ast_dump(ast\parse_code($code, $version=70));
 --EXPECTF--
 AST_STMT_LIST
     0: AST_CLASS
-        flags: 0
         name: "Test"
         docComment: null
         extends: null

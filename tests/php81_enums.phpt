@@ -88,7 +88,6 @@ AST_STMT_LIST
             1: AST_CLASS_CONST_GROUP
                 flags: MODIFIER_PUBLIC (%d)
                 const: AST_CLASS_CONST_DECL
-                    flags: 0
                     0: AST_CONST_ELEM
                         name: "FOO_ALIAS"
                         value: AST_CLASS_CONST
@@ -143,7 +142,6 @@ AST_STMT_LIST
             1: AST_CLASS_CONST_GROUP
                 flags: MODIFIER_PUBLIC (%d)
                 const: AST_CLASS_CONST_DECL
-                    flags: 0
                     0: AST_CONST_ELEM
                         name: "FOO_ALIAS"
                         value: AST_CLASS_CONST

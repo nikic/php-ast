@@ -24,14 +24,13 @@ echo ast_dump($node), "\n";
 --EXPECTF--
 AST_STMT_LIST
     0: AST_CLASS
-        flags: 0
         name: "Xyz"
         docComment: null
         extends: null
         implements: null
         stmts: AST_STMT_LIST
             0: AST_METHOD
-                flags: MODIFIER_PUBLIC (1)
+                flags: MODIFIER_PUBLIC (%d)
                 name: "test"
                 docComment: null
                 params: AST_PARAM_LIST
@@ -43,7 +42,7 @@ AST_STMT_LIST
                     flags: TYPE_STATIC (%d)
                 __declId: 0
             1: AST_METHOD
-                flags: MODIFIER_PUBLIC (1)
+                flags: MODIFIER_PUBLIC (%d)
                 name: "test2"
                 docComment: null
                 params: AST_PARAM_LIST

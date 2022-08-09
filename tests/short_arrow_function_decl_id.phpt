@@ -21,13 +21,11 @@ AST_STMT_LIST
         var: AST_VAR
             name: "cb"
         expr: AST_ARROW_FUNC
-            flags: 0
             name: "{closure}"
             docComment: null
             params: AST_PARAM_LIST
             stmts: AST_RETURN
                 expr: AST_ARROW_FUNC
-                    flags: 0
                     name: "{closure}"
                     docComment: null
                     params: AST_PARAM_LIST

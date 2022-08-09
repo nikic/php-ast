@@ -22,7 +22,6 @@ echo ast_dump($node), "\n";
 --EXPECTF--
 AST_STMT_LIST
     0: AST_CLASS
-        flags: 0
         name: "Example"
         docComment: null
         extends: null
@@ -38,7 +37,6 @@ AST_STMT_LIST
                     2: AST_TYPE
                         flags: TYPE_FALSE (%d)
                 props: AST_PROP_DECL
-                    flags: 0
                     0: AST_PROP_ELEM
                         name: "value"
                         default: null
@@ -48,12 +46,10 @@ AST_STMT_LIST
         var: AST_VAR
             name: "f"
         expr: AST_ARROW_FUNC
-            flags: 0
             name: "{closure}"
             docComment: null
             params: AST_PARAM_LIST
                 0: AST_PARAM
-                    flags: 0
                     type: AST_TYPE_UNION
                         0: AST_TYPE
                             flags: TYPE_OBJECT (%d)
@@ -71,12 +67,10 @@ AST_STMT_LIST
         var: AST_VAR
             name: "g"
         expr: AST_CLOSURE
-            flags: 0
             name: "{closure}"
             docComment: null
             params: AST_PARAM_LIST
                 0: AST_PARAM
-                    flags: 0
                     type: AST_TYPE
                         flags: TYPE_FALSE (%d)
                     name: "arg"

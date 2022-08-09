@@ -13,10 +13,10 @@ PHP;
 echo ast_dump(ast\parse_code($code, $version=70)), "\n";
 
 ?>
---EXPECT--
+--EXPECTF--
 AST_STMT_LIST
     0: AST_BINARY_OP
-        flags: BINARY_COALESCE (260)
+        flags: BINARY_COALESCE (%d)
         left: AST_VAR
             name: "a"
         right: AST_VAR

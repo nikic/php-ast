@@ -22,7 +22,6 @@ AST_STMT_LIST
         var: AST_VAR
             name: "fn"
         expr: AST_CLOSURE
-            flags: 0
             name: "{closure}"
             docComment: null
             params: AST_PARAM_LIST

@@ -24,7 +24,7 @@ AST_STMT_LIST
             name: "c1"
         expr: AST_CALL
             expr: AST_NAME
-                flags: NAME_NOT_FQ (1)
+                flags: NAME_NOT_FQ (%d)
                 name: "foo"
             args: AST_CALLABLE_CONVERT
     1: AST_ASSIGN
@@ -32,7 +32,7 @@ AST_STMT_LIST
             name: "c2"
         expr: AST_STATIC_CALL
             class: AST_NAME
-                flags: NAME_NOT_FQ (1)
+                flags: NAME_NOT_FQ (%d)
                 name: "C"
             method: "foo"
             args: AST_CALLABLE_CONVERT

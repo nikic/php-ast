@@ -35,7 +35,6 @@ AST_STMT_LIST
         name: "Foo"
         stmts: null
     1: AST_CLASS
-        flags: 0
         name: "test"
         docComment: null
         extends: null
@@ -91,7 +90,6 @@ AST_STMT_LIST
         name: "Foo"
         stmts: null
     1: AST_CLASS
-        flags: 0
         name: "test"
         docComment: null
         extends: null
@@ -102,7 +100,6 @@ AST_STMT_LIST
                 type: AST_TYPE
                     flags: TYPE_LONG (4)
                 props: AST_PROP_DECL
-                    flags: 0
                     0: AST_PROP_ELEM
                         name: "i"
                         default: 2
@@ -117,7 +114,6 @@ AST_STMT_LIST
                     type: AST_TYPE
                         flags: TYPE_STRING (6)
                 props: AST_PROP_DECL
-                    flags: 0
                     0: AST_PROP_ELEM
                         name: "s"
                         default: null
@@ -128,7 +124,6 @@ AST_STMT_LIST
                     type: AST_TYPE
                         flags: TYPE_ITERABLE (%d)
                 props: AST_PROP_DECL
-                    flags: 0
                     0: AST_PROP_ELEM
                         name: "it"
                         default: null
@@ -139,7 +134,6 @@ AST_STMT_LIST
                     flags: NAME_NOT_FQ (1)
                     name: "Row"
                 props: AST_PROP_DECL
-                    flags: 0
                     0: AST_PROP_ELEM
                         name: "row"
                         default: null
@@ -150,7 +144,6 @@ AST_STMT_LIST
                     flags: NAME_FQ (0)
                     name: "stdClass"
                 props: AST_PROP_DECL
-                    flags: 0
                     0: AST_PROP_ELEM
                         name: "o"
                         default: null
@@ -159,7 +152,6 @@ AST_STMT_LIST
                 flags: MODIFIER_PRIVATE | MODIFIER_STATIC (%d)
                 type: null
                 props: AST_PROP_DECL
-                    flags: 0
                     0: AST_PROP_ELEM
                         name: "normal"
                         default: AST_CONST

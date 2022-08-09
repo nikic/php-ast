@@ -24,12 +24,10 @@ echo ast_dump(ast\parse_code($code, $version=70));
 --EXPECT--
 AST_STMT_LIST
     0: AST_FUNC_DECL
-        flags: 0
         name: "test"
         docComment: "/** Test function */"
         params: AST_PARAM_LIST
             0: AST_PARAM
-                flags: 0
                 type: AST_NAME
                     flags: NAME_NOT_FQ (1)
                     name: "Type"

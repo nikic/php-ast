@@ -25,7 +25,6 @@ AST_STMT_LIST
         name: "Foo"
         stmts: null
     1: AST_CLASS
-        flags: 0
         name: "test"
         docComment: null
         extends: null
@@ -35,7 +34,6 @@ AST_STMT_LIST
                 flags: MODIFIER_PUBLIC (%d)
                 type: null
                 props: AST_PROP_DECL
-                    flags: 0
                     0: AST_PROP_ELEM
                         name: "i"
                         default: 2
@@ -48,7 +46,6 @@ AST_STMT_LIST
                 flags: MODIFIER_PROTECTED (%d)
                 type: null
                 props: AST_PROP_DECL
-                    flags: 0
                     0: AST_PROP_ELEM
                         name: "row"
                         default: null
@@ -57,7 +54,6 @@ AST_STMT_LIST
                 flags: MODIFIER_PUBLIC (%d)
                 type: null
                 props: AST_PROP_DECL
-                    flags: 0
                     0: AST_PROP_ELEM
                         name: "o"
                         default: null
@@ -66,7 +62,6 @@ AST_STMT_LIST
                 flags: MODIFIER_PRIVATE | MODIFIER_STATIC (%d)
                 type: null
                 props: AST_PROP_DECL
-                    flags: 0
                     0: AST_PROP_ELEM
                         name: "normal"
                         default: AST_CONST

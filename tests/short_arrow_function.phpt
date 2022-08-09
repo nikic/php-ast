@@ -35,18 +35,16 @@ AST_STMT_LIST
         var: AST_VAR
             name: "a"
         expr: AST_ARROW_FUNC
-            flags: 0
             name: "{closure}"
             docComment: null
             params: AST_PARAM_LIST
                 0: AST_PARAM
-                    flags: 0
                     type: null
                     name: "x"
                     default: null
             stmts: AST_RETURN
                 expr: AST_BINARY_OP
-                    flags: BINARY_MUL (3)
+                    flags: BINARY_MUL (%d)
                     left: AST_VAR
                         name: "x"
                     right: AST_VAR
@@ -57,7 +55,7 @@ AST_STMT_LIST
         var: AST_VAR
             name: "b"
         expr: AST_ARROW_FUNC
-            flags: MODIFIER_STATIC (16)
+            flags: MODIFIER_STATIC (%d)
             name: "{closure}"
             docComment: null
             params: AST_PARAM_LIST
@@ -69,7 +67,7 @@ AST_STMT_LIST
         var: AST_VAR
             name: "c"
         expr: AST_ARROW_FUNC
-            flags: MODIFIER_STATIC (16)
+            flags: MODIFIER_STATIC (%d)
             name: "{closure}"
             docComment: "/** doc comment */"
             params: AST_PARAM_LIST
@@ -77,20 +75,20 @@ AST_STMT_LIST
                     flags: PARAM_VARIADIC (%d)
                     type: AST_NULLABLE_TYPE
                         type: AST_TYPE
-                            flags: TYPE_LONG (4)
+                            flags: TYPE_LONG (%d)
                     name: "args"
                     default: null
             stmts: AST_RETURN
                 expr: AST_VAR
                     name: "args"
             returnType: AST_TYPE
-                flags: TYPE_ARRAY (7)
+                flags: TYPE_ARRAY (%d)
             __declId: 2
     4: AST_ASSIGN
         var: AST_VAR
             name: "fn"
         expr: AST_ARROW_FUNC
-            flags: FUNC_GENERATOR (16777216)
+            flags: FUNC_GENERATOR (%d)
             name: "{closure}"
             docComment: null
             params: AST_PARAM_LIST

@@ -27,6 +27,9 @@ function get_flag_info() : array {
 
     return $info;
 }
+function is_combinable_flag(int $kind) : bool {
+    return isset(get_flag_info()[1][$kind]);
+}
 
 function format_flags(int $kind, int $flags) : string {
     list($exclusive, $combinable) = get_flag_info();
@@ -62,7 +65,7 @@ function ast_dump($ast, int $options = 0) : string {
             }
         }
 
-        if (ast\kind_uses_flags($ast->kind) || $ast->flags != 0) {
+        if ((ast\kind_uses_flags($ast->kind) && !is_combinable_flag($ast->kind)) || $ast->flags != 0) {
             $result .= "\n    flags: " . format_flags($ast->kind, $ast->flags);
         }
         foreach ($ast->children as $i => $child) {

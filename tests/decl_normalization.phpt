@@ -46,7 +46,6 @@ array(4) {
 }
 AST_STMT_LIST
     0: AST_CLASS
-        flags: 0
         name: "A"
         docComment: "/** A */"
         extends: null
@@ -62,7 +61,6 @@ AST_STMT_LIST
                 flags: MODIFIER_PUBLIC (%d)
                 type: null
                 props: AST_PROP_DECL
-                    flags: 0
                     0: AST_PROP_ELEM
                         name: "c"
                         default: null
@@ -82,7 +80,6 @@ AST_STMT_LIST
             value: 0
             docComment: "/** E */"
     2: AST_FUNC_DECL
-        flags: 0
         name: "f"
         docComment: "/** f */"
         params: AST_PARAM_LIST
@@ -90,7 +87,6 @@ AST_STMT_LIST
         returnType: null
         __declId: 2
     3: AST_CLOSURE
-        flags: 0
         name: "{closure}"
         docComment: "/** g */"
         params: AST_PARAM_LIST
@@ -102,7 +98,6 @@ AST_STMT_LIST
 Deprecated: ast\parse_code(): Version 50 is deprecated in %sdecl_normalization.php on line 29
 AST_STMT_LIST
     0: AST_CLASS
-        flags: 0
         name: "A"
         docComment: "/** A */"
         extends: null
@@ -136,7 +131,6 @@ AST_STMT_LIST
             value: 0
             docComment: "/** E */"
     2: AST_FUNC_DECL
-        flags: 0
         name: "f"
         docComment: "/** f */"
         params: AST_PARAM_LIST
@@ -145,7 +139,6 @@ AST_STMT_LIST
         returnType: null
         __declId: 2
     3: AST_CLOSURE
-        flags: 0
         name: "{closure}"
         docComment: "/** g */"
         params: AST_PARAM_LIST

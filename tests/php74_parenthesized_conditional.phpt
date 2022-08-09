@@ -20,9 +20,7 @@ echo ast_dump($node), "\n";
 AST_STMT_LIST
     0: AST_RETURN
         expr: AST_CONDITIONAL
-            flags: 0
             cond: AST_CONDITIONAL
-                flags: 0
                 cond: AST_VAR
                     name: "a"
                 true: AST_VAR
@@ -35,7 +33,6 @@ AST_STMT_LIST
                 name: "e"
     1: AST_RETURN
         expr: AST_CONDITIONAL
-            flags: 0
             cond: AST_VAR
                 name: "a"
             true: AST_VAR

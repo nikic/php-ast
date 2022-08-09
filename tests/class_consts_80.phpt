@@ -24,7 +24,6 @@ echo ast_dump(ast\parse_code($code, $version=80));
 --EXPECTF--
 AST_STMT_LIST
     0: AST_CLASS
-        flags: 0
         name: "Test"
         docComment: null
         extends: null
@@ -33,7 +32,6 @@ AST_STMT_LIST
             0: AST_CLASS_CONST_GROUP
                 flags: MODIFIER_PUBLIC (%d)
                 const: AST_CLASS_CONST_DECL
-                    flags: 0
                     0: AST_CONST_ELEM
                         name: "A"
                         value: 1
@@ -42,7 +40,6 @@ AST_STMT_LIST
             1: AST_CLASS_CONST_GROUP
                 flags: MODIFIER_PROTECTED (%d)
                 const: AST_CLASS_CONST_DECL
-                    flags: 0
                     0: AST_CONST_ELEM
                         name: "E"
                         value: 5
