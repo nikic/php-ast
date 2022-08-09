@@ -20,8 +20,8 @@
  </lead>
  <date>2022-08-09</date>
  <version>
-  <release>1.1.0</release>
-  <api>1.1.0</api>
+  <release>1.1.1dev</release>
+  <api>1.1.1dev</api>
  </version>
  <stability>
   <release>stable</release>
@@ -29,13 +29,7 @@
  </stability>
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
-- Change documentation files to properly namespace attributes as `#[\AllowDynamicProperties]`. The reflection attributes are already correct.
-- Deprecated AST versions 50 and 60.
-- Drop support for php &lt;= 7.1
-- Fix test failures seen in php 8.2.0beta2 due to change to var_export's output format.
-- Add support for php 8.2 readonly classes. Add `ast\flags\CLASS_READONLY` constant.
-- Add support for php 8.2 `true` type. Add `ast\flags\TYPE_TRUE` constant.
-- Fix bug in php 8.2 where ZEND_AST_ARROW_FUNC output did not include the stub `AST_RETURN` node that was included in php 8.1 and below.
+- TBD
  </notes>
  <contents>
   <dir name="/">
@@ -153,6 +147,27 @@
  <providesextension>ast</providesextension>
  <extsrcrelease />
  <changelog>
+  <release>
+   <date>2022-08-09</date>
+   <version>
+    <release>1.1.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
+   <notes>
+- Change documentation files to properly namespace attributes as `#[\AllowDynamicProperties]`. The reflection attributes are already correct.
+- Deprecated AST versions 50 and 60.
+- Drop support for php &lt;= 7.1
+- Fix test failures seen in php 8.2.0beta2 due to change to var_export's output format.
+- Add support for php 8.2 readonly classes. Add `ast\flags\CLASS_READONLY` constant.
+- Add support for php 8.2 `true` type. Add `ast\flags\TYPE_TRUE` constant.
+- Fix bug in php 8.2 where ZEND_AST_ARROW_FUNC output did not include the stub `AST_RETURN` node that was included in php 8.1 and below.
+   </notes>
+  </release>
   <release>
    <date>2021-11-27</date>
    <version>
