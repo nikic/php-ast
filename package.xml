@@ -2,8 +2,8 @@
 <package packagerversion="1.9.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
  <name>ast</name>
  <channel>pecl.php.net</channel>
- <summary>Extension exposing PHP 7 abstract syntax tree</summary>
- <description>php-ast exports the AST internally used by PHP 7.
+ <summary>Extension exposing PHP 7+ abstract syntax tree</summary>
+ <description>php-ast exports the AST internally used by PHP 7+.
      php-ast is significantly faster than PHP-Parser, because the AST construction is implemented in C.
      However, php-ast may only parse code that is syntactically valid on the version of PHP it runs on.</description>
  <lead>
