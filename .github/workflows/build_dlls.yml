@@ -1,0 +1,62 @@
+name: Build DLLs
+# Based on https://github.com/TysonAndre/ast/blob/main/.github/workflows/build_dlls.yml
+# which is based on https://github.com/krakjoe/apcu/blob/master/.github/workflows/config.yml
+# Builds DLLs for 64-bit php.
+# See https://windows.php.net/ - At this time, the windows PHP team no longer has access to the machine used to build dlls.
+
+on:
+  # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#release
+  release:
+    types: [published]
+
+jobs:
+  windows:
+    defaults:
+      run:
+        shell: cmd
+    strategy:
+      matrix:
+          version: ["7.2", "7.3", "7.4", "8.0", "8.1", "8.2"]
+          arch: [x64]
+          ts: [nts, ts]
+    runs-on: windows-latest
+    steps:
+      - name: Checkout ast
+        uses: actions/checkout@v2
+      - name: Setup PHP
+        id: setup-php
+        uses: cmb69/setup-php-sdk@v0.6
+        with:
+          version: ${{matrix.version}}
+          arch: ${{matrix.arch}}
+          ts: ${{matrix.ts}}
+      - name: Enable Developer Command Prompt
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: ${{matrix.arch}}
+          toolset: ${{steps.setup-php.outputs.toolset}}
+      - name: phpize
+        run: phpize
+      - name: configure
+        run: configure --enable-ast --enable-debug-pack --with-prefix=${{steps.setup-php.outputs.prefix}}
+      - name: make
+        run: nmake
+      # Run tests, failing if they fail. REPORT_EXIT_STATUS=1 is the default for tests in php 7.2+
+      - name: test
+        run: nmake test TESTS="--show-diff tests"
+      - name: package
+        run: |
+          md .install
+          copy LICENSE README.md .install
+          if exist x64 (
+            if exist x64\Release (set prefix=x64\Release) else set prefix=x64\Release_TS
+          ) else (
+            if exist Release (set prefix=Release) else set prefix=Release_TS
+          )
+          copy %prefix%\php_ast.dll .install
+          copy %prefix%\php_ast.pdb .install
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3.1.0
+        with:
+          name: ast-Windows-${{matrix.version}}-${{matrix.arch}}-${{matrix.ts}}
+          path: .install
