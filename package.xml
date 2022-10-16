@@ -18,7 +18,7 @@
   <email>tandre@php.net</email>
   <active>yes</active>
  </lead>
- <date>2022-08-09</date>
+ <date>2022-10-16</date>
  <version>
   <release>1.1.1dev</release>
   <api>1.1.1dev</api>
@@ -29,7 +29,7 @@
  </stability>
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
-- TBD
+- Set up actions to generate DLLs for Windows in CI on https://github.com/nikic/php-ast
  </notes>
  <contents>
   <dir name="/">
