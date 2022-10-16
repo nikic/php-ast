@@ -32,42 +32,52 @@ environment:
                 - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
                   ARCH: x86
                   VC: vs16
-                  PHP_VER: 8.1.0
+                  PHP_VER: 8.2.0RC4
                   TS: 1
                 - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
                   ARCH: x64
                   VC: vs16
-                  PHP_VER: 8.1.0
-                  TS: 1
-                - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-                  ARCH: x86
-                  VC: vs16
-                  PHP_VER: 8.1.0
-                  TS: 0
-                - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-                  ARCH: x64
-                  VC: vs16
-                  PHP_VER: 8.1.0
+                  PHP_VER: 8.2.0RC4
                   TS: 0
                 - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
                   ARCH: x86
                   VC: vs16
-                  PHP_VER: 8.0.13
+                  PHP_VER: 8.1.11
                   TS: 1
                 - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
                   ARCH: x64
                   VC: vs16
-                  PHP_VER: 8.0.13
+                  PHP_VER: 8.1.11
                   TS: 1
                 - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
                   ARCH: x86
                   VC: vs16
-                  PHP_VER: 8.0.13
+                  PHP_VER: 8.1.11
                   TS: 0
                 - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
                   ARCH: x64
                   VC: vs16
-                  PHP_VER: 8.0.13
+                  PHP_VER: 8.1.11
+                  TS: 0
+                - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+                  ARCH: x86
+                  VC: vs16
+                  PHP_VER: 8.0.24
+                  TS: 1
+                - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+                  ARCH: x64
+                  VC: vs16
+                  PHP_VER: 8.0.24
+                  TS: 1
+                - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+                  ARCH: x86
+                  VC: vs16
+                  PHP_VER: 8.0.24
+                  TS: 0
+                - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+                  ARCH: x64
+                  VC: vs16
+                  PHP_VER: 8.0.24
                   TS: 0
                 - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
                   ARCH: x64
@@ -112,22 +122,22 @@ environment:
                 - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
                   ARCH: x64
                   VC: vc15
-                  PHP_VER: 7.4.26
+                  PHP_VER: 7.4.32
                   TS: 0
                 - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
                   ARCH: x64
                   VC: vc15
-                  PHP_VER: 7.4.26
+                  PHP_VER: 7.4.32
                   TS: 1
                 - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
                   ARCH: x86
                   VC: vc15
-                  PHP_VER: 7.4.26
+                  PHP_VER: 7.4.32
                   TS: 0
                 - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
                   ARCH: x86
                   VC: vc15
-                  PHP_VER: 7.4.26
+                  PHP_VER: 7.4.32
                   TS: 1
 
 build_script:
