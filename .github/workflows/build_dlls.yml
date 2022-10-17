@@ -58,5 +58,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v3.1.0
         with:
-          name: ast-${{github.ref}}-Windows-php-${{matrix.version}}-${{matrix.arch}}-${{matrix.ts}}
+          name: ast-${{github.ref_name}}-Windows-php-${{matrix.version}}-${{matrix.arch}}-${{matrix.ts}}
           path: .install
