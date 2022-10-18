@@ -4,7 +4,8 @@
 * Run `pecl package package.xml`.
 * Run `pecl install ast-XXX.tgz`.
 * Commit.
-* Create a tag.
+* Create a release on github.
+* Attach Windows artifacts from GitHub Actions to the release.
 * Bump version in php_ast.h and add dev suffix.
 * Copy release in package.xml into changelog.
 * Clear current changelog, bump versions and add dev suffix.
