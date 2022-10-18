@@ -30,6 +30,8 @@
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
 - Set up actions to generate DLLs for Windows in CI on https://github.com/nikic/php-ast
+
+  NOTE: The PHP for Windows team is working on getting dlls built again for pecl extensions. Those should be used instead on Windows once they are available. See https://windows.php.net/
  </notes>
  <contents>
   <dir name="/">
