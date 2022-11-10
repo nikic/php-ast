@@ -287,11 +287,6 @@ static const char *closure_use_flags[] = {
 	AST_FLAG(MODIFIER_FINAL), \
 	AST_FLAG(MODIFIER_READONLY)
 
-static const char *visibility_flags[] = {
-	AST_VISIBILITY_FLAGS,
-	NULL
-};
-
 static const char *modifier_flags[] = {
 	AST_MODIFIER_FLAGS,
 	NULL
