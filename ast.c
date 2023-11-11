@@ -1078,7 +1078,7 @@ static inline zend_bool ast_version_deprecated(zend_long version) {
 	return version < 70;
 }
 
-static zend_string *ast_version_info() {
+static zend_string *ast_version_info(void) {
 	smart_str str = {0};
 	size_t i;
 
