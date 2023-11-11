@@ -10,7 +10,7 @@ try {
 }
 
 try {
-    ast\parse_code('<?php ...', $version=100);
+    ast\parse_code('<?php ...', $version=10000);
 } catch (LogicException $e) {
     echo $e->getMessage(), "\n";
 }
@@ -18,4 +18,4 @@ try {
 ?>
 --EXPECTF--
 No version specified. Current version is %d. All versions (including experimental): {%d, %s}
-Unknown version 100. Current version is %d. All versions (including experimental): {%d, %s}
+Unknown version 10000. Current version is %d. All versions (including experimental): {%d, %s}

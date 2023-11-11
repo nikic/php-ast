@@ -323,6 +323,7 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 			switch (child) {
 				case 0: return AST_STR(str_const);
 				case 1: return AST_STR(str_attributes);
+				case 2: return AST_STR(str_type);
 			}
 			return NULL;
 		case ZEND_AST_DIM:

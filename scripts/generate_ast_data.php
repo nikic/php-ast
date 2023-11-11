@@ -98,7 +98,7 @@ $names = [
     'ZEND_AST_CLASS_NAME' => ['class'],
 
     /* 2 child nodes */
-    'ZEND_AST_CLASS_CONST_GROUP' => ['const', 'attributes'],
+    'ZEND_AST_CLASS_CONST_GROUP' => ['const', 'attributes', 'type'],
     'ZEND_AST_DIM' => ['expr', 'dim'],
     'ZEND_AST_PROP' => ['expr', 'prop'],
     'ZEND_AST_NULLSAFE_PROP' => ['expr', 'prop'],

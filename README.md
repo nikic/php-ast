@@ -387,8 +387,8 @@ AST_CAST:                 expr
 AST_CATCH:                class, var, stmts
 AST_CLASS:                name, docComment, extends, implements, stmts, (for enums) type
 AST_CLASS_CONST:          class, const
-AST_CLASS_CONST_GROUP     class, attributes      // version 80+
-AST_CLASS_NAME:           class                  // version 70+
+AST_CLASS_CONST_GROUP     class, attributes, type // version 80+
+AST_CLASS_NAME:           class                   // version 70+
 AST_CLONE:                expr
 AST_CLOSURE:              name, docComment, params, uses, stmts, returnType, attributes
 AST_CLOSURE_VAR:          name
@@ -504,7 +504,13 @@ function accepts a boolean argument that determines whether deprecated versions 
 In the following the changes in the respective AST versions, as well as their current support state,
 are listed.
 
-### 90 (current)
+### 100 (development)
+
+Supported since 1.1.1 (TBD).
+
+* Add a `type` child node for all AST_CLASS_CONST_GROUP nodes.
+
+### 90 (stable)
 
 Supported since 1.0.14 (2021-07-24)
 

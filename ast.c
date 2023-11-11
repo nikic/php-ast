@@ -464,6 +464,12 @@ static inline zend_bool ast_is_name(zend_ast *ast, zend_ast *parent, uint32_t i)
 			;
 	}
 
+#if PHP_VERSION_ID >= 80300
+	if (i == 2) {
+		return parent->kind == ZEND_AST_CLASS_CONST_GROUP;
+	}
+#endif
+
 	if (i == 1) {
 		return parent->kind == ZEND_AST_INSTANCEOF;
 	}
@@ -504,6 +510,11 @@ static inline zend_bool ast_is_type(zend_ast *ast, zend_ast *parent, uint32_t i)
 #endif
 			;
 	}
+#if PHP_VERSION_ID >= 80300
+	if (i == 2) {
+		return parent->kind == ZEND_AST_CLASS_CONST_GROUP;
+	}
+#endif
 	if (i == 3) {
 		return parent->kind == ZEND_AST_CLOSURE || parent->kind == ZEND_AST_FUNC_DECL
 #if PHP_VERSION_ID >= 70400
@@ -761,6 +772,13 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 			}
 		}
 #endif
+#if PHP_VERSION_ID >= 80300
+		if (ast_kind == ZEND_AST_CLASS_CONST_GROUP && i == 2) {
+			if (state->version < 100)  {
+				continue;
+			}
+		}
+#endif
 #endif
 		if (ast_is_name(child, ast, i)) {
 			ast_name_to_zval(child, ast, &child_zv, i, state);
@@ -845,6 +863,15 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 #if PHP_VERSION_ID < 80100
 		if (ast_kind == ZEND_AST_CLASS) {
 			if (state->version >= 85) {
+				zval tmp;
+				ZVAL_NULL(&tmp);
+				zend_hash_add_new(ht, AST_STR(str_type), &tmp);
+			}
+		}
+#endif
+#if PHP_VERSION_ID < 80300
+		if (ast_kind == ZEND_AST_CLASS_CONST_GROUP) {
+			if (state->version >= 100) {
 				zval tmp;
 				ZVAL_NULL(&tmp);
 				zend_hash_add_new(ht, AST_STR(str_type), &tmp);
@@ -1064,7 +1091,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 #endif
 }
 
-static const zend_long versions[] = {50, 60, 70, 80, 85, 90};
+static const zend_long versions[] = {50, 60, 70, 80, 85, 90, 100};
 static const size_t versions_count = sizeof(versions)/sizeof(versions[0]);
 
 static inline zend_bool ast_version_deprecated(zend_long version) {
