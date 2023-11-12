@@ -18,10 +18,10 @@
   <email>tandre@php.net</email>
   <active>yes</active>
  </lead>
- <date>2022-08-09</date>
+ <date>2023-11-12</date>
  <version>
-  <release>1.1.1dev</release>
-  <api>1.1.1dev</api>
+  <release>1.1.1</release>
+  <api>1.1.1</api>
  </version>
  <stability>
   <release>stable</release>
@@ -29,7 +29,8 @@
  </stability>
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
-- TBD
+- Added support for PHP 8.3
+- In version 100, `AST_CLASS_CONST_GROUP` nodes have a `type` child node to represent typed class constants.
  </notes>
  <contents>
   <dir name="/">
@@ -58,6 +59,7 @@
       <file name="by_ref_destructuring.phpt" role="test" />
       <file name="class_consts.phpt" role="test" />
       <file name="class_consts_80.phpt" role="test" />
+      <file name="class_const_types.phpt" role="test" />
       <file name="class_name_version_50.phpt" role="test" />
       <file name="class_name_version_70.phpt" role="test" />
       <file name="class_on_objects.phpt" role="test" />

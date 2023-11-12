@@ -504,9 +504,9 @@ function accepts a boolean argument that determines whether deprecated versions 
 In the following the changes in the respective AST versions, as well as their current support state,
 are listed.
 
-### 100 (development)
+### 100 (current)
 
-Supported since 1.1.1 (TBD).
+Supported since 1.1.1 (2023-11-12).
 
 * Add a `type` child node for all AST_CLASS_CONST_GROUP nodes.
 
