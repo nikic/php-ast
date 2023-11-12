@@ -20,8 +20,8 @@
  </lead>
  <date>2023-11-12</date>
  <version>
-  <release>1.1.1</release>
-  <api>1.1.1</api>
+  <release>1.1.2dev</release>
+  <api>1.1.2dev</api>
  </version>
  <stability>
   <release>stable</release>
@@ -29,8 +29,7 @@
  </stability>
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
-- Added support for PHP 8.3
-- In version 100, `AST_CLASS_CONST_GROUP` nodes have a `type` child node to represent typed class constants.
+- TBD
  </notes>
  <contents>
   <dir name="/">
@@ -149,6 +148,21 @@
  <providesextension>ast</providesextension>
  <extsrcrelease />
  <changelog>
+  <release>
+   <version>
+    <release>1.1.1</release>
+    <api>1.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
+   <notes>
+- Added support for PHP 8.3
+- In version 100, `AST_CLASS_CONST_GROUP` nodes have a `type` child node to represent typed class constants.
+   </notes>
+  </release>
   <release>
    <date>2022-08-09</date>
    <version>
