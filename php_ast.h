@@ -7,7 +7,7 @@
 extern zend_module_entry ast_module_entry;
 #define phpext_ast_ptr &ast_module_entry
 
-#define PHP_AST_VERSION "1.1.2dev"
+#define PHP_AST_VERSION "1.1.2"
 
 #ifdef PHP_WIN32
 #	define PHP_AST_API __declspec(dllexport)
@@ -30,7 +30,7 @@ ZEND_EXTERN_MODULE_GLOBALS(ast)
 #define AST_G(v) ZEND_MODULE_GLOBALS_ACCESSOR(ast, v)
 
 typedef struct _ast_str_globals {
-#define X(str) zend_string *str_ ## str;
+#define X(str, value) zend_string *str_ ## str;
 	AST_STR_DEFS
 #undef X
 } ast_str_globals;
@@ -49,6 +49,7 @@ extern ast_str_globals str_globals;
 // NOTE: The first hex digit is the number of child nodes a given kind has
 # define ZEND_AST_CLASS_NAME 0x1ff
 # define ZEND_AST_PROP_GROUP 0x2ff
+// ZEND_AST_ARROW_FUNC technically should have been in the ZEND_AST_SPECIAL_SHIFT group, but keeping this value for compatibility with older releases. (e.g. serialized ast Nodes)
 # define ZEND_AST_ARROW_FUNC 0x5ff
 #endif
 
@@ -83,6 +84,13 @@ extern ast_str_globals str_globals;
 
 #if PHP_VERSION_ID < 80200
 # define ZEND_ACC_READONLY_CLASS (1 << 23)
+#endif
+
+#if PHP_VERSION_ID < 80400
+# define ZEND_AST_PROPERTY_HOOK ((1 << (ZEND_AST_SPECIAL_SHIFT + 1)) - 1)
+// NOTE: The first hex digit is the number of child nodes a given kind has
+# define ZEND_AST_PROPERTY_HOOK_SHORT_BODY 0x1fe
+# define ZEND_AST_PARENT_PROPERTY_HOOK_CALL 0x2f8
 #endif
 
 /* Pretend it still exists */

@@ -71,7 +71,7 @@
 #define AST_METADATA_PROP_FLAGS(object) OBJ_PROP_NUM((object), 2)
 #define AST_METADATA_PROP_FLAGS_COMBINABLE(object) OBJ_PROP_NUM((object), 3)
 
-#define AST_CURRENT_VERSION 90
+#define AST_CURRENT_VERSION 110
 
 /* Additional flags for BINARY_OP */
 #define AST_BINARY_IS_GREATER 256
@@ -115,6 +115,10 @@
 #if PHP_VERSION_ID < 80200
 # define ZEND_ENCAPS_VAR_DOLLAR_CURLY (1<<0)
 # define ZEND_ENCAPS_VAR_DOLLAR_CURLY_VAR_VAR (1<<1)
+#endif
+
+#if PHP_VERSION_ID >= 80400
+# define ZEND_DIM_ALTERNATIVE_SYNTAX (1<<1)
 #endif
 
 /* This contains state of the ast Node creator. */
@@ -336,6 +340,7 @@ static const ast_flag_info flag_info[] = {
 	{ ZEND_AST_FUNC_DECL, 1, func_flags },
 	{ ZEND_AST_CLOSURE, 1, func_flags },
 	{ ZEND_AST_ARROW_FUNC, 1, func_flags },
+	{ ZEND_AST_PROPERTY_HOOK, 1, func_flags },
 	{ ZEND_AST_PROP_DECL, 1, modifier_flags },
 	{ ZEND_AST_PROP_GROUP, 1, modifier_flags },
 	{ ZEND_AST_CLASS_CONST_DECL, 1, modifier_flags },
@@ -426,6 +431,7 @@ static inline zend_bool ast_kind_uses_attr(zend_ast_kind kind) {
 static inline zend_bool ast_kind_is_decl(zend_ast_kind kind) {
 	return kind == ZEND_AST_FUNC_DECL || kind == ZEND_AST_CLOSURE
 		|| kind == ZEND_AST_ARROW_FUNC
+		|| kind == ZEND_AST_PROPERTY_HOOK
 		|| kind == ZEND_AST_METHOD || kind == ZEND_AST_CLASS;
 }
 
@@ -741,7 +747,7 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 			switch (ast_kind) {
 				case ZEND_AST_PARAM:
 					if (i >= 3) {
-						/* Skip attributes and doc comment */
+						/* Skip attributes and doc comment and hooks. */
 						continue;
 					}
 					break;
@@ -779,6 +785,20 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 			}
 		}
 #endif
+#if PHP_VERSION_ID >= 80400
+		if (ast_kind == ZEND_AST_PROP_ELEM && i == 3) {
+			if (state->version < 110) {
+				continue;
+			}
+		}
+		/* Constructor property promotion shorthand can have property hooks. */
+		if (ast_kind == ZEND_AST_PARAM && i == 5) {
+			if (state->version < 110) {
+				continue;
+			}
+		}
+#endif
+
 #endif
 		if (ast_is_name(child, ast, i)) {
 			ast_name_to_zval(child, ast, &child_zv, i, state);
@@ -845,6 +865,19 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 			zval tmp;
 			ZVAL_NULL(&tmp);
 			zend_hash_add_new(ht, AST_STR(str_attributes), &tmp);
+			return;
+		}
+	}
+#endif
+
+#if PHP_VERSION_ID < 80400
+	if (state->version >= 110) {
+		if (ast_kind == ZEND_AST_PARAM || ast_kind == ZEND_AST_PROP_ELEM) {
+			zval tmp;
+			ZVAL_NULL(&tmp);
+			zend_hash_add_new(ht, AST_STR(str_hooks), &tmp);
+			/* For now, ast_kind_is_decl is false. */
+			/* TODO a future backwards incompatible release dropping support for older AST versions might have property elements as declarations? */
 			return;
 		}
 	}
@@ -1016,18 +1049,19 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 
 	zend_object *obj = Z_OBJ_P(zv);
 
-	AST_NODE_SET_PROP_KIND(obj, ast->kind);
+	zend_ast_kind kind = ast->kind;
+	AST_NODE_SET_PROP_KIND(obj, kind);
 
 	AST_NODE_SET_PROP_LINENO(obj, zend_ast_get_lineno(ast));
 
 	array_init(AST_NODE_PROP_CHILDREN(obj));
 	HashTable *children = Z_ARRVAL_P(AST_NODE_PROP_CHILDREN(obj));
 
-	if (ast_kind_is_decl(ast->kind)) {
+	if (ast_kind_is_decl(kind)) {
 		zend_ast_decl *decl = (zend_ast_decl *) ast;
 		uint32_t flags = decl->flags;
 #if PHP_VERSION_ID >= 80200
-		if (ast->kind == ZEND_AST_CLASS) {
+		if (kind == ZEND_AST_CLASS) {
 			flags &= ~ZEND_ACC_NO_DYNAMIC_PROPERTIES;
 		}
 #endif
@@ -1037,6 +1071,11 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 		// This is an undeclared dynamic property and has no cache slot.
 		ast_update_property_long(zv, AST_STR(str_endLineno), decl->end_lineno);
 
+#if PHP_VERSION_ID >= 80400
+		if (kind == ZEND_AST_CLOSURE || kind == ZEND_AST_ARROW_FUNC) {
+			ZVAL_STR(&tmp_zv, AST_STR(str_bracketed_closure));
+		} else
+#endif
 		if (decl->name) {
 			ZVAL_STR(&tmp_zv, decl->name);
 			Z_TRY_ADDREF(tmp_zv);
@@ -1091,7 +1130,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 #endif
 }
 
-static const zend_long versions[] = {50, 60, 70, 80, 85, 90, 100};
+static const zend_long versions[] = {50, 60, 70, 80, 85, 90, 100, 110};
 static const size_t versions_count = sizeof(versions)/sizeof(versions[0]);
 
 static inline zend_bool ast_version_deprecated(zend_long version) {
@@ -1402,9 +1441,9 @@ PHP_MINIT_FUNCTION(ast) {
 	zval zv_null;
 	ZVAL_NULL(&zv_null);
 
-#define X(str) \
+#define X(str, value) \
 	AST_STR(str_ ## str) = zend_new_interned_string( \
-		zend_string_init(#str, sizeof(#str) - 1, 1));
+		zend_string_init(value, sizeof(value) - 1, 1));
 	AST_STR_DEFS
 #undef X
 
@@ -1544,7 +1583,7 @@ PHP_MINIT_FUNCTION(ast) {
 }
 
 PHP_MSHUTDOWN_FUNCTION(ast) {
-#define X(str) zend_string_release(AST_STR(str_ ## str));
+#define X(str, value) zend_string_release(AST_STR(str_ ## str));
 	AST_STR_DEFS
 #undef X
 

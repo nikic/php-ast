@@ -1,13 +1,13 @@
 --TEST--
-Encapsulated variable flags in PHP 8.2-8.3
+Encapsulated variable flags in PHP 8.2
 --SKIPIF--
-<?php if (PHP_VERSION_ID < 80200 || PHP_VERSION_ID >= 80400) die('skip PHP >= 8.2 < 8.4 only'); ?>
+<?php if (PHP_VERSION_ID < 80200) die('skip PHP >= 8.2 only'); ?>
 --FILE--
 <?php
 
 require __DIR__ . '/../util.php';
 
-$code = '<?php "${a}${b->c}{$d}${$e["f"]}${g[\'h\']}{$i{\'j\'}}";';
+$code = '<?php "${a}${b->c}{$d}${$e["f"]}${g[\'h\']}{$i[\'j\']}";';
 $node = ast\parse_code($code, $version=85);
 echo ast_dump($node), "\n";
 --EXPECTF--
@@ -38,7 +38,6 @@ AST_STMT_LIST
                 name: "g"
             dim: "h"
         5: AST_DIM
-            flags: DIM_ALTERNATIVE_SYNTAX (%d)
             expr: AST_VAR
                 name: "i"
             dim: "j"

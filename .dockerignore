@@ -38,3 +38,7 @@ tests/*.out
 tests/*.exp
 tests/*.log
 tests/*.sh
+*.dep
+*~
+tags
+configure.ac

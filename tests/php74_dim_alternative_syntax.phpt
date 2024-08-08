@@ -1,7 +1,7 @@
 --TEST--
 '$x{"offset"}' flag in PHP 7.4
 --SKIPIF--
-<?php if (PHP_VERSION_ID < 70400) die('skip PHP >= 7.4 only'); ?>
+<?php if (PHP_VERSION_ID < 70400 || PHP_VERSION_ID >= 80400) die('skip PHP 7.4-8.3 only'); ?>
 --FILE--
 <?php
 

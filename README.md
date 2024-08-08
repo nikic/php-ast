@@ -430,15 +430,17 @@ AST_NEW:                  class, args
 AST_NULLABLE_TYPE:        type                   // Used only since PHP 7.1
 AST_NULLSAFE_METHOD_CALL: expr, method, args     // php 8.0 null safe operator
 AST_NULLSAFE_PROP:        expr, prop             // php 8.0 null safe operator
-AST_PARAM:                type, name, default, attributes, docComment
+AST_PARAM:                type, name, default, attributes, docComment, hooks // 'hooks' field added in version 110
 AST_POST_DEC:             var
 AST_POST_INC:             var
 AST_PRE_DEC:              var
 AST_PRE_INC:              var
 AST_PRINT:                expr
 AST_PROP:                 expr, prop
-AST_PROP_ELEM:            name, default, docComment
+AST_PROP_ELEM:            name, default, docComment, hooks // 'hooks' field added in version 110
 AST_PROP_GROUP:           type, props, attributes // version 70+
+AST_PROPERTY_HOOK:        name, docComment, params, stmts, returnType, attributes // version 110+
+AST_PROPERTY_HOOK_SHORT_BODY: expr
 AST_REF:                  var                    // only used in foreach ($a as &$v)
 AST_RETURN:               expr
 AST_SHELL_EXEC:           expr
@@ -503,6 +505,13 @@ function accepts a boolean argument that determines whether deprecated versions 
 
 In the following the changes in the respective AST versions, as well as their current support state,
 are listed.
+
+### 110 (current)
+
+Supported since 1.1.2 (2024-08-08).
+
+* Add a `hooks` child node for `AST_PROP_ELEM` (PHP 8.4 property hooks) and `AST_PARAM` (constructor property promotion can have property hooks) (AST version 110+)
+* Add new node kinds `AST_PROPERTY_HOOK` and `AST_PROPERTY_HOOK_SHORT_BODY`.
 
 ### 100 (current)
 

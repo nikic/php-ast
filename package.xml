@@ -18,10 +18,10 @@
   <email>tandre@php.net</email>
   <active>yes</active>
  </lead>
- <date>2023-11-12</date>
+ <date>2024-08-08</date>
  <version>
-  <release>1.1.2dev</release>
-  <api>1.1.2dev</api>
+  <release>1.1.2</release>
+  <api>1.1.2</api>
  </version>
  <stability>
   <release>stable</release>
@@ -29,7 +29,8 @@
  </stability>
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
-- TBD
+- Fix compilation errors in PHP 8.4.
+- In version 110, `AST_PARAM` and `AST_PROP_ELEM` nodes have a `hooks` node for property hooks (https://wiki.php.net/rfc/property-hooks)
  </notes>
  <contents>
   <dir name="/">
@@ -112,17 +113,23 @@
       <file name="php80_union_types_nullable.phpt" role="test" />
       <file name="php80_union_types.phpt" role="test" />
       <file name="php81_enums.phpt" role="test" />
-      <file name="php81_first_class_callable_support.phpt" role="test" />
       <file name="php81_final_class_const.phpt" role="test" />
+      <file name="php81_first_class_callable_support.phpt" role="test" />
       <file name="php81_intersection_types.phpt" role="test" />
       <file name="php81_readonly.phpt" role="test" />
       <file name="php82_dynamic_property_attribute.phpt" role="test" />
+      <file name="php82_encaps_list2.phpt" role="test" />
       <file name="php82_encaps_list.phpt" role="test" />
       <file name="php82_readonly_class.phpt" role="test" />
+      <file name="php84_dim_alternative_syntax.phpt" role="test" />
+      <file name="php84_property_hook2.phpt" role="test" />
+      <file name="php84_property_hook3.phpt" role="test" />
+      <file name="php84_property_hook4.phpt" role="test" />
+      <file name="php84_property_hook.phpt" role="test" />
       <file name="prop_doc_comments.phpt" role="test" />
       <file name="short_arrow_function.phpt" role="test" />
-      <file name="short_arrow_function_return.phpt" role="test" />
       <file name="short_arrow_function_decl_id.phpt" role="test" />
+      <file name="short_arrow_function_return.phpt" role="test" />
       <file name="stmt_list.phpt" role="test" />
       <file name="true_type.phpt" role="test" />
       <file name="try_catch_finally.phpt" role="test" />
