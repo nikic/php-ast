@@ -428,6 +428,7 @@ static inline zend_bool ast_kind_uses_attr(zend_ast_kind kind) {
 		|| kind == ZEND_AST_VAR;
 }
 
+/* Returns true if nodes of this kind are represented with the C struct zend_ast_decl. */
 static inline zend_bool ast_kind_is_decl(zend_ast_kind kind) {
 	return kind == ZEND_AST_FUNC_DECL || kind == ZEND_AST_CLOSURE
 		|| kind == ZEND_AST_ARROW_FUNC
@@ -791,6 +792,10 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 				continue;
 			}
 		}
+		if (ast_kind == ZEND_AST_PROPERTY_HOOK && (i == 1 || i == 3)) {
+			/* Property hooks don't have uses/returnType but they do have params/stmts/attributes. */
+			continue;
+		}
 		/* Constructor property promotion shorthand can have property hooks. */
 		if (ast_kind == ZEND_AST_PARAM && i == 5) {
 			if (state->version < 110) {
@@ -876,8 +881,6 @@ static void ast_fill_children_ht(HashTable *ht, zend_ast *ast, ast_state_info_t 
 			zval tmp;
 			ZVAL_NULL(&tmp);
 			zend_hash_add_new(ht, AST_STR(str_hooks), &tmp);
-			/* For now, ast_kind_is_decl is false. */
-			/* TODO a future backwards incompatible release dropping support for older AST versions might have property elements as declarations? */
 			return;
 		}
 	}

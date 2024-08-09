@@ -94,7 +94,6 @@ AST_STMT_LIST
                                         attributes: null
                                         docComment: null
                                         hooks: null
-                                uses: null
                                 stmts: AST_STMT_LIST
                                     0: AST_ASSIGN
                                         var: AST_PROP
@@ -103,7 +102,6 @@ AST_STMT_LIST
                                             prop: "name"
                                         expr: AST_VAR
                                             name: "newName"
-                                returnType: null
                                 attributes: null
                                 __declId: 0
                 attributes: null

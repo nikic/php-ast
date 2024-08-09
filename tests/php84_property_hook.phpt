@@ -38,18 +38,14 @@ AST_STMT_LIST
                                 name: "get"
                                 docComment: null
                                 params: null
-                                uses: null
                                 stmts: null
-                                returnType: null
                                 attributes: null
                                 __declId: 0
                             1: AST_PROPERTY_HOOK
                                 name: "set"
                                 docComment: null
                                 params: null
-                                uses: null
                                 stmts: null
-                                returnType: null
                                 attributes: null
                                 __declId: 1
                 attributes: null

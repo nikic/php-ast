@@ -42,7 +42,6 @@ AST_STMT_LIST
                                 name: "set"
                                 docComment: null
                                 params: null
-                                uses: null
                                 stmts: AST_PROPERTY_HOOK_SHORT_BODY
                                     expr: AST_CALL
                                         expr: AST_NAME
@@ -51,7 +50,6 @@ AST_STMT_LIST
                                         args: AST_ARG_LIST
                                             0: AST_VAR
                                                 name: "value"
-                                returnType: null
                                 attributes: null
                                 __declId: 0
                 stmts: AST_STMT_LIST

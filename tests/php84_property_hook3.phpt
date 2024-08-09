@@ -42,12 +42,10 @@ AST_STMT_LIST
                                 name: "get"
                                 docComment: null
                                 params: null
-                                uses: null
                                 stmts: AST_STMT_LIST
                                     0: AST_YIELD
                                         value: 123
                                         key: null
-                                returnType: null
                                 attributes: AST_ATTRIBUTE_LIST
                                     0: AST_ATTRIBUTE_GROUP
                                         0: AST_ATTRIBUTE
