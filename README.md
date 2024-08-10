@@ -21,9 +21,10 @@ Table of Contents
 Installation
 ------------
 
-**Windows**: Download a [prebuilt Windows DLL](http://windows.php.net/downloads/pecl/releases/ast/)
-and move it into the `ext/` directory of your PHP installation. Furthermore add
+**Windows**: Download a [prebuilt Windows DLL](https://downloads.php.net/~windows/pecl/releases/ast/)
+and move it into the `ext/` directory of your PHP installation. Furthermore, add
 `extension=php_ast.dll` to your `php.ini` file.
+(The [php-ast PECL page](https://downloads.php.net/~windows/pecl/releases/ast/) also links to the same DLLs for Windows.)
 
 **Unix (PECL)**: Run `pecl install ast` and add `extension=ast.so` to your `php.ini`.
 
