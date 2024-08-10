@@ -60,7 +60,7 @@ Basic usage
 
 Code can be parsed using either `ast\parse_code()`, which accepts a code string, or
 `ast\parse_file()`, which accepts a file path. Additionally, both functions require a `$version`
-argument to ensure forward-compatibility. The current version is 100.
+argument to ensure forward-compatibility. The current version is 110.
 
 ```php
 $ast = ast\parse_code('<?php ...', $version=100);
@@ -509,16 +509,17 @@ are listed.
 
 ### 110 (current)
 
-Supported since 1.1.2 (2024-08-08).
+Supported since 1.1.2 (2024-08-10).
 
-* Add a `hooks` child node for `AST_PROP_ELEM` (PHP 8.4 property hooks) and `AST_PARAM` (constructor property promotion can have property hooks) (AST version 110+)
+* Add a `hooks` child node for `AST_PROP_ELEM` (PHP 8.4 property hooks) and `AST_PARAM` (constructor property promotion can have property hooks)
 * Add new node kinds `AST_PROPERTY_HOOK` and `AST_PROPERTY_HOOK_SHORT_BODY`.
+* Remove the `name` child node from the `AST_ARROW_FUNC` and `AST_CLOSURE` nodes (previously `"{closure}"`)
 
-### 100 (current)
+### 100 (stable)
 
 Supported since 1.1.1 (2023-11-12).
 
-* Add a `type` child node for all AST_CLASS_CONST_GROUP nodes.
+* Add a `type` child node for all `AST_CLASS_CONST_GROUP` nodes.
 
 ### 90 (stable)
 
@@ -530,7 +531,7 @@ Supported since 1.0.14 (2021-07-24)
 
 Supported since 1.0.11 (2021-04-20)
 
-* Add a `type` child node (for enum type) for all AST_CLASS nodes.
+* Add a `type` child node (for enum type) for all `AST_CLASS` nodes.
 
 ### 80 (stable)
 
