@@ -20,8 +20,8 @@
  </lead>
  <date>2024-08-10</date>
  <version>
-  <release>1.1.2</release>
-  <api>1.1.2</api>
+  <release>1.1.3dev</release>
+  <api>1.1.3dev</api>
  </version>
  <stability>
   <release>stable</release>
@@ -29,9 +29,7 @@
  </stability>
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
-- Fix compilation errors in PHP 8.4.
-- In version 110, `AST_PARAM` and `AST_PROP_ELEM` nodes have a `hooks` node for property hooks (https://wiki.php.net/rfc/property-hooks)
-- In version 110, `AST_CLOSURE` and `AST_ARROW_FUNC` nodes have no `name`.
+- TBD
  </notes>
  <contents>
   <dir name="/">
@@ -157,6 +155,24 @@
  <extsrcrelease />
  <changelog>
   <release>
+   <date>2024-08-10</date>
+   <version>
+    <release>1.1.2</release>
+    <api>1.1.2</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
+   <notes>
+- Fix compilation errors in PHP 8.4.
+- In version 110, `AST_PARAM` and `AST_PROP_ELEM` nodes have a `hooks` node for property hooks (https://wiki.php.net/rfc/property-hooks)
+- In version 110, `AST_CLOSURE` and `AST_ARROW_FUNC` nodes have no `name`.
+   </notes>
+  </release>
+  <release>
+   <date>2023-11-12</date>
    <version>
     <release>1.1.1</release>
     <api>1.1.1</api>
