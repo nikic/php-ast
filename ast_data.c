@@ -31,6 +31,7 @@ const zend_ast_kind ast_kinds[] = {
 	ZEND_AST_METHOD,
 	ZEND_AST_ARROW_FUNC,
 	ZEND_AST_CLASS,
+	ZEND_AST_PROPERTY_HOOK,
 	ZEND_AST_MAGIC_CONST,
 	ZEND_AST_TYPE,
 	ZEND_AST_CALLABLE_CONVERT,
@@ -63,6 +64,7 @@ const zend_ast_kind ast_kinds[] = {
 	ZEND_AST_BREAK,
 	ZEND_AST_CONTINUE,
 	ZEND_AST_CLASS_NAME,
+	ZEND_AST_PROPERTY_HOOK_SHORT_BODY,
 	ZEND_AST_CLASS_CONST_GROUP,
 	ZEND_AST_DIM,
 	ZEND_AST_PROP,
@@ -145,6 +147,7 @@ const char *ast_kind_to_name(zend_ast_kind kind) {
 		case ZEND_AST_METHOD: return "AST_METHOD";
 		case ZEND_AST_ARROW_FUNC: return "AST_ARROW_FUNC";
 		case ZEND_AST_CLASS: return "AST_CLASS";
+		case ZEND_AST_PROPERTY_HOOK: return "AST_PROPERTY_HOOK";
 		case ZEND_AST_MAGIC_CONST: return "AST_MAGIC_CONST";
 		case ZEND_AST_TYPE: return "AST_TYPE";
 		case ZEND_AST_CALLABLE_CONVERT: return "AST_CALLABLE_CONVERT";
@@ -177,6 +180,7 @@ const char *ast_kind_to_name(zend_ast_kind kind) {
 		case ZEND_AST_BREAK: return "AST_BREAK";
 		case ZEND_AST_CONTINUE: return "AST_CONTINUE";
 		case ZEND_AST_CLASS_NAME: return "AST_CLASS_NAME";
+		case ZEND_AST_PROPERTY_HOOK_SHORT_BODY: return "AST_PROPERTY_HOOK_SHORT_BODY";
 		case ZEND_AST_CLASS_CONST_GROUP: return "AST_CLASS_CONST_GROUP";
 		case ZEND_AST_DIM: return "AST_DIM";
 		case ZEND_AST_PROP: return "AST_PROP";
@@ -248,6 +252,7 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 		case ZEND_AST_CLOSURE:
 		case ZEND_AST_METHOD:
 		case ZEND_AST_ARROW_FUNC:
+		case ZEND_AST_PROPERTY_HOOK:
 			switch (child) {
 				case 0: return AST_STR(str_params);
 				case 1: return AST_STR(str_uses);
@@ -282,6 +287,7 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 		case ZEND_AST_RETURN:
 		case ZEND_AST_ECHO:
 		case ZEND_AST_THROW:
+		case ZEND_AST_PROPERTY_HOOK_SHORT_BODY:
 			switch (child) {
 				case 0: return AST_STR(str_expr);
 			}
@@ -424,6 +430,7 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 				case 0: return AST_STR(str_name);
 				case 1: return AST_STR(str_default);
 				case 2: return AST_STR(str_docComment);
+				case 3: return AST_STR(str_hooks);
 			}
 			return NULL;
 		case ZEND_AST_PROP_GROUP:
@@ -561,6 +568,7 @@ zend_string *ast_kind_child_name(zend_ast_kind kind, uint32_t child) {
 				case 2: return AST_STR(str_default);
 				case 3: return AST_STR(str_attributes);
 				case 4: return AST_STR(str_docComment);
+				case 5: return AST_STR(str_hooks);
 			}
 			return NULL;
 	}
@@ -599,6 +607,7 @@ void ast_register_kind_constants(INIT_FUNC_ARGS) {
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_METHOD", ZEND_AST_METHOD, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_ARROW_FUNC", ZEND_AST_ARROW_FUNC, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_CLASS", ZEND_AST_CLASS, CONST_CS | CONST_PERSISTENT);
+	REGISTER_NS_LONG_CONSTANT("ast", "AST_PROPERTY_HOOK", ZEND_AST_PROPERTY_HOOK, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_MAGIC_CONST", ZEND_AST_MAGIC_CONST, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_TYPE", ZEND_AST_TYPE, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_CALLABLE_CONVERT", ZEND_AST_CALLABLE_CONVERT, CONST_CS | CONST_PERSISTENT);
@@ -631,6 +640,7 @@ void ast_register_kind_constants(INIT_FUNC_ARGS) {
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_BREAK", ZEND_AST_BREAK, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_CONTINUE", ZEND_AST_CONTINUE, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_CLASS_NAME", ZEND_AST_CLASS_NAME, CONST_CS | CONST_PERSISTENT);
+	REGISTER_NS_LONG_CONSTANT("ast", "AST_PROPERTY_HOOK_SHORT_BODY", ZEND_AST_PROPERTY_HOOK_SHORT_BODY, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_CLASS_CONST_GROUP", ZEND_AST_CLASS_CONST_GROUP, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_DIM", ZEND_AST_DIM, CONST_CS | CONST_PERSISTENT);
 	REGISTER_NS_LONG_CONSTANT("ast", "AST_PROP", ZEND_AST_PROP, CONST_CS | CONST_PERSISTENT);

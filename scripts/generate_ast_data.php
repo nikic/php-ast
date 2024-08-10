@@ -59,6 +59,7 @@ $names = [
     'ZEND_AST_METHOD' => $funcNames,
     'ZEND_AST_ARROW_FUNC' => $funcNames,
     'ZEND_AST_CLASS' => ['extends', 'implements', 'stmts', 'attributes', 'type'],
+    'ZEND_AST_PROPERTY_HOOK' => $funcNames, // only params/stmts are used.
 
     /* 0 child nodes */
     'ZEND_AST_MAGIC_CONST' => [],
@@ -96,6 +97,7 @@ $names = [
     'ZEND_AST_BREAK' => ['depth'],
     'ZEND_AST_CONTINUE' => ['depth'],
     'ZEND_AST_CLASS_NAME' => ['class'],
+    'ZEND_AST_PROPERTY_HOOK_SHORT_BODY' => ['expr'],
 
     /* 2 child nodes */
     'ZEND_AST_CLASS_CONST_GROUP' => ['const', 'attributes', 'type'],
@@ -121,7 +123,7 @@ $names = [
     'ZEND_AST_SWITCH' => ['cond', 'stmts'],
     'ZEND_AST_SWITCH_CASE' => ['cond', 'stmts'],
     'ZEND_AST_DECLARE' => ['declares', 'stmts'],
-    'ZEND_AST_PROP_ELEM' => ['name', 'default', 'docComment'],
+    'ZEND_AST_PROP_ELEM' => ['name', 'default', 'docComment', 'hooks'],
     'ZEND_AST_PROP_GROUP' => ['type', 'props', 'attributes'],
     'ZEND_AST_CONST_ELEM' => ['name', 'value', 'docComment'],
     'ZEND_AST_USE_TRAIT' => ['traits', 'adaptations'],
@@ -150,8 +152,8 @@ $names = [
     'ZEND_AST_FOREACH' => ['expr', 'value', 'key', 'stmts'],
     'ZEND_AST_ENUM_CASE' => ['name', 'expr', 'docComment', 'attributes'],
 
-    /* 5 child nodes */
-    'ZEND_AST_PARAM' => ['type', 'name', 'default', 'attributes', 'docComment'],
+    /* 6 child nodes */
+    'ZEND_AST_PARAM' => ['type', 'name', 'default', 'attributes', 'docComment', 'hooks'],
 ];
 
 $listNodes = [
@@ -265,8 +267,9 @@ file_put_contents($outCodeFile, $code);
 $strings = get_possible_strings($names);
 $strDefs = [];
 foreach ($strings as $name) {
-    $strDefs[] .= "\tX($name) \\";
+    $strDefs[] = "\tX($name, \"$name\") \\";
 }
+$strDefs[] = "\tX(bracketed_closure, \"{closure}\") \\";
 
 $strDefsHeader = str_replace('{STR_DEFS}', implode("\n", $strDefs), $strDefsHeader);
 file_put_contents($strDefsFile, $strDefsHeader);
