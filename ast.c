@@ -1074,19 +1074,22 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 		// This is an undeclared dynamic property and has no cache slot.
 		ast_update_property_long(zv, AST_STR(str_endLineno), decl->end_lineno);
 
-#if PHP_VERSION_ID >= 80400
 		if (kind == ZEND_AST_CLOSURE || kind == ZEND_AST_ARROW_FUNC) {
-			ZVAL_STR(&tmp_zv, AST_STR(str_bracketed_closure));
-		} else
-#endif
-		if (decl->name) {
+			if (state->version < 110) {
+				ZVAL_STR(&tmp_zv, AST_STR(str_bracketed_closure));
+			} else {
+				/* These never have names. */
+				ZVAL_UNDEF(&tmp_zv);
+			}
+		} else if (decl->name) {
 			ZVAL_STR(&tmp_zv, decl->name);
 			Z_TRY_ADDREF(tmp_zv);
 		} else {
 			ZVAL_NULL(&tmp_zv);
 		}
-
-		zend_hash_add_new(children, AST_STR(str_name), &tmp_zv);
+		if (!Z_ISUNDEF(tmp_zv)) {
+			zend_hash_add_new(children, AST_STR(str_name), &tmp_zv);
+		}
 
 		if (decl->doc_comment) {
 			ZVAL_STR(&tmp_zv, decl->doc_comment);

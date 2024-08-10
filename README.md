@@ -374,7 +374,7 @@ This section lists the AST node kinds that are supported and the names of their 
 
 ```
 AST_ARRAY_ELEM:           value, key
-AST_ARROW_FUNC:           name, docComment, params, stmts, returnType, attributes
+AST_ARROW_FUNC:           name, docComment, params, stmts, returnType, attributes // name removed in version 110
 AST_ASSIGN:               var, expr
 AST_ASSIGN_OP:            var, expr
 AST_ASSIGN_REF:           var, expr
@@ -390,7 +390,7 @@ AST_CLASS_CONST:          class, const
 AST_CLASS_CONST_GROUP     class, attributes, type // version 80+
 AST_CLASS_NAME:           class                   // version 70+
 AST_CLONE:                expr
-AST_CLOSURE:              name, docComment, params, uses, stmts, returnType, attributes
+AST_CLOSURE:              name, docComment, params, uses, stmts, returnType, attributes // name removed in version 110
 AST_CLOSURE_VAR:          name
 AST_CONDITIONAL:          cond, true, false
 AST_CONST:                name
@@ -439,7 +439,7 @@ AST_PRINT:                expr
 AST_PROP:                 expr, prop
 AST_PROP_ELEM:            name, default, docComment, hooks // 'hooks' field added in version 110
 AST_PROP_GROUP:           type, props, attributes // version 70+
-AST_PROPERTY_HOOK:        name, docComment, params, stmts, returnType, attributes // version 110+
+AST_PROPERTY_HOOK:        name, docComment, params, stmts, attributes // version 110+
 AST_PROPERTY_HOOK_SHORT_BODY: expr
 AST_REF:                  var                    // only used in foreach ($a as &$v)
 AST_RETURN:               expr

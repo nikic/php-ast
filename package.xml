@@ -31,6 +31,7 @@
  <notes>
 - Fix compilation errors in PHP 8.4.
 - In version 110, `AST_PARAM` and `AST_PROP_ELEM` nodes have a `hooks` node for property hooks (https://wiki.php.net/rfc/property-hooks)
+- In version 110, `AST_CLOSURE` and `AST_ARROW_FUNC` nodes have no `name`.
  </notes>
  <contents>
   <dir name="/">
