@@ -93,6 +93,11 @@ extern ast_str_globals str_globals;
 # define ZEND_AST_PARENT_PROPERTY_HOOK_CALL 0x2f8
 #endif
 
+/* ZEND_AST_EXIT has been replaced with plain function call. */
+#if PHP_VERSION_ID >= 80500
+# define ZEND_AST_EXIT 0x1fd
+#endif
+
 /* Pretend it still exists */
 # define ZEND_AST_LIST ((1 << (ZEND_AST_IS_LIST_SHIFT + 1)) - 1)
 
