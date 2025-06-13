@@ -2,7 +2,7 @@
     "name": "nikic/php-ast",
     "type": "php-ext",
     "license": "BSD-3-Clause",
-    "description": "Extension exposing PHP 7 abstract syntax tree ",
+    "description": "Extension exposing PHP 7 abstract syntax tree",
     "require": {
         "php": ">= 7.2.0"
     },
