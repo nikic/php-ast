@@ -315,7 +315,6 @@ static const char *property_modifier_flags[] = {
 	NULL
 };
 
-
 static const char *func_flags[] = {
 	AST_MODIFIER_FLAGS,
 	AST_FLAG(FUNC_RETURNS_REF),
