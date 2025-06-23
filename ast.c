@@ -297,7 +297,9 @@ static const char *closure_use_flags[] = {
 	AST_FLAG(MODIFIER_STATIC), \
 	AST_FLAG(MODIFIER_ABSTRACT), \
 	AST_FLAG(MODIFIER_FINAL), \
-	AST_FLAG(MODIFIER_READONLY), \
+	AST_FLAG(MODIFIER_READONLY)
+
+#define AST_ASYMMETRIC_VISIBILITY_FLAGS \
 	AST_FLAG(MODIFIER_PUBLIC_SET), \
 	AST_FLAG(MODIFIER_PROTECTED_SET), \
 	AST_FLAG(MODIFIER_PRIVATE_SET)
@@ -306,6 +308,13 @@ static const char *modifier_flags[] = {
 	AST_MODIFIER_FLAGS,
 	NULL
 };
+
+static const char *property_modifier_flags[] = {
+	AST_MODIFIER_FLAGS,
+	AST_ASYMMETRIC_VISIBILITY_FLAGS,
+	NULL
+};
+
 
 static const char *func_flags[] = {
 	AST_MODIFIER_FLAGS,
@@ -354,8 +363,8 @@ static const ast_flag_info flag_info[] = {
 	{ ZEND_AST_CLOSURE, 1, func_flags },
 	{ ZEND_AST_ARROW_FUNC, 1, func_flags },
 	{ ZEND_AST_PROPERTY_HOOK, 1, func_flags },
-	{ ZEND_AST_PROP_DECL, 1, modifier_flags },
-	{ ZEND_AST_PROP_GROUP, 1, modifier_flags },
+	{ ZEND_AST_PROP_DECL, 1, property_modifier_flags },
+	{ ZEND_AST_PROP_GROUP, 1, property_modifier_flags },
 	{ ZEND_AST_CLASS_CONST_DECL, 1, modifier_flags },
 	{ ZEND_AST_CLASS_CONST_GROUP, 1, modifier_flags },
 	{ ZEND_AST_TRAIT_ALIAS, 1, modifier_flags },
