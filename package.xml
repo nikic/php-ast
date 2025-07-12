@@ -52,6 +52,7 @@
       <file name="assign_ops.phpt" role="test" />
       <file name="ast_dump_with_exclude_doc.phpt" role="test" />
       <file name="ast_dump_with_linenos.phpt" role="test" />
+      <file name="asymmetric_visibility.phpt" role="test" />
       <file name="attributes_01.phpt" role="test" />
       <file name="attributes_02.phpt" role="test" />
       <file name="binary_ops.phpt" role="test" />

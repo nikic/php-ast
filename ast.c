@@ -117,6 +117,16 @@
 # define ZEND_ENCAPS_VAR_DOLLAR_CURLY_VAR_VAR (1<<1)
 #endif
 
+#if PHP_VERSION_ID < 80400
+# define MODIFIER_PUBLIC_SET    (1 << 11)
+# define MODIFIER_PROTECTED_SET (1 << 12)
+# define MODIFIER_PRIVATE_SET   (1 << 13)
+#else
+# define MODIFIER_PUBLIC_SET    ZEND_ACC_PUBLIC_SET
+# define MODIFIER_PROTECTED_SET ZEND_ACC_PROTECTED_SET
+# define MODIFIER_PRIVATE_SET   ZEND_ACC_PRIVATE_SET
+#endif
+
 #if PHP_VERSION_ID >= 80400
 # define ZEND_DIM_ALTERNATIVE_SYNTAX (1<<1)
 #endif
@@ -289,8 +299,19 @@ static const char *closure_use_flags[] = {
 	AST_FLAG(MODIFIER_FINAL), \
 	AST_FLAG(MODIFIER_READONLY)
 
+#define AST_ASYMMETRIC_VISIBILITY_FLAGS \
+	AST_FLAG(MODIFIER_PUBLIC_SET), \
+	AST_FLAG(MODIFIER_PROTECTED_SET), \
+	AST_FLAG(MODIFIER_PRIVATE_SET)
+
 static const char *modifier_flags[] = {
 	AST_MODIFIER_FLAGS,
+	NULL
+};
+
+static const char *property_modifier_flags[] = {
+	AST_MODIFIER_FLAGS,
+	AST_ASYMMETRIC_VISIBILITY_FLAGS,
 	NULL
 };
 
@@ -341,8 +362,8 @@ static const ast_flag_info flag_info[] = {
 	{ ZEND_AST_CLOSURE, 1, func_flags },
 	{ ZEND_AST_ARROW_FUNC, 1, func_flags },
 	{ ZEND_AST_PROPERTY_HOOK, 1, func_flags },
-	{ ZEND_AST_PROP_DECL, 1, modifier_flags },
-	{ ZEND_AST_PROP_GROUP, 1, modifier_flags },
+	{ ZEND_AST_PROP_DECL, 1, property_modifier_flags },
+	{ ZEND_AST_PROP_GROUP, 1, property_modifier_flags },
 	{ ZEND_AST_CLASS_CONST_DECL, 1, modifier_flags },
 	{ ZEND_AST_CLASS_CONST_GROUP, 1, modifier_flags },
 	{ ZEND_AST_TRAIT_ALIAS, 1, modifier_flags },
@@ -1466,6 +1487,9 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("MODIFIER_ABSTRACT", ZEND_ACC_ABSTRACT);
 	ast_register_flag_constant("MODIFIER_FINAL", ZEND_ACC_FINAL);
 	ast_register_flag_constant("MODIFIER_READONLY", ZEND_ACC_READONLY);
+	ast_register_flag_constant("MODIFIER_PUBLIC_SET", MODIFIER_PUBLIC_SET);
+	ast_register_flag_constant("MODIFIER_PROTECTED_SET", MODIFIER_PROTECTED_SET);
+	ast_register_flag_constant("MODIFIER_PRIVATE_SET", MODIFIER_PRIVATE_SET);
 
 	ast_register_flag_constant("PARAM_MODIFIER_PUBLIC", PARAM_MODIFIER_PUBLIC);
 	ast_register_flag_constant("PARAM_MODIFIER_PROTECTED", PARAM_MODIFIER_PROTECTED);
