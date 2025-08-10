@@ -11,6 +11,7 @@
 	X(endLineno, "endLineno") \
 	X(__declId, "__declId") \
 	X(flagsCombinable, "flagsCombinable") \
+	X(clone, "clone") \
 	X(type, "type") \
 	X(params, "params") \
 	X(uses, "uses") \

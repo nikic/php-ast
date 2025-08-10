@@ -1081,6 +1081,49 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 			ast->attr = IS_VOID;
 			break;
 #endif
+		case ZEND_AST_CALL:
+			if (state->version < 120) {
+				// Convert clone($expr) call to ZEND_AST_CLONE node.
+				zend_ast *name_ast = ast->child[0];
+				if (name_ast->kind != ZEND_AST_ZVAL || name_ast->attr != ZEND_NAME_FQ ||
+						Z_TYPE_P(zend_ast_get_zval(name_ast)) != IS_STRING ||
+						ast->child[1]->kind != ZEND_AST_ARG_LIST) {
+					break;
+				}
+
+				zend_ast_list *args = zend_ast_get_list(ast->child[1]);
+				if (args->children != 1) {
+					break;
+				}
+
+				zend_ast *arg = args->child[0];
+				if (arg->kind == ZEND_AST_NAMED_ARG || arg->kind == ZEND_AST_UNPACK) {
+					break;
+				}
+
+				zend_string *name = zend_ast_get_str(name_ast);
+				if (zend_string_equals_literal_ci(name, "clone")) {
+					ast_create_virtual_node(zv, ZEND_AST_CLONE, 0, arg, state);
+					return;
+				}
+			}
+			break;
+		case ZEND_AST_CLONE:
+			if (state->version >= 120) {
+				// Convert to call node.
+				uint32_t lineno = zend_ast_get_lineno(ast);
+				zval name_str_zv, name_node_zv, args_zv, arg_zv;
+				ZVAL_STR(&name_str_zv, AST_STR(str_clone));
+				ast_to_zval(&arg_zv, ast->child[0], state);
+				ast_create_virtual_node_ex(
+						&name_node_zv, AST_NAME, ZEND_NAME_FQ, lineno, state, 1, &name_str_zv);
+				ast_create_virtual_node_ex(
+						&args_zv, ZEND_AST_ARG_LIST, 0, lineno, state, 1, &arg_zv);
+				ast_create_virtual_node_ex(
+						zv, ZEND_AST_CALL, 0, lineno, state, 2, &name_node_zv, &args_zv);
+				return;
+			}
+			break;
 	}
 
 	object_init_ex(zv, ast_node_ce);
@@ -1171,7 +1214,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 #endif
 }
 
-static const zend_long versions[] = {50, 60, 70, 80, 85, 90, 100, 110};
+static const zend_long versions[] = {50, 60, 70, 80, 85, 90, 100, 110, 120};
 static const size_t versions_count = sizeof(versions)/sizeof(versions[0]);
 
 static inline zend_bool ast_version_deprecated(zend_long version) {

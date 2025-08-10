@@ -394,7 +394,7 @@ AST_CLASS:                name, docComment, extends, implements, stmts, (for enu
 AST_CLASS_CONST:          class, const
 AST_CLASS_CONST_GROUP     class, attributes, type // version 80+
 AST_CLASS_NAME:           class                   // version 70+
-AST_CLONE:                expr
+AST_CLONE:                expr                    // version <120
 AST_CLOSURE:              name, docComment, params, uses, stmts, returnType, attributes // name removed in version 110
 AST_CLOSURE_VAR:          name
 AST_CONDITIONAL:          cond, true, false
@@ -510,6 +510,12 @@ function accepts a boolean argument that determines whether deprecated versions 
 
 In the following the changes in the respective AST versions, as well as their current support state,
 are listed.
+
+### 120 (experimental)
+
+Supported since 1.1.3 (TBD).
+
+* `clone $expr` is now represented like a `clone($expr)` function call (using `AST_CALL`).
 
 ### 110 (current)
 

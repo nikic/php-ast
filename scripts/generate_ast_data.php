@@ -278,7 +278,7 @@ function get_possible_strings(array $spec) {
     $strings = array_fill_keys([
         'kind', 'flags', 'lineno', 'children',
         'name', 'docComment', 'endLineno', '__declId',
-        'flagsCombinable',
+        'flagsCombinable', 'clone',
     ], true);
 
     foreach ($spec as $kind => $children) {
