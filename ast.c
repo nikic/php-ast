@@ -79,6 +79,7 @@
 #define AST_BINARY_BOOL_OR 258
 #define AST_BINARY_BOOL_AND 259
 #define AST_BINARY_COALESCE 260
+#define AST_BINARY_PIPE 261
 
 /* Flags for UNARY_OP to use instead of AST_SILENCE, AST_UNARY_PLUS, AST_UNARY_MINUS */
 #define AST_SILENCE 260
@@ -236,6 +237,7 @@ static const char *binary_op_flags[] = {
 	AST_FLAG(BINARY_IS_GREATER),
 	AST_FLAG(BINARY_IS_GREATER_OR_EQUAL),
 	AST_FLAG(BINARY_SPACESHIP),
+	AST_FLAG(BINARY_PIPE),
 	NULL
 };
 
@@ -980,6 +982,12 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 			ast->kind = ZEND_AST_BINARY_OP;
 			ast->attr = AST_BINARY_COALESCE;
 			break;
+#if PHP_VERSION_ID >= 80500
+		case ZEND_AST_PIPE:
+			ast->kind = ZEND_AST_BINARY_OP;
+			ast->attr = AST_BINARY_PIPE;
+			break;
+#endif
 		case ZEND_AST_SILENCE:
 			ast->kind = ZEND_AST_UNARY_OP;
 			ast->attr = AST_SILENCE;
@@ -1560,6 +1568,7 @@ PHP_MINIT_FUNCTION(ast) {
 	ast_register_flag_constant("BINARY_IS_GREATER_OR_EQUAL", AST_BINARY_IS_GREATER_OR_EQUAL);
 	ast_register_flag_constant("BINARY_SPACESHIP", ZEND_SPACESHIP);
 	ast_register_flag_constant("BINARY_COALESCE", AST_BINARY_COALESCE);
+	ast_register_flag_constant("BINARY_PIPE", AST_BINARY_PIPE);
 
 	ast_register_flag_constant("EXEC_EVAL", ZEND_EVAL);
 	ast_register_flag_constant("EXEC_INCLUDE", ZEND_INCLUDE);

@@ -314,6 +314,7 @@ ast\flags\BINARY_POW
 ast\flags\BINARY_SHIFT_LEFT
 ast\flags\BINARY_SHIFT_RIGHT
 ast\flags\BINARY_COALESCE
+ast\flags\BINARY_PIPE
 
 // Used by ast\AST_BINARY_OP (exclusive)
 ast\flags\BINARY_BOOL_AND
