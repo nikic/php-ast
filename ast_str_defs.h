@@ -12,6 +12,7 @@
 	X(__declId, "__declId") \
 	X(flagsCombinable, "flagsCombinable") \
 	X(clone, "clone") \
+	X(exit, "exit") \
 	X(type, "type") \
 	X(params, "params") \
 	X(uses, "uses") \

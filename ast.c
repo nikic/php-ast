@@ -1106,14 +1106,23 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 					ast_create_virtual_node(zv, ZEND_AST_CLONE, 0, arg, state);
 					return;
 				}
+				if (zend_string_equals_literal_ci(name, "exit")) {
+					ast_create_virtual_node(zv, ZEND_AST_EXIT, 0, arg, state);
+					return;
+				}
 			}
 			break;
 		case ZEND_AST_CLONE:
+		case ZEND_AST_EXIT:
 			if (state->version >= 120) {
 				// Convert to call node.
 				uint32_t lineno = zend_ast_get_lineno(ast);
 				zval name_str_zv, name_node_zv, args_zv, arg_zv;
-				ZVAL_STR(&name_str_zv, AST_STR(str_clone));
+				if (ast->kind == ZEND_AST_CLONE) {
+					ZVAL_STR(&name_str_zv, AST_STR(str_clone));
+				} else {
+					ZVAL_STR(&name_str_zv, AST_STR(str_exit));
+				}
 				ast_to_zval(&arg_zv, ast->child[0], state);
 				ast_create_virtual_node_ex(
 						&name_node_zv, AST_NAME, ZEND_NAME_FQ, lineno, state, 1, &name_str_zv);

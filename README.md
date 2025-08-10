@@ -394,7 +394,7 @@ AST_CLASS:                name, docComment, extends, implements, stmts, (for enu
 AST_CLASS_CONST:          class, const
 AST_CLASS_CONST_GROUP     class, attributes, type // version 80+
 AST_CLASS_NAME:           class                   // version 70+
-AST_CLONE:                expr                    // version <120
+AST_CLONE:                expr                    // prior to version 120
 AST_CLOSURE:              name, docComment, params, uses, stmts, returnType, attributes // name removed in version 110
 AST_CLOSURE_VAR:          name
 AST_CONDITIONAL:          cond, true, false
@@ -407,7 +407,7 @@ AST_DO_WHILE:             stmts, cond
 AST_ECHO:                 expr
 AST_EMPTY:                expr
 AST_ENUM_CASE:            name, expr, docComment, attributes // php 8.1+ enums
-AST_EXIT:                 expr
+AST_EXIT:                 expr                   // prior to version 120
 AST_FOR:                  init, cond, loop, stmts
 AST_FOREACH:              expr, value, key, stmts
 AST_FUNC_DECL:            name, docComment, params, stmts, returnType, attributes
@@ -515,7 +515,8 @@ are listed.
 
 Supported since 1.1.3 (TBD).
 
-* `clone $expr` is now represented like a `clone($expr)` function call (using `AST_CALL`).
+* `clone $expr` is now represented like a function call (using `AST_CALL` instead of `AST_CLONE`).
+* `exit($expr)` is now represented like a function call (using `AST_CALL` instead of `AST_EXIT`).
 
 ### 110 (current)
 
