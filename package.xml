@@ -29,7 +29,11 @@
  </stability>
  <license uri="https://github.com/nikic/php-ast/blob/master/LICENSE">BSD-3-Clause</license>
  <notes>
-- TBD
+- Fix build against PHP 8.5.
+- In version 120, `exit` and `clone` are represented as `AST_CALL` instead of `AST_EXIT` and `AST_CLONE`.
+- Added `MODIFIER_PUBLIC_SET`, `MODIFIER_PROTECTED_SET` and `MODIFIER_PRIVATE_SET` asymmetric visibility flags.
+- Added `BINARY_PIPE` flag for `AST_BINARY_OP` for `|>` pipe operator.
+- Support `(void)` cast via `TYPE_VOID` flag on `AST_CAST`.
  </notes>
  <contents>
   <dir name="/">
@@ -66,6 +70,7 @@
       <file name="class.phpt" role="test" />
       <file name="class_type_85.phpt" role="test" />
       <file name="class_types.phpt" role="test" />
+      <file name="clone.phpt" role="test" />
       <file name="closure_use_vars.phpt" role="test" />
       <file name="coalesce.phpt" role="test" />
       <file name="concat.phpt" role="test" />
@@ -75,6 +80,7 @@
       <file name="empty_file.php" role="test" />
       <file name="empty_file_parse.phpt" role="test" />
       <file name="eval_include.phpt" role="test" />
+      <file name="exit.phpt" role="test" />
       <file name="functions_dont_use.phpt" role="test" />
       <file name="generator_flag.phpt" role="test" />
       <file name="get_kind_name.phpt" role="test" />
@@ -122,10 +128,14 @@
       <file name="php82_encaps_list.phpt" role="test" />
       <file name="php82_readonly_class.phpt" role="test" />
       <file name="php84_dim_alternative_syntax.phpt" role="test" />
+      <file name="php84_exit.phpt" role="test" />
       <file name="php84_property_hook2.phpt" role="test" />
       <file name="php84_property_hook3.phpt" role="test" />
       <file name="php84_property_hook4.phpt" role="test" />
       <file name="php84_property_hook.phpt" role="test" />
+      <file name="php85_clone.phpt" role="test" />
+      <file name="php85_pipe_operator.phpt" role="test" />
+      <file name="php85_void_cast.phpt" role="test" />
       <file name="prop_doc_comments.phpt" role="test" />
       <file name="short_arrow_function.phpt" role="test" />
       <file name="short_arrow_function_decl_id.phpt" role="test" />
