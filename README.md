@@ -60,12 +60,12 @@ Basic usage
 
 Code can be parsed using either `ast\parse_code()`, which accepts a code string, or
 `ast\parse_file()`, which accepts a file path. Additionally, both functions require a `$version`
-argument to ensure forward-compatibility. The current version is 110.
+argument to ensure forward-compatibility. The current version is 120.
 
 ```php
-$ast = ast\parse_code('<?php ...', $version=100);
+$ast = ast\parse_code('<?php ...', $version=120);
 // or
-$ast = ast\parse_file('file.php', $version=100);
+$ast = ast\parse_file('file.php', $version=120);
 ```
 
 The abstract syntax tree returned by these functions consists of `ast\Node` objects.
@@ -511,14 +511,14 @@ function accepts a boolean argument that determines whether deprecated versions 
 In the following the changes in the respective AST versions, as well as their current support state,
 are listed.
 
-### 120 (experimental)
+### 120 (current)
 
 Supported since 1.1.3 (TBD).
 
 * `clone $expr` is now represented like a function call (using `AST_CALL` instead of `AST_CLONE`).
 * `exit($expr)` is now represented like a function call (using `AST_CALL` instead of `AST_EXIT`).
 
-### 110 (current)
+### 110 (stable)
 
 Supported since 1.1.2 (2024-08-10).
 

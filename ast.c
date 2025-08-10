@@ -71,7 +71,7 @@
 #define AST_METADATA_PROP_FLAGS(object) OBJ_PROP_NUM((object), 2)
 #define AST_METADATA_PROP_FLAGS_COMBINABLE(object) OBJ_PROP_NUM((object), 3)
 
-#define AST_CURRENT_VERSION 110
+#define AST_CURRENT_VERSION 120
 
 /* Additional flags for BINARY_OP */
 #define AST_BINARY_IS_GREATER 256
