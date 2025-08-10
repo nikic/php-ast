@@ -1075,6 +1075,12 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 			}
 			break;
 #endif
+#if PHP_VERSION_ID >= 80500
+		case ZEND_AST_CAST_VOID:
+			ast->kind = ZEND_AST_CAST;
+			ast->attr = IS_VOID;
+			break;
+#endif
 	}
 
 	object_init_ex(zv, ast_node_ce);
