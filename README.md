@@ -28,6 +28,8 @@ and move it into the `ext/` directory of your PHP installation. Furthermore, add
 
 **Unix (PECL)**: Run `pecl install ast` and add `extension=ast.so` to your `php.ini`.
 
+Depending on your `pecl` install you may need to install with elevated permissions, eg `sudo pecl install ast` on Ubuntu. Ubuntu users may prefer to use `sudo apt install php-ast` but note that the version of `ast` may be too old that way.
+
 **Unix (Compile)**: Compile and install the extension as follows.
 
 ```sh
@@ -36,8 +38,9 @@ phpize
 make
 sudo make install
 ```
+Ubuntu users (and maybe others) can install phpize as part of the php-dev package using `sudo apt install php-dev`. However it is installed you'll need to modifiy `php.ini`:
 
-Additionally add `extension=ast.so` to your `php.ini` file.
+Additionally add `extension=[/path/to/]ast.so` to your `php.ini` file.
 
 API overview
 ------------
