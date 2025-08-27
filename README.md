@@ -28,6 +28,8 @@ and move it into the `ext/` directory of your PHP installation. Furthermore, add
 
 **Unix (PECL)**: Run `pecl install ast` and add `extension=ast.so` to your `php.ini`.
 
+**Unix (PIE)**: Run `pie install nikic/ast` and add `extension=ast.so` to your `php.ini`.
+
 **Unix (Compile)**: Compile and install the extension as follows.
 
 ```sh
