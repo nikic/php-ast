@@ -5,4 +5,5 @@ PHP_ARG_ENABLE(ast, whether to enable ast support,
 
 if test "$PHP_AST" != "no"; then
   PHP_NEW_EXTENSION(ast, ast.c ast_data.c, $ext_shared)
+  PHP_ADD_MAKEFILE_FRAGMENT
 fi
