@@ -124,12 +124,12 @@
       <file name="php82_encaps_list.phpt" role="test" />
       <file name="php82_readonly_class.phpt" role="test" />
       <file name="php84_dim_alternative_syntax.phpt" role="test" />
-      <file name="php84_exit.phpt" role="test" />
+      <file name="php84_property_hook.phpt" role="test" />
       <file name="php84_property_hook2.phpt" role="test" />
       <file name="php84_property_hook3.phpt" role="test" />
       <file name="php84_property_hook4.phpt" role="test" />
-      <file name="php84_property_hook.phpt" role="test" />
       <file name="php85_clone.phpt" role="test" />
+      <file name="php85_exit.phpt" role="test" />
       <file name="php85_pipe_operator.phpt" role="test" />
       <file name="php85_void_cast.phpt" role="test" />
       <file name="prop_doc_comments.phpt" role="test" />
