@@ -171,6 +171,11 @@ static const char *class_flags[] = {
 	NULL
 };
 
+static const char *placeholder_flags[] = {
+	AST_FLAG(PLACEHOLDER_VARIADIC),
+	NULL
+};
+
 static const char *param_flags[] = {
 	AST_FLAG(PARAM_REF),
 	AST_FLAG(PARAM_VARIADIC),
@@ -372,6 +377,7 @@ static const ast_flag_info flag_info[] = {
 	{ ZEND_AST_DIM, 1, dim_flags },
 	{ ZEND_AST_CONDITIONAL, 1, conditional_flags },
 	{ ZEND_AST_VAR, 1, var_flags },
+	{ ZEND_AST_PLACEHOLDER_ARG, 1, placeholder_flags },
 };
 
 static inline void ast_update_property(zval *object, zend_string *name, zval *value) {
@@ -448,7 +454,7 @@ static inline zend_bool ast_kind_uses_attr(zend_ast_kind kind) {
 		|| kind == AST_NAME || kind == AST_CLOSURE_VAR || kind == ZEND_AST_CLASS_CONST_DECL
 		|| kind == ZEND_AST_CLASS_CONST_GROUP
 		|| kind == ZEND_AST_ARRAY || kind == ZEND_AST_DIM || kind == ZEND_AST_CONDITIONAL
-		|| kind == ZEND_AST_VAR;
+		|| kind == ZEND_AST_VAR || kind == ZEND_AST_PLACEHOLDER_ARG;
 }
 
 /* Returns true if nodes of this kind are represented with the C struct zend_ast_decl. */
@@ -1112,6 +1118,31 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 				}
 			}
 			break;
+		case ZEND_AST_CALLABLE_CONVERT:
+			if (state->version >= 130) {
+				// Expose the arguments of first-class callable syntax and of partial function application (php 8.6+)
+				// as an argument list containing AST_PLACEHOLDER_ARG nodes.
+				uint32_t lineno = zend_ast_get_lineno(ast);
+				zval args_zv;
+#if PHP_VERSION_ID >= 80600
+				zend_ast *args_ast = ((zend_ast_fcc *) ast)->args;
+				if (args_ast) {
+					ast_to_zval(&args_zv, args_ast, state);
+				} else
+#endif
+				{
+					// Before php 8.6, the only form is `f(...)`, and the engine does not create a node for the `...`.
+					zval placeholder_zv;
+					ast_create_virtual_node_ex(
+							&placeholder_zv, ZEND_AST_PLACEHOLDER_ARG, ZEND_PLACEHOLDER_VARIADIC, lineno, state, 0);
+					ast_create_virtual_node_ex(
+							&args_zv, ZEND_AST_ARG_LIST, 0, lineno, state, 1, &placeholder_zv);
+				}
+				ast_create_virtual_node_ex(
+						zv, ZEND_AST_CALLABLE_CONVERT, 0, lineno, state, 1, &args_zv);
+				return;
+			}
+			break;
 		case ZEND_AST_CLONE:
 		case ZEND_AST_EXIT:
 			if (state->version >= 120) {
@@ -1223,7 +1254,7 @@ static void ast_to_zval(zval *zv, zend_ast *ast, ast_state_info_t *state) {
 #endif
 }
 
-static const zend_long versions[] = {50, 60, 70, 80, 85, 90, 100, 110, 120};
+static const zend_long versions[] = {50, 60, 70, 80, 85, 90, 100, 110, 120, 130};
 static const size_t versions_count = sizeof(versions)/sizeof(versions[0]);
 
 static inline zend_bool ast_version_deprecated(zend_long version) {
@@ -1578,6 +1609,8 @@ PHP_MINIT_FUNCTION(ast) {
 
 	ast_register_flag_constant("PARAM_REF", ZEND_PARAM_REF);
 	ast_register_flag_constant("PARAM_VARIADIC", ZEND_PARAM_VARIADIC);
+
+	ast_register_flag_constant("PLACEHOLDER_VARIADIC", ZEND_PLACEHOLDER_VARIADIC);
 
 	ast_register_flag_constant("TYPE_NULL", IS_NULL);
 	ast_register_flag_constant("TYPE_FALSE", IS_FALSE);

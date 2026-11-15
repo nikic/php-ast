@@ -21,6 +21,7 @@
 	X(attributes, "attributes") \
 	X(extends, "extends") \
 	X(implements, "implements") \
+	X(args, "args") \
 	X(expr, "expr") \
 	X(var, "var") \
 	X(offset, "offset") \
@@ -30,7 +31,6 @@
 	X(const, "const") \
 	X(dim, "dim") \
 	X(prop, "prop") \
-	X(args, "args") \
 	X(left, "left") \
 	X(right, "right") \
 	X(value, "value") \

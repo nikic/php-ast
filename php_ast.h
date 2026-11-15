@@ -99,6 +99,12 @@ extern ast_str_globals str_globals;
 # define ZEND_AST_CLONE 0x1fc
 #endif
 
+#if PHP_VERSION_ID < 80600
+/* 0 child nodes */
+# define ZEND_AST_PLACEHOLDER_ARG 4
+# define ZEND_PLACEHOLDER_VARIADIC (1<<0)
+#endif
+
 #if PHP_VERSION_ID >= 80600
 /* ZEND_AST_METHOD_REFERENCE was renamed to ZEND_AST_TRAIT_METHOD_REFERENCE. */
 # define ZEND_AST_METHOD_REFERENCE ZEND_AST_TRAIT_METHOD_REFERENCE
