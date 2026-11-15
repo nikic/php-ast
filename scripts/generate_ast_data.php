@@ -64,7 +64,8 @@ $names = [
     /* 0 child nodes */
     'ZEND_AST_MAGIC_CONST' => [],
     'ZEND_AST_TYPE' => [],
-    'ZEND_AST_CALLABLE_CONVERT' => [],
+    'ZEND_AST_CALLABLE_CONVERT' => ['args'], // 'args' was added in version 130
+    'ZEND_AST_PLACEHOLDER_ARG' => [],
 
     /* 1 child node */
     'ZEND_AST_VAR' => ['name'],

@@ -269,6 +269,9 @@ ast\flags\PARAM_MODIFIER_PUBLIC (available since 1.0.8, same as ast\flags\MODIFI
 ast\flags\PARAM_MODIFIER_PROTECTED (available since 1.0.8)
 ast\flags\PARAM_MODIFIER_PRIVATE (available since 1.0.8)
 
+// Used by ast\AST_PLACEHOLDER_ARG (combinable)
+ast\flags\PLACEHOLDER_VARIADIC  // the `...` of `f(...)` and of php 8.6 partial application `f(1, ...)`; not set for `?`
+
 // Used by ast\AST_TYPE (exclusive)
 ast\flags\TYPE_ARRAY
 ast\flags\TYPE_CALLABLE
@@ -389,7 +392,7 @@ AST_ATTRIBUTE:            class, args            // php 8.0+ attributes (version
 AST_BINARY_OP:            left, right
 AST_BREAK:                depth
 AST_CALL:                 expr, args
-AST_CALLABLE_CONVERT:                            // php 8.1+ first-class callable syntax
+AST_CALLABLE_CONVERT:     args                   // php 8.1+ first-class callable syntax and php 8.6+ partial function application ('args' field added in version 130)
 AST_CAST:                 expr
 AST_CATCH:                class, var, stmts
 AST_CLASS:                name, docComment, extends, implements, stmts, (for enums) type
@@ -437,6 +440,7 @@ AST_NEW:                  class, args
 AST_NULLABLE_TYPE:        type                   // Used only since PHP 7.1
 AST_NULLSAFE_METHOD_CALL: expr, method, args     // php 8.0 null safe operator
 AST_NULLSAFE_PROP:        expr, prop             // php 8.0 null safe operator
+AST_PLACEHOLDER_ARG:                             // `?` or `...` in the args of AST_CALLABLE_CONVERT (version 130+)
 AST_PARAM:                type, name, default, attributes, docComment, hooks // 'hooks' field added in version 110
 AST_POST_DEC:             var
 AST_POST_INC:             var
@@ -512,6 +516,17 @@ function accepts a boolean argument that determines whether deprecated versions 
 
 In the following the changes in the respective AST versions, as well as their current support state,
 are listed.
+
+### 130 (experimental)
+
+Supported since 1.1.5 (TBD).
+
+* `AST_CALLABLE_CONVERT` has an `args` child node: an `AST_ARG_LIST` containing the arguments of
+  PHP 8.6 partial function application (`f(1, ?, ...)`), where `?` and `...` are represented by the new node kind
+  `AST_PLACEHOLDER_ARG` (with the flag `ast\flags\PLACEHOLDER_VARIADIC` for `...`).
+  A named placeholder `name: ?` is an `AST_NAMED_ARG` with an `AST_PLACEHOLDER_ARG` as `expr`.
+  For first-class callable syntax `f(...)`, the list contains a single variadic `AST_PLACEHOLDER_ARG` in every PHP version.
+  In earlier AST versions, `AST_CALLABLE_CONVERT` has no children, also for partial function application.
 
 ### 120 (current)
 
